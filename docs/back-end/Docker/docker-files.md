@@ -32,7 +32,7 @@ services:
   mysql_db:
     image: percona:5.6
     environment:
-      MYSQL_ROOT_PASSWORD: wpscloud
+      MYSQL_ROOT_PASSWORD: cloud
       TZ: "Asia/Shanghai"
     volumes:
       - /opt/soft/containers/mysql/conf:/etc/mysql/conf.d
