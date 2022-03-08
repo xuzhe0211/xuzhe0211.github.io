@@ -54,7 +54,7 @@ width,height百分比是根据父元素的宽高决定的
 ## padding margin
 padding 和margin中如果取百分比，这个百分比都是根据宽度而言的(父元素)
 
-## fong-size
+## font-size
 
 也是根据父元素的font-size决定的百分比
 

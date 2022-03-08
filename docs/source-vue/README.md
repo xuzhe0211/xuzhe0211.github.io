@@ -75,8 +75,10 @@ var proxy = new Proxy({}, {
 ```
 
 proxy返回的是一个新对象，可以通过操作返回的新的对象到达目的
-proxy有多大13中拦截方法
+proxy有多达13中拦截方法
+
 get(), set(), apply(), has(), contruct(), // 用于拦截new操作
+
 deleteProperty() , defineproperty() , enumerate() , getOwnPropertyDescriptor() ,
 getPrototypeOf() , isExtensible() , ownKeys() , preventExtensions() , setPrototypeOf() , 
 

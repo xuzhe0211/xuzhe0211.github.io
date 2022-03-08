@@ -1,6 +1,6 @@
 ---
 autoGroup-13: TypeScript
-title: 一分钟了解TS中的泛型
+title: card--TS一分钟了解TS中的泛型
 ---
 
 关于泛型可以先看看官方的介绍如下：

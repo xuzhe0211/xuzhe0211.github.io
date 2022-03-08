@@ -101,7 +101,7 @@ if (top.location !== window.location) {
 
 
 ## 其他
-### xss反射性具体是？
+### xss反射型具体是？
 
 [原文](https://www.cnblogs.com/zhiying/p/11018331.html)
 [](https://blog.csdn.net/weixin_41487522/article/details/105960666)

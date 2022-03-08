@@ -343,7 +343,7 @@ export default store
  Vue是异步执行DOM更新的,具体异步执行的运行机制如下：
  1. 所有同步任务与都在主线程上执行，形成一个执行栈；
  2. 主线程之外，还存在一个任务队列。只要异步任务有了运行结果，就在任务队列中放置一个事件
- 3. 一旦执行栈中的所有与同步任务执行完毕，系统就会读取任务队列，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，筋肉执行栈，开始执行
+ 3. 一旦执行栈中的所有与同步任务执行完毕，系统就会读取任务队列，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，仅有执行栈，开始执行
  4. 主线程不断重复上面的三步
  
 三：实例
@@ -520,7 +520,7 @@ SPA(single page application)单一页面应用程序，只有一个完整的页�
 ```
 http://www.xxx.com/#/login
 ```
-这种#。后面hash值的变化，并不会导致浏览器想服务器发请求，浏览器不发请求，也就不会刷新页面。另外每次hash值的变化，还会触发hashchange这个事件。通过这个事件我们就可以知道hash值发生了哪些变化。然后我们便可以监听hashchange来实现更新页面部分内容的操作
+这种#。后面hash值的变化，并不会导致浏览器向服务器发请求，浏览器不发请求，也就不会刷新页面。另外每次hash值的变化，还会触发hashchange这个事件。通过这个事件我们就可以知道hash值发生了哪些变化。然后我们便可以监听hashchange来实现更新页面部分内容的操作
 ```
 function matchAndUpdate(){
 	//todo匹配hash做dom更新操作
@@ -1264,7 +1264,7 @@ preload提供了一种声明式的命令，让浏览器提前加载指定资源(
 
 它的作用是告诉浏览器加载下一个页面可能会用到的资源，注意，是下一个页面，而不是当前页面。因此该方法的加载优先级非常低，也就是说该方法的作用是加速下一个页面的加载速度。
 
-##### webpack层面的优化
+### webpack层面的优化
 
 1. webpack对图片的压缩
 
@@ -1391,7 +1391,7 @@ preload提供了一种声明式的命令，让浏览器提前加载指定资源(
 
   sourceMap的可选值如下(+号越多，代表速度越快，-号越多代表速度越慢，0代表中等速度)
 
-  ![sourceMap](https://mmbiz.qpic.cn/mmbiz_png/JCkibLOUr74zlfLOreniaEibG5urBJw4YOwXDBW12ouYcBuskCibGTckBkUHAOuWEnCcXpDw9S37FkiazibvcM1vhiaeQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+  ![sourceMap](./images/1.jpg)
 
 
   开发环境推荐：cheap-module-eval-source-map
@@ -1427,7 +1427,7 @@ if(config.build.bundleAnalyzerRepoort){
 
 执行npm run build \--report后生成分析报告
 
-##### 基础的Web技术优化
+### 基础的Web技术优化
 
 1. 开启gzip压缩
 

@@ -26,6 +26,7 @@ module.exports = [
             { text: 'Node', link: '/back-end/Node/' },
             { text: 'Docker', link: '/back-end/Docker/' },
             { text: 'Nginx', link: '/back-end/Nginx/' },
+            { text: 'Mysql', link: '/back-end/Mysql/' },
         ]
     },
     {

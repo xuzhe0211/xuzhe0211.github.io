@@ -69,20 +69,22 @@ function simpleNormalizeChildren(children) {
 vue中利用Object.defineProperty收集依赖，从而触发更新视图，但是数组却无法坚挺到数据的变化，但是为什么数组在使用push、pop等放你发的时候可以触发页面更新呢，那是因为vue内部拦截了这些方法
 
 ```
-// 重写push等方法，然后在把原型指回原方法
-var ARRAY_MATHOD = ['push', 'pop', 'shift', 'unshift', 'reverse', 'sort', 'splice'];
-var array_methods = Object.create(Array.prototype);
-ARRAY_METHOD.forEach = function() {
-    // 拦截方法
-    console.log('调用的是拦截的 ' + method + ' 方法，进行依赖收集');
-    return Array.prototype[method].apply(this, arguments);
-}
+// 重写push等方法，然后再把原型指回原方法
+  var ARRAY_METHOD = [ 'push', 'pop', 'shift', 'unshift', 'reverse',  'sort', 'splice' ];
+  var array_methods = Object.create(Array.prototype);
+  ARRAY_METHOD.forEach(method => {
+    array_methods[method] = function () {
+      // 拦截方法
+      console.log('调用的是拦截的 ' + method + ' 方法，进行依赖收集');
+      return Array.prototype[method].apply(this, arguments);
+    }
+  });
 ```
 运行结果测试
 ```
-var arr = [1,2,3];
-arr.__proto__ = array.methods; // 改变arr原型
-arr.unshift(6); // 打印结果: 调用的是拦截的 unshift 方法，进行依赖收集
+var arr = [1,2,3]
+arr.__proto__ = array_methods // 改变arr的原型
+arr.unshift(6) // 打印结果: 调用的是拦截的 unshift 方法，进行依赖收集
 ```
 
 ## 继承实现
@@ -109,6 +111,10 @@ function Son(name, age) {
 inheritPrototype(Son, Father) {
     console.log(this.age);
 }
+Son.prototype.getAge = function() {
+  console.log(this.age)
+}
+
 ```
 运行结果
 ```

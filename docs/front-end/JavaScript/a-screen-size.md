@@ -33,3 +33,5 @@ title: js获取整个屏幕尺寸
    获取元素到顶部的距离:document.getElementsByClassName('div')[0].offsetTop
 
    获取元素到左边的距离:document.getElementsByClassName('div')[0].offsetLeft
+
+![js距离相关](./images/20180104085724397.jpg)

@@ -6,23 +6,23 @@ title: JS事件绑定和DOM事件流(冒泡和捕获)
 
 > 均已点击事件为例
 
-### 方法1: 把函数绑定在HTML标签上
+### 0级把函数赋值给DOM元素的[事件处理程序属性](https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalEventHandlers)
 
-也叫HTML元素行间事件
-```
-<button onclick="btnClick()">我是oBtn,点击我</button>
-fuction btnClick() {
-    console.log(this, 'oBtn被点击了')； // this指向全局对象呢
-}
-```
-
-### 把函数赋值给DOM元素的[事件处理程序属性](https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalEventHandlers)
-
-也叫DOM 0级事件处理程序
+也叫DOM 0级事件处理程序,分为两个
+- 标签内写onclick事件
+- 在JS写onclick = funciton() {} 函数
 
 一个DOM元素对象拥有很多事件处理程序属性(onclick是这些属性之一，其他还有很多比如onchange、onfocus...)
 
 ```
+// 1 HTML元素行间事件
+<input id="myButton" type="button" value="Press Me" onclick="alert('thanks');" >
+
+<button onclick="btnClick()">我是oBtn,点击我</button>
+fuction btnClick() {
+    console.log(this, 'oBtn被点击了')； // this指向全局对象呢
+}
+// 2
 <button id="btnId">我是目标oBtn,点击我</button>
 
 var oBtn = document.getElementById('btnId');
@@ -41,7 +41,11 @@ oBtn.onclick = btnClick // 把函数赋值给一个事件处理程序属性(oncl
 
 我们给element.onclick赋了两次值，第二次的值当然会覆盖第一次的值，因此会执行第二个函数里的内容
 
-### 通过事件监听的方式来绑定事件
+### 1级DOM(为什么没有1级DOM)
+DOM级别1于1998年10月1日成为W3C推荐标准，1级DOM标准中并没有定义事件相关的内容，所以没有所谓的1级Dom事件模型。
+
+在2级DOM中除了定义了一些DOM相关的操作之外还定义了一个事件模型，这个标准下的时间模型就是我们所说的2级事件模型
+### 2级通过事件监听的方式来绑定事件
 
 也叫DOM 2级事件处理程序
 
@@ -174,3 +178,5 @@ document.querySelector('#aId').addEventListener('click', function (e) {
 
 ## 资料
 [对JS中addEventListener底层实现原理的个人理解](https://blog.csdn.net/HarryMing/article/details/95181585)
+
+[JS--DOM0级事件处理和DOM2级事件处理](https://www.cnblogs.com/holyson/p/3914406.html)

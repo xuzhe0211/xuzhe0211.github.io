@@ -115,3 +115,7 @@ html lang="en">
 [怎么查看](https://www.jianshu.com/p/e1839e06ec8a)
 
 [优化](https://www.pianshen.com/article/94631124156/)
+
+[浏览器渲染之回流重绘](https://mp.weixin.qq.com/s/O0poI3y62W0vO8Z858lY4Q)
+
+[浏览器渲染简述](https://segmentfault.com/a/1190000014733203)

@@ -88,7 +88,7 @@ var map = {};
     //1.根据数组中的对象的“xxx”，得到排序后的key，return key2-key1 表示降序
     var newkey = Object.keys(obj).sort(function(key1,key2){
 
-        return obj[key2]['xxx']-obj[key1]['xxx'];
+        return obj[key2]-obj[key1];
     })
 　　//2.用排序后的key构建新的对象数组
     var newObj = {};//创建一个新的对象，用于存放排好序的键值对

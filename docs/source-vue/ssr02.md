@@ -24,8 +24,8 @@ title: 前端服务框架调研：Next.js、Nuxt.js、Nest.js、Fastify
   - 相同的是两者都遵循文件即路由的设计。默认以pages文件夹入口，生成对应的路由结构，文件夹内的所有文件都会被当做路由入口文件，支持多层级，会根据层级生成路由地址。同时如果文件名为index则会被省略，即/pages/users和/pages/users/index文件对应的访问地址都是users
   - 不同的是，根据依赖的前端框架不同，生成的路由配置和实现不同
 - api路由
-  - Next.js:在9.x版本之后添加了此功能的支持，在pages/api文件夹下(为什么放在pages文佳佳虾有设计上的历史包袱)的文件会作为api生效，不会进入React前端路由中。命名规则相同,pages/api/article/[id].js-> api/article/123.其文件导出模块与页面路由导出不同，但不是重点
-  - Nuxt.js:官方为提供支持，但是有其他实现途径，如使用框架的serverMiddleware能力。
+  - Next.js:在9.x版本之后添加了此功能的支持，在pages/api文件夹下(为什么放在pages文件夹下有设计上的历史包袱)的文件会作为api生效，不会进入React前端路由中。命名规则相同,pages/api/article/[id].js-> api/article/123.其文件导出模块与页面路由导出不同，但不是重点
+  - Nuxt.js:官方未提供支持，但是有其他实现途径，如使用框架的serverMiddleware能力。
 - 动态路由
   - Next.js：使用中括号命名，/pages/article/[id].js -> /pages/article/123
   - Nuxt.js: 使用下划线命名，/pages/article/_id.js -> /pages/article/123.

@@ -9,6 +9,7 @@ title: 箭头函数
 
 > 因为箭头函数没有prototype, 所以箭头函数本身没有this.
 
+><span style="color: red">箭头函数</span>内部没有constructor方法，也没有prototype，所以<span style="color: red">不支持new操作</span>。但是它对this的处理与一般的普通函数不一样，<span style="color: red">箭头函数的this始终指向函数定义时的this</span>，而非执行时。
 ## 注意事项
 
 1. 返回对象
@@ -46,3 +47,6 @@ const increase = add();
 increase(); // 1
 increase(); // 2
 ```
+
+## 资料
+[箭头函数](https://www.cnblogs.com/crazycode2/p/6682986.html)

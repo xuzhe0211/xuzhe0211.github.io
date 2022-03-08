@@ -86,11 +86,11 @@ function 符号：&fnof;可以轻松得打出函数式：&fnof;(x)=x+1
 
 ## markdown实用好看的小组件
 
-文件地址：[shields.io](shields.io)
+文件地址：[shields.io](https://shields.io/)
 
 ![TypeScript](https://img.shields.io/badge/-TypeScript-blue?logo=typescript&logoColor=white)
 
-![TypeScript](https://img.shields.io/badge/53%E4%B8%87-53-green)
+![生成](https://img.shields.io/badge/53%E4%B8%87-100-yellow)
 
 ### 居中效果
 ```
@@ -361,11 +361,14 @@ window.addEventListener('resize', function() {
 
 对已经做了按需加载的时候，确保引入的组件已经按需加载了，不然全局的重写样式无法覆盖
 
+## cnpm修改密码
+https://github.com/cnpm/cnpmjs.org/issues/1050
 ## 其他
 1. 路由的懒加载造成view内组件全部懒加载 
 2. splitChunk打包
 
 **开发之前的详细设计评审(接口评审)**
+
 
 
 

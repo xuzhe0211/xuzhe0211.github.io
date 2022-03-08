@@ -31,7 +31,10 @@ Promise/A+规范主要分为术语、要求和注意事项三个部分,我们重
         - 如果x不是对象或者函数，直接就用x的值来执行promise
 
 ### 代码实现
-
+:::danger
+注意function中this指向呀！！！！
+constructor中function函数如果this指向不对 用剪头函数
+:::
 规范解读第1条，代码实现
 ```
 class Promise {
@@ -116,9 +119,9 @@ then(onResolved, onRejected) {
 ```
 class Promise {
     // 定义Promise状态变量，初始值为pending
-    status: 'pending';
+    status = 'pending';
     // 因为在then方法中需要处理Promise成功或失败的值，素以需要一个全局变量存储这个值
-    data: '';
+    data = '';
     // Promise resolve时的回调函数集
     onResolvedCallback = [];
     // Promise reject时的回调函数集

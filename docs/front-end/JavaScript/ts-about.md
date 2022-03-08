@@ -100,5 +100,24 @@ tsconfig.json
 }
 ```
 
+## 直接执行ts的文件
+```
+npm install -g ts-node
+
+ts-node xxx.ts
+```
+**Error:connot find module 'typescript'**
+
+问题：安装ts-node,编译报错，找不到模块'typescript'
+
+解决方式
+```
+<!-- 重新安装 -->
+npm install -g typescript
+
+<!-- 重新 -->
+ts-node xx.ts
+```
+
 ## 资料
 [深入理解TypeScript - 认识TypeScript&配置详解](https://blog.csdn.net/qq_41831345/article/details/106727200)

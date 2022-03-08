@@ -21,7 +21,7 @@ var arr2 = arr.forEach((element, index) => {
     return element * 2;
 })
 console.log(arr2); // undefined
-console.log(arr1); // [1, 2,3,4, 8 , 9]
+console.log(arr); // [1, 2,3,4, 8 , 9]
 ```
 所以说foreach只给你最基本的操作，其他一概不管，如果你想要改变自身的值或者有break和countinue操作我们可以使用map操作，不展开说了。[数组遍历方法总结](https://www.cnblogs.com/wangzirui98/p/11226781.html)
 

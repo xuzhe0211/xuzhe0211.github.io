@@ -19,9 +19,7 @@ title: ESLint开始，说透我如果在团队项目中基于Vue做代码校验
 ESLint是一个集代码审查和修复的工具，它的核心功能是通过配置一个个规则来限制代码的合法性和风格。
 
 ### 配置解析器和解析参数
-ESLint的解析器，早期的时候用的是[Esprima](
-http://esprima.org/: https://link.juejin.cn?target=http%3A%2F%2Fesprima.org%2F),后面基于Esprima v1.2.2版本开发了一个新的解析器[Espree](
-https://github.com/eslint/espree: https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Feslint%2Fespree),并且把它当做默认解析器。
+ESLint的解析器，早期的时候用的是[Esprima](https://esprima.org/),后面基于Esprima v1.2.2版本开发了一个新的解析器[Espree](https://github.com/eslint/espree),并且把它当做默认解析器。
 
 除了使用ESLint自带的解析器外，还可以指定其他解析器:
 - @babel/eslint-parser:使Babel和ESLint兼容,对一些Babel语法提供支持

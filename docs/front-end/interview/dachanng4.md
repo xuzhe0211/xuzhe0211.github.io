@@ -50,6 +50,7 @@ title: 大厂面试全记录
         console.log(list1); // [1, 2, 3, 4, 5, 3, -4]
         console.log(list2); // [1, 2, 3, -4]
     ```
+    [扁平化](https://blog.csdn.net/u014465934/article/details/89020911)
 3. promise
     ```
     const myPromise = val => Promise.resolve(val);

@@ -363,7 +363,7 @@ WeakMap中，每个键对自己所引用对象的引用都是弱引用，在没�
 let myElement = document.getElementById('logo');
 let myWeakmap = new WeakMap();
 
-myWeakmap.set(myElement, { timesClicked, 0});
+myWeakmap.set(myElement, { timesClicked:0});
 
 myElement.addEventListener('click', function() {
 	let logoData = myWeakmap.get(myElement);

@@ -10,7 +10,7 @@ title: npm scripts 使用方案
   "serve": "vue-cli-service serve",
   "build": "vue-cli-service build && rm -fr ./dist/js/*.map",
   "build:report": "vue-cli-service build  --report",
-  "build:testdev": "vue-cli-service build --mode testdev --dest /opt/kingsoft/containers/nginx/www/dist",
+  "build:testdev": "vue-cli-service build --mode testdev --dest /opt/ks/containers/nginx/www/dist",
   "docker": "docker build .",
   "test:unit": "vue-cli-service test:unit",
   "test:e2e": "vue-cli-service test:e2e",
@@ -283,7 +283,7 @@ npm config set foo:port 80
 1. 查看项目中依赖的包的所有版本 npm ls webpack
   ```
   ➜  zhiliao git:(pc_feat_space_setting) npm ls webpack
-  zhiliao@0.1.0 /Users/xuzhe/Desktop/kingsoft/zhiliao
+  zhiliao@0.1.0 /Users/xuzhe/Desktop/ks/zhiliao
   ├─┬ @vue/cli-plugin-babel@4.5.15
   │ └── webpack@4.46.0
   ├─┬ @vue/cli-plugin-eslint@4.5.15

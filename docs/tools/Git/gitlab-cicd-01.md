@@ -106,7 +106,7 @@ gitlab-runner register \
 
 ## docker创建并执行docker命令
 ```
-docker run -d --add-host xx.xz.net:10.13.32.111 --name nodepm2 -v /root/:/root/ -v /home/xz/deploy/:/home/xz/deploy/ -v /root/codes/:/root/codes/ -v /opt/xz/containers/nginx/www/:/opt/xz/containers/nginx/www/ -p 8933:8933 khub.***.cn/sreopen/node:14.2.0 sh -c "npm i -g pm2;cd /home/xz/deploy;npm i;pm2 start server.js --no-daemon"
+docker run -d --add-host xx.xz.net:10.13.32.1 --name nodepm2 -v /root/:/root/ -v /home/xz/deploy/:/home/xz/deploy/ -v /root/codes/:/root/codes/ -v /opt/xz/containers/nginx/www/:/opt/xz/containers/nginx/www/ -p 8933:8933 khub.***.cn/sreopen/node:14.2.0 sh -c "npm i -g pm2;cd /home/xz/deploy;npm i;pm2 start server.js --no-daemon"
 ```
 
 

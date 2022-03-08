@@ -4,7 +4,7 @@ title: Node.js底层原理
 ---
 
 本文内容主要分为两大部分，第一部分是Node.js的基础和架构，第二部分是Node.js核心模块的实现
-- Node.js基础何家沟
+- Node.js基础和架构
     - Node.js的组成
     - Node.js代码架构
     - Node.js启动过程

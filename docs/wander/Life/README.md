@@ -31,6 +31,7 @@ chrome://flag
 - drop--吸取颜色
 - keka---解压缩文件
 - Alfred---mac搜索
+- Dash--文档api工具
 - CleanMyMac X  
     激活id: 2005277667335 
 

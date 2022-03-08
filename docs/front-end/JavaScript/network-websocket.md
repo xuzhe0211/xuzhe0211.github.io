@@ -46,9 +46,9 @@ function async() {
 
 ### 通信原理
 
-当客户端要和服务端建立WebSocket连接时，在客户端和服务器的握手过程中，客户端首先会向服务端发送一个HTTP请求，包含一个Upgrade请求头来告知服务端客户端想简历一个WebSocket连接。
+当客户端要和服务端建立WebSocket连接时，在客户端和服务器的握手过程中，客户端首先会向服务端发送一个HTTP请求，包含一个Upgrade请求头来告知服务端客户端想建立一个WebSocket连接。
 
-在客户端简历一个WebSocket连接非常简单
+在客户端建立一个WebSocket连接非常简单
 
 ```
 let ws = new WebSocket('ws://localhost:9000');

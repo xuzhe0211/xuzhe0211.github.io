@@ -46,7 +46,7 @@ title: 多行文本内容超出隐藏
     fucntion complate() {
         var offsetWidth = el.offsetWidth;
         var scrollWidth = el.scrollWidth;
-        var gap = scrollWidth = offsetWidth;
+        var gap = scrollWidth - offsetWidth;
         var percent = Math.floor(offsetWidth / scrollWidth * 1e3) / 1e3;
         return {
             gap: gap,

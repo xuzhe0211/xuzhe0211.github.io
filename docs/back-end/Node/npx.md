@@ -4,7 +4,7 @@ title: NPX
 
 ## 介绍
 
-npx是npm v5.2.0版本引入的工具，其可以快速体验想要尝试的包而不比执行npm init,npm install, 配置scripts等步骤
+npx是npm v5.2.0版本引入的工具，其可以快速体验想要尝试的包而不必执行npm init,npm install, 配置scripts等步骤
 
 默认情况下，它会去检查包是否存在(node_modules/.bin及环境变量$PATH),如果存在则执行，不存在则临时安装在运行
 

@@ -1,5 +1,5 @@
 ---
-title: css权重规则
+title: css权重规则(特异性)
 ---
 ## css 权重规则
 

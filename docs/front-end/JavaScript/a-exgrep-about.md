@@ -81,3 +81,42 @@ var reg = /(.*)\s(.*)/gi;
 var str = 'baidu,taobao';
 console.log(str.replace(reg, '$2,$1')); // $1 代表baidu  $2代表taobao
 ```
+
+## 问题
+1. 创建含变量的正则表达式
+
+  判断字符串含不含关键字，但是这个关键字是个变量
+  ```
+  var a = '二叉树'
+  var reg = /a+/; // 用字面量创建对象，无论怎么写都会把a当成正则一部分对待
+  ```
+  解决办法是用构造函数创建正则表达式对象
+  ```
+  var reg = new RegExp(a + '+', 'gim')
+  ```
+  还有一种办法是用eval()函数
+  ```
+  var reg = eval('/'+ a + '+' + /gim)
+  ```
+  但是eval()这个函数能不用就不用
+
+2. test结果不一致问题
+
+  原因是设置了全局匹配，该正则表达式的lastIndex属性会在：
+  - 匹配成功，设置为为匹配成功的子字符串的最后一个字符索引在加一，如果还用这个正则表达式对字符串进行匹配，它会以lastIndex作为匹配的起点
+  - 匹配失败时，lastIndex设置为0
+
+  **解决办法**
+
+  要么不设置全局匹配，要么就每次在正则匹配完成后，手动把lastIndex设置为0
+  ```
+  // 测试
+  var a = '123234'
+  var reg = /1/g;
+  reg.test(a)
+  console.log(reg.lastIndex)
+  reg.lastIndex = 0
+  ```
+  
+  [正则的lastIndex 属性](https://www.cnblogs.com/aidixie/p/11271186.html)
+

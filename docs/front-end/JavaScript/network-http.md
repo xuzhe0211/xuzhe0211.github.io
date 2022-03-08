@@ -72,10 +72,22 @@ title: 网络编程/http协议相关
 1. 1xx---指示消息--表示请求已接受，继续处理
 2. 2xx---成功--表示请求已被成功接收、理解、接受
     - 200 ok 请求成功
-    - 206 客户端发送一个带Range头的GET请求 服务器完成
+    - 201 created/已创建
+      - 201 表示服务器在请求的响应中建立了新文档；应在定位头信息中给出他的URL
+    - 202 Accepted/已接受
+      - SC-ACCEPTED告诉客户端请求正在执行，但还没有处理完
+    - 203 非官方信息
+      - 状态码203是表示文档呗正常返回,但是由于正在使用的是文档副本所以某些响应头信息可能不正确，这是HTTP1.1新加入的
+    - 204 no Content/无内容
+      - 在没有新文档的情况下，204确保浏览器继续显示先前的文档。在各状态码对于用户周期新的重载某一页非常有用，并且你可以确定先前的页面是否已经更新。但是，这种方法对通过刷新响应头信息或等价的HTML标记自动重载的页面起作用，因为它会返回一个204状态码停止以后的重载。但基于Javascript脚本的自动重载在让然需要能够起作用
+    - 206 局部内容
+      - 206(CS_PARTIAL_CONTENT)是在服务器完成了一个包含Range头信息的局部请求时候被发送的。这是HTTP1.1新加入的
 - 3xx---重定向--要完成请求必须进行更进一步操作
-	- 301 所有请求页面转移到URL
+    - 301 所有请求页面转移到URL
     - 302 所有请求转移到临时重定向
+    - 304 (Not Modified/为修正)
+    - 305 使用代理
+
 
     [http中301、302、303、307、308区别](/front-end/JavaScript/network-http-status.html)
 
@@ -84,6 +96,14 @@ title: 网络编程/http协议相关
     - 401 Unauthorized 请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用
     - 403 Forbidden 服务器收到请求，但是拒绝提供服务
     - 404 Not Fount 请求资源不存在，eg:输入了错误的URL
+    - 405 Method Not Allowed 方法未允许
+    - 406 Not Acceptable 无法访问
+      - 表示请求资源的MIME类型与客户端中Accept头信息指定的类型不一致。
+    - 407 代理服务器认证要求
+      - 407 (SC_PROXY_AUTHENTICATION_REQUIRED)与401状态有些相似，只是这个状态用于代理服务器。该状态指出客户端必须通过代理服务器的认证。代理服务器返回一个Proxy-Authenticate响应头信息给客户端，这会引起客户端使用带有Proxy-Authorization请求的头信息重新连接。该状态码是新加入 HTTP 1.1中的。
+    - 408 请求超时
+      - 是指服务端等待客户端发送请求的时间过长
+    - 409 冲突
     - 428 Precondition Required(要求先决条件)
     - 429 Too Many Requests(太多请求)
 
@@ -93,8 +113,11 @@ title: 网络编程/http协议相关
 
     - 431 请求头字段太大
 - 5xx---服务的错误--服务器未能实现合法的请求
-	- 500 Internal Server Error 服务器发生不可预期的错误
-    - 503 Server Unavailable 服务器当前不能处理客户端的请求，一段时间后可能恢复请求
+	  - 500 Internal Server Error 服务器发生不可预期的错误-- 内部服务器错误
+    - 501 未实现---状态告诉客户端服务器不支持请求中要求的功能。例如，客户端执行了如PUT这样的服务器并不支持的命令。
+    - 503 Server Unavailable 服务无法获得  --服务器当前不能处理客户端的请求，一段时间后可能恢复请求
+    - 504--网关超时
+    - 505 不支持的HTTP版本
     - 511 要求网络认证
     
 [http新增的四个状态码](https://www.cnblogs.com/gisblogs/p/7121943.html)
@@ -275,3 +298,5 @@ https的页面页中为什么不能发起http请求，有人也行会觉得是�
 const img = new Image();
 img.src = 'http的请求地址'
 ```
+
+[HTTP协议经典面试题整理及答案详解](https://zhuanlan.zhihu.com/p/131274506?utm_source=wechat_timeline&utm_medium=social&utm_oi=769561548753477632)

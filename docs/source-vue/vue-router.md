@@ -170,3 +170,5 @@ window.addEventListener('pushState', function(e) {
 });
 ```
 
+
+[关于H5的pushState、replaceState](https://www.jianshu.com/p/ddb7fcdf5962)

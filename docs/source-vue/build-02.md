@@ -4,6 +4,28 @@ title: Vue实现路由懒加载的方式以及打包问题
 ---
 现在的项目多数是SPA项目，单页面的应用可能存在首屏加载过慢的问题，而路由懒加载能在一定程度上优化首屏加载过慢的为。懒加载是指在需要加载的时候就加载对应的内容，与之类似的的还有按需加载
 
+## 组件懒加载
+[vue性能优化1--懒加载:原文档](https://www.cnblogs.com/dshvv/p/9946022.html)
+
+官方文档：https://cn.vuejs.org/v2/guide/components-dynamic-async.html
+
+因为Hello组件，只要在def页面中使用，所以没必要提前一起加载进来，试想如果用户可能就不进入def页面，那加载进来岂不是浪费时间
+
+所以我们可以修改def的代码如下即可：即异步加载hello组件，这样就可以当def页面呗访问到的时候，才会被加载
+```
+<script>
+import hello from '@/components/hello'
+export default {
+  name: 'def',
+  components: {
+    // hello: hello
+    hello: () => import('@/components/hello')
+  }
+}
+</script>
+```
+![组件懒加载效果](./images/870258-20181112235730309-240385112.gif)
+
 ## 路由懒加载
 webpack支持amd、commonJS、es6这三种模块语法，因此vue实现动态路由有三种方式
 ### 使用ADM规范的require语法
@@ -162,7 +184,5 @@ Vue.component('demo-msg', Message);
 
 ## 资料
 [Vue实现路由懒加载的方式以及打包问题](https://segmentfault.com/a/1190000021897656)
-
-[vue性能优化1--懒加载](https://www.cnblogs.com/dshvv/p/9946022.html)
 
 [vue页面首次加载缓慢原因及解决方案](https://www.cnblogs.com/zyulike/p/11190012.html)

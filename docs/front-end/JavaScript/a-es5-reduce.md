@@ -154,3 +154,104 @@ var manageReducers = function() {
 };
 var res1= prices.reduce(manageReducers(), initialState);
 ```
+## 按顺序执行promise
+实现一个方法，方法内传入一个数组，数组中每一项都返回一个Promise对象。要求按照顺序执行数组中每一个Promise
+```
+const fn1 = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('fn1');
+      resolve(1);
+    }, 2000)
+  })
+}
+
+const fn2 = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('fn2');
+      resolve(2);
+    }, 1000)
+  })
+}
+
+const arr = [fn1, fn2];
+
+const excPromiseInOrder = (array, value) => {
+  array.reduce((prePromise, curPromise) => {
+    return prePromise.then(curPromise)
+  }, Promise.resolve(value))
+}
+excPromiseInOrder(arr, 'init')
+```
+代码执行结果：
+2秒后输出"fn1"，再过1秒输出"fn2"
+如果对reduce的使用比较了解，那么这段代码也很容易看懂。唯一需要理解的可能就是excPromiseInOrder 函数体内reduce调用。在reduce回调函数中返回promise.then()，使用了链式调用。
+
+## Koa中only模块的实现
+only方法返回一个经过指定筛选属性的新对象
+```
+var p = {
+    name: 'BuzzLy',
+    age: 25,
+    email: 'dddd',
+    _id: '12345'
+}
+only(p, ['name', 'email'])   // {name: 'BuzzLy', email: 'dddd',}
+only(p, 'name age')   // {name: 'BuzzLy', age: 25,}
+```
+其中的实现使用的就是reduce，尝试使用reduce实现一个only方法
+```
+var only = function(obj, keys) {
+  obj = obj || {}；
+  if('string' === typeof keys) keys = keys.split(/+/);
+  return keys.reduce(function(new0, key) {
+    if (null == obj[key])  return new0
+    new0[key] = obj[key];
+    return new0
+  }, {})
+}
+```
+## pipe实现
+pipe的实现也是reduce的一个典型应用，pipe是一个curry化函数，curry函数是一种由接受多个参数的函数转化为一次只接受一个参数的函数，如果一个函数需要3个参数，那curry化后的而寒暑会接受一个参数并返回一个函数来接受下一个函数，这个函数返回的函数去传入第三个参数，最后一个函数会应用了所有参数的函数结果
+```
+function pipe(...functions) {
+  return function(input) {
+    return functions.reduce((preVal, fn) => fn(preVal), input)
+  }
+}
+```
+验证
+```
+const f1 = x => {
+    console.log('执行了f1')
+    return x + 1
+}
+
+const f2 = x => {
+    console.log('执行了f2')
+    return 2 * x
+}
+
+let result = pipe(f1, f2)(1)
+console.log(result) // 4
+
+```
+## 如何实现一个reduce
+如何自己实现一个reduce功能
+
+其中的核心就是数组的遍历，并且要通过是否传入第二个参数来判断遍历的起始值，并将得到的参数传入回调函数中执行，代码如下
+```
+Array.prototype.reduce = Array.prototype.reduce || function(func, initialValue) {
+  var arr = this;
+  var base = typeof initialValue === 'undefined' ? arr[0] : initialValue;
+  var startPoint = typeof initialValue === 'undefined' ? 1 : 0;
+  arr.slice(startPoint).forEach(function(val, index) {
+    base = func(base, val, index + startPoint, arr);
+  })
+  return base;
+}
+```
+
+## 资料
+[reduce应用和实现](https://www.jianshu.com/p/6bd41e40a1d0)

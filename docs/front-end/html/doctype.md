@@ -12,4 +12,4 @@ title: HTML &lt;!DOCTYPE&gt;声明
 
 HTML5不是基于SGML的，因此不要求引用DTD。
 
-**提示:**总是给您的HTML文档添加&lt;!DOCTYPE&gt;声明，确保浏览器能够预先知道文档类型
+**提示: 总是给您的HTML文档添加&lt;!DOCTYPE&gt;声明，确保浏览器能够预先知道文档类型**

@@ -72,7 +72,7 @@ process.on('SIGTERM', function() {
 命令部署方法
 ```
 npm install -g pm2
-pm2 start app.js --watch -i 2 // watch家庭文件变化
+pm2 start app.js --watch -i 2 // watch监听文件变化
 // -i 启动多少个实例
 pm2 stop all
 pm2 list

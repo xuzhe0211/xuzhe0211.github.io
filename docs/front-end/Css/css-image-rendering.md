@@ -50,4 +50,17 @@ image-rendering: unset;
 
 - high-quality
 
+
+## 应用
+在做响应时布局时，img图片一般会加个style="width: 100%"进行缩放，但是无论放大还是缩小，图片都会变模糊，全局加上下面的代码，便可以治愈
+```
+img{
+    image-rendering: -moz-crisp-edges; 
+    image-rendering: -o-crisp-edges; 
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: crisp-edges;
+    ms-interpolation-mode: nearest-neighbor;
+}
+```
+
 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/image-rendering)
