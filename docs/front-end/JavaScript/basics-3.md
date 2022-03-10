@@ -2,8 +2,8 @@
 autoGroup-5: JS名词理解
 title: JavaScript中的堆栈
 ---
-- 堆(heap) 堆(heap)是动态分配的内存,大小补丁也不会自动释放
 - 栈(stack) 栈(stack)为自动分配的内存空间，它由系统自动释放
+- 堆(heap) 堆(heap)是动态分配的内存,大小不定也不会自动释放
 
 > JavaScript中的变量分为基本类型和引用类型
 

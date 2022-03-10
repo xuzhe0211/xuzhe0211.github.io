@@ -11,7 +11,7 @@ title: JS实现持续动画效果
 + animation-name: 动画名称
 + animation-duration: 动画时长
 + animation-timing-function: 动画执行方式
-+ animation-delay: 动画延迟事件
++ animation-delay: 动画延迟时间
 + animation-iteration-count: 动画执行次数
 + animation-direction: 是否反向执行动画
 + animation-fill-node: 动画执行前后的样式

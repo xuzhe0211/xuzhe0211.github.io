@@ -1,6 +1,8 @@
 ---
 title: Git相关
 --- 
+
+![git](./images/1.jpg)
 ## 本地项目关联远程仓库
 ```
 git remote add origin git@xxx.gitlab.com:zhiliao/web-client/zhiliao-site.git

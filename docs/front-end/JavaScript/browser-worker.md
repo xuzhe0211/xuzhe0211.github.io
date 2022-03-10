@@ -355,3 +355,7 @@ postMessage还有一个重要的特性就是跨域，将第二个参数设置为
 [web messaging与Woker分类：漫谈postMessage跨线程跨页面通信](https://blog.csdn.net/u012244479/article/details/118441923)
 
 [webwork性能分析](/front-end/Log/performance-demo.html)
+
+[window opener](https://www.runoob.com/jsref/prop-win-opener.html)
+
+[Iframe父页面与子页面之间的调用](https://www.cnblogs.com/tugenhua0707/p/4174729.html)

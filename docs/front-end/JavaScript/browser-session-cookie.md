@@ -247,7 +247,28 @@ Authorization: Bearer <token>
 
 [OAuth 2.0 的四种方式](https://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html)
 
+## 其他
+![login/register](./images/1646811511264.jpg)
+
 ![JWT](./images/1637044265003.jpg)
+
+### session
+1. 前后端代码揉在一起
+2. session占用机器空间 不方便做横向扩展(拓展好几台服务)
+所以
+存放Redis (session server)
+
+**不太好做跨域的操作**
+### JWT
+服务端生成token包含用户信息+过期时间 发送给客户端在localstorage存储token
+
+服务端拿到toaken进行解密
+
+服务端不存储用户信息
+
+前后端分析
+
+
 ## SSO--单点登录
 
 [参考地址](https://www.jianshu.com/p/75edcc05acfd)

@@ -370,3 +370,5 @@ myElement.addEventListener('click', function() {
     logoData.timesClicked++;
 }, false)
 ```
+
+[https://www.jianshu.com/p/4220272051e2](https://www.jianshu.com/p/4220272051e2)

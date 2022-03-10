@@ -14,7 +14,7 @@ Fetch是Web提供的一个用于获取资源的接口，如果要终止fetch请�
 
 首先我们使用AbortController()构造函数创建一个控制器，然后使用AbortController.signal属性获取其关联AbortSignal对象的引用。当一个fetch request初始化时候，我们把AbortSignal作为一个选项传递到请求对象(如下：{signal})。这将信号与控制器与获取请求相关联，然后允许我们通过调用AbortController.abort()终止请求。
 
-```
+```javascript
 const controller = new AbortController();
 let signal = controller.signal;
 console.log('signal的初始状态', signal);
@@ -59,7 +59,7 @@ axios中断请求有两种方式
 
 ### 方式一
 使用CancelToken.souce工厂方法创建一个cancel token 代码如下
-```
+```javascript
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 
@@ -94,7 +94,7 @@ source.cancel('Operation canceled by the user.')
 ### 方式二
 通过传递一个executor函数到CancelToken的构造函数来创建一个canceltoken;
 
-```
+```javascript
 const cancelToken = axios.cancelToken;
 let cancel;
 
@@ -122,7 +122,7 @@ umi项目默认的请求库是umi-request,因此我们可以使用umi-request提
 
 1. 在services目录下的文件中编写请求参数和取消请求参数
 
-  ```
+  ```javascript
   import request from '@/utils/request';
   const CancelToken = request.CancelToken;
   let cancel:any;
@@ -148,7 +148,7 @@ umi项目默认的请求库是umi-request,因此我们可以使用umi-request提
 
 2. 在models中编写Effect
 
-  ```
+  ```javascript
   *uploadContractFileToOSS({ payload }: AnyAction, { call, put }: EffectsCommandMap): any {
     const response = yield call(uploadContractFileToOss, payload);
     yield put({
@@ -169,7 +169,7 @@ umi项目默认的请求库是umi-request,因此我们可以使用umi-request提
 
 3. 在页面中通过dispatch函数触发响应的action
 
-  ```
+  ```javascript
   // 发起请求
   dispatch({
     type: 'contract/fetchContractFiles',
@@ -186,7 +186,7 @@ umi项目默认的请求库是umi-request,因此我们可以使用umi-request提
 
 4. 在utils/request.js中统一处理中止请求的拦截
 
-  ```
+  ```javascript
   const errorHandler = (error: { response: Response }): Response => {
     const {response} = error;
     notification.destroy();
