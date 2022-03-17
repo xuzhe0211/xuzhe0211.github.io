@@ -70,7 +70,7 @@ module.exports = {
 ### 开发plugin的思路
 plugin是通过在生命周期的钩子中挂载函数实现扩展，我们可以在不同的事件节点上挂载不同的任务，就可以扩展一个插件，**插件必须是一个函数或者包含apply方法的对象**，一般可以把插件定义为一个类型，在类型中顶一个apply方法
 
-<span style="color:blud">apply方法接收一个compiler对象参数，包含了这次构建的所有配置信息</span>
+<span style="color:blue">apply方法接收一个compiler对象参数，包含了这次构建的所有配置信息</span>
 
 通过这个对象注册钩子函数
 

@@ -200,8 +200,8 @@ Array.of(1, {a: "1"}); // [1, {a: "1"}]
 
 数组实例方法分为：
 
-+ [修改方法](/front-end/javascript/array-mutator-methods)：会改变调用它们的对象自身；
-+ [访问方法](/front-end/javascript/array-accessor-methods)：不会改变调用它们的对象自身，只会返回一个新的数组或其它的期望值；
-+ [迭代方法](/front-end/javascript/array-iteration-methods)：为了可读性和可维护性请避免在遍历过程中对原数组进行任何修改。
++ [修改方法](/front-end/JavaScript/array-mutator-methods.html)：会改变调用它们的对象自身；
++ [访问方法](/front-end/JavaScript/array-accessor-methods.html)：不会改变调用它们的对象自身，只会返回一个新的数组或其它的期望值；
++ [迭代方法](/front-end/JavaScript/array-interation-method.html)：为了可读性和可维护性请避免在遍历过程中对原数组进行任何修改。
 
 

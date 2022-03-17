@@ -143,6 +143,7 @@ project=vue-au
 
 ## 超级管理员重置
 [管理员创建](https://learnku.com/articles/57331?order_by=created_at&)
+[管理员重置](https://www.cnblogs.com/JasonLong/p/14794378.html)
 
 ## release问题
 需要保证 plugins 和 Sentry.init 两个配置中的 release 版本号相同，这样的话 sentry 才能将 source-map 文件一一对应上。 修改完之后我们重新build一下项目

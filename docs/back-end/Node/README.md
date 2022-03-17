@@ -12,7 +12,7 @@ cluster可以多核监听同一个端口。实现多进程共享端口，这个�
 **folk(child_process.fork)方式不能实现多进程共享端口，还需要nginx去做多个端口的负载均衡，一般来说用cluster要好点，folk方式适用于多个程序之间**
 
 建立一个cluster.js文件
-```
+```javascript
 var cluster = require('cluster'); // cluster库
 var os = require('os'); // 获取cpu的数量
 var process = require('process'); // 管理进程用的
@@ -209,7 +209,7 @@ docker-compose主要是可以集合多个服务，一起运行。比如一个项
     }
     ```
 2. node 
-    ```
+    ```javascript
     // app.js
     const Koa = require('koa');
     const app = new Koa();
@@ -244,7 +244,7 @@ docker-compose主要是可以集合多个服务，一起运行。比如一个项
     CMD ["pm2-runtime", "start",  "process.yml"]
     ```
 3. 构建docker-compose.yml
-    ```
+    ```javascript
     ## docker-compose.yml
 
     version: '3.1'
@@ -265,7 +265,7 @@ docker-compose主要是可以集合多个服务，一起运行。比如一个项
         - ./www/:/var/www/html/ 
     ```
 4. 创建一个www文件夹放一个静态html文件
-    ```
+    ```javascript
     //index.html
 
     hello web!! 

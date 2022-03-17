@@ -98,8 +98,68 @@ CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生�
   综上所述：同源验证是一个相对简单的防范方法，能够防范绝大多数的CSRF攻击。但这并不是万无一失的，对于安全性要求较高，或者有较多用户输入内容的网站，我们就要对关键的接口做额外的防护措施。
   
 ## CSRF Token
+前面讲到CSRF的另一个特征是，攻击者无法直接窃取到用户的信息(Cookie,header，网站内容等)，仅仅是冒用Cookie中的信息。
+
+而CSRF攻击之所以能够成功，是因为无服务器误把攻击者发送的请求当成了自己的请求。那么我们可以要求所有的用户都携带一个CSRF攻击者无法获取到的token。服务器通过校验请求是否携带正确的Token,来把正常的请求和攻击的请求区分开，也可以防范CSRF攻击。
+
+**原理**
+
+CSRF Token的防护策略分为三个步骤
+1. 将CSRF Token输出到页面中
+
+  首先，用户打开页面的时候，服务器需要给这个用户生成一个token,该Token通过加密算法对数据进行加密，一般Token都包括随机字符串和时间戳组合，显然在提交时Token不能在放在Cookie中了，否则又会被攻击者冒用。因此，为了安全起见Token最好还是存在服务器的Session中，之后每次页面加载时，使用JS遍历整个Dom树，对于Dom所有的a和Form标签后加入Token。这样可以解决大部分的请求，但是对于在页面加载之后动态生成的HTML代码，这种方法就没有作用，还需要程序员在编码时手动添加Token。
+
+2. 页面提交的请求携带这个Token
+
+    对于GET请求，Token将附在请求地址之后，这样URL 就变成 http://url?csrftoken=tokenvalue。 而对于 POST 请求来说，要在 form 的最后加上：
+    ```html
+      <input type=”hidden” name=”csrftoken” value=”tokenvalue”/>
+    ```
+    这样，就把Token以参数的形式加入请求了。
+
+3. 服务器验证Token是否正确
+
+  当用户从客户端得到了Token，再次提交给服务器的时候，服务器需要判断Token的有效性，验证过程是先解密Token，对比加密字符串以及时间戳，如果加密字符串一致且时间未过期，那么这个Token就是有效的。
+
+**<span style="color: orange">总结</span>**
+
+Token是一个比较有效的CSRF防护方法，只要页面没有XSS漏洞泄露Token，那么接口的CSRF攻击就无法成功
+:::tip
+验证码和密码其实也可以起到CSRF Token的作用，而且更安全
+为什么什么很多银行等网站会要求已经登录的用户在转账时再次输入密码，现在是不是有一定道理了...
+:::
 ## 双重Cokie验证
+利用CSRF攻击不能获取到用户Cookie的特点，我们可以要求Ajax和表单请求携带一个Cookie中的值。
 
+双重Cookie采用以下流程：
 
+- 在用户访问网站页面时，向请求域名注入一个Cookie，内容为随机字符串（例如csrfcookie=v8g9e4ksfhw）。
+- 在前端向后端发起请求时，取出Cookie，并添加到URL的参数中（接上例POST https://www.a.com/comment?csrfcookie=v8g9e4ksfhw）。
+- 后端接口验证Cookie中的字段与URL参数中的字段是否一致，不一致则拒绝。
+
+此方法相对于CSRF Token就简单了许多，但是，此方法并没有大规模应用，其在大型网站上的安全性还是没有CSRF Token高，原因我们举例进行说明。
+
+由于任何跨域都会导致前端无法获取Cookie中的字段（包括子域名之间），于是发生了如下情况：
+
+- 如果用户访问的网站为www.a.com，而后端的api域名为api.a.com。那么在www.a.com下，前端拿不到api.a.com的Cookie，也就无法完成双重Cookie认证。
+- 于是这个认证Cookie必须被种在a.com下，这样每个子域都可以访问。任何一个子域都可以修改a.com下的Cookie。某个子域名存在漏洞被XSS攻击（例如upload.a.com）。虽然这个子域下并没有什么值得窃取的信息。但攻击者修改了a.com下的Cookie。攻击者可以直接使用自己配置的Cookie，对XSS中招的用户再向www.a.com下，发起CSRF攻击。
+## 总结
+用双重Cookie防御CSRF的优点
+- 无需使用Session，使用面更广，易于实施
+- Token存储于客户端中，不会给服务器带来压力
+- 相对于Token，实施成本,可以前后端同意拦截校验，而不需要一个个接口和页面添加
+
+缺点
+- Cookie中增加了额外的字段。
+- 如果有其他漏洞(如XSS),攻击者可以注入Cookie，那么该防御方式失效
+- 为了确保Cookie传输安全，曹勇这种防御方式的最好确保用整站HTTPS方式，如果还没切HTTPS的使用方式也会有风险
+
+## Samesite Cookie属性
+防止CSRF攻击的办法已经有上面的预防措施。为了从源头上解决这个问题,Google起草了一份草案来改进HTTP协议，那就是Set-Cookie响应头新增Samesite属性，它用来标明这个 Cookie是个“同站 Cookie”，同站Cookie只能作为第一方Cookie，不能作为第三方Cookie，Samesite 有两个属性值，分别是 Strict 和 Lax。参考如下：[Cookie 的 SameSite 属性](https://www.ruanyifeng.com/blog/2019/09/cookie-samesite.html)
 ## 资料
 [原文](https://blog.csdn.net/yexudengzhidao/article/details/93527586)
+
+
+输入：s = "aabcb"
+输出：5
+解释：美丽值不为零的字符串包括 ["aab","aabc","aabcb","abcb","bcb"] ，每一个字符串的美丽值都为 1 。

@@ -21,6 +21,8 @@ rollup src/case01/index.js
 
 ![经典编译过程](./images/WechatIMG158.png)
 
+![经典编译过程](./images/aHR0cHM6Ly9pbWcyMDIwLmNuYmxvZ3MuY29tL2Jsb2cvMTAwOTA4MC8yMDIwMDcvMTAwOTA4MC0yMDIwMDcyNDIzMjk0MTgwNi0xMjA3NTAwMTcucG5n.png)
+
 :::tip
 AST(Abstract Syntax Tree) 抽象语法树 在计算机科学中，或简语法树(Syntax treee),是源代码语法解构的一种抽象表示。它以树状的形式表现变成语言的语法结构，树上的每个节点都表示源代码中的一种解构[https://astexplorer.net/](https://astexplorer.net/)
 :::

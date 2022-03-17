@@ -279,3 +279,5 @@ output: 3
 
 
 [做了一夜动画，让大家十分钟搞懂Webpack](https://juejin.cn/post/6961961165656326152)
+
+[webpack官网](https://webpack.docschina.org/)

@@ -149,8 +149,8 @@ prerestart，postrestart
 ```
 自定义的脚本命令也可以加上pre和post钩子。比如，myscript这个脚本命令，也有premyscript和postmyscript钩子。不过，双重的pre和post无效，比如prepretest和postposttest是无效的。
 
-npm提供了一个npm_lifecycle_event变量，返回当前正在运行的脚本名称，比如pretest、test、posttest等等。所以，可以利用这个变量，在同一个脚本文件里面，为不同的npm script命令编写代码。请看下面的例子
-```
+**<span style="color:orange">npm提供了一个npm_lifecycle_event变量，返回当前正在运行的脚本名称，比如pretest、test、posttest等等。所以，可以利用这个变量，在同一个脚本文件里面，为不同的npm script命令编写代码。请看下面的例子</span>**
+```javascript
 const TARGET = process.env.npm_lifecycle_event;
 if (TARGET === 'test') {
   console.log('Running the test task!')
@@ -207,7 +207,7 @@ console.log(process.env.npm_package_version) // 1.2.5
 ```
 上面代码中，我们通过环境变量process.env对象，拿到package.json的字段值。如果是Bash脚本，可以使用$npm_package_name和$npm_package_version取到这两个值。
 
-npm_package_前缀也支持嵌套的package.json字段
+<span style="color:orange">npm_package_前缀也支持嵌套的package.json字段</span>
 ```
 "repository": {
   "type": "git",
@@ -302,3 +302,9 @@ npm config set foo:port 80
 
 ## 资料
 [npm scripts使用指南](https://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
+
+[vue变量](/source-vue/base-evn.html)
+```javascript
+process.env.VUE_APP_TEST = process.env.npm_lifecycle_event
+// vue项目中就可以使用process.env.VUE_APP_TEST
+```

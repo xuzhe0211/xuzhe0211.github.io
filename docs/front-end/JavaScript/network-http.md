@@ -13,14 +13,17 @@ title: 网络编程/http协议相关
 ### Request
 #### 请求行
 - Method
-	- GET---请求获取Request-URI所标识的资源
-    - POST---在Request-URI所标识的资源后附加新的数据
-    - HEAD---请求获取由Request-URI所标识的资源的响应消息报头
-    - PUT---请求服务器存储一个资源，并用Request-URI作为其标识
-    - DELETE---请求服务器删除Request-URI所标识的资源
-    - TRACE---请求服务器回送收到的请求信息，主要用于测试或诊断
-    - CONNECT--- 保留将来使用
-    - OPTIONS---预检请求/请求查询服务器的性能，或者查询与资源相关的选项和需求
+	- GET---请求获取Request-URI所标识的资源/从指定的资源请求数据
+  - POST---在Request-URI所标识的资源后附加新的数据/向指定的资源提交要被处理的数据
+  - HEAD---请求获取由Request-URI所标识的资源的响应消息报头/与 GET 方法相同，但只返回 HTTP 报头，不返回文档主体
+  - PUT---请求服务器存储一个资源，并用Request-URI作为其标识/上传指定的 URI 表示
+  - DELETE---请求服务器删除Request-URI所标识的资源
+  - TRACE---请求服务器回送收到的请求信息，主要用于测试或诊断/请求服务器在响应中的实体主体部分返回所得到的内容
+  - CONNECT--- 保留将来使用/HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。
+  - OPTIONS---预检请求/请求查询服务器的性能，或者查询与资源相关的选项和需求
+  ##### 注意
+   - 方法名称是区分大小写的，当某个请求所针对的资源不支持对应的请求方法的时候，服务器应当返回状态码405（Mothod Not Allowed）；当服务器不认识或者不支持对应的请求方法时，应返回状态码501（Not Implemented）。
+   - HTTP服务器至少应该实现GET和HEAD/POST方法，其他方法都是可选的，此外除上述方法，特定的HTTP服务器支持扩展自定义的方法。
 - RequestUrl---https://www.baidu.com/img
 - HttpVersion--Http 1.1
 
@@ -300,3 +303,7 @@ img.src = 'http的请求地址'
 ```
 
 [HTTP协议经典面试题整理及答案详解](https://zhuanlan.zhihu.com/p/131274506?utm_source=wechat_timeline&utm_medium=social&utm_oi=769561548753477632)
+
+[TCP连接、Http连接与Socket连接的区别](https://blog.csdn.net/mccand1234/article/details/91346202)
+
+[http --- > HTTPS是在安全的传输层上发送的HTTP](https://blog.csdn.net/piano9425/article/details/93711175)

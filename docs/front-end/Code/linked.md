@@ -260,3 +260,6 @@ var addTwoNumbers = function(l1, l2) {
 ```
 
 [两数相加](https://leetcode-cn.com/problems/add-two-numbers-ii/solution/cjspython-mo-ni-jin-wei-445-liang-shu-xiang-jia-ii/)
+
+## 回文链表
+[回文链表](front-end/Code/stady-02.html#%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8)

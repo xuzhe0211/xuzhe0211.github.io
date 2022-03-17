@@ -9,8 +9,22 @@ chrome支持翻译成中文 浏览器栏最右侧点击翻译
 算机组成指的是系统结构的逻辑实现，包括机器机内的数据流和控制流的组成及逻辑设计等。主要分为五个部分
 控制器，运算器，存储器，输入设备，输出设备。
 
-chrome://flag
+字节：由8个二进制位构成一个字节，即1Byte = 8Bit
 
+字：不同的计算机系统一次可以处理的子长是不同的，16为计算机的子长就是16位，32位的计算机的子长就是32位(最大可以表示的位数2^32)
+
+<span style="color: red">如何计算16*16点阵的一个汉字需要几个字节数</span>
+>每个象素一个 bit，一个字节 8 bit,TotalBytes = Width * Height / 8,所以，对于 16 * 16 的来讲，16 * 16 / 8 = 32，要 32 个字节
+
+```javascript
+function numbersequal(a,b){
+   return Math.abs(a-b)<Number.EPSILON;
+} 
+var a=0.1+0.2， b=0.3;
+console.log(numbersequal(a,b)); //true
+```
+
+[一个字节由多少个二进制位组成？](https://zhidao.baidu.com/question/559713484660353724.html)
 
 ## 工具
 
@@ -77,3 +91,6 @@ chrome://flag
 [https://juejin.cn/user/114004940564951/posts](https://juejin.cn/user/114004940564951/posts)
 
 [http://deal.kaikeba.com/link/78a63cd4-433e-4400-b9c0-3d1edc2fb529?share_token=5vovQzZU&utm_source=%E8%B5%84%E6%96%99%E9%93%BE%E6%8E%A5%E5%85%A5%E5%BA%93&utm_medium=%E5%BE%AE%E4%BF%A1&utm_content=%E5%89%8D%E7%AB%AF%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.pdf](http://deal.kaikeba.com/link/78a63cd4-433e-4400-b9c0-3d1edc2fb529?share_token=5vovQzZU&utm_source=%E8%B5%84%E6%96%99%E9%93%BE%E6%8E%A5%E5%85%A5%E5%BA%93&utm_medium=%E5%BE%AE%E4%BF%A1&utm_content=%E5%89%8D%E7%AB%AF%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.pdf)
+
+
+

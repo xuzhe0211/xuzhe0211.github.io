@@ -51,6 +51,7 @@ function add(..._args) {
 
 ### Q2 虚拟dom是怎么实现的
 ### Q3 你说一下为什么canvas的图片为什么会有跨域问题
+[前端常见问题——Canvas 图片跨域](https://segmentfault.com/a/1190000016423028)
 
 ### Q4 你说一下webpack的一些plugin，怎么使用webpack对项目进行优化。
 

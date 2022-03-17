@@ -12,6 +12,12 @@ title: 前端监控
     原则上能收集信息用什么方式都行，但是get、post、head等方式可能存在跨域
 2. 图片不用插入页面
     js、css、ttf创建节点后要插入到dom后，才能发送资源请求，图片则不用，创建节点后就能发起请求
+    ```javascript
+    var img = new Image();
+    img.src = '123'; // 到这一步会发送图片请求
+
+    document.body.appendChild(img)
+    ```
 3. gif体积最小
     - 图片最好是透明的，避免对页面有影响，体积夜宵
     - 最小1*1像素透明图片，bmp74字节，png67字节，git43字节

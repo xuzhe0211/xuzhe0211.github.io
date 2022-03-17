@@ -51,7 +51,7 @@ export default {
 import functions from '../src/functions.js'
 
 test('sum(2 + 2) 等于 4', () => {
-  expect(functions.sum(2,2).toBe(4));
+  expect(sum(2, 2)).toBe(4);
 })
 ```
 
@@ -81,7 +81,21 @@ Time:        4.8s
   .not修饰符允许你测试结果不等于某个值的情况，这和英语的语法几乎完全一样，很好理解
 2. toEqual()
   ```
-  
+  // functions.js
+  export default {
+    getAuthor() {
+      return {
+        name: 'LITANGHUI',
+        age: 24
+      }
+    }
+  }
+  // functions.test.js
+  import functions from '../src/functions';
+
+  test('getAuthor()返回对象深度相等', () => {
+    
+  })
   ```
 
 ## 资料

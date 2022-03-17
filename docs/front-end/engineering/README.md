@@ -13,7 +13,7 @@ loader:模块转换器，将非js模块转化为webpack能识别的js模块
 Plugin:扩展插件，在webpack运行的各个阶段，都会广播出去相对应的事件，插件可以监听到这些事件的发生，在特定的时机做响应的事情
 
 ## webpack核心对象
-**Tapable**:控制钩子的发布和订阅，Compiler和Compilation对象都继承与Tapable;
+**Tapable**:控制钩子的发布和订阅，Compiler和Compilation对象都继承于Tapable;
 
 **Compiler**:<br/>
 Compiler继承Tapable对象，可以广播和监听webpack。<br/>
@@ -41,14 +41,14 @@ loader是文件转换器，将webpack不能处理的模块转换为webpack能处
 plugin是功能扩张，干预webpack的打包过程，修改编译结果或者打包结果
 
 ## webpack打包流程-原理
-1. 初始化参数--生成options(将webpack.config.js和shell中的参数，合并到options对象)
-2. 开始编译--实例化compiler对象(用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，执行对象的 run 方法开始执行编译)(webpack全局的配置对象，包含entry，output、loader、plugins等所有配置信息)
-3. 实例化Compilation(compiler方法执行，开始编译过程，生成Compilation对象)
-4. 确定入口--分析入口js文件，调用AST引擎处理入口文件，生成抽象语法树，根据AST构建模块的所有与依赖
-5. 编译模块、完成编译--通过loader处理入口文件的所有依赖，转换成js模块，生成AST，继续遍历，构建依赖的依赖，递归，直至色素偶有与依赖分析完毕
-6. 输出资源--对生成的所有与module进行处理，调用plugins，合并，拆分。生成chunk
-7. 输出完成--讲chunk生成对应的bundle文件，输出到目录
-
+1. 初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数；
+2. 开始编译：用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，执行对象的 run 方法开始执行编译；
+3. 确定入口：根据配置中的 entry 找出所有的入口文件；
+4. 编译模块：从入口文件出发，调用所有配置的 Loader 对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理；
+5. 完成模块编译：在经过第4步使用 Loader 翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系；
+6. 输出资源：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk，再把每个 Chunk 转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会；
+7. 输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统。
+[webpack入门文档](https://webpack.wuhaolin.cn/5%E5%8E%9F%E7%90%86/5-1%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%A6%82%E6%8B%AC.html)
 ## webpack热更新的原理
 
 基本原理，webpack监听文件变化，服务端和客户端有websocket通信，服务端向客户端发送文件变化信息，客户端根据文件变化消息获取变更模块代码，进行模块代码的热替换
@@ -67,11 +67,8 @@ plugin是功能扩张，干预webpack的打包过程，修改编译结果或者�
 ## webpack优化
 
 1. 优化开发体验--提升开发效率
-
-	(1) 优化构建速度
-    
-    (2) 优化使用体验
-    
+    - 优化构建速度
+    - 优化使用体验
 2. 优化输出质量
 
 优化输出质量的目的是为用户呈现体验更好的网页，例如减少首屏加载时间、提升性能流畅度等
@@ -85,9 +82,9 @@ module.exprots = {
 	module:{
     	rules: [
         	{
-            	//如果项目源码中只有js文件，就不要写成/\.jsx?$/,以提升正则表达式的性能
+            	// 如果项目源码中只有js文件，就不要写成/\.jsx?$/,以提升正则表达式的性能
                 test：/\.js$/,
-                //babel-loader支持缓存转换出借故偶，通过cacheDirectory选项开启
+                // 支持缓存转换出的结果，通过cacheDirectory选项开启
                 use:['babel-loader?cacheDirectory'],
                 //只对项目根目录下的src目录的文件采用babel-loader
                 include:path.resolve(__dirname, 'src'),

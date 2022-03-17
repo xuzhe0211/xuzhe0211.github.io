@@ -20,7 +20,7 @@ webpack中proxy只是一层代理，用于把指定的path，代理去后端提�
 
 proxy工作原理实质上是利用http-proxy-middleware这个http代理中间件，实现请求转发给其他服务器。例如：本地主机A为http://localhost:3000,该主机浏览器发送一个请求，接口为/api，这个请求数据(响应)在另外一台服务器B http://10.231.133.22:80上，这时，就可以通过A主机设置webpack proxy，直接将请求发送给B主机
 
-```
+```javascript
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 
@@ -37,7 +37,7 @@ app.listen(3000);
 
 ## 核心概念
 
-```
+```javascript
 var proxy = require('http-proxy-middleware');
 
 var apiProxy = proxy('/api', {target: 'http://www.example.org'});
@@ -55,7 +55,7 @@ var apiProxy = proxy('/api', {target: 'http://www.example.org'});
 
 option.pathRewrite:重写目标url路径，key用正则表达式来匹配路径
 
-```
+```javascript
 // 重写路径
 pathRewrite: {'^/old/api': '/new/api'}
 
@@ -68,3 +68,5 @@ pathRewrite: {'^/', '/basepath/'}
 // 路径自定义
 pathRewrite: function(path, req) {return path.replace('/api', '/base/api')}
 ```
+
+[vue proxyTable中跨域中pathRewrite配置](https://blog.csdn.net/yunfeng482/article/details/89883970)

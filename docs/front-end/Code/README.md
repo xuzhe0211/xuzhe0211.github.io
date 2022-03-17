@@ -6,7 +6,7 @@ title: 算法
 
 
 ## 两数之和
-```
+```javascript
 var twoSum = function(nums, target) {
     let obj = {};
     for (let i = 0; i < nums.length; i++) {
@@ -18,10 +18,24 @@ var twoSum = function(nums, target) {
         }
     }
 }
+// 第二种
+function twoSum(nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    let right = i + 1;
+    while(right < nums.length) {
+      let sum = nums[i] + nums[right];
+      if (sum === target) {
+        return [i, right];
+      } else {
+        right++;
+      }
+    }
+  }
+}
 twoSum([2,7,11,16], 9)
 ```
 ## 三数之和
-```
+```javascript
 var threeSum = function(nums) {
     let ans = [];
     const len = nums.length;
@@ -54,7 +68,7 @@ console.log(threeSum(nums));
 
 ## 最大序数和
 
-```
+```javascript
 var maxSubArray = function(nums) {
     var cur = 0; maxSub = nums[0];
     nums.forEach(x => {
@@ -74,7 +88,7 @@ console.log(masSubArray); // 34
 2. 准备两个数组容器，遍历数组，逐个与基数比对，较小的放左容器，较大的放右容器
 3. 递归处理两个容器的元素，并将处理后的数据与基数按大小合并成一个数组返回
 
-```
+```javascript
 var quickSort = function(arr) {
     if (arr.length <= 1) return arr;
     var pivotIndex = Math.floor(arr.length / 2);
@@ -115,7 +129,7 @@ var quickSort = function(arr) {
 
 实现（为方便理解，在原文基础上有所合并）：
 
-```
+```javascript
 // 快排改进——黄佳新
 var devide_Xin = function (array, start, end) {
     if(start >= end) return array;
@@ -188,7 +202,7 @@ var quickSort_Xin = function (array, start, end) {
 
 5、递归排序基数左边的数，递归排序基数右边的数，返回数组。
 
-```
+```javascript
 var quickSort_New = function(ary, left, right) {
     if(left >= right) {
         return ary;
@@ -239,7 +253,7 @@ var quickSort_New = function(ary, left, right) {
 
 ## 二分查找
 
-```
+```javascript
 function binary_search(arr, low, high, key) {
     if (low > high) retrun -1;
     var mid = parseInt((low + high) / 2);
@@ -256,7 +270,7 @@ function binary_search(arr, low, high, key) {
 ```
 
 第二种
-```
+```javascript
 var search = function(nums, target) {
     var n = 0;
     var h = nums.length - 1;
@@ -280,7 +294,7 @@ var search = function(nums, target) {
 
   有一堆扑克牌，将牌第一张放到桌子上，在将接下来牌的第一张放到牌底，如此往复；最后桌子上的牌顺序为:(牌底)1，2，3，4，5，6，6，7，8，9，10，11，12，13(牌顶)；<br/>
   问：原来牌的顺序，用函数实现
-  ```
+  ```javascript
   let arr = [1,2,3,4,5,6,7,8,9,10,11,12,13];
   let _arr = [];
   function sortPoke() {
@@ -301,7 +315,7 @@ var search = function(nums, target) {
 A: [1,2,3,4,5]
 
 B: [5,1,4,2,3]
-```
+```javascript
 function formatArr(nums) {
     let arr = [];
     while(nums.length > 0) {
@@ -316,7 +330,7 @@ function formatArr(nums) {
 console.log(formatArr([1,2,3,4,5]))
 ```
 ## JavaScript 深拷贝
-  ```
+  ```javascript
   //
   function copyObj(obj) {
       var newobj = {};
@@ -341,28 +355,29 @@ console.log(formatArr([1,2,3,4,5]))
   var clone1 = await structuralClone(obj1)
   ```
 ## 盛水最多的容器---双指针法
-  ```
+  ```javascript
   var maxArea = function(height) {
-      var left = 0;
-      var right = height - 1;
-      var max = 0;
-      while(left < right) {
-          var now = (right - left) * Math.min(height[right], height[left]);
-         max = now > max ? now : max;
-         if (height[left] > height[right]) {
-          right --;
-          } else {
-          left++;
-         }
-      }
-      return max;
-  }
+    let left = 0;//左下标
+    let right = height.length - 1;//右下标
+    let max = 0;//最大装水量
+    while(left < right){
+        let now = (right - left) * Math.min(height[right], height[left]);
+        max = now > max ? now : max;
+        if(height[left] > height[right]){
+            right--;
+        }else{
+            left++;
+        }
+    }
+    return max;
+  };
   ```
+[leecode](https://leetcode-cn.com/problems/container-with-most-water/)
 ## 大数相加
 
   思路遍历两个字符串从个位数算起开始相加，定义temp接受两个数之和，除以10取余拼接上结果，最后判断temp是否大于0，如果大于9则进位temp=1
 
-```
+```javascript
 var addstring = function(num1, num2) {
     var len1 = num1.length, len2 = num2.length; temp = 0; res = '';
     while(len1 || len2) {
@@ -388,7 +403,7 @@ var addstring = function(num1, num2) {
 
 ## sqrt
 
-  ```
+  ```javascript
   var mySqrt = function(x) {
        if (x < 2) return x
        let left = 1, mid, right = Math.floor(x / 2);
@@ -411,7 +426,7 @@ var addstring = function(num1, num2) {
 
   注意：本题对原题稍作改动，只需返回未识别的字符数
 
-  ```
+  ```javascript
   //示例
   输入：dictionary = ['looked', 'just', 'like', 'her', 'brother'];
   sentence = 'jesslookedjustliketimherbrother';
@@ -437,7 +452,7 @@ var addstring = function(num1, num2) {
   ```
 ## 两个数组的交集
 
-  ```
+  ```javascript
   /**
   给定两个数组，编写一个函数来计算它们的交集。
   示例1：
@@ -485,13 +500,55 @@ var addstring = function(num1, num2) {
 输入: [3,2,1,5,6,4] 和 k = 2
 
 输出: 5
-```
+```javascript
 // 第一种
 var findKthLargest = function(nums, k) {
     nums = nums.sort((a, b) => a -b);
     return nums[k - 1]
 }
-// 
+// 堆排序--大顶堆
+//整个流程就是上浮下沉
+var findKthLargest = function(nums, k) {
+  let heapSize = nums.length;
+  buildMaxHeap(nums, heapSize); // 构建好了一个大顶堆
+  // 进行下沉 大顶堆是最大元素下沉到末尾
+  for(let i = nums.length - 1; i >= nums.length - k + 1; i--) {
+    swap(nums, 0, i);
+    --heapSize; // 下沉后的元素不参与到大顶堆的调整
+    // 重新调整大顶堆
+    maxHeapify(nums, 0, heapSize);
+  }
+  return nums[0];
+  
+  // 自下而上构建一个大顶堆
+  function buildMaxHeap(nums, heapSize) {
+    for (let i = Math.floor(heapSize / 2) - 1; i >= 0; i--) {
+      maxHeapify(nums, i, heapSize);
+    }
+  }
+  // 从左向右，自上而下的调整节点
+  function maxHeapify(nums, i, heapSize) {
+    let l = i * 2 + 1;
+    let r = i * 2 + 2;
+    let largest = i;
+    if (l < heapSize && nums[l] > nums[largest]) {
+      largest = l;
+    }
+    if (r < heapSize && nums[r] > nums[largest]) {
+      largest = r;
+    }
+    if (largest !== i) {
+      swap(nums, i, largest); // 进行节点调整
+      // 继续调整下面的非叶子节点
+      maxHeapify(nums, largest, heapSize)
+    }
+  }
+  function swap(a, i, j) {
+    let temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+  }
+}
 ```
 [力扣官方](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/shu-zu-zhong-de-di-kge-zui-da-yuan-su-by-leetcode-/)
 
@@ -500,7 +557,7 @@ var findKthLargest = function(nums, k) {
 ## 分割数组最大值
 
 给定一个非负整数数组和一个整数m,你需要将这个数组分成m个非空的连续子数组。设计一个算法使得这个m个子数组各自和的最大值最小。
-```
+```javascript
   //贪心算法
   var splitArray = function(nums, m) {
       let left = 0; right = 0;
@@ -538,7 +595,7 @@ var findKthLargest = function(nums, k) {
 
 ## 统计字符串出现最多的字符
 
-```
+```javascript
 function getMax(str) {
     var hash = {}, maxStr, max = 1;
     for (var i = 0; i < str.length; i++) {
@@ -556,8 +613,9 @@ function getMax(str) {
 }
 ```
 ## 无重复字符的最长子串--单指针
+[参考](/front-end/interview/dachang2.html#简单)
 
-```
+```javascript
 var getSubString = function(str) {
     if (!str.length) return 0;
     let tempStr = '';
@@ -577,7 +635,7 @@ var getSubString = function(str) {
 ```
 ## 查找一个字符中指定的子串的所有位置
 
-```
+```javascript
 var str = 'fdhfgcsaedvcfhgfh';
 var index = str.indexOf('f'); // 字符出现的位置
 var num = 0; // 这个字符出现的次数
@@ -600,7 +658,7 @@ console.log('f一共出现了'+num+'次')；
 [7, 8, 9,11, 12] => 1
 :::
 
-```
+```javascript
 var firstMissingPositive = function(nums) {
     let result = 1;
     while(nums.includes(result)) {
@@ -609,7 +667,7 @@ var firstMissingPositive = function(nums) {
     return result;
 }
 ```
-## 长度最小的子数组
+## 长度最小的子数组(掌握滑动窗口)
 :::tip
 s = 7； nums = [2, 3,1, 2, 4, 3];
 
@@ -617,7 +675,7 @@ s = 7； nums = [2, 3,1, 2, 4, 3];
 
 :::
 
-```
+```javascript
 var minSubArrayLen = function(s, nums) {
     let n = nums.length;
     let left = 0, res = Infinity, sum = 0;
@@ -634,13 +692,43 @@ var minSubArrayLen = function(s, nums) {
     //注意数组全部加起来或者数组为0的时候，res不变；
     return res == Infinity ? 0 : res;
 }
+// 方法二 等同一？
+var minSubArrayLen = function(target, nums) {
+    const n = nums.length;
+    
+    // S1 初始化窗口左右指针、窗口长度结果以及当前窗口和
+    let left = 0;
+    let right = 0;
+    let ans = Infinity;
+    let sum = 0; 
+    
+    // S2 模拟像右滑动
+    while(right<n){
+        // S3 寻找可行解
+        sum+=nums[right];
+        right++;
+
+        // S4 当已找到可行解时，缩小窗口以优化
+        while(sum>=target){
+            // S4-1 更新结果值
+            ans = Math.min(ans, right-left);
+            // S4-2 缩小窗口
+            sum-=nums[left];
+            left++;
+        }
+    }
+
+    // 如果 ans 不变，则说明没有符合条件的子数组
+    return ans === Infinity ? 0 : ans;
+};
 ```
+[leetcode](https://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/xing-dai-lu-hua-dong-chuang-kou-suan-fa-8sei6/)
 ## 数组组合
 [力扣地址](https://leetcode-cn.com/problems/combinations/)
 给定两个整数n和k,返回1...n中所有可能的k个数的组合。
 
 示例：
-```
+```javascript
 输入: n = 4， k = 2;
 
 输出：
@@ -655,7 +743,7 @@ var minSubArrayLen = function(s, nums) {
 ```
 
 **题解**
-```
+```javascript
 const combine = function(n, k) {
     const res = [];
     const could = [];
@@ -679,7 +767,7 @@ const combine = function(n, k) {
 ```
 
 ## 字符串有效性检查
-```
+```javascript
 // '{}[]()'
 
 var isValid = function(s) {
@@ -696,32 +784,99 @@ var isValid = function(s) {
 ```
 
 ## 会议室问题
-
-给定一个会议时间安排的数组，每个会议时间都会包括开始和结束的时间 [[ s1 , e1 ] ，[ s2 , e2 ]，…] (si < ei) ，为避免会议冲突，同时要考虑充分利用会议室资源，请你计算至少需要多少间会议室，才能满足这些会议安排。
-例如:
-
-输入: [[0, 30],[5, 10],[15, 20]]
-
-输出: 2
-
-面试现场讨论了算法原理，未有时间编码调试：
-
-```
-function fn(arr) {
-    const sortArr = arr.sort((a,b) => a[0] - b[0]);
-    console.log(sortArr);
-    let number = 1;
-    let end = sortArr[0][1];
-    for (let i = 1; i < sortArr.length; i++) {
-        if (sortArr[i][0] < end) {
-            end !== sortArr[i][0] ? number++ : '';
+1. 会议室①
+  给定一个会议时间安排的数组intervals，每个会议时间都会包括开始和结束时间intervals[i] = [starti, endi],请你判断一个人是否能够参加里面的全部会议
+  示例
+  ```markdown
+  输入:intervals = [[0, 30], [5, 10], [15, 20]]
+  输出false
+  ```
+  解题：
+  ```javascript
+  /**
+   * 方法一暴力法
+   * 最简单的方法是将数组中的会议室量量比较，判断他们是否冲突(即他们之间是否有交叠)，如果一个会议室开的时候，另一个依然没有结束，则他们存在交叠，就没法同时参加
+  */
+  var canAttendMeetings = function(intervals) {
+    for(let i = 0; i < intervals.length; i++) {
+      for (let j = i + 1; j < intervals.length; j++) {
+        if (overlap(intervals[i], intervals[j])) {
+          return false;
         }
-        end = sortArr[i][1];
+      }
     }
-    return number;
-}
-console.log(fn([[0, 30],[5, 10],[15, 20], [10,35], [20, 30]]));
-```
+    return true;
+  }
+  function overlap(nums1, nums2) {
+    return ((nums1[0] >= nums2[0] && nums1[0] < nums2[1]) || (nums2[0] >= nums1[0] && nums2[0] < nums1[1]))
+  }
+  // 方法二排序
+  // 思路是按照开始时间进行排序，接着一次遍历会议，检查它是否在下一个会议的开始前结束
+  var canAttendMeetings = function(intervals) {
+    // 将传入的数组按照 第一个数字升序排列
+    intervals.sort((a, b) => b[0] - a[0]);
+
+    for (let i = 0; i < intervals.length; i++) {
+      if (intervals[i][1] > intervals[i + 1][0]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  ```
+
+2. 会议室②
+  给定一个会议时间安排的数组，每个会议时间都会包括开始和结束的时间 [[ s1 , e1 ] ，[ s2 , e2 ]，…] (si < ei) ，为避免会议冲突，同时要考虑充分利用会议室资源，请你计算至少需要多少间会议室，才能满足这些会议安排。
+  例如:
+
+  输入: [[0, 30],[5, 10],[15, 20]]
+
+  输出: 2
+
+  面试现场讨论了算法原理，未有时间编码调试：
+
+  ```javascript
+  function fn(arr) {
+      const sortArr = arr.sort((a,b) => a[0] - b[0]);
+      console.log(sortArr);
+      let number = 1;
+      let end = sortArr[0][1];
+      for (let i = 1; i < sortArr.length; i++) {
+          if (sortArr[i][0] < end) {
+              end !== sortArr[i][0] ? number++ : '';
+          }
+          end = sortArr[i][1];
+      }
+      return number;
+  }
+  console.log(fn([[0, 30],[5, 10],[15, 20], [10,35], [20, 30]]));
+
+  解题思路
+  [u, v] 代表一个人在 u 时刻上车， v 时刻下车
+
+  把上下车的事件全部排序，同时先下后上。
+
+  求在车上的最大人数。
+
+  var minMeetingRooms = function(intervals) {
+      let nums = [];
+
+      //转换为上下车问题
+      for (let [u, v] of intervals){
+          nums.push([u, 1]);
+          nums.push([v, -1]);
+      }
+      nums.sort((a, b) => a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+
+      let ans = 0, cur = 0;
+      for (let [time, e] of nums){
+          cur += e;
+          ans = Math.max(cur, ans);
+      }
+      return ans;
+  };
+
+  ```
 
 ## 加油站
 [leetcode](https://leetcode-cn.com/problems/gas-station/solution/tan-xin-si-xiang-by-value-9-v9dd/)
@@ -1009,7 +1164,7 @@ exention -> exection (将 'n' 替换为 'c')
 exection -> execution (插入 'u')
 ```
 编写
-```
+```javascript
 function minDistance(word1, word2) {
     const m = word1.length, n = word2.length;
     // 我们要多添加一行一列，用来base case
@@ -1040,6 +1195,84 @@ function minDistance(word1, word2) {
 }
 ```
 [参考](https://leetcode-cn.com/problems/edit-distance/solution/bian-ji-ju-chi-qiong-ju-ji-yi-hua-sou-su-8bff/)
+
+## 所有子字符串美丽值之和
+一个字符串的<span style="color: blue">美丽值</span>定义为:出现频率最高字符与出现频率最低字符的出现次数之差。
+- 比方说, 'abaacc'的美丽值为3-1 = 2；
+给你一个字符串<u>s</u>,请你放回它所有字符串的<span style="color: blue">美丽值之和</span>
+
+示例1
+```
+输入：s = "aabcb"
+输出：5
+解释：美丽值不为零的字符串包括 ["aab","aabc","aabcb","abcb","bcb"] ，每一个字符串的美丽值都为 1 。
+```
+求解
+```javascript
+/**
+ * 暴力解
+*/
+var beautySum = function(s) {
+  let ret = 0;
+  for (let i = 1; i <= s.length; i++) {
+    for (let j = 0; j < i; j++) {
+      let tmp = s.slice(j, i);
+      let map = {}
+
+      let min = Infinity;
+      let max = -Infinity;
+      for(let i = 0; i < tmp.length; i++) {
+        map[tmp[i]] = map[tmp[i]] || 0;
+        map[tmp[i]]++;
+      }
+      for (let item in map) {
+        min = Math.min(min, map[item]);
+        max = Math.max(max, map[item]);
+      }
+      ret += (max - min)
+    }
+  }
+  return ret;
+}
+
+// 解题思路
+// 双循环的思路最简单，直接里外两层循环 排列组合所有可能的子字符串，然后统计他们出现的次数，最大值 - 最小值 累积。
+
+// 这里用了一个小技巧：使用数组来记录出现的次数。这样做的原因是，通过 fromCharCode() 方法转换，得到字符和数字之间的关系，也推导得到统计数组的下标关系。
+var beautySum = function(s) {
+  const len = s.length
+  if (len < 3) { return 0 }
+
+  const map = {}
+  for (let i = 0; i < 26; i++) {
+    map[String.fromCharCode(97 + i)] = i
+  }
+
+  let i = 0, j = 0
+  let min = 0, sum = 0
+  let countArr = []
+  while (i < len) {
+    j = i + 2
+    countArr = (new Array(26)).fill(0)
+    countArr[map[s[i]]] += 1
+    countArr[map[s[i + 1]]] += 1
+    while (j < len) {
+      countArr[map[s[j]]] += 1
+      min = Math.min(...(countArr.filter(i => i > 0)))
+      if (isFinite(min)) {
+        sum = sum + Math.max(...countArr) - min
+      }
+
+      j++
+    }
+
+    i++
+  }
+
+  return sum
+};
+```
+[leetcode](https://leetcode-cn.com/problems/sum-of-beauty-of-all-substrings/solution/javascript-bao-li-jie-by-lianxin-qtr7/)
 
 ## 逻辑思维
 + 一个班级60%喜欢足球，70%喜欢篮球，80%喜欢排球，问即三种球都喜欢占比有多少？
