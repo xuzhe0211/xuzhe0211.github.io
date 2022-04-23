@@ -8,7 +8,7 @@ title: proxy
 
 ## 什么是可变数据
 首先需要先理解什么是可变数据:举个例子
-```
+```js
 var objA = {name: '小明'}；
 var objB = objA.name;
 objB.name = '小红';
@@ -18,13 +18,13 @@ console.log(objA.name) // objA的那么也变成了小红
 
 那不可变数据是什么呢？
 
-不可变数据概念来源于函数式编程。函数式编程中，对已初始化的"变量"是不可以更改的，每次更改都要创建一个新的"变量"。新的数据进行有副作用的操作都不会影响之前的数据。这就是Immutabel的本质。
+**<span style="color: blue">不可变数据概念来源于函数式编程。函数式编程中，对已初始化的"变量"是不可以更改的，每次更改都要创建一个新的"变量"。新的数据进行有副作用的操作都不会影响之前的数据。这就是Immutabel的本质。</span>**
 
 Javascript在语言层面没有实现不可变数据，需要借助第三方库来实现。Immer.js就是其中一种实现(类似的还有Imutable.js)
 
 ## Immer例子
 Immer结合Copy-on-write机制与ES6 Proxy特性，提供了一种异常简介的不可变数据的操作方式
-```
+```js
 const myStructure = {
   a: [1, 2, 3], 
   b: 0
@@ -46,14 +46,14 @@ JSON.stringify(myStructure) === JSON.stringify({A: [1,2,3], b: 0}) // true
 
 ## 目标
 immer只有一个核心API
-```
+```js
 produce(currentState, producer: (draftState) => void): nextState
 ```
 所以，只要手动实现一个等价的produce函数，就能弄清楚Immer的秘密了
 
 ## 思路
 仔细观察produce的用法，不难发现5个特点(见注释)
-```
+```js
 const myStructure = {
   a: [1,2, 3], 
   b: 0
@@ -76,11 +76,11 @@ JSON.stringify(myStructure) === JSON.stringify({a: [1,2,3], b: 0}); // true
 ```
 即：
 - 仅在写时拷贝(注释2， 3）
-- 读操作呗代理到原址上(注释1)
+- 读操作被代理到原址上(注释1)
 - 写操作就被代理到拷贝值上(注释4， 5)
 
 那么，**简单的骨架已经浮出水面了**
-```
+```js
 function produce(currentState, producer) {
   const copy = null;
   const draftState = new Proxy(currentState, {
@@ -118,14 +118,14 @@ function produce(currentState, producer) {
 
 ### 代理
 拿到原值自后，先给根节点创建Proxy，得到供producer操作的draftState;
-```
+```js
 function produce(original, producer) {
   const daft = proxy(original);
   // ...
 }
 ```
 最关键的当然是对原值get、set操作代理
-```
+```js
 function proxy(original, onWrite) {
   // 存放代理关系及copy值
   let draftState = {
@@ -171,7 +171,7 @@ P.S.此外，其余许多读写方法也需要代理，例如has、ownKeys、del
 
 ### 拷贝
 即上面出现过的copyOnWrite函数
-```
+```js
 function copyOnWrite(draftState) {
   const { originalValue, draftValue, mutated, onWrite } = draftState;
   if(!mutated) {
@@ -188,7 +188,7 @@ function copyOnWrite(draftState) {
 仅在第一次写时(!mutated)才将原值上的其余属性拷贝到draftValue上
 
 特殊的，浅拷贝时需要注意属性描述符、Symbol属性等细节
-```
+```js
 // 跳过target身上已有的属性
 function copyProps(target, source) {
   if (Array.isArray(target)) {
@@ -217,7 +217,7 @@ P.S.Reflect.ownKeys能够返回对象的所有属性名（包括 Symbol 属性�
 - 下层拷贝值与祖先拷贝值的关联：拷贝值要能轻松对应结果树上
 
 对于第一个问题，只需要将代理对象对应的draftState暴露出来即可
-```
+```js
 const INTERNAL_STATE_KEY = Symbol('state');
 function proxy(original, onWrite) {
   let draftState = {
@@ -238,7 +238,7 @@ function proxy(original, onWrite) {
 }
 ```
 至于第二个问题，可以通过onWrite钩子来简历下层拷贝值与组件拷贝值的关联
-```
+```js
 // 创建下一层代理
 function proxyProp(propValue, propKey, hostDraftState) {
   const {originalValue, draftValue, onWrite} = hostDraftState;
@@ -263,7 +263,7 @@ function proxyProp(propValue, propKey, hostDraftState) {
 也就是说， **深层属性第一次发生写操作时，向上按需拷贝，构造拷贝值树**
 
 至此大功告成
-```
+```js
 function produce(original, producer) {
   const draft = proxy(original);
   // 修改draft

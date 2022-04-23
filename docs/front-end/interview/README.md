@@ -1,9 +1,26 @@
 ---
 title: 前端面试题
 ---
+:::tip
+学习方法---是什么？解决了什么问题 存在什么问题 怎么解决
+
+null >= 0  null <= 0  -> true 
+scheme schema
+
+vitesse  Vueuse https://vueuse.org/ https://www.jianshu.com/p/1186d062c07b
+
+netlify 部署
+::
+[大厂面试题每日一题](https://q.shanyue.tech/engineering/740.html#%E4%B8%80%E4%B8%AA-npm-script-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+
+[面试题](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues?page=10&q=is%3Aissue+is%3Aopen)
+
+[面试题1](https://github.com/Vibing/blog/issues/3)
+
+[面试题2](https://github.com/webVueBlog/Leetcode)
 ### 开发模式、算法、并发限制
 ## 柯里化函数 add(1)(2)(3)
-```
+```js
 function add() {
     // 第一次执行时，定义一个数组专门用来存储所有的参数
     var _args = Array.prototype.slice.call(arguments);
@@ -40,7 +57,10 @@ function add(..._args) {
     return _adder;
 }
 ```
-[剩余参数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+[剩余参数](/front-end/JavaScript/tips-arguments.html#function-arguments)
+
+[ES6---扩展运算符](/front-end/JavaScript/es6-....html)
+
 
 剩余参数语法允许我们将一个不定数量的参数表示为一个数组。
 
@@ -55,15 +75,20 @@ function add(..._args) {
 
 ### Q4 你说一下webpack的一些plugin，怎么使用webpack对项目进行优化。
 
-1、减少编译体积 ContextReplacementPugin、IgnorePlugin、babel-plugin-import、babel-plugin-transform-runtime。
+1. <span style="color:blue">减少编译体积 </span>
 
-2、并行编译 happypack、thread-loader、uglifyjsWebpackPlugin开启并行
+    - ContextReplacementPugin-- 忽略webpack中的配置和测试设置文件
+    - IgnorePlugin-- 忽略第三方包指定目录，让这些指定目录不要被打包进去
+    - babel-plugin-import- 它是一个babel插件，在编译的过程中会自动转换为按需引入的方式
+    - babel-plugin-transform-runtime--因为babel编译es6到es5的过程中，babel-plugin-transform-runtime这个插件会自动polyfill es5不支持的特性，这些polyfill包就是在babel-runtime这个包里（core-js 、regenerator等）。
 
-3、缓存 cache-loader、hard-source-webpack-plugin、uglifyjsWebpackPlugin开启缓存、babel-loader开启缓存
+2. <span style="color:blue">并行编译 happypack、thread-loader、uglifyjsWebpackPlugin开启并行</span>
 
-4、预编译 dllWebpackPlugin && DllReferencePlugin、auto-dll-webapck-plugin
+3. <span style="color:blue">缓存 cache-loader、hard-source-webpack-plugin、uglifyjsWebpackPlugin开启缓存、babel-loader开启缓存</span>
+
+4. <span style="color:blue">预编译 dllWebpackPlugin && DllReferencePlugin、auto-dll-webapck-plugin</span>
 ## Q 统计网站出现最多的html标签
-```
+```js
 var map = {};
     //采用递归调用的方法，比较方便和简单。
     function fds(node) {
@@ -86,19 +111,45 @@ var map = {};
     
     
     function objvalueSort(obj) {//排序的函数
-    //1.根据数组中的对象的“xxx”，得到排序后的key，return key2-key1 表示降序
-    var newkey = Object.keys(obj).sort(function(key1,key2){
+        //1.根据数组中的对象的“xxx”，得到排序后的key，return key2-key1 表示降序
+        var newkey = Object.keys(obj).sort(function(key1,key2){
 
-        return obj[key2]-obj[key1];
-    })
-　　//2.用排序后的key构建新的对象数组
-    var newObj = {};//创建一个新的对象，用于存放排好序的键值对
-    for (var i = 0; i < newkey.length; i++) {//遍历newkey数组
-        newObj[newkey[i]] = obj[newkey[i]];//向新创建的对象中按照排好的顺序依次增加键值对
+            return obj[key2]-obj[key1];
+        })
+    　　//2.用排序后的key构建新的对象数组
+        var newObj = {};//创建一个新的对象，用于存放排好序的键值对
+        for (var i = 0; i < newkey.length; i++) {//遍历newkey数组
+            newObj[newkey[i]] = obj[newkey[i]];//向新创建的对象中按照排好的顺序依次增加键值对
+        }
+        
+        return newObj;//返回排好序的新对象
     }
-    
-    return newObj;//返回排好序的新对象
+
+// 整理
+const getNode = (node) => {
+    let map = {};
+    let obj = {}
+    const dfs = node => {
+        let nodeName = node.nodeName;
+        let nodeType = node.nodeType;
+        if (nodeType === 1) {
+            map[nodeName] = (map[nodeName] || 0) + 1
+        }
+        let childs = node.childNodes;
+        for (let child of childs) {
+            dfs(child);
+        }
+    }
+    dfs(node)
+    let newMap = Object.keys(map).sort((key1, key2) => map[key2] - map[key1]);
+    for (let [index, key] of newMap.entries()) {
+        if (index < 3) {
+            obj[key] = map[key]
+        }
+    }
+    return obj;
 }
+console.log(getNode(document.body))
 ```
 ### Q5说一下你觉得你最得意的一个项目？你这个项目有什么缺陷，弊端吗？
 
@@ -122,7 +173,7 @@ var map = {};
 ```
 ## 转化为驼峰命名
 
-```
+```js
 var s1 = "get-element-by-id" // 转化为 getElementById
 var f = function(s) {
 	return s.replace(/-\w/g, function(x) {
@@ -133,7 +184,7 @@ var f = function(s) {
 
 ## 查找字符串中出现最多的字符和个数
 
-```
+```js
 let str = "abcabcabcbbccccc";
 let num = 0;
 let char = '';
@@ -150,13 +201,23 @@ str.replace(re,($0,$1) => {
 console.log(`字符最多的是${char}，出现了${num}次`)
 ```
 ## call的实现
+测试代码
+```js
+function add(x, y, z) {
+    return x + y + z;
+}
+const arr = [1,2,3];
+console.log(add.myCall(null, ...arr))
+console.log(add.myApply(null, arr)())
+console.log(add.myBind(null, ...arr)())
+```
 - 第一个参数为null或undefined时，this指向全局对象window,值为原始值的指向该原始值的自动包装对象，如String、Number、Boolean
 - 为了避免函数名与上下文(context)的属性发生冲突，使用Symbol类型作为唯一值
 - 将函数作为传入的上下文(context)属性执行
 - 函数执行完成后删除该属性
 - 返回执行结果
 
-```
+```js
 Function.prototype.myCall = function(context, ...args) {
     let cxt = context || window;
     // 将当前被调用的方法定义在cxt.fun上(为了能以对象调用形式绑定this)
@@ -175,7 +236,7 @@ Function.prototype.myCall = function(context, ...args) {
 - 前部分与call一样
 - 第二个参数可以不传，但类型必须为数组或者类数组
 
-```
+```js
 Function.prototype.myApply = function(context, args = []) {
     let cxt = context || window;
     // 将当前被调用的方法定义在cxt.fun上(为了能以对象调用形式绑定this)
@@ -202,7 +263,7 @@ Function.prototype.myApply = function(context, args = []) {
 - 参数传递(apply的数组传参)
 - 当作为构造函数的时候，进行原型继承
 
-```
+```js
 Function.prototype.myBind = function(context, ...args) {
     // 新建一个变量赋值为this,标识当前函数
     const fn = this;
@@ -220,7 +281,7 @@ Function.prototype.myBind = function(context, ...args) {
 [相关文档](/front-end/JavaScript/tips-bind.html)
 ## 寄生组合式继承
 
-```
+```js
 function Person(obj) {
     this.name = obj.name;
     this.age = obj.age;
@@ -246,7 +307,7 @@ var p2 = new Person1({name: '鸡蛋', age: 118, sex: '男'})
 
 ## ES6继承
 
-```
+```js
 // class 相当于es5中构造函数
 // class中定义方法时,前后不能加function，全部定义在class的prototype属性中
 // class中定义的所有方法是不可枚举的
@@ -285,7 +346,7 @@ womanObj.eat();
 - 不能检测基本数据类型，在原型链上的寄过威逼准备，不能检测null, undefined
 - 实现：遍历左边变量的原型链,直到找到右边变量的prototype，如果没有找到，返回false
 
-```
+```js
 function myInstannceOf(a, b) {
     let left = a.__proto__;
     let right = b.prototype;
@@ -331,7 +392,7 @@ const getUserProfileByUids = (uidList) => {
 3. 窗口内超过 100 个请求，能确保每次批量请求的 ID 个数不超过 100
 ```
 解题
-```
+```js
 // 入口函数
 const getUserProfileByUid = function (uid) {
   return mergeRequest(uid).then(function (res) {
@@ -431,7 +492,7 @@ const myPromise = () => {
 
 
 ##### 输出
-```
+```js
 Promise.resolve().then(() => {
     console.log(0);
     return Promise.resolve(4);

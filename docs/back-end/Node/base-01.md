@@ -4,12 +4,12 @@ title: Node.js底层原理
 ---
 
 本文内容主要分为两大部分，第一部分是Node.js的基础和架构，第二部分是Node.js核心模块的实现
-- Node.js基础和架构
+- <span style="color: blue">Node.js基础和架构</span>
     - Node.js的组成
     - Node.js代码架构
     - Node.js启动过程
     - Node.js事件循环
-- Node.js核心模块的实现
+- <span style="color: blue">Node.js核心模块的实现</span>
     - 进程和进程间通信
     - 线程和线程间同喜
     - Cluster
@@ -21,17 +21,17 @@ title: Node.js底层原理
     - DNS
 ## Nodejs组成
 Nodejs主要由V8、Libuv和第三方库组成：
-1. Libuv:跨平台的异步IO库，但它提供的功能不仅仅是IO，还包括进程、线程、信号、定时器、进程间通信，线程池等。
-2. 第三方库:异步DNS解析(cares)、HTTP解析器(旧版使用http_parser,新版使用llhttp)、HTTP2解析器(nghttp2)、解压缩库(zlib)、加密解密库(openssl)等
-3. V8:实现JS解析、执行和支持自定义拓展,得益于V8支持自定义拓展，才有了Node.js
+1. <span style="color: blue">Libuv:跨平台的异步IO库，但它提供的功能不仅仅是IO，还包括进程、线程、信号、定时器、进程间通信，线程池等。</span>
+2. <span style="color: blue">第三方库:异步DNS解析(cares)、HTTP解析器(旧版使用http_parser,新版使用llhttp)、HTTP2解析器(nghttp2)、解压缩库(zlib)、加密解密库(openssl)等</span>
+3. <span style="color: blue">V8:实现JS解析、执行和支持自定义拓展,得益于V8支持自定义拓展，才有了Node.js</span>
 
 ## Node.js代码架构
 ![Nodejs代码架构](./images/640.jpg)
 
 上图是Node.js的代码架构，Node.js的代码主要分为JS、C++、C三种
-1. JS是我们平时使用的那些模块(http/fs)
-2. C++代码分为三个部分，第一部分是封装了Libuv的功能，第二部分则是不依赖于Libuv(crypto部分API使用了Libuv线程池)，比如Buffer模块，第三部分是V8的代码
-3. C语言层的代码主要是分支了操作系统的功能TCP UDP
+1. <span style="color: blue">JS是我们平时使用的那些模块(http/fs)</span>
+2. <span style="color: blue">C++代码分为三个部分，第一部分是封装了Libuv的功能，第二部分则是不依赖于Libuv(crypto部分API使用了Libuv线程池)，比如Buffer模块，第三部分是V8的代码</span>
+3. <span style="color: blue">C语言层的代码主要是分支了操作系统的功能TCP UDP</span>
 
 了解了Node.js的组成和代码架构之后，我们看看Node.js启动的过程都做了什么？
 
@@ -51,9 +51,9 @@ Nodejs主要由V8、Libuv和第三方库组成：
 ![Environment对象和绑定Context-1](./images/643.jpg)
 
 ### 初始化模块加载器
-1. Node.js首先传入C++模块加载器，执行loader.js,loader.js主要是封装了C++模块加载器和原生JS模块加载器，并保存到env对象中
-2. 接着传入C++和原生JS模块加载器，执行run_main_module.js
-3. 在run_main_module.js中传入普通JS和原生JS模块加载器，执行用的JS
+1. <span style="color: blue">Node.js首先传入C++模块加载器，执行loader.js,loader.js主要是封装了C++模块加载器和原生JS模块加载器，并保存到env对象中</span>
+2. <span style="color: blue">接着传入C++和原生JS模块加载器，执行run_main_module.js</span>
+3. <span style="color: blue">在run_main_module.js中传入普通JS和原生JS模块加载器，执行用的JS</span>
 
 假设用户的JS如下
 - requier('net');
@@ -61,31 +61,31 @@ Nodejs主要由V8、Libuv和第三方库组成：
 
 分别加载了一个用户模块和原生JS模块，我们看看加载过程，执行require的时候
 
-1. Node.js首先判断是否是原生JS模块，如果不是咋直接加载用户模块，否则会使用原生模块加载器加载原生JS模块
-2. 加载原生JS模块的时候，如果用到C++模块，则使用internalBinding去加载
+1. <span style="color: blue">Node.js首先判断是否是原生JS模块，如果不是咋直接加载用户模块，否则会使用原生模块加载器加载原生JS模块</span>
+2. <span style="color: blue">加载原生JS模块的时候，如果用到C++模块，则使用internalBinding去加载</span>
 
 ![初始化模块加载器](./images/644.jpg)
 
 ### 执行用户代码，Libuv事件循环
-接着Node.js就会执行用户的JS，通常用的JS会给到事件循环生产任务，然后就进入了事件循环系统，比如我们listen一个服务的时候，就会在事件循环中新建一个TCP handle。Node.js就会在这个事件循环中一直运行
+<span style="color: blue">接着Node.js就会执行用户的JS，通常用的JS会给到事件循环生产任务，然后就进入了事件循环系统，比如我们listen一个服务的时候，就会在事件循环中新建一个TCP handle。Node.js就会在这个事件循环中一直运行</span>
 ```
 net.createServer(() => {}).listen(90)
 ```
 ![执行用户代码，Libuv事件循环](./images/645.jpg)
 
 ## 事件循环
-下面我们看一下事件循环的实现。事件循环主要分为7个阶段，timer阶段主要是处理定时器相关任务，pending阶段主要是处理Poll IO阶段回调里产生的回调，check、prepare、idle阶段是自定义阶段，这三个阶段的任务每次事件循环都会被执行，Poll IO阶段主要是处理网络IO、信号、线程池等任务，closing阶段主要是处理关闭的handle，比如关闭服务器
+下面我们看一下事件循环的实现。<span style="color: red">事件循环主要分为7个阶段，timer阶段主要是处理定时器相关任务，pending阶段主要是处理Poll IO阶段回调里产生的回调，check、prepare、idle阶段是自定义阶段，这三个阶段的任务每次事件循环都会被执行，Poll IO阶段主要是处理网络IO、信号、线程池等任务，closing阶段主要是处理关闭的handle，比如关闭服务器</span>
 
 ![事件循环](./images/646.jpg)
 
-1. timer阶段：用二叉堆实现，最快过期的在根节点。
-2. pending阶段：处理Poll IO阶段会回调里产生的回调
-3. check、prepare、idle阶段：每次事件循环都会被执行
-4. Poll IO阶段：处理文件描述符相关事件
-5. closing阶段：执行调用uv_close函数时传入的回到，下面我们详细看一下每个阶段的实现
+1. <span style="color: blue">timer阶段：用二叉堆实现，最快过期的在根节点。</span>
+2. <span style="color: blue">pending阶段：处理Poll IO阶段会回调里产生的回调</span>
+3. <span style="color: blue">check、prepare、idle阶段：每次事件循环都会被执行</span>
+4. <span style="color: blue">Poll IO阶段：处理文件描述符相关事件</span>
+5. <span style="color: blue">closing阶段：执行调用uv_close函数时传入的回到，下面我们详细看一下每个阶段的实现</span>
 
 ### 定时器阶段
-定时器的底层数据是二叉堆，最快到期的节点在最上面。在定时器阶段的时候,就会逐个节点遍历，如果节点超时了，那么就执行他的回调，没有没有超时，那么后面的节点也不用判断了，因为当前节点是最快过期的，如果他都没有过期，说明其他节点也没有过期。节点的回调呗执行后，就会被删除，为了支持setInterval的场景，如果设置repeat标记，那么这个节点会被重新插到二叉堆
+**定时器的底层数据是二叉堆，最快到期的节点在最上面。在定时器阶段的时候,就会逐个节点遍历，如果节点超时了，那么就执行他的回调，没有没有超时，那么后面的节点也不用判断了，因为当前节点是最快过期的，如果他都没有过期，说明其他节点也没有过期。节点的回调被执行后，就会被删除，为了支持setInterval的场景，如果设置repeat标记，那么这个节点会被重新插到二叉堆**
 
 ![定时器阶段](./images/647.jpg)
 
@@ -93,10 +93,10 @@ net.createServer(() => {}).listen(90)
 
 ![定时器阶段-定时器模块](./images/648.jpg)
 
-1. Node.js在JS层维护了一个二叉堆
-2. 堆的每个节点维护了一个链表，链表中，最久超时的排在后面
-3. 另外Node.js还维护了一个map,map的key是相对超时时间，值就是对应的二叉堆节点。
-4. 堆的所有节点对应底层的一个超时节点
+1. <span style="color: blue">Node.js在JS层维护了一个二叉堆</span>
+2. <span style="color: blue">堆的每个节点维护了一个链表，链表中，最久超时的排在后面</span>
+3. <span style="color: blue">另外Node.js还维护了一个map,map的key是相对超时时间，值就是对应的二叉堆节点。</span>
+4. <span style="color: blue">堆的所有节点对应底层的一个超时节点</span>
 
 当我们调用setTimeout的时候，首先会根据setTimeout的入参，从map中找到二叉堆节点，然后插入链表的尾部，必要的时候,Node.js会根据js二叉堆的最快超时时间来更新底层节点的超时时间。当事件循环处理定时器阶段的时候，Node.js会遍历JS二叉堆，然后拿到过期的节点，在遍历过期节点中的链表，逐个判断是否需要执行回调，必要的时候调用二叉堆和底层的超时事件
 
@@ -129,20 +129,20 @@ Poll IO阶段是最重要和复杂的一个阶段，下面我们看一下实现�
 
 ## 进程和进程间通信
 ### 创建进程
-Node.js中的进程是使用fork+exec模式创建的，fork就是复制主进程的数据，exec是加载新的程序执行。
+<span style="color: blue">Node.js中的进程是使用fork+exec模式创建的，fork就是复制主进程的数据，exec是加载新的程序执行。</span>
 
-Node.js提供了异步和同步创建进程两种模式
+<span style="color: blue">Node.js提供了异步和同步创建进程两种模式</span>
 
-1. 异步方式就是创建一个子进程后，主进程和子进程独立执行，互不干扰。在主进程的数据结构中如图所示，主进程会记录子进程的信息，子进程退出的时候会用到
+1. <span style="color:red">异步方式就是创建一个子进程后，主进程和子进程独立执行，互不干扰。在主进程的数据结构中如图所示，主进程会记录子进程的信息，子进程退出的时候会用到</span>
     ![异步方式](./images/653.jpg)
 
 2. 同步方式
     ![同步方式](./images/654.jpg)
 
     同步创建子进程会导致主进程阻塞，具体的实现是
-    1. 主进程中会新建一个新的事件循环结构体，然后基于这个新的事件循环创建一个子进程
-    2. 然后主进程就在新的事件循环中之心，旧的事件循环被阻塞了
-    3. 子进程结束的时候，新的事件循环也就结束了，从而回到旧的事件循环。
+    1. <span style="color:red">主进程中会新建一个新的事件循环结构体，然后基于这个新的事件循环创建一个子进程</span>
+    2. <span style="color:red">然后主进程就在新的事件循环中之心，旧的事件循环被阻塞了</span>
+    3. <span style="color:red">子进程结束的时候，新的事件循环也就结束了，从而回到旧的事件循环。</span>
 
 ### 进程间通信
 接下来我们看一下父子进程间怎么通信呢？**在操作系统中，进程间的虚拟地址是独立的，所以没有办法于进程内存直接通信，这时候就需要借助内核提供的内存。进程间的通信方式有很多种，管道、信号、共享内存等**
@@ -209,14 +209,14 @@ Node.js中多线程的架构如下图所示，每个子线程本质上是独立�
 
 ## Cluster
 
-我们知道Node.js是单进程架构的，不能很好地利用多核，Cluster模块使得Node.js支持多进程的服务器架构。Node.js支持轮训(主进程accept)和共享(子进程accept)两种模式，可以通过环境变量进行设置。多进程的服务器架构通常有两种模式，第一种是主进程处理连接，然后分发给子进程处理，第二种是进程共享socket，通过竞争的方式获取连接进行处理
+我们知道Node.js是单进程架构的，不能很好地利用多核，Cluster模块使得Node.js支持多进程的服务器架构。<span style="color:blue">Node.js支持轮训(主进程accept)和共享(子进程accept)两种模式，可以通过环境变量进行设置。多进程的服务器架构通常有两种模式，**第一种是主进程处理连接，然后分发给子进程处理，第二种是进程共享socket，通过竞争的方式获取连接进行处理**</span>
 
 ![多进程](./images/663.jpg)
 
 ![子进程共享](./images/664.jpg)
 
-我们看一下Cluster模块是图和使用的
-```
+我们看一下 Cluster 模块是如何使用的。
+```javascript
 const cluter = require('cluster');
 const http = require('http');
 const numCPUs = require('os').cpus().length;

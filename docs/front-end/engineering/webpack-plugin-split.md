@@ -4,11 +4,11 @@ title: Plugin扩展插件-splitChunks
 ---
 ## splitChunks插件配置选项
 - chunks选项，决定要提取那些模块。
-    - 默认是async-只提取异步加载的模块出来打包到一个文件中
-        - 异步加载的模块：通过import('xxxx')或者require(['xxxx'], () => {})加载模块
-    - initial:提取同步加载和异步加载模块，如果xxx在项目中异步加载了，也同步加载了，那么xxx这个模块会被提取两次，分别打包到不同的文件中。
+    - <span style="color: blue">默认是async-只提取异步加载的模块出来打包到一个文件中</span>
+        - <span style="color: blue">异步加载的模块：通过import('xxxx')或者require(['xxxx'], () => {})加载模块</span>
+    - <span style="color: blue">initial:提取同步加载和异步加载模块，如果xxx在项目中异步加载了，也同步加载了，那么xxx这个模块会被提取两次，分别打包到不同的文件中。</span>
         - 同步加载的模块：通过import xxx或者require('xxx')加载的模块
-    - all:不管异步加载还是同步加载的模块都提取出来，分别打包到一个文件中
+    - <span style="color: blue">all:不管异步加载还是同步加载的模块都提取出来，分别打包到一个文件中</span>
 - minSize选项：规定被提取的模块在压缩前的大小最小值，单位为字节，默认为30000，只有超过了30000字节才会被提取
 - maxSize选项：把提取出来的模块打包生成的文件大小不能超过maxSize，如果超过了，要对齐进行分割并打包生产新的文件。单位为字节，默认为0，表示不限制大小
 - minChunks选项: 表示要被提取的模块最小被引用次数，引用次数超过或者等于minChunks值，才能被提取

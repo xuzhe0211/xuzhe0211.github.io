@@ -14,21 +14,21 @@ title: 箭头函数
 
 1. 返回对象
 
-```
+```js
 const foo = () => ({bar: 'baz'});
 ```
 由于大括号会被解释为代码块，所以利用箭头函数直接返回一个对象时，需要小括号包裹
 
 2. 禁止构造函数
 
-```
+```js
 const Foo = () => {};
 const foo = new Foo(); // TypeError:Foo is not a constructor
 ```
 
 3. 对象方法
 
-```
+```js
 const foo = {
     bar: 'baz',
     baz: () => this.bar = 'foo'
@@ -41,7 +41,7 @@ const foo = {
 
 1. 闭包
 
-```
+```js
 const add = (i = 0) => {return () => ++i};
 const increase = add();
 increase(); // 1

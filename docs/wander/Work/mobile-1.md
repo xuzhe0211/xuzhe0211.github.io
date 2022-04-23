@@ -5,7 +5,7 @@ title: 用户多次点击页面出动滑动页面的问题
 
 ### 用户多次点击页面出动滑动页面的问题 
 
-```
+```js
 let iLastTouch = null;
 /* 阻止用户双击使屏幕上滑 */
 document.body.addEventListener('touchend', (event) => {

@@ -179,7 +179,7 @@ ws.has(window); //false
 - 共同点:集合、字典可以储存不重复的值
 - 不同点:集合是以[value, value]的形式储存元素，字典是以[key, value]的形式存储
 
-```
+```javascript
 const m = new Map();
 const o = {p: 'haha'};
 m.set(o, 'content');
@@ -190,7 +190,7 @@ m.delete(o);//true
 m.has(o); //false
 ```
 任何具有Iterator接口、且每个成员都是一个双元素的数组的数据结构都可以作为Map构造函数的参数，例如：
-```
+```javascript
 const set = new Set([
 	['foo', 1],
     ['bar', 2]
@@ -205,18 +205,18 @@ m3.get('baz');//3
 new Map().get('fdasfasg')
 ```
 **注意，只有对同一个对象的引用，Map结构才将其视为同一个键，这一点非常小心**
-```
+```javascript
 const map = new Map();
 map.set(['a'], 555);
 map.get(['a']);//undefined
 ```
-上面代码的set和get方法，表面上是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此get方法无法读取该键，返回undefined
+<span style="color:red">上面代码的set和get方法，表面上是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此get方法无法读取该键，返回undefined</span>
 
-Map的键实际上是跟内存地址绑定，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞(clash)的问题，我们扩展别人库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名
+<span style="color: blue">Map的键实际上是跟内存地址绑定，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞(clash)的问题，我们扩展别人库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名</span>
 
-如果Map的键是一个简单类型的值(数字、字符串、布尔值)，则只要两个值严格相等，Map将其视为一个建，比如0和-0就是一个键，布尔值true和字符串true则是两个不同的键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但是Map将其视为同一键
+<span style="color: blue">如果Map的键是一个简单类型的值(数字、字符串、布尔值)，则只要两个值严格相等，Map将其视为一个建，比如0和-0就是一个键，布尔值true和字符串true则是两个不同的键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但是Map将其视为同一键</span>
 
-```
+```javascript
 let map = new Map();
 map.set(-0, 123);
 map.get(+0);//123

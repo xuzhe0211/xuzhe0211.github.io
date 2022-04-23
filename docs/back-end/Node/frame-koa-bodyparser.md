@@ -2,6 +2,15 @@
 autoGroup-2: 框架
 title: 玩转Koa-koa-bodyparser原理解析
 ---
+## 描述
+koa处理post请求的时，需要对body传递过来的数据进行处理
+
+实际上如果要手动实现一个能够处理application/x-www-urlencoded的中间件，还得借助原生node.js进行处理，
+
+koa封装了原生node.js的request对象到ctx.req中
+
+而借助原生node.js的request对象，监听data事件以及end事件，进行处理
+
 > koa-bodyparser post请求body解析的中间件；bodyparser可以解析普通的表单（application/x-www-form-urlencoded），没办法解析文件（Content-Type:multipart/form-data）
 
 ## 前置知识

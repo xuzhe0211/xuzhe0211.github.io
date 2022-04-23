@@ -87,7 +87,7 @@ data之所以只是一个函数，是因为一个组件可能会多处调用，�
   ```
 
 ### v-if和v-show有何区别
-- v-if是通过控制dom元素的删除和生成来实现显隐，每一次显隐都会使组件重新跑一遍生命周期，因为显隐决定了组件的生成和销毁
+- v-if是通过控制dom元素的删除和生成来实现显隐，<span style="color: red">每一次显隐都会使组件重新跑一遍生命周期，因为显隐决定了组件的生成和销毁</span>
 - v-show是通过控制dom元素的css样式来实现显隐，不会销毁
 - 频繁或大量数据显隐使用v-show，否则使用v-if
 
@@ -493,10 +493,10 @@ computed: {
 }
 ```
 ### vue的hook的使用
-- 同一个组件中使用
+- <span style="color: red">同一个组件中使用</span>
 
   这是我们常用的定时器方式
-  ```
+  ```js
   export default {
     data() {
       timer: null;
@@ -514,7 +514,7 @@ computed: {
   }
   ```
   上面做法不好的地方在于：得全局使用一个timer变量，可以使用hook这么做
-  ```
+  ```js
   export default {
     methods: {
       fun() {
@@ -531,10 +531,10 @@ computed: {
   }
   ```
 
-- 父子组件使用
+- <span style="color: red">父子组件使用</span>
 
   如果子组件需要在mounted时触发父组件的某一个函数，平时都会怎么写
-  ```
+  ```js
   //父组件
   <rl-child @childMounted="childMountedHandle"
   />
@@ -550,7 +550,7 @@ computed: {
   },
   ```
   使用hook的话更方便
-  ```
+  ```js
   //父组件
   <rl-child @hook:mounted="childMountedHandle"
   />
@@ -562,7 +562,7 @@ computed: {
   ```
 
 ### provide和inject是响应式的吗？
-```
+```js
 // 祖先组件
 provide() {
   return {
@@ -604,7 +604,7 @@ new Vue({
 ![el、$mount优先级](./images/5.jpg)
 
 ### 动态指令和参数有使用过吗？
-```
+```js
 <template>
     ...
     <aButton @[someEvent]="handleSomeEvent()" :[someProps]="1000" />...

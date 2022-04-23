@@ -9,12 +9,12 @@ title: JS事件绑定和DOM事件流(冒泡和捕获)
 ### 0级把函数赋值给DOM元素的[事件处理程序属性](https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalEventHandlers)
 
 也叫DOM 0级事件处理程序,分为两个
-- 标签内写onclick事件
-- 在JS写onclick = funciton() {} 函数
+- <span style="color: blue">标签内写onclick事件</span>
+- <span style="color: blue">在JS写onclick = funciton() {} 函数</span>
 
-一个DOM元素对象拥有很多事件处理程序属性(onclick是这些属性之一，其他还有很多比如onchange、onfocus...)
+<span style="color: blue">一个DOM元素对象拥有很多事件处理程序属性(onclick是这些属性之一，其他还有很多比如onchange、onfocus...)</span>
 
-```
+```js
 // 1 HTML元素行间事件
 <input id="myButton" type="button" value="Press Me" onclick="alert('thanks');" >
 
@@ -49,7 +49,7 @@ DOM级别1于1998年10月1日成为W3C推荐标准，1级DOM标准中并没有�
 
 也叫DOM 2级事件处理程序
 
-```
+```js
 function btnClick1() {
   console.log('我是oBtn绑定的监听事件一')
 }
@@ -66,9 +66,9 @@ addEventLienter可以给童年一个事件注册多个事件处理程序
 
 【DOM2级事件】规定，事件流包含3个阶段，捕获阶段，目标阶段，冒泡阶段.
 
-- 捕获阶段: 事件对象从目标的祖先(window)一路传播到目标的父级元素
-- 目标阶段：事件对象到达[事件目标](https://www.w3.org/TR/DOM-Level-3-Events/#event-target).如果该[事件类型](https://www.w3.org/TR/DOM-Level-3-Events/#event-type)不会冒泡，则事件对象将会在次阶段完成停止.(不会冒泡的事件类型:scroll、blur、focus、mouseleave 、mouseenter 以及Media事件(onpause、onplay等)))
-- 冒泡阶段: 以和捕获阶段相反的顺序，从事件目标的父元素开始传播到window结束
+- <span style="color: blue">**捕获阶段**: 事件对象从目标的祖先(window)一路传播到目标的父级元素</span>
+- <span style="color: blue">**目标阶段**：事件对象到达[事件目标](https://www.w3.org/TR/DOM-Level-3-Events/#event-target).如果该[事件类型](https://www.w3.org/TR/DOM-Level-3-Events/#event-type)不会冒泡，则事件对象将会在次阶段完成停止.(不会冒泡的事件类型:scroll、blur、focus、mouseleave 、mouseenter 以及Media事件(onpause、onplay等)))</span>
+- <span style="color: blue">**冒泡阶段**: 以和捕获阶段相反的顺序，从事件目标的父元素开始传播到window结束</span>
 
 ![事件绑定](./images/16910815-69b3b43e7579b374.jpg)
 
@@ -76,7 +76,7 @@ addEventLienter可以给童年一个事件注册多个事件处理程序
 对于事件目标上的事件监听器来说，事件会处于目标阶段。这时会触发该元素(即事件目标)上所有监听器，而不在乎这个监听器注册时的useCapture参数是true还是false
 :::
 
-[addEventListennter](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener)方法可以控制listener的触发阶段(捕获、冒泡)。**而其他事件绑定方式均没有捕获阶段**。虽然一般都是将处理程序添加到事件的冒泡阶段(只要不阻止冒泡，且事件类型会冒泡，默认都是在此阶段)，说明冒泡的兼容性好。但是需要灵活控制嵌套元素同一事件的触发顺序这种特殊情况，只有addEventListener()能事件
+<span style="color: blue">[addEventListennter](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener)方法可以控制listener的触发阶段(捕获、冒泡)。**而其他事件绑定方式均没有捕获阶段**</span>。虽然一般都是将处理程序添加到事件的冒泡阶段(只要不阻止冒泡，且事件类型会冒泡，默认都是在此阶段)，说明冒泡的兼容性好。但是需要灵活控制嵌套元素同一事件的触发顺序这种特殊情况，只有addEventListener()能事件
 
 语法：target.addEventListener(type, listener, [useCapture])
 
@@ -86,7 +86,7 @@ addEventLienter可以给童年一个事件注册多个事件处理程序
 
 **useCapture:**指在事件冒泡阶段/捕获阶段触发该监听器，以处理事件处理程序。默认是false，即冒泡阶段
 
-```
+```js
 <button id="btnId">我是目标oBtn，点击我</button>
 
 var oBtn = document.querySelector('#btnId')
@@ -126,7 +126,7 @@ document.addEventListener('click', function () {
 
 function stopBubble(event){ event.stopPropagation() }
 
-```
+```js
 var oBtn = document.querySelector('#btnId')
 var oDiv = document.querySelector('div')
 var oBody = document.querySelector('body')
@@ -167,7 +167,7 @@ onclick绑定事件(Dom 0级事件处理程序)先于监听器事件(DOM 2级事
 ## 阻止默认事件
 function stopDefault(event) { event.preventDefault() }
 
-```
+```js
 <a id="aId" href="">我是a标签，即使href为空点击我默认还是会跳转</a>
 
 document.querySelector('#aId').addEventListener('click', function (e) {

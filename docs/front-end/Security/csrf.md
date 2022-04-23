@@ -72,9 +72,10 @@ CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生�
 那么问题来了，我们如何判断请求是否来自外域呢？
 
 在HTTP协议中，每一个异步请求都会携带两个Header，用于标记来源域名：
-- Origin Header
-- Referer Header
-这两个Header在浏览器发起请求时，大多数情况会自动带上，并且不能由前端自定义内容。 服务器可以通过解析这两个Header中的域名，确定请求的来源域。
+- <span style="color: blue">Origin Header</span>
+- <span style="color: blue">Referer Header</span>
+
+<span style="color: blue">这两个Header在浏览器发起请求时，大多数情况会自动带上，并且不能由前端自定义内容。 服务器可以通过解析这两个Header中的域名，确定请求的来源域。</span>
 
 1. 使用Origin Header确定来源域名
 
@@ -86,10 +87,15 @@ CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生�
 
   - IE11同源策源
   - 302重定向：在302重定向之后Origin不包含在重定向的请求中，因为Origin可能会被认为是其他来源的敏感信息。对于302重定向的情况来说都是定向到新的服务器上的URL，因此浏览器不想将Origin泄漏到新的服务器上。
+  - <span style="color: red">origin显示来源页面的origin:protocal+host，不包含路径等信息，也就不会包含用户的敏感内容</span>
+  - <span style="color: red">origin只存在于post请求</span>
 
 2. 使用Referer Header确定来源域名
 
-  根据HTTP协议，在HTTP头中有一个字段叫Referer，记录了该HTTP请求的来源地址。对于Ajax请求，图片和script等资源请求，Referer为发起请求的页面地址。对于页面跳转，Referer为打开页面历史记录。因此我们使用Referer中链接的Origin部分可以的值请求的来源域名
+  - <span style="color: red">referer存在于所有请求</span>
+  - <span style="color: red">referer显示页面的完整地址</span>
+
+  根据HTTP协议，在HTTP头中有一个字段叫Referer，记录了该HTTP请求的来源地址。<span style="color: red">对于Ajax请求，图片和script等资源请求，Referer为发起请求的页面地址。对于页面跳转，Referer为打开页面历史记录。因此我们使用Referer中链接的Origin部分可以的值请求的来源域名</span>
 
   这种方法并非万无一失，Referer的值是由浏览器提供的，虽然HTTP协议上有明确的要求，但是每个浏览器对于Referer的具体实现可能有差别，并不能保证浏览器自身没有安全漏洞。使用验证 Referer 值的方法，就是把安全性都依赖于第三方（即浏览器）来保障，从理论上来讲，这样并不是很安全。在部分情况下，攻击者可以隐藏，甚至修改自己请求的Referer。
 

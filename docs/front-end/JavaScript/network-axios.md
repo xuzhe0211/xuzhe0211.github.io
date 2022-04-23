@@ -147,7 +147,7 @@ Access-Control-Allow-Methods 表示能接受的http mothed ，反正就那几种
 
 ## 跨域相关
 
-<img :src="$withBase('/images/16103039-e0607376729c4421bb36540269c4c219.png')" alt="跨域图片">
+![跨域图片](./images/16103039-e0607376729c4421bb36540269c4c219.png)
 
 JavaScript出于安全方面考虑，不允许跨域调用其他页面的对象。但在安全限制的同时也给注入iframe或ajax应用上带来了不少麻烦。
 

@@ -28,10 +28,10 @@ hook出现是划时代的，通过function抽离的方式，实现了复杂逻�
 
 ## React Hooks
 React Hooks允许你"钩入"诸如组件状态和副作用处理等React功能中。Hooks只能在函数组件中使用，并在不需要创建类的情况下将状态、副作用处理和更多东西带入组件中
-```
+```javascript
 import react, { useState, useEffect } from 'react';
 
-class NoteForm = ({ onNoteSent }) => {
+const NoteForm = ({ onNoteSent }) => {
     const [currentNote, setCurrentNote] = useState('');
 
     useEffect(() => {
@@ -68,7 +68,7 @@ useState和useEffect是React Hooks中的一些例子，使得函数组件中也�
 
 ## Vue Composition Api
 Vue Composition Api围绕一个新的组件选项setup而创建。setup()为Vue组件提供了状态、计算值、watcher和生命周期钩子
-```
+```javascript
 <template>
     <form @submit="handleSubmit">
         <label>
@@ -127,6 +127,11 @@ react数据变动的时候，回到重新render，重新render又会把hooks重�
 
 当然react对这些都有自己的解决方案，比如[useCallback](https://zh-hans.reactjs.org/docs/hooks-reference.html#usecallback) [usememo](https://zh-hans.reactjs.org/docs/hooks-reference.html#usememo)等
 
+<span style="color:red">useCallback 缓存钩子函数，useMemo 缓存返回值（计算结果）。</span>
+
+[useCallback vs usememo](https://segmentfault.com/a/1190000039657107)
+
+[useCallback vs usememo](https://segmentfault.com/a/1190000039405417)
 ## 代码的执行
 
 > Vue中，钩子就是一个生命周期的方法
@@ -135,7 +140,7 @@ Vue Composition API 的 setup() 晚于 beforeCreate 钩子（在 Vue 中，“�
 > React Hooks在组件每次渲染时都会运行，而Vue setup()只在组件创建时运行一次
 
 React靠Hook的调用顺序来获悉state和useState的对应关系。只要调用顺序在多次渲染之间保持一致，React就能正确的将内部state和对应Hook进行关联。因此Hook时必须遵守一些规则：**只在最顶层使用Hook，不要在循环内部、条件语句中或嵌套函数中调用Hooks**
-```
+```javascript
 // React文档中示例代码
 import React, { useState, useEffect } from 'react';
 
@@ -160,7 +165,7 @@ function Form() {
 }
 ```
 在第一次渲染中name!== ''这个条件值为true,所以我们会执行这个Hooks。。但是下一次渲染时我们可能清空了表单，表达式值变为 false。此时的渲染会跳过该 Hook，Hook 的调用顺序发生了改变：
-```
+```javascript
 // ------------
 // 首次渲染
 // ------------
@@ -180,7 +185,7 @@ useEffect(updateTitle)     // 🔴 3 （之前为 4）。替换更新标题的 e
 React不知道第二个useState的Hook应该返回什么。React会以为该组件中第二个Hook的调用像上次的渲染一样,对应的是persistForm的effect，但并非如此。从这里开始，后面的Hook调用都被提前执行了，导致bug产生
 
 要实现在name为空时也运行对应的副作用，可以简单的将条件判断语句移入useEffect回调函数内
-```
+```javascript
 useEffect(function persisForm() {
     // 👍 将条件判断放置在 effect 中
     if (name !== '') {
@@ -189,7 +194,7 @@ useEffect(function persisForm() {
 })
 ```
 对于以上实现，Vue大概是这样
-```
+```javascript
 import { ref, watchEffect } from 'vue';
 
 export default {
@@ -216,7 +221,7 @@ watchEffect可以在响应式的跟踪其依赖项时立即运行一个函数，
 Vue的setup只会运行一次，是可以将Composition API中不同的函数(reactive、 ref、computed、watch、生命周期钩子等)作为循环或者条件的一部分
 
 但是if语句同样只运行一次，所以它在name改变时也同样无法做出反应，除非我们将其包含在watchEffect回调内部
-```
+```javascript
 watchEffect(function persistForm() => {
   if(name.value !== '') {
     localStorage.setItem('formData', name.value);
@@ -231,13 +236,13 @@ useState是React Hooks声明状态的主要途径
 - 如果初始值的计算代价比较昂贵，也可以将其表达为一个函数，这样就只会在除此渲染时才会被执行
 
 useState()返回一个数组，第一项是state，第二项是一个setter函数
-```
+```javascript
 const [name, setName] = useState('mary');
 const [age, setAge] = useState('25');
 console.log(`${name} is ${age} years old.`)
 ```
 useReducer是个有用的替代选择，其常见形式是接收一个Redux样式的reducer函数和一个初始状态
-```
+```javascript
 const initialState = {count: 0};
 
 function reducer(state, action) {
@@ -258,7 +263,7 @@ dispatch({type: 'increment'}); //  state就会变成{count: 1}
 Vue则由于其天然的反应式特性，有着不同的做法。使用两个主要函数来声明状态ref和reactive
 
 ref()返回一个反应式对象，其内布置可以通过其value属性被访问到。可以将其用于基本类型，也可以用于对象，在后者的情况下是深层反应式的
-```
+```javascript
 const name = ref("Mary");
 const age = ref(25);
 watchEffect(() => {
@@ -266,7 +271,7 @@ watchEffect(() => {
 });
 ```
 reactive只将一个对象作为其输入并返回一个对其的反应式代理。注意起反应性也会应道到所有嵌套的属性
-```
+```javascript
 const state = reactive({
   name: "Mary",
   age: 25,
@@ -283,7 +288,7 @@ watchEffect(() => {
 - 像在正常的Javascript中声明基本类型的变量和对象那样去使用ref和reactive既可
 - 用到reactive的时，要记住从composition函数返回反应式对象时要使用toRefs().这样减少了过多使用ref时的开销
 :::
-```
+```javascript
 // toRefs() 将反应式对象转换为普通对象，该对象上的所有属性都自动转换为 ref。
 // 这对于从自定义组合式函数中返回对象时特别有用（这也允许了调用侧正常使用结构的情况下还能保持反应性）。
 

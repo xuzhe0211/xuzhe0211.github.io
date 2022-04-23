@@ -7,7 +7,7 @@ title: vue相关问题
 渐进式代表的含义是：主张最少。
 
 ## vue数据依赖问题
-```
+```js
 data() {
 	return{
     	arr:[],
@@ -34,7 +34,7 @@ handTabClick() {
 ## vue计算属性computed
 
 ### vue计算属性computed方法内传参
-```
+```js
 <van-circle
 	v-model="Ratedata[index].currentRate"
     color="#2462e8"
@@ -61,13 +61,13 @@ computed:{
 ### 为什么要使用computed
 
 在模板内的表达式非常普遍，但是，有时候，我们会在模板内放入太多逻辑的东西，会让模板变重且难于维护
-```
+```html
 <div id="example">
 	{{ message.split('').reverse().join('')}}
 </div>
 ```
 当初模板中使用表达式的初衷是为了简单运算的。所以从这点出发，我们是不是就不建议在末班中使用过于复杂的表达式了。此时，计算属性就出现了，计算属性就是当依赖的属性的值发生变化的时候后，才会触发他的更改，如果依赖的值，不发生变化的时候，使用的是缓存中的属性的值。
-```
+```js
 <div id="example">
 	<p>Original message: {{message}}</p>
 	<p>Computed reversed message: {{reverseMessage}}</p>
@@ -90,7 +90,7 @@ var vm = new Vue({
 ### computed的getter函数
 
 在vue中，computed的属性可以被视为是data一样，可以读取和设值。因此computed中可以分为getter和setter，一般情况下，是没有setter的，computed只是预设了getter,也就是只能读取，不可以改变设值。所以computed默认格式(是不表明getter函数)
-```
+```js
 <div>
 	message: {{message}}
 </div>
@@ -123,7 +123,7 @@ computed: {
 
 当赋值给计算属性的时候，将调用setter函数。多用于在模板组件中需要修改计算属性自身的值的时候
 
-```
+```js
 computed:{
 	updateMessage:function() {
     	get:function(){
@@ -142,14 +142,14 @@ mounted() {
 }
 ```
 只有当计算属性中的属性被直接赋值的时候，才会走setter函数，而且，setter函数和getter函数是相互独立的，不是说，走setter函数就必须走getter函数，上面打印结果
-```
+```js
 newVal: 222,
 计算属性：222
 ```
 
 ## provide/inject
 
-```
+```js
 provide: Object | () => Object
 
 inject: Array<string> | {[key: string | Symbol | Object]}
@@ -171,7 +171,7 @@ inject选项应该是：
 
 app.vue
 
-```
+```js
 <template>
 <div id="app">
 	<router-view v-if="isRouterAlive"/>
@@ -207,7 +207,7 @@ export default {
 }
 </script>
 ```
-``` bash
+``` js
 <template>
   <popup-assign
     :id="id"
@@ -243,7 +243,7 @@ methods: {
 这样就实现了子组件调取reload方法就实现了刷新vue组件的功能，个人认为它实现了组件跨越组件传递数据的方法。
 
 下面的一个栗子祖组件的数据，祖孙元素调取
-```
+```js
 <template>
     <div id="app">
     </div>
@@ -301,7 +301,7 @@ methods: {
 
 
 ## vuex遍历modules文件夹里文件
-```
+```js
 import Vue from 'vue';
 import Vuex from 'vuex';
 import getter from './getters';
@@ -347,7 +347,7 @@ export default store
  4. 主线程不断重复上面的三步
  
 三：实例
-```
+```js
 // 示例一
 vm.message = 'changed';
 console.log(vm.$el.textContent);
@@ -380,7 +380,7 @@ watch: {
 ![nextTick图](https://image-static.segmentfault.com/159/661/1596618069-5a5da8c8522c2_articlex)
 
 四.其他场景
-```
+```js
 showsou(){
   this.showit = true
   this.$nextTick(function () {
@@ -389,7 +389,7 @@ showsou(){
   })
 }
 ```
-```
+```js
 <div id="app">
     <p ref="myWidth" v-if="showMe">{{ message }}</p>
     <button @click="getMyWidth">获取p元素宽度</button>
@@ -414,7 +414,7 @@ getMyWidth() {
 
 简单的说，动态组件就是将几个组件放在一个挂在点下，这个挂载点就是标签，其需要绑定js属性，属性值为父组件中的变量，变量对应的值为要挂在的组件的组件名，然后根据父组件里某个变量来动态显示哪个，也可以都不显示
 
-```
+```js
 <template>
 <div class="home">
 	<component :is="currentComponent"></component>
@@ -444,7 +444,7 @@ export default {
 1. 包裹动态组件时，会缓存不活动的组件实例，而不是销毁他们。是一个抽象组件：它自身不会渲染一个DOM元素，也不会出现在父组件链中
 2. 可以将动态组件放到组件内对动态组件进行缓存，这样动态组件进行切换的时候，就不会每次重新创建组件了。
 
-```
+```js
 <template>
 <div class="home">
 	<keep-alive>
@@ -465,9 +465,9 @@ const Foo = () => import('./Foo.vue');
 
 #### 异步组件
 
-在大型应用中，我们可能需要将应用分割成小一些的代码块，并且只能在需要的时候才能从服务器加载一个模块。为了简化，Vue允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。Vue只有在这个组件需要被渲染对的时候才会触发该工厂函数，且会把结果缓存起来供未来重渲染。
+<span style="color: blue">在大型应用中，我们可能需要将应用分割成小一些的代码块，并且只能在需要的时候才能从服务器加载一个模块</span>。为了简化，Vue允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。Vue只有在这个组件需要被渲染对的时候才会触发该工厂函数，且会把结果缓存起来供未来重渲染。
 
-```
+```js
 Vue.component('async-example', function(resolve, reject) {
 	setTimeout(() => {
     	//向resolve回调传递组件定义
@@ -479,7 +479,7 @@ Vue.component('async-example', function(resolve, reject) {
 ```
 这个工厂函数会收到一个resolve回调，这个回调函数会在你从服务器得到组件定义的时候被调用。你也可以调用reject(reason)来表示加载失败。这里setTimeout是为了演示用的，如何获取组件取决于你自己。一个推荐的做法将一部组件和webpack的code-splitting功能一起配合使用：
 
-```
+```js
 Vue.component('async-webpack-example', function(resolve) {
 	//这个特殊的require语法将会告诉webpack
     //自动将你的构建代码切割成多个包，这些包会通过Ajax请求加载
@@ -487,7 +487,7 @@ Vue.component('async-webpack-example', function(resolve) {
 })
 ```
 你也可以在工厂函数中返回一个promise，所以webpack2和ES2015语法加在一起，写成这样
-```
+```js
 Vue.component(
 	'async-webpack-example',
     //这个import函数会返回一个Promise对象
@@ -495,7 +495,7 @@ Vue.component(
 )
 ```
 当使用局部注册的时候，你也可以直接提供一个返回Promise函数
-```
+```js
 new Vue({
 	compontents:()=>import('./my-async-component');
 })
@@ -517,11 +517,11 @@ vuex的缺点
 SPA(single page application)单一页面应用程序，只有一个完整的页面；它在加载页面时，不会加载整个页面，而是只更新某个指定的容器中的内容。单页面应用(SPA)的核心之一是:更新视图而不重新请求页面；vue-router在实现单页面前端路由时，提供了两种方式：Hash模式和History模式。
 
 1. hash模式
-```
+```js
 http://www.xxx.com/#/login
 ```
 这种#。后面hash值的变化，并不会导致浏览器向服务器发请求，浏览器不发请求，也就不会刷新页面。另外每次hash值的变化，还会触发hashchange这个事件。通过这个事件我们就可以知道hash值发生了哪些变化。然后我们便可以监听hashchange来实现更新页面部分内容的操作
-```
+```js
 function matchAndUpdate(){
 	//todo匹配hash做dom更新操作
 }
@@ -530,7 +530,7 @@ window.addEventListener('hashchange', matchAndUpdate);
 2. history模式
 
 14年后，因为HTML5标准发布。多了两个API，pushState和replaceState,通过这两个API可以改变url地址且不会发送请求。同时还有popstate事件。通过这些就能用另一种方式实现前端路由了，但原理都是跟hash实现相同(改变url，保证页面不刷新)；用了HTML5的实现，单页路由的url就不会多出一个#，变的更加美观。但因为没有#号，所以当用户刷新页面之类的操作时，浏览器还是会给服务器发送请求。为了避免出现这种情况，所以这个实现需要服务器的支持，需要把所有路由都重定向到根页面。
-```
+```js
 function matchAndUpdate(){
 	//todo匹配路径做DOM操作
 }
@@ -541,7 +541,7 @@ window.addEventListener('popstate', matchAndUpdate);
 1. 动态路由的匹配
 
   我们经常需要把某种模式匹配到的所有路由，全部映射到同个组件。例如，我们有一个user组件，对应所有ID各不相同的用户，都要使用这个组件来渲染。那么可以在vue-router的路由路径中使用"动态路径参数"来达到这个效果
-  ```
+  ```js
   const User = {
       template:'<div>User</div>'
   }
@@ -555,7 +555,7 @@ window.addEventListener('popstate', matchAndUpdate);
   现在，像/user/foo和/user/bar都将映射到相同的路由。
 
   一个"路径参数"使用冒号:标记。当匹配到一个路由时，参数值会被设置到this.$route.params,可以在每个组件内使用。于是，我们可以更新User的模板，输出当前用户的ID:
-  ```
+  ```js
   const User = {
       template: '<div>User {{$route.params.id}}</div>'
   }
@@ -567,8 +567,8 @@ window.addEventListener('popstate', matchAndUpdate);
   /user/:username | /user/evan | {username: 'evan'}
   /user/:username/post/:post_id | /user/evan/post/123 | {username: 'evan', post_id: '123'}
 
-  **当使用路由参数时，例如从/user/foo导航到/user/bar,原来的组件实例会被复用。因为两个路由都渲染同一个组件，比起销毁在创建，复用则显得更加高效。不过，这也意味着组件的生命周期钩子不会再被调用。复用组件时，相对路由参数的变化做出相应的话，你可以简单的watch(监听变化)$route对象**
-  ```
+  <span style="color: red">**当使用路由参数时，例如从/user/foo导航到/user/bar,原来的组件实例会被复用。因为两个路由都渲染同一个组件，比起销毁在创建，复用则显得更加高效。不过，这也意味着组件的生命周期钩子不会再被调用。复用组件时，相对路由参数的变化做出相应的话，你可以简单的watch(监听变化)$route对象**</span>[参考](/source-vue/base-router-view.html)
+  ```js
   const User = {
       template: '...',
       watch: {
@@ -578,8 +578,8 @@ window.addEventListener('popstate', matchAndUpdate);
       }
   }
   ```
-  **或者使用2.2中引入的beforeRouteUpdate守卫**
-  ```
+  <span style="color: red">**或者使用2.2中引入的beforeRouteUpdate守卫**</span>
+  ```js
   const User = {
       template: '...',
       beforeRouteUpdate(to, from, next) {
@@ -593,7 +593,7 @@ window.addEventListener('popstate', matchAndUpdate);
 
   借助vue-router,使用嵌套路由配置，就可以很简单的表达这种关系
 
-  ```
+  ```js
   <div id="app">
       <router-view></router-view>
   </div>
@@ -607,7 +607,7 @@ window.addEventListener('popstate', matchAndUpdate);
   })
   ```
   这里router-view是最顶层的出口，渲染最高级路由匹配到的组件。同样的，一个被渲染组件同样可以包含自己的嵌套router-view.例如，在User组件的模板添加一个router-view
-```
+```js
   const User = {
       template: `
           <div class="user">
@@ -618,7 +618,7 @@ window.addEventListener('popstate', matchAndUpdate);
   }
   ```
   要在嵌套的出口中渲染组件，需要在VueRouter的参数中使用children配置
-  ```
+  ```js
   const router = new VueRouter({
       routes: [
           {
@@ -651,8 +651,8 @@ window.addEventListener('popstate', matchAndUpdate);
   --- | ---
   <router-link :to="..." | router.push(...)
 
-  ```
-  参数可以是一个字符串路径，或者一个描述地址的对象
+  ```js
+  // 参数可以是一个字符串路径，或者一个描述地址的对象
 
   //字符串
   router.push('home');
@@ -687,8 +687,8 @@ window.addEventListener('popstate', matchAndUpdate);
 
 4. 命名视图
 
-  有时候想同时(同级)展示多个视图，而不是嵌套展示，例如创建一个布局，有sidebar(侧导航)和main(主内容)两个视图,这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果router-view没有设置名字，那么默认为default
-  ```
+  <span style="color: blue">有时候想同时(同级)展示多个视图，而不是嵌套展示，例如创建一个布局，有sidebar(侧导航)和main(主内容)两个视图,这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果router-view没有设置名字，那么默认为default</span>
+  ```js
   //name对应的是组件名字
   <router-view class="view one"></router-view>
   <router-view class="view two" class="a"></router-view>
@@ -713,7 +713,7 @@ window.addEventListener('popstate', matchAndUpdate);
 
   UserSetting组件的template部分应该是类似下面的这段代码
 
-  ```
+  ```js
   <!-- UserSettings.vue -->
   <div>
       <h1>User Settings</h1>
@@ -743,7 +743,7 @@ window.addEventListener('popstate', matchAndUpdate);
 5. 重定向与别名
 
   重定向也是通过routes配置来完成，下面例子是从/a重定向到/b：
-  ```
+  ```js
   const router = new VueRouter({
       routes: [
           {path:'/a', redirect:'/b'}
@@ -751,7 +751,7 @@ window.addEventListener('popstate', matchAndUpdate);
   })
   ```
   重定向的目标也可以是一个命名的路由
-  ```
+  ```js
   const router = new VueRouter({
       routes:[
           {path:'/a', redirect: { name: 'foo'}}
@@ -759,7 +759,7 @@ window.addEventListener('popstate', matchAndUpdate);
   })
   ```
   甚至是一个方法，动态返回重定向目标
-  ```
+  ```js
   const router = new VueRouter({
       routes: [
           {
@@ -773,7 +773,7 @@ window.addEventListener('popstate', matchAndUpdate);
   })
   ```
   **别名**:/a的别名是/b,意味着，当用户访问/b时，URL会保持为/b，但是路由匹配则为/a,就像用户访问/a一样
-  ```
+  ```js
   const router = new VueRouter({
       routes: [
           {path: '/a', component:A, alias:'/b'}
@@ -787,7 +787,7 @@ window.addEventListener('popstate', matchAndUpdate);
 
   6. 导航守卫
 
-全局路由钩子-单独路由独享钩子-组件内的路由钩子
+**<span style="color: orange">全局路由钩子-单独路由独享钩子-组件内的路由钩子</span>**
 
 当做Vue-cli项目的时候感觉在路由跳转前做一些验证,比如登录验证，是网站中的普遍需求；对此，vue-router提供的beforeEach可以方便的实现全局导航守卫
 
@@ -801,7 +801,7 @@ router.beforeEach((to, form, next) => {
 })
 ```
 当一个导航触发时，全局前置守卫按照顺序调用。守卫是异步解析执行，此时导航在所有守卫resolve完之前一直处于等待中。
-
+:::tip
 每个守卫方法接收三个参数：
 
 - to:Route:即将要进入的目标 路由对象
@@ -811,11 +811,11 @@ router.beforeEach((to, form, next) => {
  - next(false):中断当前的导航。如果浏览器的URL改变了(可能是用户手动或者浏览器后退按钮)，那么URL地址会重置到from路由对应的地址。
  - next('/')或者next({path: '/'}):跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。你可以向next传递任意位置对象，且允许设置诸如replace:true、name:'home'之类的选项以及任何用在router-link的to prop或router.push中的选项。
  - next(error):(2.4.0+)如果传入next的参数是一个Error实例，则导航会被终止切该错误会被传递给router.onError注册过的回调
- 
+:::
 **确保要调用next方法，否则钩子就不会被resolved；
 
 举个栗子
-```
+```js
 const router = new VueRouter({ ... }) //这是路由配置，我就不多说了
 
 const whiteList = ['/error', '/register/regindex', '/register/userauthent',  '/register/submit'] // 路由白名单
@@ -873,7 +873,7 @@ export default router
 **如果白名单太多或项目更大时，我们需要把白名单换为vue-router路由元信息**
 
 直接在路由配置的时候，给每个路由添加一个自定义的meta对象，在meta对象中可以设置一些状态，来进行一些操作。用它来做登录校验在合适不过了
-```
+```js
 {
 	path:'/actile',
     name: 'Actile',
@@ -897,7 +897,7 @@ export default router
 }
 ```
 这里我们只需要判断item下面的meta对象中的login_require是不是true,就可以做一些限制
-```
+```js
 router.beforeEach((to, from, next) => {
 	if(to.matched.some((item) => {
     	return item.meta.login_require
@@ -923,7 +923,7 @@ router.beforeEach((to, from, next) => {
 ```
 **路由独享的守卫**
 
-```
+```js
 const router = new VueRouter({
 	routes: [
     	{
@@ -943,7 +943,7 @@ const router = new VueRouter({
 - beforeRouteEnter
 - beforeRouteUpdate
 - beforeRouteLeave
-```
+```js
 const Foo = {
 	template: `...`,
     beforeRouteEnter(to, from, next) {
@@ -965,7 +965,7 @@ const Foo = {
 beforeRouteEnter守卫不能访问this,因为守卫在导航确认前被调用，因此即将登场的新组件还没被创建。
 
 不过你可以通过传一个回调给next来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。
-```
+```js
 beforeRouteEnter(to, from, next) {
 	next(vm => {
     	//通过vm访问组件实例
@@ -973,7 +973,7 @@ beforeRouteEnter(to, from, next) {
 }
 ```
 这个离开守卫通常用来禁止用户在还未保存修改前突然离开。该导航可以通过next(false)来取消
-```
+```js
 beforeRouteLeave(to, from, next) {
 	const answer = window.confirm('Do you really want to leave? you have uunsaved change!');
     if(answer){
@@ -985,18 +985,18 @@ beforeRouteLeave(to, from, next) {
 ```
 
 **完整的导航解析流程**
-- 导航被触发
-- 在失活的组件里调用离开守卫
-- 调用全局的beforeEach守卫
-- 在重用的组件里调用beforeRouteUpdate守卫
-- 在路由配置里调用beforeEnter.
-- 解析异步路由组件
-- 在被激活的组件里调用beforeRouteEnter.
-- 调用全局的beforeResolve守卫
-- 导航被确认
-- 调用全局的afterEach钩子
-- 触发DOM更新
-- 用创建好的实例调动beforeRouterEnter守卫中传给next的回调函数
+- <span style="color: blue">导航被触发</span>
+- <span style="color: blue">在失活的组件里调用离开守卫</span>
+- <span style="color: blue">调用全局的beforeEach守卫</span>
+- <span style="color: blue">在重用的组件里调用beforeRouteUpdate守卫</span>
+- <span style="color: blue">在路由配置里调用beforeEnter.</span>
+- <span style="color: blue">解析异步路由组件</span>
+- <span style="color: blue">在被激活的组件里调用beforeRouteEnter.</span>
+- <span style="color: blue">调用全局的beforeResolve守卫</span>
+- <span style="color: blue">导航被确认</span>
+- <span style="color: blue">调用全局的afterEach钩子</span>
+- <span style="color: blue">触发DOM更新</span>
+- <span style="color: blue">用创建好的实例调动beforeRouterEnter守卫中传给next的回调函数</span>
 
 
 ## vue优化

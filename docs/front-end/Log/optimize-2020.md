@@ -13,9 +13,12 @@ title: 2022 的前端性能优化指南
 - FID: 交互性能。首次输入延迟应在100ms完成
 - CLS: 页面稳定性。累积布局偏移，需手动计算，CLS应保持在0.1以下。
 
-### 计算与收集
+### <span style="color:red">计算与收集</span>
 - [web-vitals](https://web.dev/vitals/)
-当收集浏览器每个用户性能指标时，可通过web-vitals收集并通过[sendBacon](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)上报到打点系统
+<span style="color: red">当收集浏览器每个用户性能指标时，可通过web-vitals收集并通过[sendBacon](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)上报到打点系统</span>
+- img
+- xhr
+- sendbacon
 
 ```
 import { getCLS, getFID, getLCP } from 'web-vitals';

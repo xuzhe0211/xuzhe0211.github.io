@@ -370,7 +370,7 @@ dp[0] = 1;
 dp[1] = 1
 ```
 #### 最后一步，把尾码翻译成代码，处理一些边界情况
-```
+```js
 let climbStarir = function(n) {
     let dp = [1,1];
     for (let i = 2; i <= n; i++) {
@@ -407,7 +407,8 @@ let climStairs = function(n) {
 
 ## 刷题
 ### 爬楼梯
-```
+```javascript
+// 时间复杂度O(n)
 let climbStaris = function(n) {
     let dp = [1,1];
     for (let i = 2; i <= n; i++) {
@@ -416,6 +417,7 @@ let climbStaris = function(n) {
     return dp[n]
 }
 // 优化空间复杂度
+// 时间复杂度O(1)
 let climStairs = function(n) {
     let res = 1, n1 = 1, n2 = 1;
     for (let i = 2; i <= n; i++) {
@@ -541,8 +543,13 @@ let maxSubArray = function(nums) {
 }
 ```
 ### 买卖股票的最佳时机
+给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+
+如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。
+
+
 动态规划
-```
+```js
 let maxProfit = function(prices) {
     let max = 0, minprice = prices[0];
     for (let i = 1; i < prices.length; i++) {
@@ -574,7 +581,7 @@ let maxProfit = function(prices) {
 ```
 #### 解法一：暴力法
 
-```
+```js
 let countSubstring = function(s) {
     let count = 0;
     for (let i = 0; i < s.length; i++) {
@@ -630,7 +637,7 @@ s[i] === s[j] && (j - i <=1 || dp[i+ 1][j - 1]): dp[i][j] = true;
 否则为false
 
 代码实现
-```
+```js
 let countSubstrings = function(s) {
   const len = s.length
   let count = 0
@@ -654,7 +661,7 @@ let countSubstrings = function(s) {
 ```
 代码优化
 
-```
+```js
 let countSubstrings = function(s) {
     const len = s.length;
     let count = 0;
@@ -692,11 +699,11 @@ dp[i][j] = true; // 单个字符是回文串
 if(s[i] === s[i + 1]) dp[i][i+ 1] - true; // 连续两个字符是回文串
 ```
 #### 代码实现
-```
+```js
 const longestPalindrome = (s) => {
     if(s.length < 2) return s;
     // res 最长回文子串
-    let res = s[0], dp = [];
+    let res = s[0], dp = Array.from(Array(s.length), () => Array(s.length).fill(0));
     for (let i = 0; i < s.length; i++) {
         dp[i][i] = true;
     }
@@ -739,7 +746,7 @@ const longestPalindrome = (s) => {
     for(let i = 1; i < row; i++) grid[i][0] += grid[i - 1][0]
     ```
 3. 代码实现
-```
+```js
 var minPathSum = function(grid) {
     let row = grid.length, col = grid[0].length
 
@@ -760,6 +767,114 @@ var minPathSum = function(grid) {
 };
 ```
 
+### 买卖股票最佳时机二
+给定一个数组，它的第一个元素是一只给定的股票弟I天的价格
+
+设计一个算法来计算你所能获取的最大利润，你可以尽可能的完成更多的交易
+```
+输入: [7,1,5,3,6,4]
+输出: 7
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+```
+**贪心算法**
+
+<span style="color: blue">贪心算法，顾名思义，总是做出当前的最优选择，即期望通过局部的最优选择获得争气的最优选择</span>
+
+某种意义上说，贪心算法很贪婪、目光短浅的，它不从整体考虑，仅仅只关注当前的最大利益，所以它做出的选择仅仅是某种意义上的局部最优，但是贪心算法在很多问题上还是能够拿到最优解或较优解。所以它的存在还是有意义的
+```javascript
+let maxProfit = prices => {
+    let profit = 0;
+    for (let i = 0; i < prices.length - 1;i++) {
+        if (prices[i + 1] > prices[i]) {
+            profit += prices[ i + 1] - prices[i];
+        }
+    }
+    return profit
+}
+```
+### 分发饼干
+假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。对每个孩子 i ，都有一个胃口值 g~i~ ，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 j ，都有一个尺寸 s~j~。如果 s~j~ >= g~i~ ，我们可以将这个饼干 j 分配给孩子 i ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值
+```
+输入: [1,2,3], [1,1]
+
+输出: 1
+
+解释: 
+你有三个孩子和两块小饼干，3个孩子的胃口值分别是：1,2,3。
+虽然你有两块小饼干，由于他们的尺寸都是1，你只能让胃口值是1的孩子满足。
+所以你应该输出1。
+
+输入: [1,2], [1,2,3]
+
+输出: 2
+
+解释: 
+你有两个孩子和三块小饼干，2个孩子的胃口值分别是1,2。
+你拥有的饼干数量和尺寸都足以让所有孩子满足。
+所以你应该输出2.
+```
+贪心算法
+```javascript
+const findContentChildren = (g, s) => {
+    if (!g.length || !s.length) return 0;
+
+    g.sort((a, b) => a - b);
+    s.sort((a, b) => a - b);
+
+    let gi = 0, si = 0;
+    while(gi < g.length && si < s.length) {
+        if(g[gi] <= s[si++]) gi++
+    } 
+    return gi;
+}
+```
+### 分割数组为连续子序列
+给你一个按升序排序的整数数组 num（可能包含重复数字），请你将它们分割成一个或多个子序列，其中每个子序列都由连续整数组成且长度至少为 3 。
+
+如果可以完成上述分割，则返回 true ；否则，返回 false 。
+```
+输入: [1,2,3,3,4,5]
+输出: True
+解释:
+你可以分割出这样两个连续子序列 : 
+1, 2, 3
+3, 4, 5
+```
+贪心算法
+```javascript
+const isPossible = nums => {
+    let max = nums[nums.length - 1];
+    // arr: 存储原数组中数字每个数字出现的次数
+    // tail: 存储以数字num结尾的且符合题意的连续子序列个数
+     let arr = new Array(max + 2).fill(0), 
+        tail = new Array(max + 2).fill(0)
+    for(let num of nums) {
+        arr[num] ++
+    }
+    for(let num of nums) {
+        if (arr[num] === 0) continue
+        else if (tail[num-1] > 0){
+            tail[num-1]--
+            tail[num]++
+        } else if (arr[num+1] > 0 && arr[num+2] > 0){
+            arr[num+1]--
+            arr[num+2]--
+            tail[num+2]++
+        } else {
+            return false
+        }
+        arr[num]--
+    }
+    return true
+}
+```
+**复杂度分析：**
+
+时间复杂度：O(n)
+
+空间复杂度：O(n)
+
 ### 全排列问题
 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
 
@@ -777,7 +892,7 @@ var minPathSum = function(grid) {
 ]
 ```
 解法：回溯算法
-```
+```javascript
 let permute = function(nums) {
     // 使用一个数组保存所有可能的全排列
     let res = [];
@@ -806,7 +921,61 @@ let dfs = function(nums, len, depth, path, used, res) {
         }
     }
 }
+// 改写
+const combine = (nums) => {
+    let res = [];
+    let could = [];
+    let map = {};
+    function dfs(nums, len, start, could, map, res) {
+        if (could.length === len) {
+            res.push(could.slice(0))
+        }
+        for (let i = 0;i < len; i++) {
+            if (!map[i]) {
+                could.push(nums[i]);
+                map[i] = true;
+                dfs(nums, len, start + 1, could, map, res);
+                map[i] = false;
+                could.pop();
+            }
+        }
+    }
+    dfs(nums, nums.length, 0, could, map, res);
+    return res;
+}
 ```
+### 括号生成
+数字n代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且有效的括号组合
+```
+输入：n = 3
+输出：[
+       "((()))",
+       "(()())",
+       "(())()",
+       "()(())",
+       "()()()"
+     ]
+```
+**解答：回溯算法(深度优先遍历)**
 
+算法策略:回溯算法是一种搜索法，试探法，它会在每一部做出选择
+```javascript
+const generateParenthesis = n => {
+    const res = [];
+    const dfs = (path, left, right) => {
+        // 肯定不合法，提前结束
+        if(left > n || left < right) return ;
+        // 到达结束条件
+        if(left + right === 2 * n) {
+            res.push(path)
+        }
+        // 选择
+        dfs(path + '(', left + 1, right);
+        dfs(path + ')', left, right + 1)
+    }
+    dfs('', 0, 0);
+    return res;
+}
+```
 ## 资料
 [原文](https://mp.weixin.qq.com/s/YGxsibd5auNEmXgPBUnwmA)

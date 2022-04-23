@@ -7,21 +7,21 @@ title: 前端性能优化-组件库按需加载
 > 代码拆分和按需加载的设计决定着工程化构建的结果，将直接影响应用的性能表现，因为合理的加载时间和代码拆分能够使初始化体积更小，页面加载更快。
 
 ### 按需加载和按需打包的区别
-按需加载表示代码模块在交互需要时，动态引入；而按需打包针对第三方依赖库以及业务模块，只打包真正运行时可能会需要代码
+<span style="color: blue">按需加载表示代码模块在交互需要时，动态引入；而按需打包针对第三方依赖库以及业务模块，只打包真正运行时可能会需要代码</span>
 
 按需打包方式
-- 使用ES Module支持的Tree Shaking方法，在使用构建工具时，完成按需打包
-- 使用babel-plugin-import为主的babel插件，实现自动按需打包
+- <span style="color: blue">使用ES Module支持的Tree Shaking方法，在使用构建工具时，完成按需打包</span>
+- <span style="color: blue">使用babel-plugin-import为主的babel插件，实现自动按需打包</span>
 
 ### Tree Shaking实现按需打包
 假设业务中使用了antd的Button组件
-```
+```javascript
 import {Button} from 'antd';
 ```
 这样的引用，会使得最终打包文件中包含所有antd导出来的内容。假设应用中并没有使用antd提供的TimePicker组件，那么对于打包结果来说，无疑是增加了代码体积。这种情况下，如果组件库提供了ES Module版本，并开启了Tree Shaking，我们就可以通过树摇特性，将不会使用到的代码在构建阶段移除。
 
 webpack可以在package文件中设置sideEffects:false。在antd源码中可以找到
-```
+```javascript
 'sideEffects': [
     'dist/*',
     'es/**/style/*',
@@ -34,15 +34,15 @@ webpack可以在package文件中设置sideEffects:false。在antd源码中可以
 如果第三方库不支持Tree Shaking，我么依然可以通过Babel插件，改变业务代码中对模块的引用来实现按需打包。
 
 如果babel-plugin-import这个插件， 我们通过一个例子来了解她的原理
-```
+```javascript
 import { Button as Btn, Input, ...} from 'antd'
 ```
 这样代码就可以编译为
-```
+```javascript
 import _Input from 'antd/lib/input';
 import _Button from 'antd/lib/button'
 ```
-**Babel插件核心依赖对于AST的解析和操作。它本质上就是一个函数，在Babel对AST语法树进行转换过程中介入，通过相应的操作，最终让生成结果发生改变**
+**<span style="color: blue">Babel插件核心依赖对于AST的解析和操作。它本质上就是一个函数，在Babel对AST语法树进行转换过程中介入，通过相应的操作，最终让生成结果发生改变</span>**
 
 Babel内置了几个核心分析、操作AST的工具集，Babel插件通过观察者+ 访问者模式，对AST节点统一遍历，因此具备了良好的扩展性和灵活性
 
@@ -68,7 +68,7 @@ dynamic import.如在浏览器侧，根据用户系统语言选择加载不同�
 - 被导入的模块由副作用(可以理解为模块中会直接运行的代码)，这些副作用代码只有在触发某些条件时才被需要
 
 dynamic import的标准用法文档：[官方规范](https://tc39.es/proposal-dynamic-import/#sec-import-calls)和[tc39 proposal](https://github.com/tc39/proposal-dynamic-import)
-```
+```html
 // html部分
 <nav>
     <a href="" data-script-path="books">Books</a>
@@ -110,7 +110,7 @@ dynamic import的标准用法文档：[官方规范](https://tc39.es/proposal-dy
 虽然dynamic import并不是一个真正意义上的函数，但我们可以通过实现一个dynamic import函数模拟实现dynamic inport，并进一步加深对齐语法特性的理解
 
 #### 实现一个dynamic import(动态引入)
-```
+```javascript
 const importModule = url => {
     return new Promise((resolve, reject) => {
         // 创建一个script标签

@@ -63,3 +63,5 @@ console.log(f.c)
 
 // 4,5 undefined
 ```
+
+[new 操作符](/front-end/interview/dachang2.html#简单)

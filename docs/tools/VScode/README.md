@@ -77,6 +77,13 @@ vsCode 绘图插件
 ![Draw.io](./images/v2-076a9cbec87520573ca9c3a83592d1cb_b.gif)
 
 [太赞了，VSCode 上也能画流程图了！](https://zhuanlan.zhihu.com/p/140895359?from_voters_page=true)
+
+
+## tab cycle
+vscode最常用的tab移到最前面
+
+## Where Am I
+左下角显示项目所在位置
 ## 资料
 
 [vscode 摸鱼](https://mp.weixin.qq.com/s/1lS9GWPkVZvVLIJjjXU4iw)

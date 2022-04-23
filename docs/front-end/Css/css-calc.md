@@ -33,7 +33,7 @@ $width-two: 50px;
   width: calc(100% - 50px)
 }
 ```
-本例中，.foo元素总是小于它父元素宽度50px
+本例中，<span style="color:red">.foo元素总是小于它父元素宽度50px</span>
 
 第二，使用calc()，计算值是表达式它自己，而非表达式的结果。当使用css预处理器做数学运算时，特定值为表达式结果
 ```css

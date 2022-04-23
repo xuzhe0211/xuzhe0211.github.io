@@ -36,7 +36,7 @@ Promise/A+规范主要分为术语、要求和注意事项三个部分,我们重
 constructor中function函数如果this指向不对 用剪头函数
 :::
 规范解读第1条，代码实现
-```
+```js
 class Promise {
     // 定义Promise状态，初始值为pending
     status = 'pending';
@@ -67,7 +67,7 @@ class Promise {
 第1条实现完毕，相对简单，配合代码注释很容易立即
 
 规范解读第二条，代码实现
-```
+```js
 /**
 * 拥有一个then方法
 * then方法提供: 状态为resolved时的回调函数onResolved,状态为rejected的onRejected
@@ -116,7 +116,7 @@ then(onResolved, onRejected) {
 3. promise.then属于微任务，这里我们为了方便，用宏任务setTimeout来代替实现异步，具体细节特别推荐**[这篇文章](https://mp.weixin.qq.com/s?__biz=MjM5MTA1MjAxMQ==&mid=2651228065&idx=2&sn=0db2e69aa9344d4b086e9d98301aebad&scene=21#wechat_redirect)**
 
 好了，有了解决办法，我们就把代码进一步完善
-```
+```js
 class Promise {
     // 定义Promise状态变量，初始值为pending
     status = 'pending';
@@ -224,7 +224,7 @@ class Promise {
 至此，规范中关于then的部分就全部实现完毕了。代码添加了详细的注释，参考注释不难理解。
 
 规范解读第3条，代码实现
-```
+```js
 // [[Resolve]](promise2, x)函数
 resolvePromise(promise2, x, resolve, reject) {
     let called = false;
@@ -286,7 +286,7 @@ resolvePromise(promise2, x, resolve, reject) {
 
 ### catch方法
 catch方法是对then方法的封装，只用于接收reject(reason)中的中的错误信息。因为在then方法中的onRejected参数是可不传的，不传的情况下，错误信息会依次往后传递，知道有onRejected函数接收位置，因此在写promise链式调用的时候，then方法不传onRejected函数，只需要在末尾加一个catch()就可以了，这样在该链条中promise发生的错误都会被最后的catch捕获到
-```
+```js
 catch(onRejected) {
     return this.then(null, onRejected);
 }
@@ -294,7 +294,7 @@ catch(onRejected) {
 
 ### done方法
 catch在promise链式调用的末尾调用，用于捕获链条中的错误信息，但是catch方法内部也可能出现错误，所以有些promise实现中增加了一个方法done,done相当于提供了一个不会出错的catch方法，并且不在返回一个promise，一般用来结束promise链
-```
+```js
 done() {
     this.catch(reson => {
         console.log('done', reason);
@@ -305,7 +305,7 @@ done() {
 
 ### finally方法
 finally方法用于无论是resolve还是reject，finall y的参数函数都会被执行
-```
+```js
 finally(fn) {
     return this.then(value => {
         fn();
@@ -318,7 +318,7 @@ finally(fn) {
 ```
 ### Promise.all方法
 Promise.all方法接受一个promise数组，返回一个新的promise2，并发执行数组中的全部promise，所有promise状态都为resolved时，promise2状态为resolved并返回全部promise结果，结果顺序和promise数组顺序一致。如果有一个promise为rejected状态，则整个promise2进入rejected状态
-```
+```js
 static all(promiseList) {
     return new Promise((resolve, reject) => {
         const result = [];
@@ -338,7 +338,7 @@ static all(promiseList) {
 
 ### Promise.race方法
 Promise.race方法接收一个promise数组，返回一个新的promise2，顺序执行数组中的promise，有一个primise状态确定，promise2状态即确定，并且同这个promise状态一致
-```
+```js
 static race(promiseList) {
     return new Promise((resolve, reject) => {
         for (const p of promiseList) {
@@ -351,7 +351,7 @@ static race(promiseList) {
 ```
 ### Promise.resolve方法/Promisereject
 Promise.resolve用来生成一个resolved完成态的promise，Promise.reject用来生成一个rejected失败态的promise
-```
+```js
 static resolve(value) {
     let promise
     promise = new Promise((resolve, reject) => {
@@ -400,7 +400,7 @@ Promise.deferred、Promise.all、Promise.race、Promise.resolve、Promise.reject
 
 因为Promise.all是同时运行多个promsie对象，所以对于这种并发的数量，小程序是有限制的，一次只能并发10个，所以如果想突破这种限制，可以进行顺序执行每个Promise。
 
-```
+```js
 function sequenceTasks(tasks) {
     function recordValue(results, value) {
         results.push(value);
@@ -413,7 +413,7 @@ function sequenceTasks(tasks) {
 }
 ```
 测试代码
-```
+```js
 function test(result, name) {
     result.push(name);
     return result;
@@ -474,7 +474,7 @@ Promise.cancel = Promise.stop = function() {
 
 ### Promise链上返回的最后一个Promise出错了怎么办
 catch在promise立案时调用的末尾调用，用于捕获链条中的错误信息，但是catch方法内部也可能出现错误，所有有些promise实现增加了一个done，done相当于提供了一个不会出错的catch方法，并且不再返回一个promise，一般用来结束promise链
-```
+```js
 done() {
     this.catch(reason => {
         console.log('done', reason);

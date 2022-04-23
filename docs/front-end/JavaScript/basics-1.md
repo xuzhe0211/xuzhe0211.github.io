@@ -5,7 +5,7 @@ title: 编译时、运行时
 
 ## 运行时解析
 
-```
+```js
 var a = 1;
 let b = 2;
 const c = { k: 3 }
@@ -60,7 +60,7 @@ js运行时有两个阶段：编译阶段、执行阶段。
 
 所以执行d()函数的时候相当于以下流程，先编译在执行
 
-```
+```js
 var a = undefined;
 console.log(a);
 a = 11;
@@ -74,10 +74,10 @@ a = 11;
 
 总结一些
 
-1. js运行时有两个阶段：编译阶段和执行阶段
-2. 变量提升的根本原因是在js编译阶段确定的
-3. 执行上下文有变量环境和词法环境，变量环境存储var声明的变量，词法环境存储let,const声明的变量
-4. 每个作用域的外部引用在编译阶段更具代码位置确定
+1. <span style="color: blue">js运行时有两个阶段：编译阶段和执行阶段</span>
+2. <span style="color: blue">变量提升的根本原因是在js编译阶段确定的</span>
+3. <span style="color: blue">执行上下文有变量环境和词法环境，变量环境存储var声明的变量，词法环境存储let,const声明的变量</span>
+4. <span style="color: blue">每个作用域的外部引用在编译阶段更具代码位置确定</span>
 
 ## V8引擎角度看javascript运行时
 

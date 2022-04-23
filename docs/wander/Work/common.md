@@ -2,7 +2,7 @@
 title: 使用的一些方法
 ---
 
-```
+```javascript
 // 加载图片
 export const loadImg = (src) => {
     return new Promise((resolve) => {
@@ -202,23 +202,6 @@ export const imgTransformBase64 = (url) => {
         };
     });
 };
-// file文件/blob转base64图片
-export const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        let imgResult = '';
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            imgResult = reader.result;
-        };
-        reader.onerror = (error) => {
-            reject(error);
-        };
-        reader.onloadend = () => {
-            resolve(imgResult);
-        };
-    });
-};
 // base64转blob
 export const convertBase64UrlToBlob = (urlData) => {
     // 去掉url的头，并转换为byte
@@ -244,7 +227,23 @@ export const dataURLtoFile = (dataurl, filename) => {
     }
     return new File([u8arr], filename, {type: mime});
 };
-
+// file文件/blob转base64图片
+export const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        let imgResult = '';
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            imgResult = reader.result;
+        };
+        reader.onerror = (error) => {
+            reject(error);
+        };
+        reader.onloadend = () => {
+            resolve(imgResult);
+        };
+    });
+};
 // 欧几里得距离
 export const getDistance = (a, b) => {
     const xDiff = (a.x - b.x) ** 2;
@@ -271,3 +270,6 @@ export const findRecentPoint = (pointList, targetPoint) => {
 };
 
 ```
+
+## 资料
+[Canvas实现图片绘制、缩放、移动和保存历史状态，纯干货](https://blog.csdn.net/weixin_42963591/article/details/104946737)

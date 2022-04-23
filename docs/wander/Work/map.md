@@ -6,7 +6,7 @@ title: 百度地图自定义覆盖物问题
 注意：不管label弹窗还是自定义覆盖物或者tgis pop弹窗  需要content的类型支持string | HTMLElement，如果不支持的话  vue或者react渲染方式是不生效的，只能渲染出[object HTMLDivElement]；
 :::
 
-```
+```js
 // vue
 <template>
 <div>

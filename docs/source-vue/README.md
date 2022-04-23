@@ -28,7 +28,7 @@ object.defineprotpery用于监听对象的数据变化
 
 用法 Object.defineproperty(obj, key, desciptor);
 
-```
+```js
 var obj = {
     age: 11
 }
@@ -63,7 +63,7 @@ obj.name = 11;
 
 proxy可以理解在被劫持的对象前加了一层拦截
 
-```
+```js
 var proxy = new Proxy({}, {
     get(obj, prop) {
         return obj[prop]
@@ -86,8 +86,9 @@ getPrototypeOf() , isExtensible() , ownKeys() , preventExtensions() , setPrototy
 修改了属性值希望能感知到
 - 直接修改
 - 通过方法修改
-```
+```js
 const obj = {};
+let value = '11'
 Object.defineProperty(obj, 'name', {
     get() {
         return value;
@@ -101,7 +102,7 @@ obj.name = 'maomao';
 connsole.log(obj.name)
 ```
 
-```
+```js
 function observer(obj) {
     if (typeof obj === 'object') {
         for (let key in obj) {
@@ -140,7 +141,7 @@ observer(obj)
 // obj.x = 111; //新增的属性不会被劫持
 obj.age = [1, 2, 3, 4];
 ```
-```
+```js
 // -使用方法测试
 // obj.age.push(11);//无法触发
 // let oldPush = Array.prototype.push;

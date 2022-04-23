@@ -105,7 +105,7 @@ for(item of items) {
 }
 ```
 ### 总结
-遍历器如果存在一个对象内,它就可以让这个对象可供for-of遍历，for-of的遍历方法就是不停的调用遍历器的next()方法，知道done属性编委true。
+遍历器如果存在一个对象内,它就可以让这个对象可供for-of遍历，for-of的遍历方法就是不停的调用遍历器的next()方法，直到done属性变为true。
 
 ## 生成器Generator
 
@@ -267,7 +267,7 @@ async function step() {
 }
 ```
 
-对象可以设置Symbol.iterval
+对象可以设置Symbol.iterator
 ```
 let iterable = {
     data: {a: 1, b: 2, c: 3}, 

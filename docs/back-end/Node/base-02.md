@@ -15,12 +15,12 @@ title: 深入理解Node.js 进程与线程
 2. Node.js做耗时的计算时候，如何避免阻塞
 3. Node.js如何实现多进程的开启和关闭
 4. Node.js可以创建线程吗
-5. 开发过程中如何实现进程首付
+5. 开发过程中如何实现进程守护
 6. 处了使用第三方模块，自己是否封装过一个多进程架构
 
 ## 进程
-进程Process是计算机中的程序中关于某数据集合上的一次运行活动，是系统进行资源分配的和调度的基本单位，是操作系统结构的基础，进程是线程的容器。进程是资源分配的最小单位。我们启动一个服务、运行一个实例，就是开一个服务进程，例如Java里的JVM本身就是一个进程，Node.js里通过node app.js开启一个服务进程，多进程就是进程的复制fork，fork出来的每一个进程都拥有自己的独立空间地址、数据线，一个进程无法访问另一个进程里定义的变量、数据结构，只有建立了IPC通信，进程之间才可数据共享。
-```
+进程Process是计算机程序中关于某数据集合上的一次运行活动，是系统进行资源分配的和调度的基本单位，是操作系统结构的基础，进程是线程的容器。<span style="color:red">进程是资源分配的最小单位</span>。我们启动一个服务、运行一个实例，就是开一个服务进程，例如Java里的JVM本身就是一个进程，**<span style="color: blue">Node.js里通过node app.js开启一个服务进程，多进程就是进程的复制fork，fork出来的每一个进程都拥有自己的独立空间地址、数据线，一个进程无法访问另一个进程里定义的变量、数据结构，只有建立了IPC(InterProcess Communication)通信，进程之间才可数据共享。</span>**
+```javascript
 const http = require('http');
 
 const server = http.createServer();
@@ -34,13 +34,13 @@ server.listen(3000, () => {
 ![mac活动监视器](./images/616.jpg)
 
 ## 线程
-线程是操作系统能够进行运算调度的最小单位，首先我们要清楚线程是隶属于进程的，被包含于进程中。**一个线程只能隶属于一个进程，但是一个进程是可以拥有多个线程的**
+<span style="color: red">线程是操作系统能够进行运算调度的最小单位</span>，首先我们要清楚线程是隶属于进程的，被包含于进程中。**<span style="color: blue">一个线程只能隶属于一个进程，但是一个进程是可以拥有多个线程的</span>**
 
 ### 单线程
-**单线程就是一个进程只开一个线程**
+**<span style="color: red">单线程就是一个进程只开一个线程</span>**
 
 Javascript就是属于单线程，程序顺序执行(这里暂且不提JS异步)，可以想象一个队列，前面一个执行完之后，后面才可以执行，当你在使用单线程语言编码时切勿有过多耗时的同步操作，否则想成会造成阻塞，导致后续响应无法处理。你如果采用Javascript进行编码时，尽可能的利用Javascript异步操作的特性
-```
+```javascript
 // 经典计算耗时造成线程阻塞的例子
 const http = require('http');
 const longComputation = () => {
@@ -70,41 +70,42 @@ server.listen(3000);
 //计算结束 2019-07-28T07:09:04.522Z
 
 ```
-查看打印结果，当我们调用 127.0.0.1:3000/compute的时候，如果想要调用其他的路由地址比如127.0.0.1/大约需要15秒时间，也可以说一个用户请求完第一个 compute接口后需要等待15秒，这对于用户来说是极其不友好的。下文我会通过创建多进程的方式 child_process.fork 和 cluster 来解决解决这个问题。
+查看打印结果，当我们调用 127.0.0.1:3000/compute的时候，如果想要调用其他的路由地址比如127.0.0.1/大约需要15秒时间，也可以说一个用户请求完第一个 compute接口后需要等待15秒，这对于用户来说是极其不友好的。<span style="color:red">下文我会通过创建多进程的方式 child_process.fork 和 cluster 来解决解决这个问题。</span>
 
 **单线程的一些说明**
-1. Node.js虽然是单线程，但是其基于事件驱动、异步非阻塞模式，可以应用于高并发场景，避免了线程创建、线程之间上下文切换所产生的资源开销
-2. 当你的项目中需要有大量计算,CPU耗时的操作的时候，要注意考虑开启多进程来完成了
-3. Node.js开发过程中，错误会引起整个应用退出，应用的健壮性值得考验，尤其是错误的异常抛出，以及进程守护是必须要做的
-4. 单线程无法利用多核CPU，但是后来Node.js提供的API以及一些第三方工具相应都得到了解决，文章后面会讲到
+
+1. <span style="color:blue">Node.js虽然是单线程，但是其基于事件驱动、异步非阻塞模式，可以应用于高并发场景，避免了线程创建、线程之间上下文切换所产生的资源开销</span>
+2. <span style="color:blue">当你的项目中需要有大量计算,CPU耗时的操作的时候，要注意考虑开启多进程来完成了</span>
+3. <span style="color:blue">Node.js开发过程中，错误会引起整个应用退出，应用的健壮性值得考验，尤其是错误的异常抛出，以及进程守护是必须要做的</span>
+4. <span style="color:blue">单线程无法利用多核CPU，但是后来Node.js提供的API以及一些第三方工具相应都得到了解决，文章后面会讲到</span>
 
 ## Node.js中进程和线程
-Node.js是Javascript在服务端的运行环境,构建在chrome的V8引擎之上，基于事件驱动、非阻塞I/O模型，充分利用操作系统提供的异步I/O进行多任务执行，适合于I/O密集型的应用场景，因为异步，程序无需阻塞等待结果返回，而是基于回调通知的机制，原本同步模式等待的时间，则可以用来处理其他任务
+**<span style="color: orange">Node.js是Javascript在服务端的运行环境,构建在chrome的V8引擎之上，基于事件驱动、非阻塞I/O模型，充分利用操作系统提供的异步I/O进行多任务执行，适合于I/O密集型的应用场景，因为异步，程序无需阻塞等待结果返回，而是基于回调通知的机制，原本同步模式等待的时间，则可以用来处理其他任务</span>**
 
 :::danger
 在web服务器方面，著名的Nginx也是采用此模式(事件驱动)，避免了多线程的线程创建、线程上下文切换开销，Nginx采用C语言进行编写，主要用来做高性能的Web服务器，不适用做业务
 :::
 
-Web业务开发中，如果你有高并发应用场景那么Node.js会是你不做的选择。
+Web业务开发中，如果你有高并发应用场景那么Node.js会是你不错的选择。
 
-在单核CPU系统之后我们采用单进程+单线程的模式来开发。在多核CPU系统上，可以通过child_process, fork开启多个进程(Node.js在v0.8版本之后新增了Cluster来实现多进程架构)，即多进程+单线程模式。注意：开启多进程不是为了解决高并发，主要是解决了单进程模式下Nodejs CPU利用率不足的情况，充分利用多核CPU的性能
+在单核CPU系统之后我们采用单进程+单线程的模式来开发。在多核CPU系统上，可以通过child_process, fork开启多个进程(Node.js在v0.8版本之后新增了Cluster来实现多进程架构)，**<span style="color: red">即多进程+单线程模式。注意：开启多进程不是为了解决高[并发](/front-end/JavaScript/network-xhr.html#fetch)，主要是解决了单进程模式下Nodejs CPU利用率不足的情况，充分利用多核CPU的性能</span>**
 
 ## Node.js中的进程
 
 ### process模块
 Node.js中的进程Process是一个全局对象，无需require直接使用，给我们提供了当前进程中的相关信息。官方文档提供了详细说明，感兴趣的可以亲自实践下Process文档。
-- process.env:环境变量，例如通过process.env.NODE_ENV获取不同环境项目配置信息
-- process.nextTick：这个在谈及Event Loop时候经常用到
-- process.pid：获取当前的进程id
-- process.ppid：当前进程对应的父进程
-- process.cwd():获取当前进程工作目录
-- process.platform:获取当前进程运行的操作系统平台
-- process.uptime():当前进程已运行时间，例如pm2守护进程的uptime值
-- 进程事件: process.on('uncaughtException', cb),捕获异常信息、process.on('exit', cb)进程退出监听
-- 三个标准流：process.stdout标准输出、process.stdin标准输入、process.stderr标准错误输出
-- process.title：指定进程名称，有的时候需要给进程指定一个名称
+- <span style="color: blue">process.env:环境变量，例如通过process.env.NODE_ENV获取不同环境项目配置信息</span>
+- <span style="color: blue">process.nextTick：这个在谈及Event Loop时候经常用到</span>
+- <span style="color: blue">process.pid：获取当前的进程id</span>
+- <span style="color: blue">process.ppid：当前进程对应的父进程</span>
+- <span style="color: blue">process.cwd(): 获取当前进程工作目录</span>
+- <span style="color: blue">process.platform: 获取当前进程运行的操作系统平台</span>
+- <span style="color: blue">process.uptime(): 当前进程已运行时间，例如pm2守护进程的uptime值</span>
+- <span style="color: blue">进程事件: process.on('uncaughtException', cb),捕获异常信息、process.on('exit', cb)进程退出监听</span>
+- <span style="color: blue">三个标准流：process.stdout标准输出、process.stdin标准输入、process.stderr标准错误输出</span>
+- <span style="color: blue">process.title: 指定进程名称，有的时候需要给进程指定一个名称</span>
 
-以上仅列举了部分常用功能点，除了Process之外Node.js还提供了child_process模块用来对子进程进行操作，在下文Node.js进程创建会继续讲述
+以上仅列举了部分常用功能点，<span style="color: red">除了Process之外Node.js还提供了child_process模块用来对子进程进行操作，在下文Node.js进程创建会继续讲述</span>
 
 ### Node.js进程创建
 进程创建有多种方式，本篇文章以child_process模块和cluster模块进行讲解
@@ -114,10 +115,10 @@ Node.js中的进程Process是一个全局对象，无需require直接使用，�
 child_process是Node.js内置模块，[官网地址](http://nodejs.cn/api/childprocess.html#childprocesschild_process)
 
 几个常用函数：四种方式
-- child_process.spawn():适用于返回大量数据，例如图像处理，二进制数据处理。
-- child_process.exec():适用于小量数据，maxBuffer默认值为200*1024超出这个默认值将会导致程序崩溃，数据量大可采用spawn
-- child_process.execFile():类似child_process.exec()，区别是不能通过shell来执行，不支持I/O重定向和文件查找这样的行为
-- child_process.fork():衍生新的进程，进程之间是相互独立的，每个进程都有自己的V8实例、内存、系统资源是有限的，不建议衍生太多的子进程出来，通常根据cpu核心数设置。
+- <span style="color: blue">child_process.spawn():适用于返回大量数据，例如图像处理，二进制数据处理。</span>
+- <span style="color: blue">child_process.exec():适用于小量数据，maxBuffer默认值为200*1024超出这个默认值将会导致程序崩溃，数据量大可采用spawn</span>
+- <span style="color: blue">child_process.execFile():类似child_process.exec()，区别是不能通过shell来执行，不支持I/O重定向和文件查找这样的行为</span>
+- <span style="color: blue">child_process.fork():衍生新的进程，进程之间是相互独立的，每个进程都有自己的V8实例、内存、系统资源是有限的，不建议衍生太多的子进程出来，通常根据cpu核心数设置。</span>
 
 :::danger
 CPU核心数这里说明下，fork确实可以开启多个进程，但是并不建议衍生出来太多的进程，cpu核心数的获取方式const cpus = require('os').cpus();这里cpus返回一个对象数组，包含所安装的每个CPU/内核的信息，二者总和的数组。假设主机装有两个cpu，每个cpu有4个核，那么总核数就是8
@@ -125,7 +126,7 @@ CPU核心数这里说明下，fork确实可以开启多个进程，但是并不�
 
 #### fork开启子进程demo
 fork开启子进程解决文章起初的计算耗时时造成线程阻塞。在进程compute计算时创建子进程，子进程计算通过send方法将结果发送给主进程，主进程通过message监听到信息后处理并推出
-```
+```javascript
 // fork_app.js
 const http = require('http');
 const fork = require('child_process').fork;
@@ -153,7 +154,7 @@ server.listen(3000, 127.0.0.1, () => {
 })
 ```
 针对需要进行计算的例子我们创建子进程拆分出来单独进行运算。
-```
+```javascript
 const computation = () => {
     let sum = 0;
     console.info('计算开始');
@@ -175,7 +176,7 @@ process.on('message', msg => {
 
 ### cluster模块
 cluster开启子进程Demo
-```
+```javascript
 const http = require('http');
 const numCPUS = require('os').cpus().length;
 const cluster = require('cluster');
@@ -202,26 +203,26 @@ if (cluster.isMaster) {
 
 ![cluster原理分析](./images/617.jpg)
 
-cluster模块调用fork方法来创建子进程，该方法与child_process中的fork是同一个方法。cluster模块采用的是经典的主从模型，Cluster会创建一个master，然后根据你指定的数量复制出多个子进程，可以使用cluster.isMaster属性判断当前进程是master还是worker(工作进程)。由master来管理所有的子进程，主进程不负责具体的任务处理，主要工作是负责调度和管理。
+<span style="color: red">cluster模块调用fork方法来创建子进程，该方法与child_process中的fork是同一个方法。**cluster模块采用的是经典的主从模型，Cluster会创建一个master，然后根据你指定的数量复制出多个子进程，可以使用cluster.isMaster属性判断当前进程是master还是worker(工作进程)。由master来管理所有的子进程，主进程不负责具体的任务处理，主要工作是负责调度和管理。**</span>
 
-cluster模块使用内置的负载均衡来更好的处理线程之间的压力，该负载均衡使用了Round-robin算法(也被称为循环算法)。当使用Round-robin调度策略时，master accepts()所有传入的连接请求，然后将相应的TCP请求处理发送给选中的工作进程(该方式仍然通过IPC来进行通信)。
+<span style="color: blue">cluster模块使用内置的负载均衡来更好的处理线程之间的压力</span>，该负载均衡使用了Round-robin算法(也被称为循环算法)。当使用Round-robin调度策略时，master accepts()所有传入的连接请求，然后将相应的TCP请求处理发送给选中的工作进程(该方式仍然通过IPC来进行通信)。
 
-开启多进程时候端口疑问讲解:如果多个Node进程监听同一个端口时出现Error：listen EADDRIUNS的错误，而cluster为什么可以让多个子进程监听同一个端口呢？**原因是master进程内部启动了一个TCP服务器，而真正监听端口的只有这个服务器，当来自前端的请求触发服务器的connection事件后，master会将对应的socket句柄发送给子进程**
+开启多进程时候端口疑问讲解:如果多个Node进程监听同一个端口时出现Error：listen EADDRIUNS的错误，而cluster为什么可以让多个子进程监听同一个端口呢？**<span style="color: blue">原因是master进程内部启动了一个TCP服务器，而真正监听端口的只有这个服务器，当来自前端的请求触发服务器的connection事件后，master会将对应的socket句柄发送给子进程</span>**
 
 ### child_process模块与cluster模块总结
-无论是child_process模块还是cluster模块，为了解决Node.js实例单线程运行，无法利用多核CPU的问题而出现的。**核心就是父进程(即master进程)负责监听端口，接收到新的请求后将其分发给下面的worker进程**
+无论是child_process模块还是cluster模块，为了解决Node.js实例单线程运行，无法利用多核CPU的问题而出现的。**<span style="color: blue">核心就是父进程(即master进程)负责监听端口，接收到新的请求后将其分发给下面的worker进程</span>**
 
 cluster模块的弊端
 
 ![child_process](./images/618.jpg)
-![cluster](./images/619.jpg)
+![cluster](./images/16d04aa5bbe66349_tplv-t2oaga2asx-zoom-in-crop-mark_1304_0_0_0.png)
 
-cluster内部隐式的构建TCP服务器的方式对使用者确实简单和透明了很多，但是这种方式无法像使用childprocess那样灵活，因为一直主进程只能管理一组相同的工作进程；而自行通过childprocess来创建的工作进程，一个主进程可以控制多组进程。原因是child_process操作子进程时，可以隐式的创建多个TCP服务器，对比上面的两幅图应该能理解
+<span style="color: blue">cluster内部隐式的构建TCP服务器的方式对使用者确实简单和透明了很多，但是这种方式无法像使用child_process那样灵活，因为一直主进程只能管理一组相同的工作进程；而自行通过child_process来创建的工作进程，一个主进程可以控制多组进程。原因是child_process操作子进程时，可以隐式的创建多个TCP服务器，对比上面的两幅图应该能理解</span>
 
 ## Node.js进程通信原理
-前面讲解的无论是child_process模块，还是cluster模块，都需要主进程和工作进程之间的通信。通过fork()或者其他API,创建了子进程之后,为了实现父子进程之间的通信,父子继承之间才能通过message和send()传递消息。
+前面讲解的无论是child_process模块，还是cluster模块，都需要主进程和工作进程之间的通信。<span style="color: blue">通过fork()或者其他API,创建了子进程之后,为了实现父子进程之间的通信,父子继承之间才能通过message和send()传递消息。</span>
 
-IPC这个词我想大家并不陌生，不管哪一种开发语言只要提到进程通信，都会提到它。IPC的全程是Inter-Process Communication，即进程间通信。它的目的是为了让不同的进程能够相互访问资源并进行协调工作。实现进程间通信的技术有很多，如命名管道，匿名管道，socket，信号量，共享内存，消息队列等。Node中实现IPC通道依赖于libuv。windows下由命名管道(name pipe)实现，unix系统则采用Unix Domain Socket实现。表现在应用层上的进程间通信只有简单的message事件和send()方法，接口十分简介和消息化
+IPC这个词我想大家并不陌生，不管哪一种开发语言只要提到进程通信，都会提到它。<span style="color:red">IPC的全程是Inter-Process Communication，即进程间通信。</span>它的目的是为了让不同的进程能够相互访问资源并进行协调工作。<span style="color:blue">实现进程间通信的技术有很多，**如命名管道，匿名管道，socket，信号量，共享内存，消息队列等**。Node中实现IPC通道依赖于libuv。windows下由命名管道(name pipe)实现，unix系统则采用Unix Domain Socket实现。表现在应用层上的进程间通信只有简单的message事件和send()方法，接口十分简介和消息化</span>
 
 IPC创建和实现示意图
 
@@ -231,7 +232,7 @@ IPC通信管道是如何创建的
 
 ![IPC通信管道是如何创建的](./images/621.jpg)
 
-父进程在实际创建子进程之前，会创建IPC通道并监听它，然后才真正的创建出子进程，这个过程中也会通过环境变量(NODECHANNELFD)告诉子进程这个IPC通道的这个文件描述符。子进程启动的过程中，根据文件描述符去连接这个已存在的IPC通道，从而完成父子进程之间的连接。
+<span style="color: blue">父进程在实际创建子进程之前，会创建IPC通道并监听它，然后才真正的创建出子进程，这个过程中也会通过环境变量(NODECHANNELFD)告诉子进程这个IPC通道的这个文件描述符。子进程启动的过程中，根据文件描述符去连接这个已存在的IPC通道，从而完成父子进程之间的连接。</span>
 
 ## Node.js句柄传递
 讲句柄之前，先想一个问题，send句柄发送的时候，真的是将服务器对象发送给了子进程？
@@ -248,8 +249,8 @@ IPC通信管道是如何创建的
 
 ![send句柄发送原理分析](./images/622.jpg)
 
-send()方法在将消息发送到IPC通道前，实际将消息组装成了两个对象，一个参数是hadler，另一个是message。message参数如下
-```
+<span style="color:blue">send()方法在将消息发送到IPC通道前，实际将消息组装成了两个对象，一个参数是hadler，另一个是message。message参数如下</span>
+```javascript
 {
     cmd: 'NODE_HANDLE',
     TYPE: 'net.Server',
@@ -261,7 +262,7 @@ send()方法在将消息发送到IPC通道前，实际将消息组装成了两�
 连接了IPC通道的子线程可以读取父进程发来的消息，将字符串通过JSON.parse()解析还原为对象后，才触发message事件将消息传递给应用层使用。在这个过程中，消息对象还要被进行过滤处理，message.cmd的值如果以NODE为前缀，它将相应一个内部事件internalMessage，如果message.cmd值为NODEHANDLE,它将取出message.type的值和得到的文件描述符一起还原出一个对应的对象。
 
 以发送的TCP服务器句柄为例，子进程收到消息后的还原过程代码如下
-```
+```javascript
 function(message, handle, emit) {
     var self = this;
 
@@ -285,12 +286,12 @@ Node进程之间只有消息传递，不会真正的传递对象，这种错觉�
 **编写主进程**
 
 master.js主要处理一下逻辑
-- 创建一个server并监听3000端口
-- 根据系统cpus开启多个进程
-- 通过进程对象的send方法发送消息到子进程进行通信
-- 在主进程中监听了子进程的变化，如果是自杀信号重新启动一个工作进程
-- 主进程监听到退出消息的时候，先退出子进程在退出主进程
-```
+- <span style="color:blue">创建一个server并监听3000端口</span>
+- <span style="color:blue">根据系统cpus开启多个进程</span>
+- <span style="color:blue">通过进程对象的send方法发送消息到子进程进行通信</span>
+- <span style="color:blue">在主进程中监听了子进程的变化，如果是自杀信号重新启动一个工作进程</span>
+- <span style="color:blue">主进程监听到退出消息的时候，先退出子进程在退出主进程</span>
+```javascript
 // master.js
 const fork = require('child_process').fork;
 const cpus = require('os').cpus();
@@ -340,11 +341,11 @@ function close(code) {
 **工作进程**
 
 worker.js子进程处理逻辑如下
-- 创建一个server对象，注意这里最开始并没有监听3000端口
-- 通过message对象接收主进程send方法发送的消息
-- 监听uncaughtException事件，捕获未处理的异常，发送自杀消息由主进程重建进程，子进程在连接关闭之后推出
+- <span style="color:blue">创建一个server对象，注意这里最开始并没有监听3000端口</span>
+- <span style="color:blue">通过message对象接收主进程send方法发送的消息</span>
+- <span style="color:blue">监听uncaughtException事件，捕获未处理的异常，发送自杀消息由主进程重建进程，子进程在连接关闭之后推出</span>
 
-```
+```javascript
 // worker.js
 const http = require('http');
 const server = http.createServer((req, res) => {
@@ -379,10 +380,10 @@ process.on('uncaughtException', function(err) {
 每次启动Node.js程序都需要在命令窗口输入命令 node app.js才能启动，但如果把命令窗口关闭则Node.js程序就会立即断掉。除此之外，当我们这个Node.js服务以外崩溃了就不能自动重启进程了。这些线程都不是我们想要看到的，所以需要通过某些方式来守护这个进程，执行node app.js开启一个服务进程后，我还可以在这个终端上做些别的事情，且不会相互影响。
 
 ### 如何实现进程守护
-这里我只说一些第三方进程守护框架，pm2和forever，它们都是可以实现进程守护，底层也都是通过上面讲的child_process模块和cluster模块实现的，这里就不在提他们的额原理。
+<span style="color:blue">这里我只说一些第三方进程守护框架，pm2和forever，它们都是可以实现进程守护，底层也都是通过上面讲的child_process模块和cluster模块实现的，这里就不在提他们的额原理。</span>
 
 pm2指定生成环境启动一个名为test的node服务
-```
+```javascript
 pm2 start app.js -env production --name test
 ```
 **Pm2常用api**
@@ -407,9 +408,8 @@ https://www.jianshu.com/p/fdc12d82b661
 
 ## linux关闭一个进程
 - 查找与进程相关的PID号
-    ```
+    ```javascript
     ps aux | grep server
-    
     ```
 - 杀死进程
     - 以优雅的方式结束进程
@@ -432,7 +432,7 @@ https://www.jianshu.com/p/fdc12d82b661
 
 ## Node.js线程
 ### Node.js关于单线程的误区
-```
+```javascript
 const http = require('http');
 
 const server = http.createServer();
@@ -446,17 +446,17 @@ server.listen(3000, () => {
 解释下原因：
 
 Node中最核心的是V8引擎，在Node启动后，会创建V8的实例，这个实例是多线程的。
-- 主线程:编译、执行代码
-- 编译/优化线程：在主线程执行的时候，可以优化代码
-- 分析器线程：记录分析代码运行时间，为Crankshaft优化代码执行提供依据
-- 垃圾回收的几个线程
+- <span style="color: blue">主线程:编译、执行代码</span>
+- <span style="color: blue">编译/优化线程：在主线程执行的时候，可以优化代码</span>
+- <span style="color: blue">分析器线程：记录分析代码运行时间，为Crankshaft优化代码执行提供依据</span>
+- <span style="color: blue">垃圾回收的几个线程</span>
 
 所以大家常说的Node是单线程指的是Javascript的执行是单线程(开发者编码的代码运行在单线程环境中)，但Javascript的宿主环境，无论是Node还是浏览器是多线程的因为libuv中有线程池的概念存在的，libuv会通过类似线程池的实现来模拟不同操作系统的异步调用，这对开发者来说是不可见的
 
 ### 某些异步IO会占用额外的线程
 
 还是上面的例子，我们在定时器执行的同事，去读一个文件
-```
+```javascript
 const fs = require('fs');
 setInterval(() => {
     console.log(new Date().getTime())
@@ -465,13 +465,13 @@ setInterval(() => {
 fs.readFile('./index.html', () => {})
 ```
 线程数量变成11个，这是因为在Node中有一些IO操作(DNS,FS)和一些CPU秘密计算(zlib, Crypto)会启用Node的线程池，而线程池默认大小是4,因为线程数变成了11，我们可以手动更改线程池默认大小
-```
+```javascript
 process.env.UV_THREADPPOOL_SIZE = 64
 ```
 一行代码轻松把线程变成71
 
 ### Libuv
-Libuv是一个跨平台的异步IO库，它结合了Unix下的libev和window下的IOCP的特性，最早由Node的作者开发，专门为Node提供多屏下的异步IO支持。Libuv本身是由C++语言实现的，Node中的非阻塞IO以及事件循环机制都是由Libuv实现的
+<span style="color:blue">Libuv是一个跨平台的异步IO库，它结合了Unix下的libev和window下的IOCP的特性，最早由Node的作者开发，专门为Node提供多屏下的异步IO支持。Libuv本身是由C++语言实现的，Node中的非阻塞IO以及事件循环机制都是由Libuv实现的</span>
 
 ![libuv架构](./images/624.jpg)
 
@@ -480,8 +480,8 @@ Libuv是一个跨平台的异步IO库，它结合了Unix下的libev和window下�
 注意下面的话，Node的异步调用是由libuv来支持的，以上面的读取文件的例子，读取文件实质的系统调用是由libuv来完成的，Node只是负责调用libuv的接口，等数据返回后在执行对应的回调方法
 
 ### Node.js线程创建
-直到 Node 10.5.0 的发布，官方才给出了一个实验性质的模块 worker_threads 给 Node 提供真正的多线程能力。
-```
+直到 Node 10.5.0 的发布，官方才给出了一个实验性质的模块 **<span style="color: blue">worker_threads 给 Node 提供真正的多线程能力</span>**。
+```javascript
 const {
     isMainThread,
     parentPort,
@@ -554,4 +554,6 @@ coding | 编码简单、调试方便 | 编码、调试复杂 | 编码、调试�
 
 ## 资料
 [深入理解Node.js 进程与线程](https://mp.weixin.qq.com/s/RiuRbKFUOvB-0Y99AyACOw)
+
+[原文](https://juejin.im/entry/5d4b7694f265da03cd0a6a4b)
 

@@ -4,11 +4,14 @@ title: React合成时间和DOM原生时间混用须知
 
 ## React合成事件
 ### 为什么有合成事件的抽象
-如果DOM上绑定了过多的事件处理函数，整个页面响应以及内存占用可能都会受到影响。React为了避免这类DOM事件滥用，同事屏蔽底层不同浏览器之间的事件系统差异，实现了一个中间层-SyntheticEvent
+如果DOM上绑定了过多的事件处理函数，整个页面响应以及内存占用可能都会受到影响。React为了避免这类DOM事件滥用，同时屏蔽底层不同浏览器之间的事件系统差异，实现了一个中间层-SyntheticEvent
+- 更好的兼容性和跨平台
+- 挂在document，减少内存消耗，避免频繁解绑操作
+- 方便事件的统一管理(如事务机制)
 
 ### 原理
 React中，如果需要绑定事件，我们常常在jsx中怎么写：
-```
+```javascript
 <div onClick={this.onClick}>
   React事件
 </div>
@@ -21,7 +24,13 @@ React并不是将click事件绑在该div的真实DOM上，而是在document处�
 
 ![React合成事件](./images/8792eeae6dc6011274986acf42a76b15_tplv-t2oaga2asx-watermark.jpg)
 
-其中，由于event对象是复用的,事件处理函数执行完后，属性会被清空，所以event的属性无法被异步访问。详情请查阅[event-pooling](https://reactjs.org/docs/events.html#event-pooling)。
+<span style="color:red">其中，由于event对象是复用的,事件处理函数执行完后，属性会被清空，所以event的属性无法被异步访问。详情请查阅[event-pooling](https://reactjs.org/docs/events.html#event-pooling)。</span>
+
+[event的属性无法被异步访问](https://github.com/olifer655/react/issues/18)
+
+:::tip
+<span style="color: blue">如果要以异步方式访问事件属性，应该对事件调用 event.persist() ，这将从池中删除合成事件，并允许> 用户代码保留对事件的引用。</span>
+:::
 
 ## 如何在React中使用原生事件
 虽然React封装了几乎所有的原生事件，但诸如
@@ -83,7 +92,7 @@ class Demo extends React.PureComponent {
 dom event react event
 ```
 ### 阻止冒泡
-那，如果在onDOMClick中调用evt.stopPropagation()呢？
+那，如果在onDOMClick中调用evet.stopPropagation()呢？
 
 由于DOM事件被阻止冒泡了，无法达到document，所以合成事件自然不会被触发，控制台输出就变成了
 

@@ -212,7 +212,7 @@ console.log('东8区现在是：' + targetDate);
 
 每次循环滚动最后的list为下一次滚动的首个元素
 
-```
+```js
 // css
 @keyframes fadeOutUp {
     0% {
@@ -267,11 +267,11 @@ handlerAnimationEnd() {
 由于客户要求视频播放禁止出现loading、黑屏情况
 
 ### 调研
-前期思路-在视频播放前设置视频封面,尝试之后发现在视频开始推流但是视频未开始播放之后还是有个loading旋转，所以修改封面样式
+前期思路-在视频播放前设置视频封面,尝试之后发现在视频开始推流但是视频未开始播放之后还是有个loading旋转，<span style="color: blue">所以修改封面样式</span>
 在视频真正播放前视频封面一直存在
 
 video.js
-```
+```css
 // 去掉覆盖层
 /deep/ .el-loading-mask {
     display: none;
@@ -293,6 +293,7 @@ video.js
 使用css3动画制作，但是动画会导致页面抖动闪屏
 
 ### 解决方案
+<span style="color:red">在低设备刷新率fps下是无法解决的，调高设备刷新率</span>
 
 使用到动画的样式设置如下样式，可解决
 ```
@@ -303,7 +304,7 @@ video.js
 
 eg:
 
-```
+```css
 .num {
     -webkit-backface-visibility: hidden;
     -webkit-transform-style: preserve-3d;
@@ -316,7 +317,7 @@ eg:
 上面问题在解决大屏的时候还是未生效，最后改写css动画使用requestAnimationFrame
 :::
 
-```
+```js
 async animationRender() {
     if (!this.$refs.animationEle) {
         return false;
@@ -344,7 +345,7 @@ animationloop()
 如果希望知道用户是否执行了缩放行为，则可以在resize事件事件中检测设备像素比的变化，也就是window.devicePixelRatio的返回值。
 
 实例代码
-```
+```js
 let lastPixelRatio = window.devicePixelRatio
 window.addEventListener('resize', function() {
     let currentPixel = window.devicePixelRatio;

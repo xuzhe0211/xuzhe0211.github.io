@@ -17,7 +17,7 @@ ESLint + Prettier + CommitLint + husky + lint-staged
 目前相关的lint配置文件都已集中化管理维护，公共配置文件包放在工具箱项目quick下，我们在安装配置前需要完成一下操作
 
 ### 配置工具箱@quick源
-```
+```shell
 # yarn 安装
 > yarn config set @quick:registry https://registry.npm.***.cn/
 
@@ -27,7 +27,7 @@ ESLint + Prettier + CommitLint + husky + lint-staged
 
 ### 添加工具箱@quick包别名
 此处以vue-cli搭建的项目配置为例
-```
+```js
 // 修改根目录下配置文件 vue.config.js
 
 // 此处无关代码省略
@@ -44,7 +44,7 @@ module.exports = {
 
 ## 安装配置
 ### 依赖包安装
-```
+```shell
 # 安装ESLint, Prettier, CommitLint公共配置文件包
 yarn add @quick/eslint-config @quick/prettier-config @quick/commitlint-config -D
 
@@ -69,7 +69,7 @@ yarn global add commitizen
 
 ### 创建配置文件
 新建eslint配置文件.eslintrc.js
-```
+```js
 // 根目录新建ESLint配置文件 .eslintrc.js
 // 注意：如果之前项目中已配置过eslint，建议删除
 const eslintConfig = require('@quick/eslint-config')

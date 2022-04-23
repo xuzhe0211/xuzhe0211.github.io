@@ -34,4 +34,16 @@ title: js获取整个屏幕尺寸
 
    获取元素到左边的距离:document.getElementsByClassName('div')[0].offsetLeft
 
+8. getBoundingClientRect
+   ```javascript
+      bottom: 1452.96875
+      height: 602
+      left: 629
+      right: 1238
+      top: 850.96875
+      width: 609
+      x: 629
+      y: 850.96875
+   ```
+
 ![js距离相关](./images/20180104085724397.jpg)

@@ -118,7 +118,7 @@ arr.sort((a, b) => {
 7. 实现一个add方法，使计算结果能够满足如下预期：<br/>
 add(1)(2)(3) ()<br/>
 add(1, 2, 3)(4)()<br/>
-```
+```javascript
 function add() {
 	var _args = Array.prototype.slice.call(arguments);
     function _adder() {
@@ -132,6 +132,29 @@ function add() {
     }
     return _adder;
 }
+
+function sum(...args) {
+    return args.reduce((a, b) =>  a + b, 0)
+}
+function curry(func) {
+    let args = [];
+    return function temp(...newArgs) {
+        if (newArgs.length) {
+            args = [
+                ...args, 
+                ...newArgs
+            ]
+            return temp
+        } else {
+            let val = func.apply(this, args)
+            args = [];
+            return val;
+        }
+    }
+}
+let add = curry(sum);
+console.log(add(1,2)(2)())
+
 ```
 8. 项目优化
 9. 浏览器重绘和回流<br/>
@@ -141,24 +164,41 @@ function add() {
 减少频繁操作DOM，优化页面性能(频繁操作DOM，造成页面卡段)
 
 11. 动态规划求解最多有几种方案求解硬币找零问题
+```js
+const MinCoinChange = (coints, amount) => {
+    coints = coints.sort((a, b) => b - a);
+    let change = [];
+    let total = 0;
+    for (let i = 0; i < coints.length; i++) {
+        let coin = coints[i];
+        while(total + coin <= amount) {
+            change.push(coin);
+            total += coin;
+        }
+    }
+    return change;
+}
+console.log(MinCoinChange([1,2,5,10], 36))
 ```
-function MinCoinChange(coins) {
-    var coins = coins.sort((a,b) => b - a);
-    this.makeChange = function(amount) {
-        var change = [];
-        total = 0;
-        for(var i = 0; i < coins.length;i++) {
-            var coin = coins[i];
-            while(total + coin <= amount) {
-                change.push(coin);
-                total += coin;
+[最小硬币数](https://leetcode-cn.com/problems/gaM7Ch/)
+```js
+// 输入：coins = [1, 2, 5], amount = 11
+// 输出：3 
+// 解释：11 = 5 + 5 + 1
+
+var coinChange = function(coins, amount) {
+    let dp = new Array(amount+1).fill(Infinity);
+    dp[0] = 0;
+    for(let i = 1; i <= amount; i++){
+        for(let coin of coins){
+            if(i - coin >= 0){
+                dp[i] = Math.min(dp[i],dp[i-coin]+1);
             }
         }
-        return change;
     }
-}
-var coim = new MinCoinChange([1,2,5,10]);
-console.log(coim.makeChange(36));
+    return dp[amount] == Infinity ? -1 : dp[amount];
+
+};
 ```
 12. 比较vue 和react ， React 代码与Vue 代码互转和复用
 	- vue适合小而精的项目，react则更适合偏大的项目
@@ -167,7 +207,7 @@ console.log(coim.makeChange(36));
     - react推崇函数式编程
 13. 关于异步任务执行的题目，涉及主线程任务、宏任务、微任务
 14. 场景：从1-10，按顺序每秒输出一个数字
-```
+```js
 var i = 0;
 var timer = setInterval(function () {
 	console.log(i++)
@@ -187,7 +227,7 @@ var timer = setInterval(function () {
     }
     ```
 16. css 垂直居中
-```
+```css
 //弹性盒模型
 display:flex;
 align-item:center;
@@ -251,7 +291,7 @@ arguments 如何转数组, 尽可能多方式
 [...arguments];
 Array.prototype.slice.call(arguments);
 function(...arg) {}
-Array.form(arguments)
+Array.from(arguments)
 35. react setState什么时候同步什么时候异步
 36. render props和HOC优缺点
 37. 手写promise

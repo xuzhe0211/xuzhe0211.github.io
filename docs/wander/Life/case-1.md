@@ -102,7 +102,6 @@ https://mp.weixin.qq.com/s/O0poI3y62W0vO8Z858lY4Q
 
 [https://mp.weixin.qq.com/s/3CQYKxxGJEjQWJl3AtJ6PQ](https://mp.weixin.qq.com/s/3CQYKxxGJEjQWJl3AtJ6PQ)
 
-[webpack5模块联邦实战](https://blog.csdn.net/yehuozhili/article/details/114390848)
 
 [理解babel的基本原理和使用方法](https://blog.csdn.net/weixin_43378716/article/details/107603540)
 

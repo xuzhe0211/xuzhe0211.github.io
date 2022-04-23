@@ -4,23 +4,23 @@ title: ssr01
 ---
 
 ## ssr的概念
-将一个Vue组件在服务器端渲染为HTML字符串并发送到浏览器，最后再将这些静态标记激活为可交互应用程序的过程成为服务端的渲染
+<span style="color: blue">将一个Vue组件在服务器端渲染为HTML字符串并发送到浏览器，最后再将这些静态标记激活为可交互应用程序的过程成为服务端的渲染</span>
 
 ## 基本使用
 ### 新建工程
-```
+```js
 vue create ssr
 ```
 
 ### 安装依赖
-```
-npm install vue-server-renderer express -D
+```js
+npm install vue@2.6.14 vue-server-renderer@2.6.14 --save-dev
 ```
 
 ### 编写服务的启动脚本
 
 server=>index.js
-```
+```js
 // nodejs服务器
 const express = require('express');
 const Vue = require('vue');
@@ -54,7 +54,7 @@ app.listen(3000, () => {
 
 **server=>index2.js**
 
-```
+```js
 // nodejs服务器
 const express = require('express');
 const Vue = require('vue');
@@ -104,7 +104,7 @@ app.listen(3000, () => {
 ```
 
 **index.temp.html**
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,7 +135,7 @@ entry-client.js
 
 // router=>index.js
 
-```
+```js
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from '@/components/Index';
@@ -163,7 +163,7 @@ export default function createRouter() {
 
 app.js
 
-```
+```js
 // 创建vue实例
 import Vue from 'vue';
 import App from './App.vue';
@@ -182,7 +182,7 @@ export default function createApp() {
 ```
 
 entry-server.js
-```
+```js
 // 渲染首屏
 import createApp from './app';
 
@@ -201,7 +201,7 @@ export default context => {
 
 entry-client.js
 
-```
+```js
 // 挂载、激活app
 
 import createApp from './app';
@@ -224,13 +224,13 @@ webpack
 
 ## 其他
 ### csr特点
-+ 首屏渲染速度慢
-+ SEO不友好
++ <span style="color: blue">首屏渲染速度慢</span>
++ <span style="color: blue">SEO不友好</span>
 
 ssr 
-+ 开发条件受限
-+ 构建部署要求多
-+ 服务端负载变大
++ <span style="color: red">开发条件受限</span>
++ <span style="color: red">构建部署要求多</span>
++ <span style="color: red">服务端负载变大</span>
 
 
 ##  异步数据同步问题
@@ -239,7 +239,7 @@ ssr
 服务器端渲染的应用程序的"快照",如果应用依赖与一些异步数据，那么在开始渲染之前，需要先预取和解析好这些数据
 
 store/index.js
-```
+```js
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -275,7 +275,7 @@ export function createStore() {
 
 app.js
 
-```
+```js
 // 创建vue实例
 import Vue from 'vue';
 import App from './App.vue';
@@ -314,7 +314,7 @@ export default function createApp() {
 ```
 
 Home.vue
-```
+```js
 <h2 @click="$store.commit('add')">{{$store.state.count}}</h2>
 
 asyncData({store, route}) {
@@ -323,7 +323,7 @@ asyncData({store, route}) {
 ```
 
 entry-server.js
-```
+```js
 // 渲染首屏
 import createApp from './app';
 
@@ -367,7 +367,7 @@ export default context => {
 
 entry-client.js
 
-```
+```js
 // 挂载、激活app
 
 import createApp from './app';
@@ -383,3 +383,8 @@ router.onReady(() => {
     app.$mount('#app');
 })
 ```
+
+## 资料
+[服务端渲染 (SSR)--- vue](https://staging-cn.vuejs.org/guide/scaling-up/ssr.html)
+
+[web全栈vue+ssr+ts训练营](https://learn.kaikeba.com/catalog/213394?type=1)

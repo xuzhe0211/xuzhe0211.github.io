@@ -18,12 +18,12 @@ Plugin:扩展插件，在webpack运行的各个阶段，都会广播出去相对
 **Compiler**:<br/>
 Compiler继承Tapable对象，可以广播和监听webpack。<br/>
 Compiler对象是webpack的编译器,webpack周期中只存在一个Compiler对象<br/>
-Compiler对象在webpack启动时创建实例，compiler实例中包含webpack的完整配置，包括loaders,plugins信息
+<span style="color: red">Compiler对象在webpack启动时创建实例，compiler实例中包含webpack的完整配置，包括loaders,plugins信息</span>
 
 **Compilation**<br/>
 Compilation继承Tapable对象，可以广播和监听webpack事件。<br/>
 Compilation实例仅代表一次webpack构建和生成编译资源的过程<br/>
-webpack开发模式开启watch选项，每次检测到入口模块变化时，会创建一次新的编译:生成一次新的编译资源和新的compilation对象，这个compilation对象包含了当前编译的模块资源modulle，编译生成的资源，变化的文件，依赖的状态
+webpack开发模式开启watch选项，每次检测到入口模块变化时，会创建一次新的编译:<span style="color: red">生成一次新的编译资源和新的compilation对象，这个compilation对象包含了当前编译的模块资源modulle，编译生成的资源，变化的文件，依赖的状态</span>
 
 ## webpack基本概念
 1. webpack中module、chunk和bundle

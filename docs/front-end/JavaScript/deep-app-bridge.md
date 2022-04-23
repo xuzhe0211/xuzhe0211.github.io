@@ -32,11 +32,10 @@ jsbridge://className:port/methodName?jsonObj
 ![图片](./images/2327406-7349581b80fc1df1.png)
 
 #### 总结
-JSBridge的基本原理为
-H5 -> 通过某种方式触发一个url -> Native捕获到url,进行分析 -> 原生做处理 -> Native调用H5的JSBridge对象传递回调。<br/>
+<span style="color: blue">JSBridge的基本原理为:H5 -> 通过某种方式触发一个url -> Native捕获到url,进行分析 -> 原生做处理 -> Native调用H5的JSBridge对象传递回调。<br/></span>
 如下图
 
-<img :src="$withBase('/images/2327406-a45afb11e62699dc.webp')" alt="原理图">
+![schema](./images/2327406-a45afb11e62699dc.png)
 
 参考地址：[https://www.jianshu.com/p/2ec3f06d6087?from=singlemessage](https://www.jianshu.com/p/2ec3f06d6087?from=singlemessage)
 

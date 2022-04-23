@@ -16,87 +16,87 @@ title: 移动端适配方案
 
 对于移动端开发而言，为了做到页面高清效果,视觉稿的规范往往遵循一下两点
 
-1. 首先，选取一款手机的屏幕宽高作为基准(iphone6 375*667)
-2. 对于retina屏幕(如：dpr=2)，为了达到高清效果，视觉稿的画布大小是基准的2倍，也就是说像素点个数是原来的四倍(375*667 就会变成750*1334)
+1. 首先，选取一款手机的屏幕宽高作为基准(iphone6 375 x 667)
+2. 对于retina屏幕(如：dpr=2)，为了达到高清效果，视觉稿的画布大小是基准的2倍，也就是说像素点个数是原来的四倍(375 x 667 就会变成750 x 1334)
 
 
 问题：
 
-1. 对于dpr=2的手机，为什么画布大小X2,就可以解决高清问题？
-2. 对于2倍大小的视觉稿，在具体的css编码中如何还原每一个区块的真实宽高(也就是布局问题)
+1. <span style="color: red">对于dpr=2的手机，为什么画布大小 x2,就可以解决高清问题？</span>
+2. <span style="color: red">对于2倍大小的视觉稿，在具体的css编码中如何还原每一个区块的真实宽高(也就是布局问题)</span>
 
 带着问题，往下看....
 
 ## 一些概念
 
-### 物理像素
+### 物理像素(physical pixel)
 
-一个物理像素是显示器(手机屏幕)上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值
+<span style="color: blue">一个物理像素是显示器(手机屏幕)上最小的物理显示单元，在操作系统的调度下，每一个设备像素都有自己的颜色值和亮度值</span>
 
 ### 设备独立像素
 
-设备独立像素(也叫密度无关像素)，可以认为是计算机坐标系统中得一个点，这个点代表可以由程序使用的虚拟像素(比如css)，然后由相关系统转换为物理像素。
+<span style="color: blue">**设备独立像素(也叫密度无关像素)--个人理解物理像素是屏幕设备密度比较大**，可以认为是计算机坐标系统中得一个点，这个点代表可以由程序使用的虚拟像素(比如css)，然后由相关系统转换为物理像素。</span>
 
 所以说，物理像素和设备独立像素之间存在着一定的对应关系，这就是接下来要说的设备像素比
 
 ### 设备像素比
 
 设备像素比(简称dpr)定义了物理像素和设备独立像素的对应关系，它的值可以按如下的公式得到
-```
+```javascript
 设备像素比 = 物理像素 / 设备独立像素 // 在某一方向上，x方向或y方向
 ```
 
-在javascript中，可以通过window.devicePixelRatio获取到当前设备的dpr。
+在javascript中，可以通过<span style="color: red">window.devicePixelRatio</span>获取到当前设备的dpr。
 
-在css中，可以通过-webkit-device-pixel-ratio, -webkit-min-pixel-ratio和-webkit-max-devie-pixel-ratio进行媒体查询，对不同dpr的设备，做一些样式适配(这里只针对webkit内核的浏览器和webview);
+在css中，可以通过<span style="color: red">-webkit-device-pixel-ratio, -webkit-min-pixel-ratio和-webkit-max-devie-pixel-ratio</span>进行媒体查询，对不同dpr的设备，做一些样式适配(这里只针对webkit内核的浏览器和webview);
 
 ---
 
 综合上面几个概念，一起举例说明下
 
-1. 设备宽高为375*667,可以理解为设备独立像素(或css像素)
-2. dpr为2，根据上面的公式，其物理像素应该X2,为750*1334
+1. <span style="color: blue">设备宽高为375 x 667,**可以理解为设备独立像素(或css像素)**</span>
+2. <span style="color: blue">dpr为2，根据上面的公式，其物理像素应该 x2,为750 x 1334</span>
 
 ![一张图来表现](https://img.alicdn.com/tps/TB1uWfJIpXXXXaoXXXXXXXXXXXX.gif)
 
 上图中可以看出，对于这样的css样式
-```
+```css
 width：2px;
 height:2px;
 ```
 
 在不同的屏幕上(普通屏幕Vs Retina屏幕)，css像素所呈现的大小(物理尺寸)是一致的，不同的是1个css像素所对应的物理像素个数是不一致的。
 
-在普通屏幕下，1个css像素 对应1个物理像素(1:1)。 在retina 屏幕下，1个css像素对应4个物理像素(1:4)
+<span style="color: red">在普通屏幕下，1个css像素 对应1个物理像素(1:1)。 在retina 屏幕下，1个css像素对应4个物理像素(1:4)</span>
 
 
 ### 位图像素
 
-一个位图像素是栅格图象(如：png,jpg,gif等)最小数据单元。每一个位图像素都包含一些自身的显示信息(如：显示位置，颜色值，透明度等)
+<span style="color: red">一个位图像素是栅格图象(如：png,jpg,gif等)最小数据单元。每一个位图像素都包含一些自身的显示信息(如：显示位置，颜色值，透明度等)</span>
 
 ---
 
 说到这里，就得说一下retina下图片展示情况？
 
-理论上，1个位图像素对应于1个物理像素，图片才能完美清晰的展示。
+<span style="color: red">理论上，1个位图像素对应于1个物理像素，图片才能完美清晰的展示。</span>
 
-在普通屏幕下没有问题，但是在retina屏幕下就会出现位图像素点不够，从而导致图片模糊的情况
+<span style="color: red">在普通屏幕下没有问题，但是在retina屏幕下就会出现位图像素点不够，从而导致图片模糊的情况</span>
 
 ![位图像素](https://img.alicdn.com/tps/TB12ALnIpXXXXb1XVXXXXXXXXXX.jpg)
 
-如上图：对于dpr=2的retina屏幕而言，1个位图像素对应4个物理像素，由于单个位图像素不可以再进一步分割，所以只能就近取色，从而导致图片模糊(注意上述的几个颜色值)、
+如上图：<span style="color: blue'>对于dpr=2的retina屏幕而言，1个位图像素对应4个物理像素，由于单个位图像素不可以再进一步分割，所以只能就近取色，从而导致图片模糊(注意上述的几个颜色值)、</span>
 
-所以对于图片高清问题，比较好的方案是两杯图片(@2px)
+所以对于图片高清问题，比较好的方案是两倍图片(@2px)
 
-如果200*300 img标签 就需要提供400*600的图片。
+如果200 x 300 img标签 就需要提供400 x 600的图片。
 
-如此以来，位图像素点个数就是原来的4倍，在retina屏幕下，位图像素点个数就可以跟物理像素点数形成1：1的比例，图片自然就清晰了(这也解释了之前留下的一个问题，为啥视觉搞的画布大小要*2)
+<span style="color: blue">如此以来，位图像素点个数就是原来的4倍，在retina屏幕下，位图像素点个数就可以跟物理像素点数形成1：1的比例，图片自然就清晰了(这也解释了之前留下的一个问题，为啥视觉搞的画布大小要*2)</span>
 
 ---
 
 这里就还有另一个问题，如果普通屏幕下，也用了两倍图片，会怎么样？
 
-很明显，在普通屏幕下，200*300的img标签，所对应的物理像素个数就是200*300个，而两倍图片的位图像素个数则是200*300*4,所以就出现一个物理像素点对应4个位图像素点，所以它的取色只能通过一定的算法(显示结果就是一张只有原图像素总数四分之一，我们称这个过程叫做downsampling)，肉眼看上去虽然图片不会模糊，但是会觉得图片缺少一些锐利度，或者是有点色差
+<span style="color: blue">很明显，在普通屏幕下，200 x 300的img标签，所对应的物理像素个数就是200 x 300个，而两倍图片的位图像素个数则是200 x 300 x4,所以就出现一个物理像素点对应4个位图像素点，所以它的取色只能通过一定的算法(显示结果就是一张只有原图像素总数四分之一，我们称这个过程叫做downsampling)，肉眼看上去虽然图片不会模糊，但是会觉得图片缺少一些锐利度，或者是有点色差</span>
 
 ![普通屏幕下](https://img.alicdn.com/tps/TB1kFHnIpXXXXclXVXXXXXXXXXX.jpg)
 
@@ -106,11 +106,11 @@ height:2px;
 
 ![demo](https://img.alicdn.com/tps/TB11KbzIpXXXXXcXFXXXXXXXXXX.png)
 
-demo中，100*100的图片，分别放在100*100， 50*50， 25*25的img容器中，在retina屏幕下的显示效果
+demo中，100 x 100的图片，分别放在100 x 100， 50 x 50， 25 x 25的img容器中，在retina屏幕下的显示效果
 
-- 图1，就近取色，色值介于红白之间，偏淡，图片上看去会模糊(可以理解为拉伸)
-- 图2，没有就近取色，色值要么是红，要么是白，图片看上去很清晰
-- 图3，就近取色，色值介于红白之间，偏重，图片看上去有色差，缺少锐利度(可以理解为图片挤压)
+- <span style="color: blue">图1，就近取色，色值介于红白之间，偏淡，图片上看去会模糊(可以理解为拉伸)</span>
+- <span style="color: blue">图2，没有就近取色，色值要么是红，要么是白，图片看上去很清晰</span>
+- <span style="color: blue">图3，就近取色，色值介于红白之间，偏重，图片看上去有色差，缺少锐利度(可以理解为图片挤压)</span>
 
 
 爱字图，可以通过文字『爱』来区分图片模块还是清晰
@@ -128,13 +128,14 @@ demo中，100*100的图片，分别放在100*100， 50*50， 25*25的img容器�
 如：图片大小 400*600
 
 1. img标签
-```
+
+```css
 width: 200px;
 height: 300px;
 ```
 
 2. 背景图片
-```
+```css
 width: 200px;
 height: 300px;
 background-image: url(image@2px.jpg);
@@ -143,12 +144,12 @@ background-size: 200px 300px;
 
 这样的缺点，很明显，普通屏幕下：
 
-1. 同样下载了@2x的图片，造成资源浪费
-2. 图片由于downsampling，会市区一些锐利度(色差)
+1. <span style="color: blue">同样下载了@2x的图片，造成资源浪费</span>
+2. <span style="color: blue">图片由于downsampling，(非retina高清屏)会失去一些锐利度(色差)</span>
 
-最好的解决办法是：**不同的dpr下，加载不同的尺寸的图片**
+最好的解决办法是：<span style="color: red">**不同的dpr下，加载不同的尺寸的图片**</span>
 
-不管是通过css媒体查询，还是通过js条件判断都是可以的
+<span style="color: blue">不管是通过css媒体查询，还是通过js条件判断都是可以的</span>
 
 ---
 
@@ -185,15 +186,15 @@ https://img.alicdn.com/tps/TB1AGMmIpXXXXafXpXXXXXXXXXX.jpg_100x100.jpg
 
 ![1px对比图](https://img.alicdn.com/tps/TB1OPkfIpXXXXXWaXXXXXXXXXXX.jpg_q90.jpg)
 
-上图中，对于一条1px宽的直线,它们在屏幕上的物理尺寸(灰色区域)的确是相同的，不同的其实是屏幕上最小的物理显示单元，即物理像素，所以对于一条直线，iphone5它能显示的最小宽度其实是图中的红线圈出来的灰色区域，用css来表示，理论上说是0.5px.
+<span style="color: blue">上图中，对于一条1px宽的直线,它们在屏幕上的物理尺寸(灰色区域)的确是相同的，不同的其实是屏幕上最小的物理显示单元，即物理像素，所以对于一条直线，iphone5它能显示的最小宽度其实是图中的红线圈出来的灰色区域，用css来表示，理论上说是0.5px.</span>
 
-**所以，设计师想要的retina下border:1px;其实就是1物理像素宽，对于css而言，可以认为是border:0.5px;这是retina下(dpr=2)下能显示的最小单位**
+<span style="color: blue">**所以，设计师想要的retina下border:1px;其实就是1物理像素宽，对于css而言，可以认为是border:0.5px;这是retina下(dpr=2)下能显示的最小单位**</span>
 
 然而，无奈并不是所有手机浏览器都能识别border:0.5px；ios7以下，android等其他系统里，0.5px会被当成0px处理，那么如何实现0.5px呢？
 
 最简单的做法就是(元素scale)
 
-```
+```css
 scale {
 	position:relative;
 }
@@ -215,9 +216,8 @@ scale {
 
 对于iphone5(dpr=2)，添加如下的meta标签，设置viewport(scale 0.5)
 
-```
+```html
 <meta name="viewport" content="width=640,initial-scale=0.5,maximum-scale=0.5, minimum-scale=0.5,user-scalable=no">
-
 ```
 这样页面中所有的border:1px都将缩小0.5,从而达到border:0.5px的效果。
 
@@ -228,8 +228,8 @@ scale {
 
 然而，页面scale，必然会带来一些问题
 
-1. 字体大小会被缩放
-2. 页面布局会被缩放(如：div的宽高等)
+1. <span style="color: blue">字体大小会被缩放</span>
+2. <span style="color: blue">页面布局会被缩放(如：div的宽高等)</span>
 
 这两个问题后面说
 
@@ -239,19 +239,19 @@ scale {
 
 移动端布局，为了适配各种大屏手机，目前最好用的方案莫过于使用相对单位rem。
 
-基于rem的原理，我们要做的就是: 针对不同手机屏幕尺寸和dpr动态的改变根节点html的font-size大小(基准值)。
+基于rem的原理，我们要做的就是: **<span style="color:red">针对不同手机屏幕尺寸和dpr动态的改变根节点html的font-size大小(基准值)。</span>**
 
 这里我们提取了一个公式(rem表示基准值)
 
-```
+```js
 rem = document.documentElement.clientWidth * dpr / 10
-
 ```
 
 说明：
 
-乘以dpr，是因为页面有可能为了实现1px border页面会缩放(scale) 1/dpr 倍(如果没有，dpr=1),。
-除以10，是为了取整，方便计算(理论上可以是任何值)
+1. 乘以dpr，是因为页面有可能为了实现1px border页面会缩放(scale) 1/dpr 倍(如果没有，dpr=1),。
+2. 除以10，是为了取整，方便计算(理论上可以是任何值)
+
 所以就像下面这样，html的font-size可能会：
 
 iphone3gs: 320px / 10 = 32px
@@ -264,7 +264,7 @@ iphone6: 375px * 2 / 10 = 75px
 
 css方式，可以通过设备宽度来媒体查询来改变html的font-size：
 
-```
+```css
 html{font-size: 32px;}
 //iphone 6 
 @media (min-device-width : 375px) {
@@ -277,11 +277,11 @@ html{font-size: 32px;}
 */
 ```
 
-缺点：通过设备宽度范围区间这样的媒体查询来动态改变rem基准值，其实不够精确，比如：宽度为360px 和 宽度为320px的手机，因为屏宽在同一范围区间内(<375px)，所以会被同等对待(rem基准值相同)，而事实上他们的屏幕宽度并不相等，它们的布局也应该有所不同。最终，结论就是：这样的做法，没有做到足够的精确，但是够用。
+<span style="color: blue">缺点：通过设备宽度范围区间这样的媒体查询来动态改变rem基准值，其实不够精确，比如：宽度为360px 和 宽度为320px的手机，因为屏宽在同一范围区间内(&lt;375px)，所以会被同等对待(rem基准值相同)，而事实上他们的屏幕宽度并不相等，它们的布局也应该有所不同。最终，结论就是：这样的做法，没有做到足够的精确，但是够用。</span>
 
 javascript方式，通过上面的公式，计算出基准值rem，然后写入样式，大概如下(代码参考自kimi的m-base模块)
 
-```
+```js
 var dpr, rem, scale;
 var docEl = document.documentElement;
 var fontEl = document.createElement('style');
@@ -336,7 +336,7 @@ window.rem = rem;
 
 公式如下：
 
-```
+```js
 rem = px / 基准值;
 
 ```
@@ -345,7 +345,7 @@ rem = px / 基准值;
 
 所以，在确定了视觉稿(即确定了基准值)后，通常我们会用less写一个mixin，像这样
 
-```
+```js
 / 例如: .px2rem(height, 80);
 .px2rem(@name, @px){
     @{name}: @px / 75 * 1rem;
@@ -354,14 +354,14 @@ rem = px / 基准值;
 
 所以，对于宽高750×300px的div，我们用less就这样写
 
-```
+```css
 .px2rem(width, 750);
 .px2rem(height, 300);
 ```
 
 转换成html，就是这样：
 
-```
+```css
 width: 10rem; // -> 750px
 height: 4rem; // -> 300px
 ```
@@ -370,7 +370,7 @@ height: 4rem; // -> 300px
 
 倘若页面并没有scale 0.5，我们的代码就得这样：
 
-```
+```css
 px2rem(width, 375);
 .px2rem(height, 150);
 ```
@@ -388,7 +388,7 @@ px2rem(width, 375);
 
 对于字体缩放问题，设计师原本的要求是这样的：任何手机屏幕上字体大小都要统一，所以我们针对不同的分辨率(dpr不同)，会做如下处理：
 
-```
+```css
 font-size: 16px;
 [data-dpr="2"] input {
   font-size: 32px;
@@ -399,7 +399,7 @@ font-size: 16px;
 (注意，字体不可以用rem，误差太大了，且不能满足任何屏幕下字体大小相同)
 
 为了方便，我们也会用less写一个mixin：
-```
+```css
 .px2px(@name, @px){
     @{name}: round(@px / 2) * 1px;
     [data-dpr="2"] & {
@@ -429,12 +429,12 @@ font-size: 16px;
 
 用的时候，就像这样：
 
-```
+```css
 .px2px(font-size, 32);
 ```
 
 当然对于其他css属性，如果也要求不同dpr下都保持一致的话，也可以这样操作，如：
-```
+```css
 .px2px(padding, 20);
 .px2px(right, 8);
 ```
@@ -442,7 +442,7 @@ font-size: 16px;
 
 
 ## 收藏
-```
+```js
 // flexible.js
 
 !function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));

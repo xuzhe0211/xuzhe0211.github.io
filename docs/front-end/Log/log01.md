@@ -3,15 +3,15 @@ title: 前端页面异常监控
 ---
 
 ## 页面异常分类
-- Javascript异常(语法错误、运行时错误、跨域脚本)
-- 资源加载异常(img、js、css)
-- ajax异常
-- promise异常
-- vue项目中全局异常捕获
+- <span style="color: blue">Javascript异常(语法错误、运行时错误、跨域脚本)</span>
+- <span style="color: blue">资源加载异常(img、js、css)</span>
+- <span style="color: blue">ajax异常</span>
+- <span style="color: blue">promise异常</span>
+- <span style="color: blue">vue项目中全局异常捕获</span>
 
 ## 前端异常捕获方式
 - window.onerror捕获javascript异常
-    ```
+    ```javascript
     window.onerror = function(message, source, lieno,colno, error) {
         console.log('捕获到异常:', {messge, source, lineno, colno, error})
     }
@@ -27,7 +27,7 @@ title: 前端页面异常监控
     window.addEventListener('error', cb, true)捕获资源加载异常
 
     img加载异常会触发img.onerror函数
-    ```
+    ```javascript
     window.addEventListener('error', function(e) {
         const err = e.target.src || target.href
         if (err) {
@@ -35,8 +35,8 @@ title: 前端页面异常监控
         }
     }, true)
     ```
-    ajax接口请求异常捕获
-    ```
+- ajax接口请求异常捕获
+    ```javascript
     // 同意拦截ajax请求
     function ajaxEventTrigger(event) {
         var ajaxEvent = new CustomEvent(event, {detail: this});
@@ -84,7 +84,7 @@ title: 前端页面异常监控
     promise中报错顺序：如果有catch等捕获函数，则走catch捕获函数。catch捕获函数如果没有抛出新的异常，则下一个then将会认为没有什么报错，会继续执行
 
     如果没有catch等捕获函数，我们需要注册window.addEventListener('unhandlerejection')处理
-    ```
+    ```javascript
     /**
     * Promise catch错误上报，需要在使用promise的地方显示调用.catch()，否则不会捕获错误
     */
@@ -110,8 +110,8 @@ title: 前端页面异常监控
     })
     ```
 - vue项目全局异常捕获
-    ```
-    Vue.confit.errorHandler = function(err, vm, info) {
+    ```javascript
+    Vue.config.errorHandler = function(err, vm, info) {
         // 只在2.2.0+可用
         let msg = `错误发生在${info}中，具体信息：${err.stack}`;
         console.log(msg)

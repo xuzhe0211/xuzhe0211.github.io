@@ -34,7 +34,7 @@ title: 大厂面试
 5. [301、302、307、308的区别](/front-end/JavaScript/network-http-status.html)
 
 6. 两数之和
-    ```
+    ```js
     var towSum = function(arr, taget) {
         var obj = {};
         for (var i = 0; i < arr.length; i++) {
@@ -47,7 +47,7 @@ title: 大厂面试
     }
     ```
 7. 洗牌算法
-    ```
+    ```js
     function sortPoke(arr) {
         var _arr = []
         while(arr.length > 0) {
@@ -83,7 +83,7 @@ title: 大厂面试
 5. localstorage、sessionStorage和cookie的区别
 6. 爬楼梯
 
-    ```
+    ```js
     var climbStairs = function(n) {
         var p = 0, q = 0, r = 1;
         for (let i = 1; i <= n; i++) {
@@ -96,7 +96,7 @@ title: 大厂面试
     ```
     [leetcode爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/solution/pa-lou-ti-by-leetcode-solution/)
 7. [使用最小花费爬楼梯](https://leetcode-cn.com/problems/min-cost-climbing-stairs/solution/shi-yong-zui-xiao-hua-fei-pa-lou-ti-by-l-ncf8/)
-    ```
+    ```js
     var minCostClimbingStairs = function() {
         const n = cost.length;
         const dp = new Array(n + 1);
@@ -131,6 +131,53 @@ title: 大厂面试
     - 解决办法是每隔10s把node的file写在硬盘里面，然后结束录制的时候，把每个10s的小视频片段用ffmpeg合成一个大的文件
 
 5. [快照数组](https://leetcode-cn.com/problems/snapshot-array/)
+
+    ```js
+    输入：["SnapshotArray","set","snap","set","get"]
+     [[3],[0,5],[],[0,6],[0,0]]
+    输出：[null,null,0,null,5]
+    解释：
+    SnapshotArray snapshotArr = new SnapshotArray(3); // 初始化一个长度为 3 的快照数组
+    snapshotArr.set(0,5);  // 令 array[0] = 5
+    snapshotArr.snap();  // 获取快照，返回 snap_id = 0
+    snapshotArr.set(0,6);
+    snapshotArr.get(0,0);  // 获取 snap_id = 0 的快照中 array[0] 的值，返回 5
+
+    ["SnapshotArray","snap","get","get","set","get","set","get","set"]
+    [[2],[],[1,0],[0,0],[1,8],[1,0],[0,20],[0,0],[0,7]]
+    ```
+    ```js
+    let SnapshotArray = function(length) {
+        // 使用字典数组来记录快照数组
+        this.arr = new Array(length).fill(0).map(() => new Map());
+        this.snapId = 0;
+    }
+    SnapshotArray.prototype.set = function(index, val) {
+        this.arr[index].set(this.snapId, val);
+    }
+    SnapshotArray.prototype.snap = function() {
+        // 快照号是调用snap()的总次数减去1
+        this.snapId++;
+        return this.snapId - 1;
+    }
+    SnapshotArray.prototype.get = function(index, snap_id) {
+        // 找到这个数的所有记录
+        let snapIds = [...this.arr[index].keys()];
+        // 二分查找，找到<= snap_id的值
+        let low = 0, high = snapIds.length - 1,mid;
+        while(low <= high) {
+            mid = Math.floor((low + high) / 2);
+            if (snapIds[mid] < snap_id) {
+                low = mid + 1
+            } else if(snapIds[mid] > snap_id) {
+                high = mid - 1;
+            } else if(snapIds[mid] === snap_id) {
+                return this.arr[index].get(snap_id)
+            }
+        }
+        return this.arr[index].get(snapIds[low - 1]) || null;
+    }
+    ```
 
 ### 四面
 1. 路径总和
@@ -174,7 +221,11 @@ title: 大厂面试
     - I帧是关键帧
     - p帧是差别帧
     - B帧是双向差别帧
-4. [RGB和YUV区别](https://www.cnblogs.com/silence-hust/p/4465354.html): [参考](https://blog.csdn.net/weixin_40673765/article/details/93483937)
+4. [RGB和YUV区别](https://www.cnblogs.com/silence-hust/p/4465354.html): 
+    [参考](https://blog.csdn.net/weixin_40673765/article/details/93483937)
+
+    - RGB将一个颜色拆解为3个纯色的亮度的组合
+    - YUV将一个颜色分解为一个亮度和2个色度的组合
 
 5. 有了解过那些直播协议
     - httpflv传输方式:http流，格式flv，连续流
@@ -225,7 +276,7 @@ title: 大厂面试
     - 当场白板用**克拉默法则**求出方程 x,y,z 的解
     - 然后写一下 matrix.js 里面的优化方程（虽然我也不知道他是什么原理）
 5. [转置矩阵](https://leetcode-cn.com/problems/transpose-matrix/)
-    ```
+    ```js
     var transpose = function(matrix) {
         const m = matrix.length, n = matrix[0].length;
         const transposed = new Array(n).fill(0).map(() => new Array(m).fill(0));
@@ -272,7 +323,7 @@ title: 大厂面试
 10. css 的 BEM 规范
 11. 当场设计一个 toast
 12. LRU 实现
-13. DNS 的路径选择用了啥算法
+13. <span style="color:red">DNS 的路径选择用了啥算法--递归迭代</span>
 
 ## YY
 1. mvvm和mvc模型的区别

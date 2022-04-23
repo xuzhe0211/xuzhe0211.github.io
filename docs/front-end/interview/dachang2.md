@@ -3,7 +3,7 @@ title: 最新字节阿里美团虾皮前端大厂面经
 ---
 :::tip
 setTiemout(fn, 0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早的执行。它在任务队列的尾部添加一个事件，因此要等到同步任务和任务队列现有的时间都处理完了才会得到执行。
-HTML5标准规定了setTimeout的第二个参数的最小值(最短间隔)，不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器豆浆最短间隔设置为10毫秒。另外对于那些DOM的变动(尤其涉及到页面重新渲染的部分)，通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout();
+HTML5标准规定了setTimeout的第二个参数的最小值(最短间隔)，不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器都将最短间隔设置为10毫秒。另外对于那些DOM的变动(尤其涉及到页面重新渲染的部分)，通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout();
 :::
 
 ## 简单
@@ -75,7 +75,7 @@ addEventListener第三个参数默认是false代表执行事件冒泡行为
 
 ### 举出闭包使用场景运用的例子
 比如常见的防抖和节流
-```
+```js
 function debounce(fn, delay = 300) {
     let timer; // 
     return function() {
@@ -90,7 +90,7 @@ function debounce(fn, delay = 300) {
 }
 ```
 使用闭包可以在Javascript中模拟块级作用域
-```
+```js
 function outputNumbers(count) {
     (function() {
         for (var i= 0; i < count; i++) {
@@ -101,7 +101,7 @@ function outputNumbers(count) {
 }
 ```
 闭包可以用于在对象中创建私有变量
-```
+```js
 var aaa = (function() {
     var a = 1;
     function bbb(){
@@ -131,7 +131,7 @@ aaa.c(); // 3
 - 继承的样式没有权值
 
 ### 事件循环相关题目--必考(一般是代码输出顺序判断)
-```
+```js
 setTimeout(function() {
     console.log(1)
 }, 0);
@@ -162,7 +162,7 @@ new Promise(function(reoslve) {
 // 2 4 7 5 3 6 async2的结果 Promise {<pending>} 1
 ```
 输出结果： 2，4，7，5，3，6， async2的结果 1
->注意！我在最后一个 Promise 埋了个坑 我没有调用 resolve 方法 这个是在面试美团的时候遇到了 当时自己没看清楚 以为都是一样的套路 最后面试官说不对 找了半天才发现是这个坑 哈哈
+> <span style="color:red">注意！我在最后一个 Promise 埋了个坑 我没有调用 resolve 方法 这个是在面试美团的时候遇到了 当时自己没看清楚 以为都是一样的套路 最后面试官说不对 找了半天才发现是这个坑 哈哈----**promise默认返回一个promise2**</span>
 
 ### http状态码204 301 302 304 400 401 403 404含义
 - http状态码204(无内容) 服务器成功处理了请求，但没有返回任何内容
@@ -229,7 +229,7 @@ HTTP3.0特性如下
 对象内部通过defineReactive方法，使用Object.defineProperty将属性进行劫持(只会劫持已经存在的属性)，数组则是通过重写数组的方法来实现。当页面使用对应属性时，每个属性都拥有自己的dep属性，存放他所依赖的watcher(收集依赖)，当属性变化后悔通过自己对应的watcher去更新(派发更新)
 
 相关代码
-```
+```js
 class Observer{
     // 观测值
     constructor(value) {
@@ -277,7 +277,7 @@ export function observe(value) {
 ### Vue nextTick原理
 nextTick中的回到是在下次DOM更新循环结束之后执行的延迟回调.在修改数据之后立即使用这个方法，获取更新后的DOM。主要思路就是采用微任务优先的方式调用异步方法去执行nextTick包装的方法
 
-```
+```js
 let callbacks = [];
 let pedding = false;
 function flushCallbacks() {
@@ -353,7 +353,7 @@ exports function nextTick(cb) {
 > 特点，虽然美观，但是刷新会出现404需要后端进行配置
 
 ### 手写bind
-```
+```js
 // bind实现要复杂一点， 因为要考虑的情况比较多，还要涉及到参数合并
 Function.prototype.myBind = function(context, ...args){
     if (!context || context === null) {
@@ -420,7 +420,7 @@ Function.prototype.myBind = function(context, ...args){
 //  bindFun('我是参数传进来的age')
 ```
 ### 手写promise.all 和race
-```
+```js
 static all(promiseArr) {
     let result = [];
     // 声明一个计数器，每个promise返回就加1
@@ -455,7 +455,7 @@ static race(promiseArr) {
 }
 ```
 ### 实现一个寄生组合式继承
-```
+```js
 funtion Parent(name) {
     this.name = name;
     this.say = () => {
@@ -473,7 +473,7 @@ Child.prototype = Object.creaete(Parent.prototype);
 Chile.prototype.constructor = Children;
 ```
 ### new操作符
-```
+```js
 function myNew(fn, ...args) {
     let obj = Object.create(fn.prototype);
     let res = fn.apply(obj, ...args);
@@ -484,7 +484,7 @@ function myNew(fn, ...args) {
 }
 ```
 ### setTimeout模拟实现setInterval
-```
+```js
 function mySetInterval(fn, time = 1000) {
     let timer = null,
         isClear = false;
@@ -511,7 +511,7 @@ function mySetInterval(fn, time = 1000) {
 // cancel()
 ```
 ### 发布订阅者模式
-```
+```js
 class EventEmitter {
   constructor() {
     this.events = {};
@@ -567,7 +567,7 @@ class EventEmitter {
 // event.emit("dbClick");
 ```
 ### 函数防抖和节流
-```
+```js
 // 防抖
 function debounce(fn, delay = 300) {
   //默认300毫秒
@@ -612,7 +612,7 @@ window.addEventListener(
 );
 ```
 ### 将虚拟DOM转成真是DOM
-```
+```js
 {
   tag: 'DIV',
   attrs:{
@@ -634,7 +634,7 @@ window.addEventListener(
     }
   ]
 }
-把上诉虚拟Dom转化成下方真实Dom
+// 把上诉虚拟Dom转化成下方真实Dom
 <div id="app">
   <span>
     <a></a>
@@ -646,7 +646,7 @@ window.addEventListener(
 </div>
 ```
 答案
-```
+```js
 // 真正的渲染函数
 function _render(vnode) {
     // 如果是数字类型转化成字符串
@@ -672,7 +672,7 @@ function _render(vnode) {
 }
 ```
 ### 实现一个对象的flatten方法（阿里）
-```
+```js
 const obj = {
  a: {
         b: 1,
@@ -696,7 +696,7 @@ flatten(obj) 结果返回如下
 // }
 ```
 答案
-```
+```js
 function isObject(val) {
     return typeof val === 'object' && val !== null;
 }
@@ -750,7 +750,7 @@ flatten();
 输出：false
 ```
 答案
-```
+```js
 const isValid = function(s) {
     if (s.length % 2 === 1) {
         return false;
@@ -805,7 +805,7 @@ const isValid = function(s) {
 解释：输入不存在公共前缀
 ```
 答案
-```
+```js
 const longCommonPrefix = function(nums) {
     if(nums.length === 0) return '';
     if (nums.length === 1) return num[0];
@@ -837,6 +837,7 @@ const longestCommonPrefix = function(strs) {
     return str;
 }
 ```
+[最长公共前缀](/front-end/Code/stady-02.html#找规律)
 ### 字符串最长的不重复子串
 ```
 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
@@ -867,7 +868,7 @@ const longestCommonPrefix = function(strs) {
 输出: 0
 ```
 答案
-```
+```js
 const lengthOfLongestSubstring = function(str) {
     if (!str.length) return 0;
     let tempStr = '';
@@ -925,7 +926,7 @@ const lengthOfLongestSubstring = function(s) {
 输出：1
 ```
 答案
-```
+```js
 function fn(nums) {
     let result = 0;
     while(nums.includes(result)) {
@@ -982,7 +983,7 @@ const firstMissingPositive = (nums) => {
 };
 ```
 ### 怎么在制定数据源里面生成一个长度为n的不重复的随机数组，能有几种方法，时间复杂度多少
-```
+```js
 function getTenNum(testArray, n) {
     let hash = {};
     let result = [];
@@ -1078,7 +1079,7 @@ If-Modified-Since: Thu, 20 Jun 2019 15:58:05 GMT
 **强缓存命中返回200** 200 (from cache)
 
 ### Vue.extend实现
-```
+```js
 import {mergeOptions} = from '../utils/index';
 export default function initExtend(vue) {
     let cid = 0; // 组件的唯一标识
@@ -1117,11 +1118,11 @@ Commonjs是一种模块规范，最初被应用于Nodejs,成为Nodejs的模块�
 
 ### RAF和RIC是什么
 - requestAnimationFrame: 告诉浏览器在下次重绘之前执行传入的回调函数(通常是操纵DOM，更新动画函数);由于是每帧执行一次,那结果就是每秒的执行次数与浏览器刷新次数一样，通常是60次
-- requestIdleCallback: 会在浏览器空闲时间执行回调，也就是允许开发人员在主事件循环中执行低优先级任务，而不影响一些延迟关键事件。如果有多个回调，会按照先进先出原则执行，但是当传入了timeout，为了避免潮湿，有可能会打乱这个顺序
+- requestIdleCallback: 会在浏览器空闲时间执行回调，也就是允许开发人员在主事件循环中执行低优先级任务，而不影响一些延迟关键事件。如果有多个回调，会按照先进先出原则执行，但是当传入了timeout，为了避免超时，有可能会打乱这个顺序
 
 ## 困难
 ### ES6的let实现原理
-```
+```js
 var funcs = [];
 for (let i = 0; i < 10; i++) {
     funcs[i] = function() {
@@ -1131,7 +1132,7 @@ for (let i = 0; i < 10; i++) {
 funcs[0]();
 ```
 babel编译之后的ES5代码
-```
+```js
 var funcs = [];
 function _loop = function(i) {
     func[i] = function() {
@@ -1146,7 +1147,7 @@ funcs[0]();
 其实我们根据 babel 编译之后的结果可以看得出来 let 是借助闭包和函数作用域来实现块级作用域的效果的 在不同的情况下 let 的编译结果是不一样的
 
 cosnt实现
-```
+```js
 var const_customer = function(param, value) {
     // 目前是在浏览器端测试全局对象window,如果是在node环境全局对象global
     var _grobal = window;

@@ -8,13 +8,13 @@ title: Reflect
 
 Reflect对象与proxy对象一样，也是ES6为了操作对象而提供的新API。Reflect对象设计目的有一下几个
 
-1. 将Object对象的一些明显属于语言层面的方法放到Reflect对象上。现阶段，某些方法同时在Object和Reflect对象上部署，未来的新方法将只部署在Reflect对象上。
+1. <span style="color: red">将Object对象的一些明显属于语言层面的方法放到Reflect对象上。现阶段，某些方法同时在Object和Reflect对象上部署，未来的新方法将只部署在Reflect对象上。</span>
 
-2. 修改某些Object方法的返回结果，让其变得更合理。比如Object.defineProperty(obj, name, desc)在无法定义属性时会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false
+2. <span style="color: red">修改某些Object方法的返回结果，让其变得更合理。比如Object.defineProperty(obj, name, desc)在无法定义属性时会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false</span>
 
-3. 让Object操作都变成函数行为。某些Object操作试试命令式，比如 name in obj 和delete obj[name],而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让他们编程函数行为
+3. <span style="color: red">让Object操作都变成函数行为。某些Object操作试试命令式，比如 name in obj 和delete obj[name],而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让他们编程函数行为</span>
 
-4. Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。这就让Proxy对象可以方便的调用对应的Reflect方法完成默认行为，作为修改行为的基础。也就是说，不管Proxy怎么修改默认行为，你总在Reflect上获取默认行为。
+4. <span style="color: red">Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。这就让Proxy对象可以方便的调用对应的Reflect方法完成默认行为，作为修改行为的基础。也就是说，不管Proxy怎么修改默认行为，你总在Reflect上获取默认行为。</span>
 
 Proxy可以对目标对象的读取、函数调用等操作进行拦截，然后进行操作处理。它不直接操作对象，而是像代理模式，通过对象的代理对象进行操作，在进行这些操作时候，可以添加一些需要的额外操作
 
@@ -42,7 +42,9 @@ Proxy(target, {
 ```
 上面的代码中，Proxy方法拦截了target对象属性赋值的行为。它采用Reflect.set方法赋值给对象的属性，然后在部署额外功能
 
-```
+```javascript
+var obj = {a: 1, b: 2,c: 3}
+
 var loggedObj = new Proxy(obj, {
 	get(target, name) {
     	console.log('get', target, name);
@@ -57,6 +59,10 @@ var loggedObj = new Proxy(obj, {
         return Reflect.has(target, name);
     }
 })
+
+console.log(loggedObj.a)
+delete loggedObj.a
+console.log('b' in loggedObje)
 ```
 上面代码中，每一个Proxy对象的拦截操作(get, delete, has)内部都调用对应的Reflect方法，保证原生行为能够正常执行。添加的工作就是将一个操作输出一行日志
 
@@ -121,6 +127,7 @@ myObject.foo // 4
 myReceiverObject.foo // 1
 ```
 
+[说下你对 Reflect 的理解？为什么会有 Reflect 的出现？Proxy 也简单的说一下？](https://github.com/lgwebdream/FE-Interview/issues/1203)
 ## JS数组扁平化(flat)
 
 **需求：** 多维数组=> 一维数组

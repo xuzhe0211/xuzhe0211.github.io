@@ -242,13 +242,20 @@ SSL/TLS实际位于传输层与应用层之间。
 [https请求流程(证书的签名及验证过程)](/front-end/JavaScript/network-https.html)
 
 ## 其他
-+ Get和Post的区别
-	- GET回退无害化 POST会再次提交
-    - Get产生URL地址收藏 Post不可以
-    - GET请求会被浏览器主动缓存
-    - GET请求需要URL编码
-    - Get请求长度有限制
-    - Get参数通过URL传递 Post放在Request Body中
++ [Get和Post的区别](https://mp.weixin.qq.com/s?__biz=MzI3NzIzMzg3Mw==&mid=100000054&idx=1&sn=71f6c214f3833d9ca20b9f7dcd9d33e4#rd)
+
+  - <span style="color:blue">GET回退无害化 POST会再次提交</span>
+  - <span style="color:blue">Get产生URL地址收藏 Post不可以</span>
+  - <span style="color:blue"> GET请求会被浏览器主动缓存</span>
+  - <span style="color:blue">GET请求需要URL编码</span>
+  - <span style="color:blue">Get请求长度有限制</span>
+  - <span style="color:blue">Get参数通过URL传递 Post放在Request Body中</span>
+  - <span style="color:blue">Get产生一个TCP数据包，POST产生两个TCP数据包</span>
+
+  <span style="color: red">对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；</span>
+
+  <span style="color: red">而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</span>
+
 
 
 ### Restful风格

@@ -82,12 +82,12 @@ var climbStairs = function(n) {
 ```
 const logestPalindrome = s => {
     if (s.length < 2) return s;
-    let res = s[0], dp = 0;
+    let res = s[0], dp = Array.from(Array(s.length), () => Array(s.length).fill(0))
     for (let i = 0; i < s.length; i++) {
         dp[i][i] = true;
     }
     for (let j = 1; j < s.length;; j++) {
-        for (let i = 0; i < j; j++) {
+        for (let i = 0; i < j; i++) {
             if (j - i === 1 && s[i] === s[j]) {
                 dp[i][j] =  true;
             } else if (s[i] === s[j] && dp[i+ 1][j - 1]) {
@@ -107,3 +107,92 @@ const logestPalindrome = s => {
 时间复杂度：O(n^2^)
 
 空间复杂度：O(n^2^)
+
+## 分割回文串
+给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+
+回文串 是正着读和反着读都一样的字符串。
+
+```
+输入：s = "aab"
+输出：[["a","a","b"],["aa","b"]]
+```
+解答
+```js
+const partition = s => {
+    const dfs = (i) => {
+        if (i === n) {
+            ret.push(ans.slice());
+            return;
+        }
+        for (let j = i; j < n; ++j) {
+            if (f[i][j]) {
+                ans.push(s.slice(i, j + 1));
+                dfs(j + 1);
+                ans.pop();
+            }
+        }
+    }
+    
+    const n = s.length;
+    const f = new Array(n).fill(0).map(() => new Array(n).fill(true));
+    let ret = [], ans = [];
+    
+    for (let i = n - 1; i >= 0; --i) {
+        for (let j = i + 1; j < n; ++j) {
+            f[i][j] = (s[i] === s[j]) && f[i + 1][j - 1];
+        }
+    }
+    dfs(0);
+    return ret;
+}
+```
+
+## 单词划分
+```
+输入: s = "leetcode", wordDict = ["leet", "code"]
+输出: true
+解释: 返回 true 因为 "leetcode" 可以由 "leet" 和 "code" 拼接成。
+```
+解答
+```js
+var wordBreak = function(s, wordDict) {
+    const wordSet = new Set(wordDict);
+    const len = s.length;
+    const dp = new Array(len + 1).fill(false);
+    dp[0] = true;
+    for (let i = 1; i <= len; i++) {
+        for (let j = i - 1; j >= 0; j--) {
+            if (dp[i] === true) break;
+            if (dp[j] === false) continue;
+            const suffix = s.slice(j, i);
+            if (wordSet.has(suffix) && dp[j] = true) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+    return dp[s.length]
+}
+```
+
+## 割绳子
+给你一根长度为 n 的绳子，请把绳子剪成整数长的 m 段（ m 、 n 都是整数， n > 1 并且 m > 1 ， m <= n ），每段绳子的长度记为 k[1],...,k[m] 。请问 k[1]*k[2]*...*k[m] 可能的最大乘积是多少？例如，当绳子的长度是 8 时，我们把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18 。
+
+```js
+var cuttingRope = function(n) {
+    let i, j, dp = new Array(n + 1).fill(0), nowBigger;
+    dp[2] = 1;
+    // 如果只剪掉长度为1，对最后的乘积无任何增益，所以从长度为2开始剪
+    for(i = 2; i <= n; i++) {
+        for(j = 1; j < i; j++) {
+            // 剪了第一段后，剩下(i - j)长度可以剪也可以不剪。如果不剪的话长度乘积即为j * (i - j)；如果剪的话长度乘积即为j * dp[i - j]。取两者最大值
+            nowBigger = Math.max(j * (i - j), j * dp[i - j]);
+            // 对于同一个i，内层循环对不同的j都还会拿到一个max，所以每次内层循环都要更新max
+            dp[i] = Math.max(dp[i], nowBigger);
+        }
+    }
+    return dp[n];
+};
+```
+[leetcode](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)

@@ -76,23 +76,23 @@ cosnole.log(add(1,2));
 ```
 
 完成来了固定模块，下面只需要少加改动，就将所有模块的文件名和代码字符串整理为一个ke-value表就可以根据传入的文件名加载不同的模块了。
-```
-(function(list) {
-    function require(file) {
-        var exports = {};
-        (function(exports, code) {
-            eval(code)
-        })(exports, list[file]);
-        return exports;
-    }
-    require('inndex.js');
+```javascript
+(function (list) {
+  function require(file) {
+    var exports = {};
+    (function (exports, code) {
+      eval(code);
+    })(exports, list[file]);
+    return exports;
+  }
+  require("index.js");
 })({
-    'index.js': `
+  "index.js": `
     var add = require('add.js').default
     console.log(add(1 , 2))
         `,
-  'add.js': `exports.default = function(a,b){return a + b}`,
-})
+  "add.js": `exports.default = function(a,b){return a + b}`,
+});
 ```
 
 当然要说明的一点是真正webpack生成的bundle.js还需要增加模块见得依赖关系

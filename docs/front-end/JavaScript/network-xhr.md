@@ -10,14 +10,14 @@ title: ajax/axios/fetch区别
 传统Ajax指的是XMLHttpRequest(XHR),最早出现的向后端发送请求技术，隶属于原始js中，核心使用XMLHttpRequest对象，多个请求指甲如果有先后关系的话，就会出现回调地狱
 
 一个简单http请求
-```
+```js
 let xhr = new XMLHttpRequest();
 xhr.open('GET', '/url', true);
 xhr.send();
 ```
 
 一个稍微完整的http请求
-```
+```js
 let xhr = new XMLHttpRequest();
 // 请求成功回调函数
 xhr.onload = e => {
@@ -62,15 +62,15 @@ xhr.send(null || new FormData || 'a=1&b=2' || 'json字符串');
 
 readyState
 
-0: 请求初始化
+- <span style="color: red">0: 请求初始化</span>
 
-1: 服务器建立连接
+- <span style="color: red">1: 服务器建立连接</span>
 
-2: 请求已接受
+- <span style="color: red">2: 请求已接受</span>
 
-3: 请求处理中
+- <span style="color: red">3: 请求处理中</span>
 
-4：请求已完成
+- <span style="color: red">4：请求已完成</span>
 
 ## Jquery ajax
 
@@ -102,7 +102,7 @@ $.ajax({
 
 axios是一个基于Promise的http请求库，可以用在浏览器和node.js中，本质上也是对原生XHR的封装，只不过它是Promise的实现版本，负荷最新的ES规则
 
-```
+```js
 const axios = require('axios');
 
 axios.get('/url', {params})    // or axios.post ...
@@ -138,7 +138,7 @@ async function getUser(){
 
 ## fetch
 
-```
+```js
 // 一个简单的fetch请求
 fetch('http://example.com/movies.json').then(response => {
     return response.json();

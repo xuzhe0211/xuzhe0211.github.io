@@ -10,7 +10,7 @@ title: hash和history两种模式区别
 ## hash模式
 
 hash模式背后的原理是onhashchange事件，可以在window对象上监听这个事件
-```
+```js
 window.onhashchange = function(event) {
     console.log(event.oldURL, event.newURL);
     let hash = location.hash.slice(1);
@@ -23,9 +23,9 @@ window.onhashchange = function(event) {
 
 随着history api的到来，前端路由开始进化，前面的hashchange，你只能改变#后面的url片段。而history api则给了前端完全的自有
 
-history apik可以分为两大部分，切换和修改，参考MDN，切换历史状态包括back、forward、 go三个方法，对应浏览器的前进，后退，跳转操作；有同学说(谷歌)浏览器只有前进和后退，没有跳转，嗯在前进后退上长按书币好，会出来所有窗口的历史记录，从而可以跳转(也许叫跳更合适)
+<span style="color: red">history api可以分为两大部分，切换和修改，参考MDN，切换历史状态包括back、forward、 go三个方法，对应浏览器的前进，后退，跳转操作；有同学说(谷歌)浏览器只有前进和后退，没有跳转，嗯在前进后退上长按，会出来所有窗口的历史记录，从而可以跳转(也许叫跳更合适)</span>
 
-```
+```js
 history.go(-2); // 后退两次
 history。go(2); // 前进两次
 history.back(); // 后退
@@ -36,7 +36,7 @@ history。forward（）； // 前进
 
 这两个方法接收三个参数：stateObj, title, url
 
-```
+```js
 history.pushState({color: 'red'}, 'red', 'red');
 history.back();
 setTimeout(() => {
@@ -70,7 +70,7 @@ https: // www.baidu.com/#abcsdf
 
 ### 用hash的方案实现一个路由切换
 
-```
+```js
 // 首先我们要有个html
 <ul>
     <li><a href="#layout1">路由1</a></li>
@@ -90,16 +90,16 @@ class router {
         this.watchHash();
         // 绑定监听改变事件，由于this被换了，必须用bind绑定
         this.watch = this.watchHash.bind(this);
-        window.addEventListener('hashChange', this.watch);
+        window.addEventListener('hashchange', this.watch);
     }
     // 监听方法
     watchHash() {
         let hash: String = window.location.hash.slice(1);
         this.hashStr = hash;
-        if (hashStr) {
-            if (hashStr === 'luyou1') {
+        if (this.hashStr) {
+            if (this.hashStr === 'luyou1') {
                 document.querySelector('#luyouid').innerHTML = '好好学习天天想上'；
-            } else if (hashStr === 'luyou2') {
+            } else if (this.hashStr === 'luyou2') {
                 document.querySelector('#luyouid').innerHTML = '好好学习'
             } else {
                 document.querySelector('#luyouid').innerHTML = '天天想上'；
@@ -111,11 +111,11 @@ class router {
 
 ### history api原理
 
-history这个对象在html的时候新加入两个api history.pushState()和history.replaceState()这两个API可以在不刷新的情况下，操作浏览器的历史记录。唯一不同的是,前者是新增的一个历史记录，后者是直接替换当前的历史记录。
+<span style="color: blue">history这个对象在html的时候新加入两个api history.pushState()和history.replaceState()这两个API可以在不刷新的情况下，操作浏览器的历史记录。唯一不同的是,**前者是新增的一个历史记录，后者是直接替换当前的历史记录**。</span>
 
 ### history pushState replaceState使用
 
-```
+```js
 window.history.pushState(state, title, url);
 // state: 需要保存的数据，这个数据在触发popstate事件时，可以在event.state里获取
 // title 标题，基本没用 一般传null
@@ -126,7 +126,7 @@ window.history.pushState(state, title, url);
 
 ### history 其他api
 
-```
+```js
 window.history.back()//后退
 window.history.forward()//前进
 window.history.go(1)//前进一部，-2回退两不，window.history.length可以查看当前历史堆栈中页面的数量
@@ -136,7 +136,7 @@ window.history.go(1)//前进一部，-2回退两不，window.history.length可�
 
 每当同一个文档的浏览历史(即history)出现变化时，就会触发popState事件，只要我们监听事件就可以
 
-```
+```js
 window.addEventListener('popstate', function(event) {
 });
 ```
@@ -146,7 +146,7 @@ window.addEventListener('popstate', function(event) {
 ### 那么如何监听 pushState 和 replaceState 的变化呢？
 我们可以创建2个全新的事件，事件名为pushState和replaceState，我们就可以在全局监听。
 
-```
+```js
 //创建全局事件
 var _wr = function(type) {
    var orig = history[type];

@@ -12,7 +12,7 @@ promise共有三种状态
 - fulfilled 完成态
 - rejected 失败态
 
-```bash
+```js
 function Promise(exector) {
 	let self = this;
     this.status = 'pending';
@@ -64,7 +64,7 @@ promise.then(data => {
 
 ### 发布订阅模式的promise
 
-```
+```js
 function myPromise(fun) {
     var self = this;
     this.resolveList = [];
@@ -130,7 +130,7 @@ new myPromise(resolve => {
 <br/>
 all()的返回值也是新的Promise对象
 
-```bash
+```js
 function promiseAll(promises) {
     return new Promise(function (resolve, reject) {
         if (!Array.isArray(promises)) {
@@ -171,7 +171,7 @@ promiseAll([p1, p2, p3]).then(function (results) {
 - 当想要实现一个方法，每次传入多个请求，哪个先返回就取消其他的，使用先返回的值
 2.实现
 
-```bash
+```js
 //第一种方式
 function promiseRace(entries) {
 	var Constructor = this; // this 是调用 race 的 Promise 构造器函数。
@@ -229,27 +229,27 @@ promiseRace([promise1, promise2]).then(function(value) {
 ### 概述
 
 + Promise.all
-```
+```js
 Promise.all<T>(promises:Iterable<Promise<T>>): Promise<Array<T>>
 ```
 promise.all(iterable)方法返回一个Promise实例，此实例在iterable参数内所有的promise都完成(resolved)或参数中不包含promise时回调完成(resolve);如果参数中promise有一个失败(rejected)，此实例回调失败(reject)，失败原因是第一个失败promise结果
 
 + Promise.race
-```
+```js
 Promise.race<T>(promises:Iterable<Promise<T>>): Promise<T>
 ```
 promise.race(interable)方法返回一个promise，一旦迭代器中的某个promise解决或者拒绝，返回的promise就会解决或拒绝。
 
 + Promise.allSettled
 
-```
+```js
 Promise.allSettled<T>(promise:Iterable<Promise<T>>):Promise<Array<SettlementObject<T>>>
 ```
 promise.allSettled()方法返回一个promise，该promise在所有给定的promise已被解析或被拒绝后解析，并且每个对象都描述每个promise的结果
 
 ### demo
 
-```
+```js
 const promises = [
     Promise.resolve('a'),
     Promise.resolve('b'),
@@ -271,7 +271,7 @@ Promise.allSettled(promises).then(res => {
 
 ### 背景
 多个异步处理之后执行会用到
-```
+```js
 Promise.alll(promises:[]).then(fun:function)
 ```
 Promise.all可以保证，promises数组中所有的promiise对象都打到resolve状态，才执行then回调。
@@ -279,7 +279,8 @@ Promise.all可以保证，promises数组中所有的promiise对象都打到resol
 那么会出现的情况是，瞬间发出几十万http请求(tcp连接数不足可能造成等待)，或者堆积了无数调用栈导致内存溢出。
 <b>这个时候，需要考虑对Promise.all做并发限制</b>
 ##### 实现
-```bash
+
+```js
 function asyncPool(poolLimit, array, iteratorFn) {
     let i = 0;
     const ret = [];
@@ -316,7 +317,7 @@ function asyncPool(poolLimit, array, iteratorFn) {
 - 所有promise都执行完了，调用Promise.all返回
 
 使用方式
-```
+```js
 const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i));
 return asyncPool(2, [1000, 5000, 3000, 2000], timeout).then(results => {
     ...
@@ -343,7 +344,7 @@ Promise.race()；rece是赛跑机制，看最先的promise子实例是成功还�
 
 ## 实例
 1.sleep实例
-```bash
+```js
 function sleep(time) {
 	return new Promise((resolve, reject) => {
     	setTimeout(resolve, time)
@@ -353,7 +354,7 @@ sleep(1000).then(() => {console.log(1)})
 sleep(2000).then(() => {console.log(2)})
 ```
 2.实例
-```
+```js
 function sleep(i){
     return new Promise((resolve, reject) => {
         setTimeout(function (){
@@ -375,7 +376,7 @@ async function start(){
 start()
 ```
 3.实例3
-```bash
+```js
 const fff = async () => {
       const paths = ['thats', 'power', 'deep', 'dark', 'fantasy'];
       const jsons = paths
@@ -388,7 +389,7 @@ const fff = async () => {
     }
 ```
 4.实例
-```
+```js
 function getData(api) {
 	return new Promise((resolve, reject) => {
     	setTimeout(() => {
@@ -419,7 +420,7 @@ getDatas(['./api1', './api2', './api3', './api4']);
 ```
 5.实例<br/>
 async/await其实是基于Promise的。async函数其实是把Promise包装了一下
-```
+```js
 function getConstant() {
 	return 1;
 }
@@ -445,7 +446,7 @@ async function test() {
 }
 ```
 上面的代码其实真正的在解析执行的时候是这样的:
-```
+```js
 function getConstant() {
    return 1;
 }
@@ -484,7 +485,7 @@ function getPromise() {
 通过上面的代码可以看出async/await的本身还是基于Promise的。
 
 因为await本身返回的也是一个Promise,它只是把await后面的代码放到了await返回的Promise的.then后面，以此来实现的。
-```
+```js
      function getJson(){
       return new Promise((reslove,reject) => {
         setTimeout(function(){
@@ -506,7 +507,7 @@ function getPromise() {
 
 看过上面的童鞋应该知道其实他的真实代码是这样的：
 
-```
+```js
 function getJson(){
     return new Promise((reslove,reject) => {
       setTimeout(function(){
@@ -527,7 +528,7 @@ function testAsync() {
 testAsync()
 ```
 [参考文档](https://www.cnblogs.com/zhengyufeng/p/11106901.html)
-```
+```js
 function sleep(i) {
     return new Promise((resolve, reject) => {
         setTimeout(() => resolve(i), 1000);
@@ -543,7 +544,7 @@ test()//间隔一秒连续输出1-10
 ```
 6.实例<br>
 
-```
+```js
 场景一：先调用getData1，再调用getData2，再调用getData3  ...
  
 //创建一个Promise实例，获取数据。并把数据传递给处理函数resolve和reject。需要注意的是Promise在声明的时候就执行了。
@@ -614,7 +615,7 @@ Promise.all([getData1,getData2]).then(function([ResultJson1,ResultJson2]){
 
 ![题目](./images/5e65b3e200015c9b12800383.jpeg)
 
-```bash
+```js
 // 首先实现一个分割数组得函数~
 function group(list, max){
     let results = [];
@@ -660,7 +661,7 @@ async function sendRequest(urls, max, callback) {
 这里就是利用了for + async + await来限制并发。等每次并发任务结果出来之后在执行下一次得任务。
 
 栗子
-```
+```js
 const p1 = () => new Promise((resolve, reject) => setTimeout(reject, 1000, 'p1'))
 const p2 = () => Promise.resolve(2)
 const p3 = () => new Promise((resolve, reject) => setTimeout(resolve, 2000, 'p3'))

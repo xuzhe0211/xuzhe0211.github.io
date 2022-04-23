@@ -23,7 +23,7 @@ title: JavaScript算法之复杂度分析
 ## 大O复杂度表示法
 
 以一个例子开始，请估算下面代码的执行时间
-```
+```js
 function total(n) { // 1
     var sum = 0; // 2
     for (var i = 0; i < n; i++) { // 3
@@ -34,7 +34,7 @@ function total(n) { // 1
 我们假设每行执行的事件都是一样，记为t，那么上面的函数中的第2行需要1个t的时间，第3和第4行分别需要n个t的事件，那么这段代码总得执行时间为(2n+1)*t
 
 那么按照上面的分析方法，请估算下面代码的执行时间
-```
+```js
 function total(n) { // 1
     var sum = 0; // 2
     for (var i = 0; i < n; i++) { // 3
@@ -52,7 +52,7 @@ function total(n) { // 1
 
 在这个公式中，T(n)表示代码的执行时间；n表示数据规模的大小;f(n)表示每行代码执行的次数总和；O表示代码的执行时间T(n)与f(n)表达式成正比。
 
-所以上边两个函数的执行时间可以标记为T(n) = O(2n + 1)和T(n) = O(2n<sup>2</sup> + n + 1)。这就是**大O时间复杂度表示法**，它不代表代码真正的执行时间，而是代表**代码随数据规模增长的变化趋势**，简称**时间复杂度**
+<span style="color: red">所以上边两个函数的执行时间可以标记为T(n) = O(2n + 1)和T(n) = O(2n<sup>2</sup> + n + 1)。这就是**大O时间复杂度表示法**，它不代表代码真正的执行时间，而是代表**代码随数据规模增长的变化趋势**，简称**时间复杂度**</span>
 
 而且当n很大时，我们可以忽略常数项，只保留一个最大量级即可。所以上面的代码执行时间可以简单标记为T(n) = O(n)和T(n) = O(n<sup>2</sup>)。
 
@@ -60,10 +60,10 @@ function total(n) { // 1
 
 那如何分析一段代码的时间复杂度，可以利用下面的几个方法
 
-### 只关注循环执行次数最多的一段代码
+### <span style="color: red">只关注循环执行次数最多的一段代码</span>
 
 我们在分析一段代码的时间复杂度时，我们只要关注循环次数最多的那一段代码就ok了。
-```
+```js
 function total(n) { // 1
     var sum = 0; // 2
     for (var i = 0; i < n; i++) { // 3
@@ -71,10 +71,10 @@ function total(n) { // 1
     } // 5
 } // 6
 ```
-只要第3行和第4行是执行次数最多的，分别执行了n次,那么忽略常数项，所以此段代码的时间复杂度就是O(n).
+只要第3行和第4行是执行次数最多的，分别执行了n次,那么忽略常数项，<span style="color:blue">所以此段代码的时间复杂度就是O(n).</span>
 
 ### 加法法则：总复杂度等于量级最大的那段代码的复杂度
-```
+```js
 function total(n) {
     // 第一个for循环
     var sum1 = 0;
@@ -103,11 +103,11 @@ function total(n) {
 
 第三段for循环的事件复杂度是O(n).
 
-总上，取最大量级，所以整段代码的时间复杂度为O(n<sup>2</sup>)
+<span style="color: blue">总上，取最大量级，所以整段代码的时间复杂度为O(n<sup>2</sup>)</span>
 
 ### 乘法法则：嵌套代码的复杂度等于嵌套内外代码复杂度的乘积。
 
-```
+```js
 function f(i) {
     var sum = 0;
     for (var j = 0; j < i; j++) {
@@ -124,9 +124,9 @@ function total(n) {
 }
 ```
 
-单独看total函数的事件复杂度就是为T1(n)=O(n),但是考虑到f函数的时间复杂度也为T2(n) = O(n).
+<span style="color: red">单独看total函数的事件复杂度就是为T1(n)=O(n),但是考虑到f函数的时间复杂度也为T2(n) = O(n).</span>
 
-所以整段代码的事件复杂度为T(n) = T1(n) * T2(n) = O(n * n) = O(n<sup>2</sup>)
+<span style="color: red">所以整段代码的事件复杂度为T(n) = T1(n) * T2(n) = O(n * n) = O(n<sup>2</sup>)</span>
 
 ## 几种常见的时间复杂度分析
 
@@ -153,7 +153,7 @@ n!+3 | O(n!) | 阶乘阶
 ### O(1)
 
 O(1)只是常量级时间复杂度表示法，并不是代码只有一行,例如
-```
+```js
 function total() {
     var sum = 0;
     for (var i = 0; i < 100; i++) {
@@ -167,7 +167,7 @@ function total() {
 
 对数阶时间复杂度的常见代码如下
 
-```
+```js
 function total1(n) {
     var sum = 0;
     var i = 1;
@@ -187,10 +187,10 @@ function total2(n) {
 
 > 2<sup>0</sup>2<sup>1</sup>2<sup>2</sup>...2<sup>k</sup>...2<sup>x</sup> = n
 
-所以只要知道x的值，就可以知道这两个函数的执行次数了。那由2<sup>x</sup> = n 可以得出x = log<sub>2</sub>n,所以这两个函数的时间复杂度为O(log<sub>2</sub>n)
+<span style="color: red">所以只要知道x的值，就可以知道这两个函数的执行次数了。那由2<sup>x</sup> = n 可以得出x = log<sub>2</sub>n,所以这两个函数的时间复杂度为O(log<sub>2</sub>n)</span>
 
 在看下面这两个的事件复杂度
-```
+```js
 function total1(n) {
     var sum = 0;
     var i = 1;
@@ -208,10 +208,10 @@ function total2(n) {
 ```
 由上可以得知，这两个函数的时间复杂度为O(log<sub>3</sub>n).
 
-由于我们可以忽略常数，也可以忽略对数中的底数，所以在对数阶复杂度中，统一表示为O(logn);那O(nlogn)的含义就明确了，时间复杂度为O(logn)的代码执行了n次。
+<span style="color: red">由于我们可以忽略常数，也可以忽略对数中的底数，所以在对数阶复杂度中，统一表示为O(logn);那O(nlogn)的含义就明确了，时间复杂度为O(logn)的代码执行了n次。</span>
 
 ### O(m + n)、O(m * n)
-```
+```js
 function total(m, n) {
     var sum1 = 0;
     for (var i = 0; i < n; i++) {
@@ -234,7 +234,7 @@ function total(m, n) {
 
 比如说分析下面代码的空间复杂度
 
-```
+```js
 function initArr(n) {
     var arr = [];
     for (var i = 0; i < n; i++) {
@@ -243,13 +243,13 @@ function initArr(n) {
 }
 ```
 
-根据时间复杂度的推算，忽略掉常数量级,每次数组赋值都会申请一个空间存储变量，所以此函数的空间复杂度为O(n).
+<span style="color: red">根据时间复杂度的推算，忽略掉常数量级,每次数组赋值都会申请一个空间存储变量，所以此函数的空间复杂度为O(n).</span>
 
 常见的空间复杂度只有O(1)、O(n)、O(n<sup>2</sup>),其他的话很少用到。
 
 ## 思考题解答
 现在我们回到开始的思考题，代码实现很简单
-```
+```js
 function tatoal(n) {
     var sum = 0;
     for (var i = 1; i <= n; i++) {
@@ -264,7 +264,7 @@ function tatoal(n) {
 我觉得这个事件复杂度有点高了，我想要O(1)的事件复杂度函数来实现这个算法可以嘛？
 
 可以的，小数学申通高斯教会我们一招
-```
+```js
 function total(n) {
     var sum = n*(n + 1) / 2
     return sum

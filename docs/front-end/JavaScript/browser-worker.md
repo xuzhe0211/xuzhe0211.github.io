@@ -89,7 +89,7 @@ MessagePort对象具有onmessage和onmessageerror两个属性
 
 这个端口可以相互发送消息，port1发送的消息可以在port2接收到哦，反之亦然。
 
-<img :src="$withBase('/images/1059788-20190308164731842-1262102501.png')" alt="消息通道">
+![消息通道](./images/1059788-20190308164731842-1262102501.png)
 
 ### 多个Web Worker之间通信
 
@@ -347,6 +347,7 @@ subWindow.html
 
 postMessage还有一个重要的特性就是跨域，将第二个参数设置为其他的源，就可以实现两个不同域网站的通信
 
+
 ## 资料
 
 [另一参考文档](https://www.webhek.com/post/window-postmessage-api.html)
@@ -359,3 +360,121 @@ postMessage还有一个重要的特性就是跨域，将第二个参数设置为
 [window opener](https://www.runoob.com/jsref/prop-win-opener.html)
 
 [Iframe父页面与子页面之间的调用](https://www.cnblogs.com/tugenhua0707/p/4174729.html)
+
+## web worker sharedWorker
+```js
+// 主进程
+let w1 = new Worker('./js/my.js');
+w1.addEventListener('message', function(evt) {
+    console.log('evt', evt.data)
+})
+w1.postMessage('main path message')
+
+// 子进程my.js
+// 给主进程发送消息
+this.posotMessage('this result is 100');
+// 接受主进程消息(方法一)
+this.onmessage = ret => {
+    console.log(ret.data)
+}
+// 接受主进程消息(方法二)
+this.addEventListener('message', function(evt) {
+    console.log(evt.data);
+    this.close()
+})
+```
+### Web Worker注意点
+- 同源限制
+
+    分配给Woker线程运行的脚本文件，必须与主线程的脚本文件同源
+
+- DOM限制
+
+    Worker线程所在的全局对象，与主线程不一样，无法读取主线程所在网友的DOM对象，也无法使用document、window、parent这些对象。但是Worker线程可以navigator对象和location对象
+
+- 通信联系
+
+    Worker线程与主线程不在同一个上下文环境，他们不能直接通信，必须通过消息完成
+
+- 脚本限制
+
+    Worker线程不能执行alert()方法和confirm()方法，但可以使用XMLHttpRequest对象发出AJAX对象
+- 文件限制
+
+    Worker线程无法读取本地文件，即不能打开本机的文件系统(file://)，它所加载的脚本，必须来自网络
+
+**Web Worker通常用于那些方面呢？**
+- 处理密集型数学计算
+- 大数据集配需
+- 数据处理(压缩、音频分析、图像处理等)
+- 高流量网络通信
+```
+实例：
+Worker 线程完成轮询
+有时，浏览器需要轮询服务器状态，以便第一时间得知状态改变。这个工作可以放在 Worker 里面。
+```
+
+### sharedWorker：共享线程，同源策略下，多个运行环境公用同一个线程，包括数据
+```js
+复制代码
+// 共享线程的JS文件 (my.js文件)
+
+var a = 1;
+onconnect = function (e) {
+    var port = e.ports[0];
+    port.onmessage = function () {
+        port.postMessage(a++)
+    }
+}
+// html文件
+// html文件（index.html）
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>worker demo</title></head>
+<body>
+    <div> <h1>使用shared worker:</h1> </div>
+    <button style="padding: 10px; margin: 10px 0;">点击一下</button>
+    <div><span>点了 <span class="time">-</span> 下</span></div>
+    <iframe src="index2.html" width='500px' height="400px"></iframe>
+    <script>
+        let button = document.querySelector('button');
+        let worker = new SharedWorker('worker.js');
+        worker.port.start();
+        let time;
+        button.addEventListener('click', function () {
+            worker.port.postMessage('start');
+        });
+        let timeDom = document.querySelector('.time');
+        worker.port.onmessage = function (val) {
+            timeDom.innerHTML = val.data
+        }
+    </script>
+</body>
+</html>
+
+// html文件(index.html)
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>worker demo</title></head>
+<body>
+    <div><h1>使用shared  worker:</h1></div>
+    <button style="padding: 10px; margin: 10px 0;">点击一下</button>
+    <div><span>点了 <span class="time">-</span> 下</span></div>
+    <script>
+        let button = document.querySelector('button');
+        let worker = new SharedWorker('worker.js');
+        worker.port.start();
+        let time;
+        button.addEventListener('click', function () {
+            worker.port.postMessage('start');
+        });
+        let timeDom = document.querySelector('.time');
+        worker.port.onmessage = function (val) {
+            timeDom.innerHTML = val.data
+        }
+    </script>
+</body>
+</html>
+```
+

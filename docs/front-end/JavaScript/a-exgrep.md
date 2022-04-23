@@ -4,22 +4,22 @@ title: JavaScript正则表达式精简
 ---
 
 ECMAScript3 开始支持正则表达式，其语法和Perl语法类似，一个完整的正则表达式如下
-```
+```js
 var expresson = /pattern/ flags
 ```
 其中，模式(pattern)部分可以是任何简单或复杂的正则表达式，可以包含字符类、限定符、向前查找以及反向查找
 
 每个正则表达式都可以带有一个或多个标志(flags)，用以表明正则表达式的行为，正则表达式支持下列3个标志
 
-- g:表示全局(global)模式，即模式将被应用与所有字符串，而非在发现第一个匹配项时立即停止
-- i:表示区分大小写(case-innsensitive)模式，即确定匹配项时忽略模式和字符串的大小写；
-- m: 表示多行(multiline)模式，即在到达一行文本末尾时还会继续查找下一行中是或否存在与模式匹配项
+- <span style="color: blue">g:表示全局(global)模式，即模式将被应用与所有字符串，而非在发现第一个匹配项时立即停止</span>
+- <span style="color: blue">i:表示区分大小写(case-innsensitive)模式，即确定匹配项时忽略模式和字符串的大小写；</span>
+- <span style="color: blue">m: 表示多行(multiline)模式，即在到达一行文本末尾时还会继续查找下一行中是或否存在与模式匹配项</span>
 
 如果多个标志同时使用，则写成：gmi
 
 正则表达式的创建有两种方式: new RegExp(expresson)和字面量
 
-```
+```js
 // 使用直接字面量创建
 var exp1 = /(^\s+)|(\s$)/g
 // 使用RegExp对象创建

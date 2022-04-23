@@ -1,16 +1,84 @@
 ---
 title: 链表
 ---
+
+## 在JS中怎么用：
+```javascript
+class Node {
+    constructor(element) {
+        this.element = element;
+        this.next = null;
+        this.previous = null;
+    }
+}
+class LinkedList {
+    constructor() {
+        this.header = new Node('header');
+        // this.head.next = this.header;
+    }
+    // find:辅助函数，遍历链表，查找特殊节点
+    find(element) {
+        let currNode = this.header;
+        while (currNode) {
+            if (currNode.element !== element) {
+                currNode = currNode.next;
+            } else {
+                return currNode;
+            }
+        }
+        return currNode;
+    }
+    // insert链表插入节点函数
+    insert(newElement, hasElement) {
+        const newNode = new Node(newElement);
+        const currNode = this.find(hasElement);
+        newNode.next = currNode.next;
+        currNode.next = newNode;
+    }
+    // findPrevious 辅助函数，寻找待删除节点的前面的那个节点
+    findPrevious(element) {
+        let currNode = this.header;
+        while(!(currNode.next === null) && (currNode.next.element !== element)) {
+            currNode = currNode.next;
+        }
+        return currNode;
+    }
+    // remove链表删除节点函数
+    remove(delElement) {
+        const prevNode = this.findPrevious(delElement);
+        if (!(prevNode.next === null)) {
+            prevNode.next = prevNode.next.next;
+        }
+    }
+    display() {
+        let currNode = this.header;
+        while(currNode.next) {
+            console.log(currNode.next.element);
+            currNode = currNode.next
+        }
+    }
+}
+const list = new LinkedList();
+list.insert('node1', 'header');
+list.insert('node2', 'node1');
+list.insert('node3', 'node1');
+list.insert('node4', 'node3');
+list.display()
+console.log('----------')
+list.remove('node4')
+list.display()
+```
+[使用JavaScript浅谈链表](https://www.cnblogs.com/jsydb/p/12507580.html)
 ## 单向链表
 
-```
+```javascript
 var arr = [1,2,3,4];
 var jiao = arr[Symbol.iterator]();
 console.log(jiao.next())
 ```
 手写一个interator
 
-```
+```javascript
 Array.prototype.myInterator = function() {
     let i = 0;
     let items = this;
@@ -31,7 +99,7 @@ console.log(jiao.next());
 
 ## 判断单链表是否带环
 
-```
+```javascript
 //第一种方法
 function judge(list) {
 	var set = new Set();
@@ -44,7 +112,7 @@ function judge(list) {
         set.add(list);
         list = list.next();
     }
-    return set;
+    return false;
 }
 //快慢指针，设定快指针fast,慢指针slow,每次循环快指针fast移动两个位置，慢指针移动一个位置
 function judge(list) {
@@ -75,19 +143,49 @@ var hasCycle = function(head) {
 ```
 ## 删除链表中重复的元素
 
-```
-var deletelist = function(head) {
-    var cur = head;
-    while(cur && cur.next) {
+```javascript
+var deleteDuplicates = function(head) {
+    if (!head) {
+        return head;
+    }
+
+    let cur = head;
+    while (cur.next) {
         if (cur.val === cur.next.val) {
             cur.next = cur.next.next;
         } else {
-            cur = cur.nnext;
+            cur = cur.next;
         }
     }
     return head;
-}
+};
 ```
+[leetcode](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+## 删除链表的倒数第 N 个结点
+```js
+var removeNthFromEnd = function(head, n) {
+    let slow = head, fast = head;
+    // 先让 fast 往后移 n 位
+    while(n--) {
+        fast = fast.next;
+    }
+
+    // 如果 n 和 链表中总结点个数相同，即要删除的是链表头结点时，fast 经过上一步已经到外面了
+    if(!fast) {
+        return head.next;
+    }
+
+    // 然后 快慢指针 一起往后遍历，当 fast 是链表最后一个结点时，此时 slow 下一个就是要删除的结点
+    while(fast.next) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    slow.next = slow.next.next;
+
+    return head;
+};
+```
+[leetcode](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/solution/19-shan-chu-lian-biao-de-dao-shu-di-n-ge-0ni3/)
 
 ## 反转链表
 
@@ -103,7 +201,7 @@ var deletelist = function(head) {
 
 在遍历链表时,将当前节点的next指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前还需要存储后一个节点，最后返回新的头引用
 
-```
+```javascript
 var reverseList = function(head) {
     let prev = null;
     let curr = head;
@@ -121,7 +219,7 @@ var reverseList = function(head) {
 ### 递归
 递归版本稍微复杂一些，其关键在于反向工作
 
-```
+```javascript
 var reverseList = function(head) {
     if (head === null || head.next === null) {
         return head;
@@ -144,17 +242,17 @@ var reverseList = function(head) {
 
 输出 [1,1,2,3,4,5]
 
-## 递归
-```
+### 递归
+```javascript
 function mergeTwoLists(l1, l2) {
     if (l1 === null) {
         return l2
     } else if (l2 === null) {
         return l1
-    } else if (l1.val < l2.val) {
+    } else if (l1.val <= l2.val) {
         l1.next = mergeTwolist(l1.next, l2);
         return l1
-    } else if (l2.val > l2.val) {
+    } else if (l1.val >= l2.val) {
         l2.next = mergeTwolist(l1, l2.next);
         return l2
     }
@@ -165,7 +263,7 @@ function mergeTwoLists(l1, l2) {
 
 思路:我们可以用迭代的方法来实现上述算法。当l1和l2都不是空链表时，判断l1和l2哪个链表的投节点的值更小，将较小的节点直接添加到结果里，当一个节点被添加到结果里之后，将对应链表中的节点向后移一位。
 
-```
+```javascript
 var mergeTwoLists = function(l1, l2) {
     const prehead = new ListNode(-1);
 
@@ -202,7 +300,7 @@ var mergeTwoLists = function(l1, l2) {
 输出：[8,0,7]
 ```
 解答：
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     const stack1 = [];
     const stack2 = [];
@@ -262,4 +360,197 @@ var addTwoNumbers = function(l1, l2) {
 [两数相加](https://leetcode-cn.com/problems/add-two-numbers-ii/solution/cjspython-mo-ni-jin-wei-445-liang-shu-xiang-jia-ii/)
 
 ## 回文链表
-[回文链表](front-end/Code/stady-02.html#%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8)
+```javascript
+const isPalindrome = head => {
+    if (head === null && head.next === null) return true;
+    let slow = head;
+    let fast = head;
+    let prev = null;
+    while(fast && fast.next) {
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    prev.next = null; // 截断为两个链表
+    // 翻转第二个链表
+    let head2 = null;
+    while(slow) {
+        const next = slow.next;
+        slow.next = head2;
+        head2 = slow;
+        slow = next;
+    }
+    // 比较
+    while(head && head2) {
+        if (head.val !== head2.val) {
+            return false;
+        }
+        head = head.next;
+        head2 = head2.next;
+    }
+    return true;
+}
+```
+[回文链表](/front-end/Code/stady-02.html#双指针)
+
+## 翻转链表二
+给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+ 
+```js
+const reverseBetween = (head, left, right) => {
+    const dummy_node = new ListNode(-1);
+    dummy_node.next = head;
+    let pre = dummy_node;
+    for (let i = 1; i < left; i++) {
+        pre = pre.next;
+    }
+    let cur = pre.next;
+    for (let i = 0; i < right -left; i++) {
+        const next = cur.next;
+        cur.next = next.next;
+        next.next = pre.next;
+        pre.next = next;
+    }
+    return dummy_node.next
+}
+```
+[leetcode](https://leetcode-cn.com/problems/reverse-linked-list-ii/solution/fan-zhuan-lian-biao-ii-by-leetcode-solut-teyq/)
+## k个一个组翻转链表
+给你一个链表，每K个节点一组进行翻转，请你返回翻转后的链表
+
+K是一个正整数，它的值小于或等于链表的长度
+
+如果节点总数不是K的整数倍，那么请将最后的节点保持原有顺序
+
+![每K个翻转链表](./images/reverse_ex1.jpeg)
+
+<span style="color: orange">解题</span>
+- 分成K个一组，分别翻转
+- 在递归中吧翻转后的链表串起来
+
+```javascript
+// 翻转区间[a, b]的元素，注释一是左闭右开
+const reverse = (a, b) => {
+    let prev, cur, nxt;
+    cur = a;
+    while(cur != b) {
+        nxt = cur.next;
+        cur.next = prev;
+        prev = cur;
+        cur = nxt;
+    }
+    // 返回翻转后的头结点
+    return pev;
+}
+
+const reverseKGroup = (head, K) => {
+    if (head === null ) return head;
+    let a = head, b = head;
+    for (let i = 0; i < k; i++) {
+        if (b === null) {
+            return head;
+        } else {
+            b = b.next;
+        }
+    }
+    // 翻转前K个元素
+    let newHead = reverse(a, b);
+    a.next = reverseKGroup(b, k);
+    return newHead;
+}
+```
+
+## 排序链表
+给你链表的头结点head，请将其按升序排列并返回排序后的链表
+![排序链表](./images/sort_list_1.jpeg)
+
+输入：head = [4,2,1,3]
+
+输出：[1,2,3,4]
+
+```javascript
+// 1. 全部切断然后重组
+const sortList = head => {
+    //特判
+    if(!head) return null;
+    //全部切断
+    let s = [];
+    while (head) {
+        let t = head.next;
+        head.next = null;
+        s.push(head);
+        head = t;
+    }
+    //排序
+    s.sort((a, b) => (a.val - b.val));
+    //重组
+    for(let i = 0; i < s.length - 1; i ++) {
+        s[i].next = s[i + 1];
+    }
+    return s[0];
+}
+
+}
+// 2.
+const sortList = head => {
+    let cur = head;
+        let nums = [];
+        while(cur) {
+            nums.push(cur.val);
+            cur = cur.next
+        }
+        nums.sort();
+        const dummy = {};
+        let current = dummy;
+        while(nums.length) {
+            current.next = {
+                val: nums.shift(),
+                next: null
+            }
+            current = current.next;
+        }
+        return dummy.next
+}
+// 3. 自顶向下归并排序
+const merge = (head1, head2) => {
+    const dummyHead = new ListNode(0);
+    let temp = dummyHead, temp1 = head1, temp2 = head2;
+    while(temp1 !== null && temp2 !== null) {
+        if (temp1.val <= temp2.val) {
+            temp.next = temp1;
+            temp1 = temp1.next;
+        } else {
+            temp.next = temp2;
+            temp2 = temp2.next;
+        }
+        temp = temp.next;
+    }
+    if (temp1 !== null) {
+        temp.next = temp1;
+    } else if(temp2 !== null) {
+        temp.next = temp2;
+    }
+    return dummyHead.next;
+}
+const toSortList = (head, tail) => {
+    if (head === null) return head;
+    if (head.next === tail) {
+        head.next = null;
+        return head;
+    }
+    let slow = head, fast = head;
+    while(fast !== tail) {
+        slow = slow.next;
+        fast = fast.next;
+        if (fast !== tail) {
+            fast = fast.next;
+        }
+    }
+    const mid = slow;
+    return merge(toSortList(head, mid), toSortList(mid, tail));
+}
+const sortList = head => {
+    return toSortList(head, null);
+}
+```
+[leetcode](https://leetcode-cn.com/problems/sort-list/)

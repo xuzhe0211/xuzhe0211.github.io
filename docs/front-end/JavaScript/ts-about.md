@@ -7,16 +7,20 @@ title: TS开发相关问题
 ```
 {
     "compilerOptions": {
+        "outDir": "./dist/out-tsc",//输出目录
+        "baseUrl": "src",
+        "removeComments": true,//编译 js 的时候，删除掉注释
         "target": "esnext", // 编译的目标是什么版本的
         "module": "esnext", // 指定生成哪个模块系统代码
         "strict": true, // 严格模式
         "jsx": "preserve", // 在.tsx文件里支持JSX
-        "importHelpers": true,
-        "moduleResolution": "node",
+        "importHelpers": true, // 从tslib导入辅助工具函数（比如__extends，__rest等）
+        "moduleResolution": "node", // 模块的解析 -- 决定如何处理模块。或者是"Node"对于Node.js/io.js，或者是"Classic"（默认）。查看模块解析了解详情。
         "experimentalDecorators": true, // 启用实验性的ES装饰器
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
+        "allowSyntheticDefaultImports": true, // 允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。
         "sourceMap": true, // 是否生成map文件
+        "emitDecoratorMetadata": true,//给源码里的装饰器声明加上设计类型元数据。查看issue #2577了解更多信息。
         "baseUrl": ".", // 工作根目录
         "types": [ // 指定引入的类型声明文件，默认是自动引入所有声明文件，一旦指定该选项，则会禁用自动引入，改为只韵如指定的类型声明文件，如果指定空数组[]则不引用任何文件
             "webpack-env",
@@ -79,6 +83,8 @@ class Log {
     }
 }
 ```
+
+##  报错
 在ts中实现报错Experimental support for decorators is a feature that is subject to change in a future release. Set the ‘experimentalDecorators’ option to remove this warning.”and“Unable to resolve signature of method decorator when called as an expression.
 
 ### 解决办法

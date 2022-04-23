@@ -6,7 +6,7 @@ title: 一年经验面试抖音电商
 ## 一面
 1. leetcode第112题， [路径总和](/front-end/Code/three.html#路径总和)
 
-  ```
+  ```js
   const hasPathSum = (root, sum) => {
     if (root === null) { // 遍历到null节点
       return false;
@@ -26,7 +26,7 @@ title: 一年经验面试抖音电商
   pop | 删除数组最后一项，返回被删除项 | ✅
   shift | 删除数组第一项，返回删除项 | ✅
   unshift | 数组开头添加元素，返回长度 | ✅
-  reserve | 反转数组，返回数组 | ✅
+  reverse | 反转数组，返回数组 | ✅
   sort | 排序数组，返回数组 | ✅
   splice | 截取数组，返回被截取的部分 | ✅
   join | 将数组转为字符串，返回字符 | ❌
@@ -42,7 +42,7 @@ title: 一年经验面试抖音电商
 
 3. 实现reduce 
 
-  ```
+  ```js
   Array.prototype.reduce = Array.prototype.reduce || function(fn, initialValue) {
     let arr = this;
     let base = typeof initialValue === 'undefined' ? arr[0] : initialValue;
@@ -75,11 +75,11 @@ title: 一年经验面试抖音电商
 
 5. vue与react区别和优劣
   - vue2 对ts支持较差，vue3已解决
-  - vue2对jsx支持交叉，vue3已解决
+  - vue2对jsx支持较差，vue3已解决
   - vue和react都是单向数据流
   - vue多用模板templeate react多用jsx
   - vue和react都用虚拟dom和diff算法
-  - vue是双向绑定，react是单向板顶
+  - vue是双向绑定，react是单向绑定
   - vue和react都倡导组件化开发
   - vue和react都支持服务端渲染
   - vue2的状态管理工具是vuex，vue3用pinia，react用redux、mbox、recoil
@@ -106,7 +106,7 @@ title: 一年经验面试抖音电商
   => ['an0', 'am0', 'an1', 'am1', 'bn0', 'bm0', 'bn1', 'bm0']
   ```
   解答：
-  ```
+  ```js
   const fn = arr => {
     const length = arr.length;
     const res = [];
@@ -123,15 +123,17 @@ title: 一年经验面试抖音电商
     return res;
   }
   ```
+  [电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/solution/shou-hua-tu-jie-liang-chong-jie-fa-dfshui-su-bfsya/)
+  
 2. 手写
 
-  ```
+  ```js
   u.console('breakfast').setTimeout(3000)
   .console('lunch').setTimeout(3000)
   .console('dinner')
   ```
   解答,[参考](/front-end/JavaScript/tips-chained.html)
-  ```
+  ```js
   clas U {
     constructor() {
       this.tasks = [];
@@ -174,7 +176,7 @@ title: 一年经验面试抖音电商
 
 5. 写一个事件代理函数，需要判断child是parent的子节点
 
-  ```
+  ```js
   function proxy(event, cb, parent, child) {
     parent[event] = function(e) {
       if (parent.contains(child) && e.target === child) {
@@ -186,7 +188,7 @@ title: 一年经验面试抖音电商
 
 6. 看代码说结果
 
-  ```
+  ```js
   var length = 10;
 
   function fn() {

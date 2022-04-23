@@ -367,3 +367,12 @@ adminer--- Adminer是一个类似于phpMyAdmin的MySQL管理客户端
 mongo express---基于Web的MongoDB管理界面
 
 sequel pro 数据库工具
+
+## rsync | scip文件同步命令使用
+### scp
+[docker将容器打包成镜像并传输到其他服务器部署](/back-end/Docker/#docker将容器打包成镜像并传输到其他服务器部署)
+### rsync
+```js
+rsync -aq --password-file=/etc/rsync161.pas  /data2/xxx.com/upload/adsvideo/material/16981/人物进阶选择720X1280.mp4  asasa@106.xxxx::mysqlbackup/www/
+```
+需要在服务端B开启rsync服务器，并配置用户密码，同时密码在服务器A下也配置一份；同时路径别名，如上面的mysqlbackup代表/data/

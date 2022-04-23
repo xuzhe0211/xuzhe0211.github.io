@@ -12,19 +12,19 @@ koa中间件机制:Koa中间件机制就是函数式组合概念Compose的概念
 > 洋葱圈 切面 可以操作 请求前做什么？请求后做什么？
 
 知识储备
-```
+```javascript
 const add = (x, y) => x + y;
 const square = z => z * z;
 const fn = (x, y) => square(add(x, y));
 console.log(fn(1,2))
 ```
 上面就算是两次函数组合调用，我们可以把他合并成一个函数
-```
+```javascript
 cosnt compose = (fn1, fn2) => (...args) => fn2(fn1(...args));
 const fn = compose(add, square)
 ```
 多个函数组合：中间件的数目是不固定的，我们可以用数组来模拟
-```
+```javascript
 const compose = (...[first, ...other]) => (...args) => {
     let ret = frist(...args);
     other.forEach(fn => {
@@ -38,7 +38,7 @@ console.log(fn(1,2))
 ### 异步中间件
 上面的函数都是同步的，挨个遍历执行即可，如果是异步的函数呢，是一个promise，我们要支持async + await的中间件，所以我们要等异步结束之后，在执行下一个中间件
 
-```
+```javascript
 function compose(middlewares) {
     return function() {
         return dispatch(0);

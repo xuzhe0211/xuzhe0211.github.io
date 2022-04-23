@@ -5,7 +5,7 @@ title: 项目中的具体使用
 
 ## tooltip
 
-```
+```js
 tooltip: {
     trigger: 'axis',
     backgroundColor: '#122649',
@@ -29,7 +29,7 @@ tooltip: {
 
 ## 图表位置、下滑快
 
-```
+```css
 grid: {
     top: '20%',
     left: 0,
@@ -57,7 +57,7 @@ dataZoom: [
 
 ## 图表背景 
 
-```
+```js
 graphic: [
     {
         type: 'text',
@@ -81,7 +81,7 @@ graphic: [
 ```
 
 ## pie图表内文案
-```
+```js
 series: [
     {
         name: '面积模式',

@@ -6,7 +6,7 @@ title: JS的IIFE
 ## 定义
 IIFE：Immediately Invoked Function Expression 意为立即调用的函数表达式，也就是说，声明函数的同时立即调用函数。
 
-```
+```js
 // 不采用IIFE的函数声明和函数调用
 function foo() {
     var a = 10;
@@ -33,7 +33,7 @@ foo();
 
 ## IIFE的常见形式
 根据最后表示函数执行的一对()位置的不同，常见的IIFE写法有两种
-```
+```js
 (function(a) {
     console.log(a)
 })('1')
@@ -51,7 +51,7 @@ foo();
 ## IIFE的函数名和参数
 根据《You Don’t Know JS:Scope & Clouses》[2]的说法，尽量避免使用匿名函数。但是IIFE确实只执行一次，给IIFE起个名字有些画蛇添足了。如果非要给IIFE起个名字，干脆就叫IIFE好了。
 IIFE可以带（多个）参数，比如下面的形式：
-```
+```js
 var a = 2;
 (function IIFE(global) {
     var a = 3;
@@ -64,7 +64,7 @@ console.log(a)
 ## IIFE构造单例模式
 
 JS的模块就是函数，常见的定义如下
-```
+```js
 function myModule() {
     var someThing = '123';
     var otherThing = [1,2,3]；
@@ -92,7 +92,7 @@ foo1.doSomeThing();
 ```
 
 如果需要一个单例模式，可以利用IIFE
-```
+```js
 var myModule = (function() {
     var someThing = "123";
   var otherThing = [1,2,3];

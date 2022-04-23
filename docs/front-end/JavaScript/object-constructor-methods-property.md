@@ -157,7 +157,7 @@ Object.defineProperties(obj, props)
 
 ### 2. 描述
 
-Object.defineProperty 的复数形式。
+<span style="color: red">Object.defineProperty 的复数形式。</span>
 
 
 [js中的Object.defineProperty()和defineProperties()详解 ](https://www.cnblogs.com/xlys/p/8520676.html)

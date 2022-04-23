@@ -51,13 +51,13 @@ title: 实现element-ui的按需引入，按需打包加载
 
 目录中，将各个功能模块打包成了一个.js文件，在theme-chalk中，存放着名称和功能模块相同的.css文件。为何要这样打包？？这就进入我们的重点，看看babel-plugin-component插件的文档
 ![babel-plugin-component文档](./images/4001541399-5b654ebd6983f_articlex.jpg)
-import { Button } from 'antd'会被解析成同时引入and/lib/button/index.js和引入lib/button/style.css这就是这个插件为我们带来的按需引入的功能。插件会去解析你的代码，当你引入的是配置的modules中某一部分时，自动为你解析，只为你的项目引入指定的部分。
+**<span style="color: red">import { Button } from 'antd'会被解析成同时引入and/lib/button/index.js和引入lib/button/style.css这就是这个插件为我们带来的按需引入的功能。插件会去解析你的代码，当你引入的是配置的modules中某一部分时，自动为你解析，只为你的项目引入指定的部分。</span>**
 
 这个插件有几种目录结构的配置方案，刚刚解释的只是其中一种，我们来看element-ui采用的也是我们要使用的一种：
 ![babel-plugin-component的elementui](./images/3304704619-5b655008187b3_articlex.jpg)
-在lib下，存在几个模块componentA、componentB，当import {compoentA} from '...'会被解析成从lib/componentA,此时，这个componentA若是目录，则进入目录找目录入口，也就是index.js，若componentA是个.js文件，则直接引入这个文件。
+**<span style="color: red">在lib下，存在几个模块componentA、componentB，当import {compoentA} from '...'会被解析成从lib/componentA,此时，这个componentA若是目录，则进入目录找目录入口，也就是index.js，若componentA是个.js文件，则直接引入这个文件。</span>**
 
-样式文件会通过你的bablerc配置，从lib中指定的目录中去引入同名文件
+**<span style="color: red">在lib下，存在几个模块componentA、componentB，当import样式文件会通过你的bablerc配置，从lib中指定的目录中去引入同名文件</span>**
 
 看看bablerc中的相关配置：
 ![bablerc](./images/3455277759-5b65510831489_articlex.jpg)
