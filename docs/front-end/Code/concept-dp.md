@@ -32,7 +32,7 @@ title: 动态规划
 
 ![最大子序和](./images/WechatIMG154.png)
 
-```
+```js
 var maxSubArray = function(nums) {
     var cur = 0; maxSub = nums[0];
     nums.forEach(x => {
@@ -45,7 +45,7 @@ var maxSubArray = function(nums) {
 
 ## 爬楼梯
 
-```
+```js
 var climbStairs = function(n) {
     var dp = [];
     dp[0] = 1;
@@ -79,7 +79,7 @@ var climbStairs = function(n) {
     ```
 4. 代码实现
 
-```
+```js
 const logestPalindrome = s => {
     if (s.length < 2) return s;
     let res = s[0], dp = Array.from(Array(s.length), () => Array(s.length).fill(0))
@@ -101,6 +101,22 @@ const logestPalindrome = s => {
     }
     return res;
 }
+
+// 第二种
+var longestPalindrome = function(s) {
+    let ans = '';
+    let n = s.length;
+    let dp = Array.from(Array(n), (_, i) => Array(n).fill(0));
+    for(let i = n-1; i >=0; i--) {
+        for (let j = i; j < n; j++) {
+            dp[i][j] = s[i] === s[j] && ( j - i < 2 || dp[i+1][j-1])
+            if (dp[i][j] && j - i + 1 > ans.length) {
+                ans = s.substr(i, j - i + 1)
+            }
+        }
+    }
+    return ans;
+};
 ```
 复杂度分析：
 

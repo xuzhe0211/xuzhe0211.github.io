@@ -4,7 +4,7 @@ title: ES6---扩展运算符
 ---
 扩展运算符，即...运算符是ES6新增的一个语法，<span style="color: red">其主要作用是将数组或对象进行展开(这种说话也许不太准确)</span>，希望通过下面的总结让你明白下面用法
 
-## <span style="color: red">1. 替代apply方法，一般在函数调用时候处理参数</span>
+## 1. 替代apply方法，一般在函数调用时候处理参数
 假设我们的参数刚好是一个数组
 ```javascript
 var args = [1,2,3]
@@ -35,7 +35,7 @@ addFun(...args);
 ```
 这里的...运算符是将args数组拆开成的单个元素进行计算
 
-## <span style="color: red">2. 剩余参数(rest运算符)，主要针对函数形参</span>
+## 2. 剩余参数(rest运算符)，主要针对函数形参
 <span style="color: blue">**剩余参数运算符和扩展运算符都是...，但是使用起来却不一样，可以简单的理解为剩余参数运算符和扩展运算符是相反的，扩展运算符是把数组和对象进行展开，而剩余参数运算符是把多个元素'合并'起来**</span>
 
 主要用于不定参数，可以理解为arguments的替代品，因此ES6不在使用arguments对象
@@ -66,7 +66,7 @@ console.log(a) // 1
 console.log(rest); // [2,3,4]
 ```
 
-## <span style="color: red">3. 数组连接、合并</span>
+## 3. 数组连接、合并
 连接数组，使用push将数组添加到另一个数组的尾部
 ```javascript
 var arr1 = [1,2,3];
@@ -93,7 +93,7 @@ console.log(es5Arr); // ['a', 'b', 'c', 'd', 'e', 'f'];
 var es6Arr = [...arr1, ...arr2];
 console.log(es6Arr); // ['a', 'b', 'c', 'd', 'e', 'f']
 ```
-## <span style="color: red">4. 数组和对象拷贝</span>
+## 4. 数组和对象拷贝
 数组拷贝
 ```javascript
 var arr1 = [1,2,3]; 
@@ -121,7 +121,7 @@ console.log(obj2); // {a: 1, b: 2, c: 3}
 ```
 <span style="color: red">扩展运算符拷贝是浅拷贝，只对数组或对象的第一层结构起作用</span>
 
-## <span style="color: red">5. 字符串转数组</span>
+## 5. 字符串转数组
 ```javascript
 var str = 'hello';
 

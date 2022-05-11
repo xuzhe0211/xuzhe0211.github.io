@@ -150,3 +150,15 @@ CCTV-15高清 ',http://ivi.bupt.edu.cn/hls/cctv15.m3u8
 
 江苏卫视高清 ', http://ivi.bupt.edu.cn/hls/jshd.m3u8
 ```
+
+## 录屏
+1. poputer
+2. mediaDevices
+3. Recorder
+
+
+[用JS创建一个录屏功能](https://www.jb51.net/article/228779.htm)
+
+[炸裂，用JS创建一个录屏功能](https://segmentfault.com/a/1190000020266708)
+
+[Js 录制屏幕](https://www.jianshu.com/p/f2f842e28f87)

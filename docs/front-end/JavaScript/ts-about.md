@@ -4,7 +4,7 @@ title: TS开发相关问题
 ---
 
 ## tsconfig.json
-```
+```json
 {
     "compilerOptions": {
         "outDir": "./dist/out-tsc",//输出目录
@@ -67,7 +67,7 @@ title: TS开发相关问题
 [配置文档](https://www.typescriptlang.org/tsconfig)
 
 ## ts中实现注解风格装饰器
-```
+```js
 function decorate(target, property, descriptor) {
     let oldValue = descriptor.value;
     descriptor.value = msg => {
@@ -124,6 +124,6 @@ npm install -g typescript
 <!-- 重新 -->
 ts-node xx.ts
 ```
-
+[ts-node使用报错：Cannot find name 'console'](https://www.jianshu.com/p/9db8b7e61473)
 ## 资料
 [深入理解TypeScript - 认识TypeScript&配置详解](https://blog.csdn.net/qq_41831345/article/details/106727200)

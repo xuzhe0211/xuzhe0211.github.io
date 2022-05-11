@@ -72,8 +72,7 @@ http://www.javashuo.com/article/p-ntrumtpe-wu.html
 [如何给自己的vue组件做一个快乐的提示](https://juejin.cn/post/6844904135519633422)
 
 [nuxt插件](https://github.com/nuxt-community/community-modules/tree/master/packages/toast)
-[20分钟上手 webAssembly](https://juejin.cn/post/6844903661982728200)
-[WebAssembly 学习笔记](https://www.jianshu.com/p/0bc430ef612d)
+
 
 [路由懒加载+webpackChunkName](https://juejin.cn/post/7016890750193369101)
 [elementpulus](https://juejin.cn/post/6914598983205847053)
@@ -95,8 +94,6 @@ https://mp.weixin.qq.com/s/O0poI3y62W0vO8Z858lY4Q
 [首屏时间，你说你优化了，那你倒是计算出给给我看啊！](https://mp.weixin.qq.com/s/-GJzTt2Q8b1a8mtd_x2QjA)
 
 [vue 269个知识点（面试题）为你保驾护航](https://juejin.cn/post/6844903876231954446)
-
-[说微前端JS沙箱实现的几种方式](https://juejin.cn/post/6981374562877308936)
 
 [做一些动图，学习一下 EventLoop](https://mp.weixin.qq.com/s/MErDXm9Tk9NRbrNT1jYZOQ)
 

@@ -3,7 +3,7 @@ title: Vue router-view key属性解释
 ---
 
 router-view作用，你可以router-view当做是一个容器，它渲染的组件是你使用vue-router指定的
-```
+```html
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">

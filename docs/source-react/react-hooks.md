@@ -52,7 +52,7 @@ Hooks的出现，使的上述问题得到不同程度的解决.
 
 ### useState
 
-```
+```js
 import React, { useState } from 'react';
 
 function Example() {
@@ -173,7 +173,7 @@ function Example() {
 
 4. 选然后从上至下按顺序执行useEffect
 
-可以看到无论是初始化渲染还是更新渲染，useEffect总是会确保在组件渲染完毕后在执行，这就相当于组合了初始化和更新渲染时的生命周期钩子。并且由于闭包的特性，useEffect可以访问到函数组件中的各种属性和方法。
+<span style="color: red">可以看到无论是初始化渲染还是更新渲染，useEffect总是会确保在组件渲染完毕后在执行，这就相当于组合了初始化和更新渲染时的生命周期钩子。并且由于闭包的特性，useEffect可以访问到函数组件中的各种属性和方法。</span>
 
 useEffect里面可以进行 **"副作用"** 操作，例如：
 
@@ -191,7 +191,7 @@ useEffect里面可以进行 **"副作用"** 操作，例如：
 
 演示类组件是如何清除订阅的：
 
-```
+```js
 class FriendStatus extends React.Component {
     constructor(props) {
         super(props);
@@ -252,7 +252,7 @@ class FriendStatus extends React.Component {
 
 那么使用useEffect该如何实现？
 
-```
+```js
 function FriendStatus(props) {
     const [isOnline, setIsOnline] = useState(null);
 
@@ -297,7 +297,7 @@ useEffect把好友订阅的逻辑代码组合到了一起，而不像类组件�
 
 现在将计数组件和好友在线状态组合并做对比。
 
-```
+```js
 class FriendStatusWithCounter extends React.Component {
     constructor(props) {
         super(props);
@@ -352,7 +352,7 @@ class FriendStatusWithCounter extends React.Component {
 
 接下来看看useEffect是怎么做的
 
-```
+```js
 function FriendStatusWithCounter(props) {
     // 计数相关代码
     const [count, setCount] = useState(0);
@@ -386,7 +386,7 @@ useEffect可以像使用多个useState那样，把组件的逻辑代码进行分
 第二个参数传入一个数组，数组元素是要监听的变量，当函数再次执行时，数组中只要有一个元素与上次函数执行时传入的数组元素不同，那么则执行useEffect传入的函数，否则不执行。
 
 给个实例
-```
+```js
 function FriendStatus(props) {
     const [isOnline, setIsOnline] = useState(null);
 
@@ -427,7 +427,7 @@ function FriendStatus(props) {
 试想一下这样的场景：一个图表组件Chart需要接受大量的数据然后对其进行大量计算处理(getDataWithinRange())并做展示。
 
 类组件：
-```
+```js
 // 大量计算处理
 function getDataWithinRange() {
     // ...
@@ -461,7 +461,7 @@ class Chart extends Component {
 
 使用useEffect的函数组件
 
-```
+```js
 const Chart = ({ dateRange }) => {
     const [data, setData] = useState();
 
@@ -498,7 +498,7 @@ useEffect可以让你有更简单的想法实现 **保持变量同步**
 
 所以我们可以把刚才的图表例子写成这样
 
-```
+```js
 const Chart = ({ dateRange}) => {
     const date = useMemo(() => {
         getDataWithinRange(dateRange);
@@ -520,7 +520,7 @@ useMemo会返回一个"记忆化"的结果，执行当前传入的函数并返�
 
 当然，如果getDataWithinRange函数开销不大的话，这样写也是可以的
 
-```
+```js
 const Chart = ({ dateRange }) => {
   const newData = getDataWithinRange(dateRange)
   return (
@@ -546,7 +546,7 @@ const Chart = ({ dateRange }) => {
 3. 当data改变后需要更新scales
 
 类组件：
-```
+```js
 class Chart extends Component {
   state = {
     data: null,
@@ -584,7 +584,7 @@ class Chart extends Component {
 
 函数组件
 
-```
+```js
 const Chart = ({ dateRange, margins }) => {
   const data = useMemo(() => (
     getDataWithinRange(dateRange)
@@ -607,7 +607,7 @@ const Chart = ({ dateRange, margins }) => {
 
 看看类组件是如何做到的：
 
-```
+```js
 class Chart extends Component {
   state = {
     data: null,
@@ -648,7 +648,7 @@ class Chart extends Component {
 由于依赖关系发生了变化，所以需要重新进行判断，并且由于多个依赖关系，判断的条件也变得更加复杂了，代码的可读性也大幅降低。
 
 接着看 Hooks 是如何做到的：
-```
+```js
 const Chart = ({ dateRange, margins }) => {
   const data = useMemo(() => (
     getDataWithinRange(dateRange)

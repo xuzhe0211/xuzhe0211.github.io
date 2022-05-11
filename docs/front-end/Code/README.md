@@ -62,7 +62,7 @@ twoSum([2,7,11,16], 9)
 var threeSum = function(nums) {
     let ans = [];
     const len = nums.length;
-    if(nums == null || len < 3) return ans;
+    if(nums == null || len < 3) return ans; // 注意这句 比较重要
     nums.sort((a, b) => a - b); // 排序
     for (let i = 0; i < len ; i++) {
         if(nums[i] > 0) break; // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
@@ -88,6 +88,8 @@ var nums = [-1, 0, 1, 2, -1, -4]
 console.log(threeSum(nums));
 ```
 [力扣三数之和](https://leetcode-cn.com/problems/3sum/solution/hua-jie-suan-fa-15-san-shu-zhi-he-by-guanpengchn/)
+
+[力扣三数之和](https://leetcode-cn.com/problems/3sum-closest/)
 ## 快排
 
 ### 阮一峰老师的js快排实现
@@ -97,7 +99,7 @@ console.log(threeSum(nums));
 
 ```javascript
 var quickSort = function(arr) {
-    if (arr.length <= 1) return arr;
+    if (arr.length <= 1) return arr; // 设置边界
     var pivotIndex = Math.floor(arr.length / 2);
     var pivot = arr.splice(pivotIndex, 1)[0];
     var left = [];
@@ -575,6 +577,54 @@ var getSubString = function(str) {
     }
     return maxStrlen
 }
+// 第二种
+var lengthOfLongestSubstring = function(s) {
+    const map = {};
+    let left = 0;
+    return s.split('').reduce((max, v, i) => {
+        left = map[v] >= left ? map[v] + 1 : left;
+        map[v] = i;
+        return Math.max(max, i - left + 1);
+    }, 0)
+};
+```
+## z-字形变换
+将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。
+
+比如输入字符串为 "PAYPALISHIRING" 行数为 3 时，排列如下：
+
+```md
+P   A   H   N
+A P L S I I G
+Y   I   R
+```
+之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如："PAHNAPLSIIGYIR"。
+
+请你实现这个将字符串进行指定行数变换的函数：
+```js
+string convert(string s, int numRows);
+```
+解决
+```js
+var convert = function(s, numRows) {
+     // return original string if can't zigzag
+     if (numRows === 1 || s.length < numRows) return s;
+
+     let rows = []
+     let reverse = false;
+     let count = 0
+ 
+     // prepare rows
+     for (let i = 0; i < numRows; i++) rows[i] = [];
+     // reverse the push flow when reaching turning points
+     for (let i = 0; i < s.length; i++) {
+         rows[count].push(s[i]);
+         reverse ? count-- : count++;
+         if (count === numRows - 1 || count === 0) reverse = !reverse;
+     }
+     // put together converted string
+     return rows.reduce((converted, cur) => converted + cur.join(''), '');
+};
 ```
 ## 查找一个字符中指定的子串的所有位置
 
@@ -629,6 +679,67 @@ const findMedianSortedArrays = (nums1, nums2) => {
 }
 ```
 [leetcode](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
+
+## [数组]对角线遍历
+![对角线遍历](./images/diag1-grid.jpeg)
+```js
+const findDiagonaOrder = mat => {
+    const row = mat.length
+    const col = mat[0].length
+    const record = new Map()
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+        const key = i + j
+        if (!record.has(key)) record.set(key, [])
+        record.get(key).push(mat[i][j])
+        }
+    }
+
+    const res = []
+    for (const [key, nums] of record.entries()) {
+        key % 2 === 1 ? res.push(...nums) : res.push(...nums.reverse())
+    }
+
+
+    return res
+}
+```
+
+[leetcode](https://leetcode-cn.com/problems/diagonal-traverse/solution/tu-jie-zhao-gui-lu-si-lu-xun-xu-jian-jin-24g5/)
+## [数组]对角线遍历 II
+给你一个列表 nums ，里面每一个元素都是一个整数列表。请你依照下面各图的规则，按顺序返回 nums 中对角线上的整数。
+![对角线遍历](./images/sample_1_1784.png)
+```
+输入：nums = [[1,2,3],[4,5,6],[7,8,9]]
+输出：[1,4,2,7,5,3,8,6,9]
+```
+![对角线遍历](./images/sample_2_1784.png)
+```
+输入：nums = [[1,2,3,4,5],[6,7],[8],[9,10,11],[12,13,14,15,16]]
+输出：[1,6,2,8,7,3,9,4,12,10,5,13,11,14,15,16]
+```
+解答
+```js
+const findDiagonaOrder = nums => {
+    if (nums.length === 1) return [];
+    let arrays = [], result = [];
+    // 根据下标和聚类
+    for(let i = 0; i < nums.length; i++) {
+        let rows = nums[i];
+        for (let j = 0; j < rows.length;j++) {
+            if (!arrays[i + j]) arrays[i + j] = [];
+            arrays[i + j].push(nums[i][j]);
+        }
+    }
+    // 二维数组扁平化
+    for(const rows of arrays) {
+        result.push(...rows.reverse())
+    }
+    return result;
+}
+```
+
+[leetcode](https://leetcode-cn.com/problems/diagonal-traverse-ii/)
 ## [数组]合并区间
 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
 
@@ -956,7 +1067,13 @@ var maxSubsequence = function(nums, k) {
     let num = nums.map((num, index) => ({
         num,
         index,
-    }));
+    })); // 返回对象
+    // let num = nums.map((num, index) => {
+    //     return {
+    //         num,
+    //         index
+    //     }
+    // })
     num = num.sort((x, y) => y.num - x.num).slice(0,k);
     num = num.sort((x, y) => x.index - y.index);
     return num.map((item) => item.num);
@@ -1006,6 +1123,7 @@ const combine = function(n, k) {
     return dfs(1, n, k, res, could);
 }
 ```
+[数组组合](https://leetcode-cn.com/problems/combination-sum/solution/)
 ## 最长连续序列
 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
 
@@ -1128,6 +1246,38 @@ var isValid = function(s) {
 };
 ```
 [leecode](https://leetcode-cn.com/problems/valid-parentheses/solution/guan-fang-tui-jian-ti-jie-you-xiao-de-gu-zyzg/)
+
+## 最长有效括号
+```js
+var longestValidParentheses = function(S) {
+    // let maxLen = 0;
+    // const stack = [];
+    // stack.push(-1);
+    // for(let i = 0; i < s.length; i++) {
+    //     const c = s[i];
+    //     if (c === '(') {
+    //         stack.push(i);
+    //     } else {
+    //         stack.pop();
+    //         if (stack.length) {
+    //             const curMaxLen = i - stack[stack.length - 1]; // 计算有效连续长度
+    //             maxLen = Math.max(maxLen, curMaxLen);          // 挑战最大值
+    //         } else {
+    //             stack.push(i);
+    //         }
+    //     }
+    // }
+    // return maxLen
+
+    let stack = [-1], ans = 0
+    for (let i = 0; i < S.length; i++)
+        if (S[i] === '(') stack.push(i)
+        else if (stack.length === 1) stack[0] = i
+        else stack.pop(), ans = Math.max(ans, i - stack[stack.length-1])
+    return ans
+};
+```
+[leetcode](https://leetcode-cn.com/problems/longest-valid-parentheses/solution/shou-hua-tu-jie-zhan-de-xiang-xi-si-lu-by-hyj8/)
 ## 会议室问题
 1. 会议室①
   给定一个会议时间安排的数组intervals，每个会议时间都会包括开始和结束时间intervals[i] = [starti, endi],请你判断一个人是否能够参加里面的全部会议
@@ -1811,6 +1961,36 @@ var minAreaRect = function(points) {
     return res === Infinity ? 0 : res;
 }
 ```
+## 柱状图中最大的矩形
+给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+
+求在该柱状图中，能够勾勒出来的矩形的最大面积。
+
+
+```js
+// 输入：heights = [2,1,5,6,2,3]
+// 输出：10
+// 解释：最大的矩形为图中红色区域，面积为 10
+
+const largestRectangleArea = heights => {
+    let maxArea = 0
+    const stack = [] //单调递增栈 注意栈存的时下标
+    heights = [0, ...heights, 0]    //在heights数组前后增加两个哨兵 用来清零单调递增栈里的元素   
+    for (let i = 0; i < heights.length; i++) {
+        //当前元素对应的高度小于栈顶元素对应的高度时
+        while (heights[i] < heights[stack[stack.length - 1]]) {
+            const stackTopIndex = stack.pop() //出栈
+            maxArea = Math.max(               //计算面积 并更新最大面积
+                maxArea,
+                heights[stackTopIndex] * (i - stack[stack.length - 1] - 1)//高乘宽
+            )
+        }
+        stack.push(i)//当前下标加入栈
+    }
+    return maxArea
+}
+```
+[柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/84-zhu-zhuang-tu-zhong-zui-da-de-ju-xing-f1p3/)
 ## 岛屿数量
 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
 
@@ -1980,6 +2160,7 @@ var superEggDrop = function (k, n) {
 输出：false
 解释：总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0 ；并且学习课程 0 之前，你还应先完成课程 1 。这是不可能的。
 ```
+> [[1,0]] 类似 {srouce: 0, target: 1}
 ```js
 const canFinish = (numCourses, prerequisites) => {
     const inDegree = new Array(numCourses).fill(0); // 入度数组
@@ -2015,7 +2196,37 @@ const canFinish = (numCourses, prerequisites) => {
 ```
 [leetcode](https://leetcode-cn.com/problems/course-schedule/solution/bao-mu-shi-ti-jie-shou-ba-shou-da-tong-tuo-bu-pai-/)
 
+[JS实现判断DAG图是否有环](/front-end/Code/stady-DAG.html#判断有向图是否有环)
+
 ## 自除数
+自除数 是指可以被它包含的每一位数整除的数。
+
+例如，128 是一个 自除数 ，因为 128 % 1 == 0，128 % 2 == 0，128 % 8 == 0。
+自除数 不允许包含 0 。
+
+给定两个整数 left 和 right ，返回一个列表，列表的元素是范围 [left, right] 内所有的 自除数 。
+```js
+const selfDividingNumber = (left, right) => {
+    const res = [];
+    for (let i = left; i < right; i++) {
+        if (isSelfDividing(i)) {
+            res.push(i)
+        }
+    }
+    return res;
+}
+const isSelfDividing = num => {
+    let temp = num;
+    while(temp > 0) {
+        const digit = temp % 10;
+        if (digit === 0 || num % digit !=== 0) {
+            return false;
+        }
+        temp = Math.floor(temp / 10);
+    }
+    return true;
+}
+```
 [leetcode](https://leetcode-cn.com/problems/self-dividing-numbers/)
 
 ## 水仙花数
@@ -2082,6 +2293,10 @@ function flownumber(n) {
 9个一样的球 有一个和其他不同
 
 
+## 转置矩阵
+[转置矩阵](/front-end/interview/dachang.html#bigo)
+
+## 其他
 [算法面试题汇总](https://leetcode-cn.com/leetbook/read/top-interview-questions/xmlwi1/)
 
 [算法学习](https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18/61963bcdc1553b002e57bf13)

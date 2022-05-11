@@ -46,7 +46,7 @@ $ node build.js
 - 不同项目的脚本命令,只要功能相同，就可以有同样的对外接口。用户不需要知道怎么测试你的项目，只要运行 npm run test即可
 - 可以利用npm提供的很多辅助功能
 
-查看当前项目的所有npm脚本命令，可以使用不戴任何参数的npm run命令
+<span style="color: green;">**查看当前项目的所有npm脚本命令，可以使用不带任何参数的npm run命令**</span>
 ```js
 npm run
 ```

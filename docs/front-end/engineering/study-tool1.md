@@ -1,6 +1,6 @@
 ---
 autoGroup-1: 公开课
-title: 前端构建工具深度剖析01
+title: 构建工具第一天-前端构建工具深度剖析01
 ---
 
 第一天：Babel与weppack原理剖析
@@ -19,7 +19,7 @@ title: 前端构建工具深度剖析01
 
 **能力提高 --- 刻意练习**
 
-```
+```js
 // TODO index.js import谁
 const fs = require('fs');
 const path = require('fs');
@@ -64,10 +64,11 @@ function getModuleInfo(file) {
     }
     return moduleInfo;
 }
+/**
+ cosnt info = getModuleInfo('./src/index.js');
 
-<!-- cosnt info = getModuleInfo('./src/index.js');
-
-console.log(info); -->
+console.log(info); 
+*/
 
 // 递归分析
 

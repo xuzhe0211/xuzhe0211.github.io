@@ -75,10 +75,10 @@ function asyHi(e) {
 
 实际上HTTP协议从未规定GET/POST的请求长度限制是多少。对get请求参数的限制是来源于浏览器或web服务器，浏览器或web服务器限制了url长度。为了明确这个概念，我们必须再次强调下面几点:
 
-- HTTP协议未规定GET和POST的长度限制
-- GET的最大长度是因为浏览器或web服务器限制了uri长度
-- 不同的浏览器和web服务器，限制的长度不一样
-- 要支持IE,则对打长度为2083byte，若只支持chrome,则最大长度8182byte
+- <span style="color: blue">HTTP协议未规定GET和POST的长度限制</span>
+- <span style="color: blue">GET的最大长度是因为浏览器或web服务器限制了uri长度</span>
+- <span style="color: blue">不同的浏览器和web服务器，限制的长度不一样</span>
+- <span style="color: blue">要支持IE,则对打长度为2083byte，若只支持chrome,则最大长度8182byte</span>
 
 补充一下get和post在缓存方面的区别
 - get请求类似于查找的过程，用户获取数据，可以不用每次都与数据库连接，所以可以使用缓存。
@@ -137,21 +137,27 @@ npm模块安装机制
 npm实现原理
 
 输入npm install命令并敲下回车后，会经理如下几个阶段(以npm 5.5.1为例)
-- 执行工程自身preinstall
+- <span style="color: blue">执行工程自身preinstall</span>
+
     当前npm工程如果定义了preinstall钩子此时会被执行
-- 确定首层依赖模块
+
+- <span style="color: blue">确定首层依赖模块</span>
+
     首先需要做的是确定工程中的首层依赖，也就是dependencies和devDependencies属性中直接指定的模块(假设此时没有添加npm install参数)
 
     工程本身是整颗依赖树的根节点，每个首层依赖模块都是根节点下面的一棵子树，npm会开启多进程从每个首层依赖模块开始逐步寻找更深层级的节点
-- 获取模块
+- <span style="color: blue">获取模块</span>
+
     获取模块是一个递归的过程，分为以下几步
     - 获取模块信息。
     - 获取模块实体
     - 查找该模块的依赖，如果有依赖则回到第一步，如果没有则停止
-- 模块扁平化
-- 安装模块
+- <span style="color: blue">模块扁平化</span>
+- <span style="color: blue">安装模块</span>
+
     这一步将会更新工程中的node_modules，并执行模块总的生命周期函数(按照preinstall、install、postinstall的顺序)
-- 执行工程自身的生命周期
+- <span style="color: blue">执行工程自身的生命周期</span>
+
     当前npm工程如果定义了钩子此时会被执行(按照install、postinstall、prepublish、prepare的顺序)
 
     最后易卜生生成或者更新版本描述文件，npm install 完成
@@ -187,7 +193,7 @@ class B extends A{}
 [参考答案](https://gongchenghuigch.github.io/2019/09/14/awat/)
     
 ### 定时器的执行顺序或机制
-因为js是单线程的，浏览器遇到setTimeout或者setInterval会先执行完当前的代码块，在此之前会吧定时器推入浏览器的执行时间队列厘米，等到浏览器执行完当前代码之后会看一下时间队列厘有没有任务，有的话才执行定时器的代码。所以即使把定时器的时间设置为0还是会先执行当前的代码
+因为js是单线程的，浏览器遇到setTimeout或者setInterval会先执行完当前的代码块，在此之前会把定时器推入浏览器的执行时间队列里面，等到浏览器执行完当前代码之后会看一下时间队列厘有没有任务，有的话才执行定时器的代码。所以即使把定时器的时间设置为0还是会先执行当前的代码
 ```js
 function test(){
     var aa = 0;
@@ -239,6 +245,16 @@ undefined // test程序没有返回值 如果return 1 返回1
 Doctype声明于文档最前面，告诉浏览器以何种方式来渲染页面，这里有两种模式，严格模式和混杂模式
 - 严格模式的排版和JS运作模式是以该浏览器支持的最高标准进行的
 - 混杂模式，向后兼容。模拟老式浏览器，防止浏览器无法兼容页面。
+
+如何区分
+1. 如果文档包含严格的DOCTYPE，那么它一般以严格模式呈现(**严格DTD---严格模式**)
+2. 包含过渡 DTD 和 URI 的 DOCTYPE ，也以严格模式呈现，但有过渡 DTD 而没有 URI （统一资源标识符，就是声明最后的地址）会导致页面以混杂模式呈现。（**有 URI 的过渡 DTD ——严格模式；没有 URI 的过渡 DTD ——混杂模式**） 
+3. DOCTYPE 不存在或形式不正确会导致文档以混杂模式呈现。（**DTD不存在或者格式不正确——混杂模式**）
+4. HTML5 没有 DTD ，因此也就没有严格模式与混杂模式的区别，HTML5 有相对宽松的语法，实现时，已经尽可能大的实现了向后兼容。（**HTML5 没有严格和混杂之分**）
+
+[Doctype作用？严格模式与混杂模式如何区分？它们有何差异？](https://www.cnblogs.com/wuqiutong/p/5986191.html)
+
+[HTML--DTD](https://zhuanlan.zhihu.com/p/86079104)
 
 ### fetch发送2次请求的原因
 **fetch发送post请求的时候，总是发送2次，第一次状态码是204 第二次才成功？**
@@ -853,14 +869,14 @@ let name =  ConardLi
 let变量如果不存在变量提升，console.log(name)就会输出ConardLi，结果却抛出了ReferenceError，那么这很好的说明了，let也存在变量提升，但是它存在一个“暂时死区”，在变量未初始化或赋值前不允许访问。
 
 变量的复制分为三个阶段
-- 创建变量，在内存中开辟空间
-- 初始化变量，变量初始化为undefined
-- 真正赋值
+- <span style="color: red">创建变量，在内存中开辟空间</span>
+- <span style="color: red">初始化变量，变量初始化为undefined</span>
+- <span style="color: red">真正赋值</span>
 
 关于let、val和function
-- let的创建过程被提升了，但是初始化没有提升
-- val的创建和初始化都被提升了
-- function的创建、初始化、赋值都被提升了
+- <span style="color: red">let的创建过程被提升了，但是初始化没有提升</span>
+- <span style="color: red">val的创建和初始化都被提升了</span>
+- <span style="color: red">function的创建、初始化、赋值都被提升了</span>
 ### 下面代码输出的是什么
 ```js
 var a = 10;
@@ -897,7 +913,8 @@ freddie.colorChange("orange");
 - B: purple
 - C: green
 - D: TypeError
-colorChange方法是静态的。静态方法仅在创建它们的构造函数中存在，并且不能传递给任何子级。由于freddie是一个子级对象，函数不会传递，所以在freddie实例上不存在freddie方法：抛出TypeError。
+
+colorChange方法是静态的。<span style="color: red">静态方法仅在创建它们的构造函数中存在，并且不能传递给任何子级。由于freddie是一个子级对象，函数不会传递，所以在freddie实例上不存在freddie方法：抛出TypeError。</span>
 
 ### 下面代码中什么时候会输出1？
 ```js

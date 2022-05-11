@@ -78,7 +78,7 @@ height:2px;
 
 说到这里，就得说一下retina下图片展示情况？
 
-<span style="color: red">理论上，1个位图像素对应于1个物理像素，图片才能完美清晰的展示。</span>
+<span style="color: orange">**理论上，1个位图像素对应于1个物理像素，图片才能完美清晰的展示**。</span>
 
 <span style="color: red">在普通屏幕下没有问题，但是在retina屏幕下就会出现位图像素点不够，从而导致图片模糊的情况</span>
 

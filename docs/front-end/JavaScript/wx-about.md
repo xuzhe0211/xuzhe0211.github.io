@@ -1,4 +1,5 @@
 ---
+autoGroup-17: 小程序
 title: 小程序
 ---
 
@@ -55,3 +56,5 @@ title: 小程序
 同时，应用声明周期会影响到页面声明周期。
 
 [参考地址]（https://www.cnblogs.com/SophiaLees/p/11409339.html）
+
+[vue和小程序的生命周期](https://blog.csdn.net/Mrzhouzh/article/details/115250893)

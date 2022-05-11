@@ -49,7 +49,7 @@ function rootTraverse(root) {
 	return res; 
 }
 function dfs(root, res){
-    if (root) {
+    if (root) { // 递归边界
         res.push(root.val);
         root.left && dfs(root.left, res);
         root.right && dfs(root.right, res);

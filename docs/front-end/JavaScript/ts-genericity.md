@@ -13,7 +13,7 @@ title: card--TS一分钟了解TS中的泛型
 
 ## 泛型类
 泛型可以用于类和构造器，例如：
-```
+```js
 class Person<T> {
     private _value: T;
     constructor(val: T) {
@@ -23,13 +23,13 @@ class Person<T> {
 let p = new Person<number>(12)
 ```
 如上，&lt;T&gt;表示传递一个T类型，在new的时候才把具体的类型传入。其中T是变量可改，但通常比较常见就是写T之前说TypeScript类型的时有说到数组，其实数组本职就是一个泛型类
-```
+```js
 let a = new Array<number>();
 ```
 
 ## 泛型函数
 泛型可以用于普通函数
-```
+```js
 function fn<T>(args: T): T {
     return arg
 }
@@ -38,7 +38,7 @@ fn<number>(12)
 其实不管是用于类还是函数，核心思想都是：把类型当一种特殊的参数传入进入
 
 需要注意的是泛型也可以"继承"，但表示的是限制范围如：
-```
+```js
 class Person<T extends Date> {
     private _value: T;
     constructor(val: T) {

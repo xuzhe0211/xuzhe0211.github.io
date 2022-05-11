@@ -11,17 +11,17 @@ title: WebRTC--使用webRTC构建简单的前端视频通讯
 
 传统的视频推流的技术实现一般是这样的:客户端采集视频数据，推流到服务器上,服务器在根据情况将视频数据推送到其他客户端上。
 
-**但webRTC却截然不同，它可以在客户端之间直接搭建基于UDP的数据通道，经过简单的接收流程之后，可以在不同设备间的两个浏览器内直接传输任意数据。**
+<span style="color: red">**但webRTC却截然不同，它可以在客户端之间直接搭建基于UDP的数据通道，经过简单的接收流程之后，可以在不同设备间的两个浏览器内直接传输任意数据。**</span>
 
-这其中的流程包括
+这其中的[流程](/front-end/JavaScript/video-2-1.html)包括
 
-- 采集视频流数据，创建一个RTCPeerConnection
+- <span style="color: blue">采集视频流数据，创建一个RTCPeerConnection</span>
 
-- 创建一个SDP offer和响应的回应
+- <span style="color: blue">创建一个SDP offer和响应的回应</span>
 
-- 为双方找到ICE候选路径
+- <span style="color: blue">为双方找到ICE候选路径</span>
 
-- 成功创建一个webrtc连接
+- <span style="color: blue">成功创建一个webrtc连接</span>
 
 下面我们介绍其中涉及的一些关键词
 
@@ -43,7 +43,7 @@ RTCPeerConnection对象是WebRTC API的入口，它负责创建、维护一个We
 
 首先我们的目标是在同一个页面中创建两个实时视频，一个的数据直接来自你的摄像头,另一个的数据来自本地创建的WebRct连接。看起来是这样的：
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +74,7 @@ RTCPeerConnection对象是WebRTC API的入口，它负责创建、维护一个We
 ```
 
 下面我们创建一个main.js文件，先封装一个各浏览器的userMedia和RTCPeerConnection对象
-```
+```js
 function hasUserMedia() {
     navigator.getUserMedia = navigator.getUserMedia || navigator.msGetUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     return !!navigator.getUserMedia
@@ -87,7 +87,7 @@ function hasRTCPeerConnection() {
 ```
 
 然后我们需要浏览器调用系统的摄像头API getUserMedia获得媒体流，注意要打开浏览器的摄像头限制。Chrome由于安全问题，智能在https下或者locahost下打开摄像头
-```
+```js
 var yourVideo = document.getElementById('yours');
 var theirVideo = document.getElementById('theirs');
 if (hasUserMedia()) {

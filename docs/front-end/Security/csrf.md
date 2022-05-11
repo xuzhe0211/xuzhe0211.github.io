@@ -8,18 +8,18 @@ CSRF(Cross-site request forgery),跨站请求伪造。攻击者盗用你的身�
 ## CSRF攻击原理
 ![CSRF攻击原理](./images/1645780827656.jpg)
 
-1. 客户端通过账户密码登录访问网站A
-2. 网站A验证客户端的账号密码，成功则生成一个SessionId,并返回给客户端储在浏览器中
-3. 该客户端tab一个新的页面访问了网站B
-4. 网站B自动触发要求该客户端访问网站A。(即在网站B中有连接指向网站A，例如:form表单action)
-5. 客户端通过网站B中的链接访问网站A。(此时携带有合法的sessionID进行访问网站A的)
-6. 此时网站A只需检测sessionID是否合法，合法则执行相应的操作
+1. <span style="color: blue">客户端通过账户密码登录访问网站A</span>
+2. <span style="color: blue">网站A验证客户端的账号密码，成功则生成一个SessionId,并返回给客户端储在浏览器中</span>
+3. <span style="color: blue">该客户端tab一个新的页面访问了网站B</span>
+4. <span style="color: blue">网站B自动触发要求该客户端访问网站A。(即在网站B中有连接指向网站A，例如:form表单action)</span>
+5. <span style="color: blue">客户端通过网站B中的链接访问网站A。(此时携带有合法的sessionID进行访问网站A的)</span>
+6. <span style="color: blue">此时网站A只需检测sessionID是否合法，合法则执行相应的操作</span>
 
 ## 几种常见的攻击类型
 1. GET类型的CSRF
 
   针对get请求，黑客一般会给你发送一张图片，在图片的src里执行请求
-  ```
+  ```html
   <!-- GET类型csrf攻击 -->
   <img src="http://127.0.0.1:10086/payfor?money=100&to=张三" alt="" />
   ```
@@ -27,7 +27,7 @@ CSRF(Cross-site request forgery),跨站请求伪造。攻击者盗用你的身�
 2. POST类型的CSRF
 
   针对post请求，黑客一般会伪造一个表单，在提交的时候发送请求
-  ```
+  ```html
   <!-- POST类型csrf攻击 -->
   <form action="http://127.0.0.1:10086/payfor" method="POST" target="_self">
   <input type="hidden" name="money" value="10000" />
@@ -39,7 +39,7 @@ CSRF(Cross-site request forgery),跨站请求伪造。攻击者盗用你的身�
 3. 链接类型的CSRF
 
   链接类型的CSRF并不常见，比起其他两种用户打开页面就中招的情况，这种需要用户点击链接才会触发。这种类型通常是在论坛中发布的图片中嵌入恶意链接，或者以广告的形式诱导用户中招，攻击者通常会以比较夸张的词语诱骗用户点击，例如：
-  ```
+  ```html
   <a href="http://test.com/csrf/withdraw.php?amount=1000&for=hacker" taget="_blank">
     重磅消息！！
   <a/>
@@ -47,9 +47,9 @@ CSRF(Cross-site request forgery),跨站请求伪造。攻击者盗用你的身�
 
 ## CSRF的特点
 
-- 攻击一般发起在第三方网站，而不是被攻击网站，被攻击的网站无法防止攻击发生(但是可以防御csrf)
-- 攻击利用受害者在被攻击网站的登录凭证，冒充受害者提交操作，而不是直接窃取数据。整个过程攻击者并不能获取到受害者的登录凭证，仅仅是冒用(攻击者只能利用cookie而不能获取cookie)
-- 跨站请求可以用各种方式：图片URL、超链接、CORS、Form提交等等。部分请求方式可以直接嵌入在第三方论坛、文章中，难以进行追踪。
+- <span style="color: blue">攻击一般发起在第三方网站，而不是被攻击网站，被攻击的网站无法防止攻击发生(但是可以防御csrf)</span>
+- <span style="color: blue">**攻击利用受害者在被攻击网站的登录凭证，冒充受害者提交操作，而不是直接窃取数据。整个过程攻击者并不能获取到受害者的登录凭证，仅仅是冒用(攻击者只能利用cookie而不能获取cookie)**</span>
+- <span style="color: blue">跨站请求可以用各种方式：图片URL、超链接、CORS、Form提交等等。部分请求方式可以直接嵌入在第三方论坛、文章中，难以进行追踪。</span>
 
 ## 防御CSRF的策略
 CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生，只能通过增强自己网站针对CSRF的防护能力来提升安全性
@@ -59,10 +59,10 @@ CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生�
 2. CSRF攻击者不能获取到Cookie等信息，只能使用
 
 针对这两点，我们可以专门制定防护策略，如下：
-- 组织不明外域的访问
+- <span style="color: red">组织不明外域的访问</span>
   - 同源检测
   - samesite cookie
-- 提交时要求附加本域才能获取到的信息
+- <span style="color: red">提交时要求附加本域才能获取到的信息</span>
   - CSRF token
   - 双重Cookie验证
 
@@ -106,16 +106,16 @@ CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生�
 ## CSRF Token
 前面讲到CSRF的另一个特征是，攻击者无法直接窃取到用户的信息(Cookie,header，网站内容等)，仅仅是冒用Cookie中的信息。
 
-而CSRF攻击之所以能够成功，是因为无服务器误把攻击者发送的请求当成了自己的请求。那么我们可以要求所有的用户都携带一个CSRF攻击者无法获取到的token。服务器通过校验请求是否携带正确的Token,来把正常的请求和攻击的请求区分开，也可以防范CSRF攻击。
+<span style="color: red">而CSRF攻击之所以能够成功，是因为无服务器误把攻击者发送的请求当成了自己的请求。那么我们可以要求所有的用户都携带一个CSRF攻击者无法获取到的token。服务器通过校验请求是否携带正确的Token,来把正常的请求和攻击的请求区分开，也可以防范CSRF攻击。</span>
 
 **原理**
 
 CSRF Token的防护策略分为三个步骤
-1. 将CSRF Token输出到页面中
+1. <span style="color: blue">将CSRF Token输出到页面中</span>
 
   首先，用户打开页面的时候，服务器需要给这个用户生成一个token,该Token通过加密算法对数据进行加密，一般Token都包括随机字符串和时间戳组合，显然在提交时Token不能在放在Cookie中了，否则又会被攻击者冒用。因此，为了安全起见Token最好还是存在服务器的Session中，之后每次页面加载时，使用JS遍历整个Dom树，对于Dom所有的a和Form标签后加入Token。这样可以解决大部分的请求，但是对于在页面加载之后动态生成的HTML代码，这种方法就没有作用，还需要程序员在编码时手动添加Token。
 
-2. 页面提交的请求携带这个Token
+2. <span style="color: blue">页面提交的请求携带这个Token</span>
 
     对于GET请求，Token将附在请求地址之后，这样URL 就变成 http://url?csrftoken=tokenvalue。 而对于 POST 请求来说，要在 form 的最后加上：
     ```html
@@ -123,11 +123,11 @@ CSRF Token的防护策略分为三个步骤
     ```
     这样，就把Token以参数的形式加入请求了。
 
-3. 服务器验证Token是否正确
+3. <span style="color: blue">服务器验证Token是否正确</span>
 
   当用户从客户端得到了Token，再次提交给服务器的时候，服务器需要判断Token的有效性，验证过程是先解密Token，对比加密字符串以及时间戳，如果加密字符串一致且时间未过期，那么这个Token就是有效的。
 
-**<span style="color: orange">总结</span>**
+### 总结
 
 Token是一个比较有效的CSRF防护方法，只要页面没有XSS漏洞泄露Token，那么接口的CSRF攻击就无法成功
 :::tip
@@ -139,17 +139,17 @@ Token是一个比较有效的CSRF防护方法，只要页面没有XSS漏洞泄�
 
 双重Cookie采用以下流程：
 
-- 在用户访问网站页面时，向请求域名注入一个Cookie，内容为随机字符串（例如csrfcookie=v8g9e4ksfhw）。
-- 在前端向后端发起请求时，取出Cookie，并添加到URL的参数中（接上例POST https://www.a.com/comment?csrfcookie=v8g9e4ksfhw）。
-- 后端接口验证Cookie中的字段与URL参数中的字段是否一致，不一致则拒绝。
+- <span style="color: blue">在用户访问网站页面时，向请求域名注入一个Cookie，内容为随机字符串（例如csrfcookie=v8g9e4ksfhw）。</span>
+- <span style="color: blue">在前端向后端发起请求时，取出Cookie，并添加到URL的参数中（接上例POST https://www.a.com/comment?csrfcookie=v8g9e4ksfhw）。</span>
+- <span style="color: blue">后端接口验证Cookie中的字段与URL参数中的字段是否一致，不一致则拒绝。</span>
 
 此方法相对于CSRF Token就简单了许多，但是，此方法并没有大规模应用，其在大型网站上的安全性还是没有CSRF Token高，原因我们举例进行说明。
 
 由于任何跨域都会导致前端无法获取Cookie中的字段（包括子域名之间），于是发生了如下情况：
 
-- 如果用户访问的网站为www.a.com，而后端的api域名为api.a.com。那么在www.a.com下，前端拿不到api.a.com的Cookie，也就无法完成双重Cookie认证。
-- 于是这个认证Cookie必须被种在a.com下，这样每个子域都可以访问。任何一个子域都可以修改a.com下的Cookie。某个子域名存在漏洞被XSS攻击（例如upload.a.com）。虽然这个子域下并没有什么值得窃取的信息。但攻击者修改了a.com下的Cookie。攻击者可以直接使用自己配置的Cookie，对XSS中招的用户再向www.a.com下，发起CSRF攻击。
-## 总结
+- <span style="color: red">如果用户访问的网站为www.a.com，而后端的api域名为api.a.com。那么在www.a.com下，前端拿不到api.a.com的Cookie，也就无法完成双重Cookie认证。</span>
+- <span style="color: red">于是这个认证Cookie必须被种在a.com下，这样每个子域都可以访问。任何一个子域都可以修改a.com下的Cookie。某个子域名存在漏洞被XSS攻击（例如upload.a.com）。虽然这个子域下并没有什么值得窃取的信息。但攻击者修改了a.com下的Cookie。攻击者可以直接使用自己配置的Cookie，对XSS中招的用户再向www.a.com下，发起CSRF攻击。</span>
+### 总结
 用双重Cookie防御CSRF的优点
 - 无需使用Session，使用面更广，易于实施
 - Token存储于客户端中，不会给服务器带来压力
@@ -165,7 +165,5 @@ Token是一个比较有效的CSRF防护方法，只要页面没有XSS漏洞泄�
 ## 资料
 [原文](https://blog.csdn.net/yexudengzhidao/article/details/93527586)
 
+[前端安全系列（二）：如何防止CSRF攻击？](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
 
-输入：s = "aabcb"
-输出：5
-解释：美丽值不为零的字符串包括 ["aab","aabc","aabcb","abcb","bcb"] ，每一个字符串的美丽值都为 1 。

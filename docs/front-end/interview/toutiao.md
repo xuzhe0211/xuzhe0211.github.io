@@ -8,44 +8,44 @@ title: 头条面试题
 > BFC块级格式化上下文；<br/>
 static静态定位，relative相对的定位，z-index,top,left,right,bottom;
 
-```
+:::tip
 BFC块级格式化上下文，三个特性
 
-1.BFC会阻止垂直外边距(margin-top,margin-bottom)的重叠。当元素属于一个BFC时，两个元素才可能发生外边距重叠
+1. BFC会阻止垂直外边距(margin-top,margin-bottom)的重叠。当元素属于一个BFC时，两个元素才可能发生外边距重叠
 
-2.BFC不会重叠浮动元素
+2. BFC不会重叠浮动元素
 
-3.BFC可以包含浮动
+3. BFC可以包含浮动
 
-我们可以利用BFC的第三条特性来清除浮动。这里说清除浮动并不是太合适，应该说包含浮动，也就是父容器编程BFC就可以了，如果形成BFC呢
+我们可以利用BFC的第三条特性来清除浮动。这里说清除浮动并不是太合适，应该说包含浮动，也就是父容器编程BFC就可以了，如何形成BFC呢
 
-1.根元素
-2.float为left或right
-3.overflow为hidden|auto|scroll
-4.display为table-cell|table-caption|inline-block|flex|inline-flex
-5.position为absolute|fixed
+1. 根元素
+2. float为left或right
+3. overflow为hidden|auto|scroll
+4. display为table-cell|table-caption|inline-block|flex|inline-flex
+5. position为absolute|fixed
 
 因此，我们可以为浮动元素的父容器添加上面这些属性来形成BFC达到清除浮动的效果。
 
 hasLayout
 我们知道在IE6,7有个hasLayout的概念，很多bug的源头正是它。
-1.当元素的hasLayout属性值为false的时候，元素的尺寸和位置由最近的祖先元素控制
-2.当元素的hasLayout属性值为true的时候会达到和BFC类似的效果，元素负责自身及其子元素的尺寸的定位
+1. 当元素的hasLayout属性值为false的时候，元素的尺寸和位置由最近的祖先元素控制
+2. 当元素的hasLayout属性值为true的时候会达到和BFC类似的效果，元素负责自身及其子元素的尺寸的定位
 
 我们可以利用这点在IE6/7下完成清除浮动，首先我们要先看看如何使元素的hasLayout为true
-1.position:absolute
-2.float:left|right
-3.display:inline-block;
-4.widht:除auto外
-5.height:除auto外
-6.zoom：除normal外
-7.在Ie7中使用overflow:hidden|auto|scroll也可以
+1. position:absolute
+2. float:left|right
+3. display:inline-block;
+4. width:除auto外
+5. height:除auto外
+6. zoom：除normal外
+7. 在Ie7中使用overflow:hidden|auto|scroll也可以
 
 Bfc清除浮动
 
 综上，我们就可以得出利用BFC清除浮动的方法：
 
-复制代码
+```css
   .clearfix{
      *zoom:1;
   }
@@ -58,7 +58,6 @@ Bfc清除浮动
  }
 或
 
-复制代码
  .clearfix{
      *zoom:1;
  }
@@ -67,30 +66,39 @@ Bfc清除浮动
      display:table;
      clear:both;
  } 
-
+```
 上面就是得出的两种浏览器兼容的方案。总之，清除浮动就两种方式
 
 利用 clear 属性，清除浮动
 使父容器形成BFC
 今天，我们谈的是第二种的方法背后的原理，至于第一种是不涉及的。
 
-```
+:::
 [BFC不会重叠浮动元素](https://www.cnblogs.com/accordion/p/4312623.html)
 
+[CSS外边距(margin)重叠及防止方法](https://juejin.cn/post/6844903497045917710)
+
 2. node require和import的区别，require看起来来像注册在全局
-> node编程中最重要的思想就是模块化，import和require都是被模块化所使用<br/>
-<b>遵循规范</b><br/>
-require是AMD规范引入；Import是es6的一个语法标准，如果要兼容浏览器的话就必须转化成es5语法
-<b>调用时间</b><br/>
- require是运行时调用，所以require理论上可以运用在代码的任何地方<br/>
- import是编译时调用，所以必须放在文件开头
-<b>本质</b><br/>
-require是赋值过程，其实require的结果就是对象、数字、字符串、函数等，再把require的结果赋值给某个变量
-import是解构过程，但是目前所有的引擎都还没有实现import，我们在node中使用babel支持ES6，也仅仅是将ES6转码为ES5再执行，import语法会被转码为require
+> node编程中最重要的思想就是模块化，import和require都是被模块化所使用
+
+- 遵循规范
+
+    <span style="color: blue">require是AMD规范引入；</span><br/>
+    <span style="color: blue">Import是es6的一个语法标准，如果要兼容浏览器的话就必须转化成es5语法</span>
+
+- 调用时间
+
+    <span style="color: blue">require是运行时调用，所以require理论上可以运用在代码的任何地方</span><br/>
+    <span style="color: blue">import是编译时调用，所以必须放在文件开头</span>
+
+- 本质
+
+    <span style="color: blue">require是赋值过程，其实require的结果就是对象、数字、字符串、函数等，再把require的结果赋值给某个变量</span><br/>
+    <span style="color: blue">import是解构过程，但是目前所有的引擎都还没有实现import，我们在node中使用babel支持ES6，也仅仅是将ES6转码为ES5再执行，import语法会被转码为require</span>
   
 3. 写版本号排序的代码（及优化），时间复杂度<br/>
 
-```bash
+```js
 //第一种
 var arr = ['0.5.1','0.1.1','2.3.3','0.302.1','4.2','4.3.5','4.3.4.5'];
 arr.sort((a, b) => {
@@ -133,6 +141,7 @@ function add() {
     return _adder;
 }
 
+// 解答
 function sum(...args) {
     return args.reduce((a, b) =>  a + b, 0)
 }
@@ -165,6 +174,7 @@ console.log(add(1,2)(2)())
 
 11. 动态规划求解最多有几种方案求解硬币找零问题
 ```js
+// 贪心
 const MinCoinChange = (coints, amount) => {
     coints = coints.sort((a, b) => b - a);
     let change = [];
@@ -217,15 +227,16 @@ var timer = setInterval(function () {
 },1000)
 ```
 15. 变量提升，函数内 var 和 let 声明的执行结果各怎样
-    ```js
-    var a = 10;
-    function say() {
-        console.log(a);
-        var a = 20;
-        // var let a = 20;
-        console.log(a);
-    }
-    ```
+
+    ```js
+    var a = 10;
+    function say() {
+        console.log(a);
+        var a = 20;
+        // var let a = 20;
+        console.log(a);
+    }
+    ```
 16. css 垂直居中
 ```css
 //弹性盒模型
@@ -256,6 +267,7 @@ justify-content:center;
 32. arguments
 33. Array.prototype.slice.call(arguments);
 34. arguments 为什么可以通过上述方式转为数组?
+```js
 代码执行顺序
 // 同步代码
 console.log('begin');
@@ -292,6 +304,7 @@ arguments 如何转数组, 尽可能多方式
 Array.prototype.slice.call(arguments);
 function(...arg) {}
 Array.from(arguments)
+```
 35. react setState什么时候同步什么时候异步
 36. render props和HOC优缺点
 37. 手写promise
@@ -654,12 +667,35 @@ Promise.then 如何实现链式调用,返回值是什么?
 
 [参考文档](https://blog.csdn.net/weixin_30487317/article/details/97648553)
 
-```
+```js
 
 var str = '100000000000';
 var reg = /(?=(\B\d{3})+$)/g;
 console.log(str.replace(reg, ','))
 
+
+// 方法二
+function numFormat(num) {
+    num = num.toString().split('.');
+    let arr = num[0].split('').reverse();
+    let res = [];
+    for (let i = 0, len = arr.length; i++) {
+        if (i % 3 === 0 && i !== 0) {
+            res.push('.')
+        }
+        res.push(arr[i]);
+    }
+    res.reverse();
+    if (num[1]) {
+        res = res.join('').concat('.' + num[1]);
+    } else {
+        res = res.join('')
+    }
+    return res;
+}
+// 方法三
+var a = 1231242354;
+console.log(a.toLocaleString())
 ```
 
 17. 前端优化的思路和方法

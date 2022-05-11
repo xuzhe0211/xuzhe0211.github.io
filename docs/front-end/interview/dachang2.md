@@ -836,6 +836,15 @@ const longestCommonPrefix = function(strs) {
     }
     return str;
 }
+// 第三种
+const longestCommonPrefix = strs => {
+    if (strs === undefined || strs.length === 0) return '';
+    return strs.reduce((a, b) => {
+        let i = 0;
+        while(a[i] && b[i] && a[i] === b[i]) i++;
+        return a.slice(0, i)
+    }, strs[0])
+}
 ```
 [最长公共前缀](/front-end/Code/stady-02.html#找规律)
 ### 字符串最长的不重复子串

@@ -8,7 +8,7 @@ title: promisify函数
 
 ## 异步函数promise化
 
-```
+```js
 // 第一种
 module.exports = function promisify(fn) {
     return function (...args) {
@@ -29,7 +29,7 @@ module.exports = function promisify(fn) {
     return function(...args) {
         return new Promise((resolve, reject) => {
             let callback = function(...args) {
-                resolve(args);
+                resolve(args); // 注意不能用...运算符 只能传入一个参数
             }
             fn.apply(null, [...args, callback]);
         })
@@ -41,7 +41,7 @@ module.exports = function promisify(fn) {
 
 ### 例子1
 
-```
+```js
 // foo 可以是任何需要调用回调函数的函数
 function foo(str1, str2, callback) {
     setTimeout(() => {
@@ -61,7 +61,7 @@ agent('hello', 'world').then(res => {
 ```
 输出结果：
 
-```
+```js
 setTimeout
 [ 'hello', 'world' ]
 ```
@@ -69,7 +69,7 @@ setTimeout
 
 ### 例子2
 
-```
+```js
 function fun(arg, callback) {
     try {
         // aaa()

@@ -4,9 +4,9 @@ title: npm安装相关问题
 ---
 
 ## 为什么yarn 比npm快
-yarn 感觉要比 npm 快很多，这是因为 yarn 采用并行安装依赖的方式，而 npm 是串行。 在缓存机制上，目前差异性并不是很大，都会读取本地缓存。
+<span style="color: red">yarn 感觉要比 npm 快很多，这是因为 **yarn 采用并行安装依赖的方式，而 npm 是串行**。 在缓存机制上，目前差异性并不是很大，都会读取本地缓存。</span>
 
-pnpm避免了一些包的重复安装--比yarn更快一些
+<span style="color: red">pnpm避免了一些包的重复安装--比yarn更快一些</span>
 
 [Yarn vs npm：你需要知道的一切 - 知乎专栏](https://zhuanlan.zhihu.com/p/23493436)
 

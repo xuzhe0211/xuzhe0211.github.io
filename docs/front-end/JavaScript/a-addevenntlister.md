@@ -44,7 +44,7 @@ oBtn.onclick = btnClick // 把函数赋值给一个事件处理程序属性(oncl
 ### 1级DOM(为什么没有1级DOM)
 DOM级别1于1998年10月1日成为W3C推荐标准，1级DOM标准中并没有定义事件相关的内容，所以没有所谓的1级Dom事件模型。
 
-在2级DOM中除了定义了一些DOM相关的操作之外还定义了一个事件模型，这个标准下的时间模型就是我们所说的2级事件模型
+在2级DOM中除了定义了一些DOM相关的操作之外还定义了一个事件模型，这个标准下的事件模型就是我们所说的2级事件模型
 ### 2级通过事件监听的方式来绑定事件
 
 也叫DOM 2级事件处理程序
@@ -60,14 +60,14 @@ oBtn.addEventListener('click', btnClick1)
 oBtn.addEventListener('click', btnClick2)
 // oBtn.removeEventListener('click', btnClick1) // 解绑监听事件
 ```
-addEventLienter可以给童年一个事件注册多个事件处理程序
+addEventLienter可以给同样一个事件注册多个事件处理程序
 
 ## DOM 事件流
 
 【DOM2级事件】规定，事件流包含3个阶段，捕获阶段，目标阶段，冒泡阶段.
 
 - <span style="color: blue">**捕获阶段**: 事件对象从目标的祖先(window)一路传播到目标的父级元素</span>
-- <span style="color: blue">**目标阶段**：事件对象到达[事件目标](https://www.w3.org/TR/DOM-Level-3-Events/#event-target).如果该[事件类型](https://www.w3.org/TR/DOM-Level-3-Events/#event-type)不会冒泡，则事件对象将会在次阶段完成停止.(不会冒泡的事件类型:scroll、blur、focus、mouseleave 、mouseenter 以及Media事件(onpause、onplay等)))</span>
+- <span style="color: blue">**目标阶段**：事件对象到达[事件目标](https://www.w3.org/TR/DOM-Level-3-Events/#event-target).如果该[事件类型](https://www.w3.org/TR/DOM-Level-3-Events/#event-type)不会冒泡，则事件对象将会在次阶段完成停止.(**不会冒泡的事件类型:scroll、blur、focus、mouseleave 、mouseenter 以及Media事件(onpause、onplay等))**)</span>
 - <span style="color: blue">**冒泡阶段**: 以和捕获阶段相反的顺序，从事件目标的父元素开始传播到window结束</span>
 
 ![事件绑定](./images/16910815-69b3b43e7579b374.jpg)
@@ -80,11 +80,11 @@ addEventLienter可以给童年一个事件注册多个事件处理程序
 
 语法：target.addEventListener(type, listener, [useCapture])
 
-**target:**一个文档上的元素Element,Document和Window或者任何其他支持事件的对象(比如XMLHttpRequest).
+- **target:** 一个文档上的元素Element,Document和Window或者任何其他支持事件的对象(比如XMLHttpRequest).
 
-**type:**表示监听[事件类型](https://developer.mozilla.org/zh-CN/docs/Web/Events)的字符串
+- **type:** 表示监听[事件类型](https://developer.mozilla.org/zh-CN/docs/Web/Events)的字符串
 
-**useCapture:**指在事件冒泡阶段/捕获阶段触发该监听器，以处理事件处理程序。默认是false，即冒泡阶段
+- **useCapture:** 指在事件冒泡阶段/捕获阶段触发该监听器，以处理事件处理程序。默认是false，即冒泡阶段
 
 ```js
 <button id="btnId">我是目标oBtn，点击我</button>
@@ -139,7 +139,7 @@ oBtn.onclick = function () {
 // 没有捕获阶段，默认也是按冒泡顺序来执行的。
 oDiv.onclick = function (e) {
   console.log('onclick绑定事件默认也是冒泡阶段，冒泡到div，且先于addEventListener调用')
-  // e.stopPropagation() // 阻止事件冒泡，使用方式和监听器一样
+  // e.stopPropagation() // 阻止事件冒泡，使用方式和监听器一样 -- 执行结果 同在在dev中addEventListener
 }
 oBody.onclick = function () {
   console.log('onclick绑定事件冒泡到body')

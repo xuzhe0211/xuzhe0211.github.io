@@ -309,7 +309,7 @@ const {foo, bar} = useFeatureX();
 React中的useEffect hook允许在每次渲染之后运行某些副作用(如请求数据或使用storage等Web APIs)，并视需要在下次执行回调之前或当组件卸载时候运行一些清理工作。
 
 默认情况下，所有用useEffect注册的函数都会在每次渲染之后运行，但可以定义真实依赖的状态和属性，以使React在相关依赖没有改变的情况下(如由state中的其他部分引起的渲染)跳过某些useEffect hook执行。
-```
+```js
 // 传递一个依赖项的数组作为useEffect hook的第二个参数，只有当name改变时才会更新 localStorage
 function Form() {
     const [name, setName] = useState('Mary');
@@ -327,7 +327,7 @@ function Form() {
 
 ### Vue
 在Vue Composition API的情况下，可以使用watcher执行副作用以响应状态或属性的改变。依赖会被跟踪，注册过的函数也会在依赖发生改变时候被反应性的调用
-```
+```js
 export default {
     setup() {
         const name = ref('Mary');
@@ -346,7 +346,7 @@ Hooks在处理React组件的声明周期、副作用和状态管理时表现出�
 :::tip
 如果你熟悉React类生命周期方法，那么可以将useEffect hook视为componentDidMount、componentDidUpdate及componentWillUnmount的合集
 :::
-```
+```js
 useEffect(() => {
     console.log('这段只在初次渲染后运行');
     return () => console.log('这里会在组件将要卸载时候运行')；
@@ -356,7 +356,7 @@ useEffect(() => {
 
 ### Vue
 Vue Composition API通过onMounted、onUpdated和onBeforeUnmount等可以访问**生命周期钩子(Vue世界中对生命周期的方法的等价称呼)**
-```
+```js
 setup() {
     onMounted(() => {
         console.log('这段只是初次渲染后运行')；
@@ -374,7 +374,7 @@ setup() {
 React团队意图聚焦于Hooks上的原因之一，是之于先前社区采纳的诸如Higher-Order-Components或Render Props等，Custom Hooks正是提供给开发者编写可复用代码的一种优秀的方法。
 :::
 Custom Hooks就是普通的Javascript函数，在其内部利用了React Hooks。它遵守的一个约定是其命名应以use开头，以表明这是被用作一个hooks的
-```
+```js
 export function useDebugState(label, initialValue) {
     const [value, setValue] = useState(initialValue);
     useEffect(() => {
@@ -389,7 +389,7 @@ const [name, setName] = useDebugState('name', 'Mary');
 
 ### Vue
 在Vue中，组合式函数(composition Functions)与Hooks在逻辑提取和重用的目标上是一致的。我们能在Vue中实现一个类似的useDebugState组合式函数
-```
+```js
 export default useDebugState(label, initialValue) {
     const state = ref(initialValue);
     watchEffect(() => {
@@ -410,7 +410,7 @@ setup() {
 React的useRef和Vue的ref都允许你引用一个**子组件(如果是React则是一个类组件或是被React.forwardRef包装的组件)或要附加到的DOM元素**
 
 ### react
-```
+```js
 const MyComponent = () => {
     const divRef = useRef(null);
     useEffect(() => {
@@ -425,7 +425,7 @@ const MyComponent = () => {
 }
 ```
 React中的useRef Hook不止能获得DOM元素的引用，亦可用在你想保持在渲染函数中但并不是state一部分的任何类型的可变值上(也就是他们的改变触发不了重新渲染)。useRef Hook可以将这些课变值视为类组件中的'实例变量'。例子：
-```
+```js
 const timerRef = useRef(null);
 useEffect(() => {
     timerRef.current = setInterval(() => {
@@ -444,7 +444,7 @@ return (
 ```
 ### Vue
 [想见组合式API-模板引用](https://v3.cn.vuejs.org/guide/composition-api-template-refs.html#%E6%A8%A1%E6%9D%BF%E5%BC%95%E7%94%A8)
-```
+```js
 //1. with template
 <template>
     <div ref={divRef}>
@@ -481,13 +481,13 @@ export default {
 ## 附加的函数
 ### react
 React Hooks在每次渲染时都会执行，所以没有一个等价于Vue中computed函数的方法。你可以自由的声明一个变量，其值基于状态和属性，并将指向每次渲染后的最新值
-```
+```js
 const [name, setName] = useState('Mary');
 const [age, setAge] = useState(25);
 const description = `${name} is ${age} year old`;
 ```
 计算一个值开销比较昂贵。你不想在组件每次渲染时都计算它。React包含了针对这点的useMemo hook
-```
+```js
 function fibNative(n) {
     if (n <= 1) return n;
     return fibNative(n - 1) + fibNative(n - 2);
@@ -511,7 +511,7 @@ const fibonacci = () => {
 
 ### vue
 vue中，setup()只运行一次。因此需要定义计算属性，观察某些状态更改并作出相应的更新
-```
+```js
 const name = ref('Mary');
 const age = ref(25);
 cosnt description = computed(() => `${name.value} is ${age.value} years old`);
@@ -528,7 +528,7 @@ React的useCallback类似于useMemo，但它用来缓存一个回调函数。事
 React中的useContext hook,可以作为一种读取特定上下文值的新方式。返回的值通常由最靠近的一层&lt;MyContext.Provider&gt;祖先树的value属性确定。
 
 其等价于一个类中的static contextType = MyContext, 或是&lt;MyContext.Consummer&gt;组件
-```
+```js
 // context对象
 const ThemeContext = React.createContext('light');
 
@@ -541,7 +541,7 @@ const theme = useContext(ThemeContext);
 
 ### vue
 Vue 中类似的 API 叫provide/inject。在 Vue 2.x 中作为组件选项存在，而在 Composition API 中增加了一对用在setup()中的 provide 和 inject 函数：
-```
+```js
 // key to provide
 const ThemeSymbol = Symbol();
 
@@ -558,7 +558,7 @@ const value = inject(ThemeSymbol);
 因为所有hooks代码都在组件中定义，且你将在同一个函数中返回要渲染的React元素。
 
 所以你对作用域的任何值都拥有完全访问能力，就像在任何Javascript代码中一样
-```
+```js
 const Fibonacci = () => {
   const [nth, setNth] = useState(1);
   const nthFibonacci = useMemo(() => fibNaive(nth), [nth]);
@@ -577,7 +577,7 @@ const Fibonacci = () => {
 ### vue
 而在 Vue 要在template或render选项中定义模板；如果使用单文件组件，就要从setup()中返回一个包含你想输出到模板中的所有值的对象。由于要暴露的值很可能过多，你的返回语句也容易变得冗长。
 
-```
+```js
 <template>
   <p>
     <label>
@@ -598,7 +598,7 @@ export default {
 </script>
 ```
 要达到 React 同样简洁表现的一种方式是从setup()自身中返回一个渲染函数。
-```
+```js
 export default {
   setup() {
     const nth = ref(1);

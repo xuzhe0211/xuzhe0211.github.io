@@ -926,7 +926,7 @@ const combine = (nums) => {
     let res = [];
     let could = [];
     let map = {};
-    function dfs(nums, len, start, could, map, res) {
+    function dfs(nums, len, could, map, res) {
         if (could.length === len) {
             res.push(could.slice(0))
         }
@@ -934,13 +934,13 @@ const combine = (nums) => {
             if (!map[i]) {
                 could.push(nums[i]);
                 map[i] = true;
-                dfs(nums, len, start + 1, could, map, res);
+                dfs(nums, len, could, map, res);
                 map[i] = false;
                 could.pop();
             }
         }
     }
-    dfs(nums, nums.length, 0, could, map, res);
+    dfs(nums, nums.length, could, map, res);
     return res;
 }
 ```

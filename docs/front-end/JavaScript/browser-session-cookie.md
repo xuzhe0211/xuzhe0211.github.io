@@ -218,14 +218,14 @@ JWT作为一个令牌(token)，有些场合可能会放到URL(比如api.example.
 
 ### JWT的使用方式
 
-客户端收到服务器返回的JWT,可以存储在Cookie里面，也可以存储在localStorage.
+<span style="color: blue">客户端收到服务器返回的JWT,可以存储在Cookie里面，也可以存储在localStorage.</span>
 
-此后，客户端每次与服务器通信，都要带上这个JWT.你可以把它放在Cookie里面自动发送，但是这样不能跨域，所以更好的做法是放在HTTP请求的头信息Authorization字段里面
+<span style="color: blue">此后，客户端每次与服务器通信，都要带上这个JWT.你可以把它放在Cookie里面自动发送，但是这样不能跨域，所以更好的做法是放在HTTP请求的头信息Authorization字段里面</span>
 
 ```
 Authorization: Bearer <token>
 ```
-另一种做法是，跨域的时候，JWT就放在POST请求的数据提里面。
+<span style="color: blue">另一种做法是，跨域的时候，JWT就放在POST请求的数据提里面。</span>
 
 ### JWT的几个特点
 

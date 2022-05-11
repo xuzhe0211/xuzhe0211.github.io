@@ -116,7 +116,7 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ `../${about}.vue`) // 打包成about2.js
+    component: () => import(/* webpackChunkName: "about" */ `../${about}.vue`) // 打包成about2.js   ../${about}.vue  about是变量
   },
   {
     path: '/test:id',

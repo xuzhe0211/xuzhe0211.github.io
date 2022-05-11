@@ -10,7 +10,7 @@ scheme schema
 vitesse  Vueuse https://vueuse.org/ https://www.jianshu.com/p/1186d062c07b
 
 netlify 部署
-::
+:::
 [大厂面试题每日一题](https://q.shanyue.tech/engineering/740.html#%E4%B8%80%E4%B8%AA-npm-script-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
 
 [面试题](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues?page=10&q=is%3Aissue+is%3Aopen)

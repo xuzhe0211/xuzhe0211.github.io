@@ -1,6 +1,6 @@
 ---
 autoGroup-1: 公开课
-title: 前端构建工具深度剖析02
+title: 构建工具第二天-前端构建工具深度剖析02
 ---
 
 第一天：Babel与weppack原理剖析

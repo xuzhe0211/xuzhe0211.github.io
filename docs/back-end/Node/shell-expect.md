@@ -1,5 +1,5 @@
 ---
-autoGroup-100: Shell
+autoGroup-7: Shell
 title: /usr/bin/expect 的使用
 ---
 ## 举个栗子

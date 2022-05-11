@@ -5,7 +5,7 @@ title: 网络编程/http协议相关
 
 ## http协议
 ### 概述
-1. 无连接
+1. 无连接--限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。
 2. 无状态
 3. 简单快速
 4. 灵活
@@ -28,27 +28,27 @@ title: 网络编程/http协议相关
 - HttpVersion--Http 1.1
 
 #### 消息报头
-- Accept--- 指定客户端接受哪些类型的信息/MIME
+- <span style="color: blue">Accept--- 指定客户端接受哪些类型的信息/MIME</span>
 	- image/gif gif图片
     - text/html html文本
-- Accept-Charset--- 客户端接受的字符集
+- <span style="color: blue">Accept-Charset--- 客户端接受的字符集</span>
 	- gb2312中文字符
     - iso-8859-1 西文字符集
     - utf-8 多语言字符
-- Accept-Encoding----可接受的内容编码
+- <span style="color: blue">Accept-Encoding----可接受的内容编码</span>
 	- gzip，deflate 压缩类型
     - identity 默认
-- Accept-Language---指定一种自然语言--zh-cn
-- Authorization--- 证明客户端有权查看某个资源
-- Host--- 指定被请求资源的Internet主机和端口号--www.kaikeba.com:8080
-- User-Agent-用户代理
+- <span style="color: blue">Accept-Language---指定一种自然语言--zh-cn</span>
+- <span style="color: blue">**Authorization--- 证明客户端有权查看某个资源**</span>
+- <span style="color: blue">Host--- 指定被请求资源的Internet主机和端口号--www.kaikeba.com:8080</span>
+- <span style="color: blue">User-Agent-用户代理</span>
 	- 操作系统及版本
     - CPU类型
     - 浏览器及版本
     -浏览器渲染引擎
     - 浏览器语言
     - 浏览器插件
-- Content-Type --- Body编码方式
+- <span style="color: blue">Content-Type --- Body编码方式</span>
 
 #### 请求正文--根据头部的Content-Type确定
 - application/x-www-form-urlencoded
@@ -148,7 +148,7 @@ title: 网络编程/http协议相关
 
 ## HTTP 1.X
 
-缺陷:线程阻塞，在同一事件，同一域名的请求有一定数量限制，超出限制数目的请求会被阻塞
+<span style="color:red">缺陷:线程阻塞，在同一事件，同一域名的请求有一定数量限制(一般为 6 ~ 8 个)，超出限制数目的请求会被阻塞</span>
 
 ### HTTP 1.0
 缺陷：浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接的新建成本很高，因为需要客户端和服务器三次握手，服务器完成请求处理后立即断开TCP连接，服务器不跟踪每个客户也不记录过去请求
@@ -166,6 +166,12 @@ title: 网络编程/http协议相关
 1. 虽然允许复用TCP连接，但是同一个TCP连接里面，所有的数据通信是按次序进行处理一个，才会处理下一个
 2. 避免方式-是减少请求次数 二是同时多开持久连接
 
+:::tip
+HTTP/1.1通过长链接减少了大量创建、断开连接造成的性能消耗，但是它的并发能力受到限制，表现在两个方面
+- HTTP/1.1中使用持久连接时，一个连接中同一时刻只能处理一个请求。当前的请求没有结束之前，其他的请求只能处于阻塞状态，这种情况成为对头阻塞
+- 浏览器为了减轻服务器的压力，限制了同一个域名下的HTTP连接数，一般为6~8个。为了解决数量限制，出现了 **域名分片** 技术，其实就是资源分域，将资源放在不同域名下(比如二级子域名下)，这样就可以针对不同域名创建连接并请求，以一种讨巧的方式突破限制，但是滥用此技术会造成很多问题，比如每个TCP连接本身需要经过DNS查询、三步握手，慢启动等，还占用额外的CPU和内存，对于服务器来说过多的连接也容易造成网络拥挤、交通阻塞等
+:::
+
 ## HTTP2.0
 
 特点：
@@ -180,7 +186,7 @@ HTTP1.1的头部信息肯定是文本，数据体可以是文本，也可以是�
 二进制解析起来更高效，线上更紧凑 错误更少
 
 #### 多路复用
-复用TCP连接，在一个连接里面，客户端和浏览器可以同时发送多个请求和回应，而且不用按照顺序，这就避免了队头阻塞,**一个通道可以有240多个连接**
+<span style="color: red">复用TCP连接，在一个连接里面，客户端和浏览器可以同时发送多个请求和回应，而且不用按照顺序，这就避免了队头阻塞,**一个通道可以有240多个连接**</span>
 
 #### 报头压缩
 
@@ -314,3 +320,5 @@ img.src = 'http的请求地址'
 [TCP连接、Http连接与Socket连接的区别](https://blog.csdn.net/mccand1234/article/details/91346202)
 
 [http --- > HTTPS是在安全的传输层上发送的HTTP](https://blog.csdn.net/piano9425/article/details/93711175)
+
+[HTTP发展史，HTTP1.1与HTTP2.0的区别](https://www.cnblogs.com/songyao666/p/16065502.html)

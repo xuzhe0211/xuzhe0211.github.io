@@ -18,7 +18,7 @@ Vue-CLI内建了TypeScript工具支持，在新建项目时可以选择使用Typ
 需要安装vue-class-component用来将Vue组件改写成基于Class的形式，也可以选择使用vue-property-decorator，后者依赖于前者，而且提供了额外的装饰符，让编写更简单。
 
 使用得时候，将原来导出得类型由对象改为class，并且使用@Component装饰符，如果有要引入得其他子组件，也放到@Component中。
-```
+```js
 @Component({
 	components: {
     	Child
@@ -36,12 +36,12 @@ export default class HelloVue extends Vue{
 
 要注意，组件引用、Mixin和Filters都放到了组件外部。总体顺序分为了三个部门：
 
-1. 数据(Inject->Prop->Data->Computed->Model->Vuex-State->Vuex-Getter->Proivde)
-2. 方法(VueX-Mutation->Vuex-Action->methods->Watch)
-3. 钩子函数(生命周期钩子->路由钩子)
+1. <span style="color: blue">数据(Inject->Prop->Data->Computed->Model->Vuex-State->Vuex-Getter->Proivde)</span>
+2. <span style="color: blue">方法(VueX-Mutation->Vuex-Action->methods->Watch)</span>
+3. <span style="color: blue">钩子函数(生命周期钩子->路由钩子)</span>
 
 完整的组件如下，具体写法后面单独列出来(不包含Mixin)
-```
+```js
 @Component({ comonents: { Child }})
 export default class App extends Vue{
 	// 数据(Inject -> prop -> Computed -> Model -> vuex-state -> vuex-getter -> Proivide);

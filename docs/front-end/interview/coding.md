@@ -9,8 +9,8 @@ const mergeSort = arr => {
     // 处理边界情况 ---- 二维数组
     if(len <= 1) {
         return arr[0]
+        // return arr; // 处理边界--归并排序 一纬
     }   
-    // if(len < 2) return arr; // 处理边界--归并排序 一纬
     // 计算分割点
     const mid = Math.floor(len / 2)    
     // 递归分割左子数组，然后合并为有序数组
@@ -466,3 +466,233 @@ function timeout(fn, seconds) {
 }
 ```
 [实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/387)
+
+## 实现二维数组斜线打印
+```js
+var arr = [
+    [1,    2,     3,     4], 
+    [5,    6,     7,     8], 
+    [9,    10,    11,    12], 
+    [13,   14,    15,    16]
+];
+// 1,2,5,3,6,9
+
+let n = arr.length
+  let m = arr[0].length
+  let num = 0;
+
+
+  function getnum(num) {
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < m; j++) {
+        if (i + j == num) {
+          console.log(arr[i][j]);
+        }
+
+      }
+    }
+  }
+  for (let k = 0; k <= n + m - 2; k++) {
+    getnum(k)
+  }
+```
+## JavaScript 如何查找对象中某个 value 并返回路径上所有的 key值？
+```js
+const obj = {
+    a: {
+           b: 1,
+           c: 2,
+           d: {e: 5}
+       },
+    b: [1, 3, {a: 2, b: 3}],
+    c: 3
+   }
+// target = 5,  [a,d,e]   
+function search(object, value) {
+    for (var key in object) {
+        if (object[key] == value) return [key];
+        if (typeof (object[key]) == 'object') {
+            var temp = search(object[key], value);
+            if (temp) return [key, temp].flat();
+        }
+    }
+}
+var url = search(obj, 5);
+
+console.log(url);
+```
+
+## 数组转对象
+```js
+var arr = [
+    {node: 'a', children: ['b', 'c']},
+    {node: 'b', children: ['d', 'e']},
+    {node: 'c', children: ['e', 'f']}
+]
+=> 
+{
+    a:  {
+        b: {
+            d:{}
+            e: {}
+        },
+        c: {
+            e:{}
+            f:{}
+        }
+    }
+}
+
+function dfs(data, result, node) {
+  for (const item of data) {
+    if (item.node === node) {
+      for (const m of item.children) {
+        result[m] = {}
+        dfs(data, result[m], m)
+      }
+    }
+  }
+}
+function arrayToTree(data) {
+  let result = {a: {}}; // 找到第一个节点，方法不写了
+  dfs(data, result.a, 'a');
+  return result;
+}
+console.log(arrayToTree(arr))
+
+
+// dier
+var arr = [
+    {node: 'a', children: ['b', 'c']},
+    {node: 'b', children: ['d', 'e']},
+    {node: 'c', children: ['e', 'f']}
+]
+
+function reverserFlat(arr) {
+    let map = {};
+    for (let item of arr) {
+        map[item.node] = {}
+    }
+    for (const item of arr) {
+        const node = item.node;
+        const children = item.children;
+        for (const m of children) {
+            if (map[m]) {
+                map[node][m] = map[m]
+            } else {
+                map[node][m] = {}
+            }
+        }        
+    }
+    return {a: map.a};
+}
+console.log(reverserFlat(arr))
+```
+[参考](/front-end/interview/2021.html#蓝湖)
+
+## 实现一个对象的flatten方法（阿里）
+```js
+function isObject(val) {
+    return typeof val === 'object' && val !== null;
+}
+function flatten(obj) {
+    if (!isObject(obj)) {
+        return;
+    }
+    let res = {};
+    const dfs = (cur, prefix) => {
+        if (isObject(cur)) {
+            if (Array.isArray(cur)) {
+                cur.forEach((item, index) => {
+                    dfs(item, `${prefix}[${index}]`);
+                })
+            } else {
+                for (let k in cur) {
+                    dfs(cur[k], `${prefix}${prefix ? '.' : ''}${k}`);
+                }
+            }
+        } else {
+            res[prefix] = cur;
+        }
+    }
+    dfs(obj, '');
+    return res;
+}
+flatten();
+```
+[参考](/front-end/interview/dachang2.html#简单)
+
+```js
+// 另一个例子
+
+const treeData = [
+    {
+        path: '/root',
+        routes: [
+            {
+                path: '/path'
+            },
+            {
+                path: '/link',
+                routes: [
+                    {
+                        path: ['/a', '/b']
+                    }
+                ]
+            }
+        ]
+    }
+]
+// =》
+// [ '/root/path', '/root/link/a', '/root/link/a/b' ]
+const flatten = data => {
+    let res = [];
+    for (let item of data) {
+        dfs(item, res, '')
+    }
+    return res;
+    function dfs(data, res, temp) {
+        if (!data.routes) {
+            if (typeof data.path === 'string') { 
+                temp = temp + data.path;
+                res.push(temp);
+            } 
+            if (Array.isArray(data.path)) {
+                for (let m of data.path) {
+                    temp = temp + m;
+                    res.push(temp);
+                }
+            }
+            return;
+        }
+        temp = temp + data.path;
+        for (let item of data.routes) {
+            dfs(item, res, temp);
+        }
+    }
+}
+console.log(flatten(treeData))
+```
+
+## 相邻且相等，则消除
+```js
+const fromatArray = nums => {
+    let right = 0;
+    let arr = [...nums];
+    // let temp = arr.slice(0,2); // [{index, num}]
+    for (let i = 0; i < arr.length; i++) {
+        right = i + 1;
+        while(right < arr.length) {
+            if (arr[i] === arr[right]) {
+                temp.push(arr[i])
+                arr.splice(i, right + 1)
+                i = -1;
+            } else {
+                right++;
+            }
+        }
+    }
+    return arr;
+}
+console.log(fromatArray(nums))
+```

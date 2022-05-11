@@ -73,39 +73,52 @@ title: 2022前端冷冷清清的金三银四
 
 4. 实现具有并发限制的promise.all
     ```js
-    function promiseTask(taskList, maxNum) {
-        return new Promise((resolve, reject) => {
+    // 这个代码有些问题，首先对tasklist按照maxNum分组   一组一组执行
+    function promsieTask(taskList, maxNum) {
+        return new Promise((resolve, rejuct) => {
+            const len = taskList.length;
             let runCount = 0;
-            let complated = 0;
-            const taskNum = taskList.length;
-            const resArr = [];
-            let current = 0;
+            let complated = 0; // 已经执行的个数
+            const resArr = new Array(len.length);
+            let current = 0
             function handler() {
-                if (runCount >= maxNum) return;
-                const a = taskNum - complated;
-                const b = maxNum - runCount;
+                if(runCount >= maxNum) return
+                const a = len - complated;
+                const b = maxNum - runCount
+                console.log(runCount,  b)
                 const arr = taskList.splice(0, a > b ? b : a);
                 arr.forEach((task, index) => {
-                    const d = current + index;
-                    task.then(res => {
-                        console.log(current, index, res);
-                        resArr[current] = res;
-                    }, reason => {
-                        resArr[current] = reason;
+                    const d = current + index
+                    task().then(res => {
+                        console.log(current,index,res)
+                        resArr[d] = res;
+                    },reason => {
+                        resArr[d] = reason;
                     }).finally(() => {
+                        console.log(runCount, 'runCount')
                         complated++;
                         runCount--;
-                        if (complated === taskNum) {
+                        if (complated === len) {
                             resolve(resArr);
                         }
                         handler();
-                    })
-                })
-                current += taskList.length;
+                    });
+                });
+                current += taskList.length
             }
             handler();
-        })
-    }
+        });
+    }  
+
+    const t1 = () => new Promise(resolve => setTimeout(resolve, 1000, 't1'))
+    const t2 = () => Promise.resolve(2)
+    const t3 = () => new Promise(resolve => setTimeout(resolve, 1000, 't3'))
+    const t4 = () => new Promise(resolve => setTimeout(resolve, 1000, 't4'))
+    const t5 = () => new Promise(resolve => setTimeout(resolve, 1000, 't5'))
+    const t6 = () => new Promise(resolve => setTimeout(resolve, 1000, 't6'))
+    promsieTask([t1,t2,t3,t4,t5,t6], 2).then(res => {
+        console.log(res, 111)
+    })
     ```
 ### 三面
 1. 合并两个递增链表
