@@ -84,6 +84,11 @@ vscode最常用的tab移到最前面
 
 ## Where Am I
 左下角显示项目所在位置
+
+## preview.js
+[实时预览组件效果，这个库让你方便到哭](https://mp.weixin.qq.com/s/3BvgKFzkYm0wIq0dP-euIw)
+
+[官网](https://previewjs.com/)
 ## 资料
 
 [vscode 摸鱼](https://mp.weixin.qq.com/s/1lS9GWPkVZvVLIJjjXU4iw)

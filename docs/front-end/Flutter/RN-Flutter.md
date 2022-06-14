@@ -6,9 +6,9 @@ title: Fluter与React Native深度对比分析
 
 - React Native
 
-    React Native是一套UI框架，默认情况下React Native会在Activity下加载JS文件，然后运行在JavascriptCore中解析Bundle文件布局，最终堆叠处一系列的原生空间进行渲染。
+    <span style="color: blue">React Native是一套UI框架，默认情况下React Native会在Activity下加载JS文件，然后运行在JavascriptCore中解析Bundle文件布局，最终堆叠出一系列的原生控件进行渲染。</span>
 
-    简单来说就是<span style="color: blue">通过JS代码配置页面布局，然后React Native最终会解析渲染成原生控件</span>,如View标签对应ViewGroup/UIView，&lt;ScrollView&gt;标签对应ScrollView/UIScrollView，&lt;Image&gt;标签对应ImageView/UIImageView等。
+    简单来说就是<span style="color: blue">**通过JS代码配置页面布局，然后React Native最终会解析渲染成原生控件**</span>,如View标签对应ViewGroup/UIView，&lt;ScrollView&gt;标签对应ScrollView/UIScrollView，&lt;Image&gt;标签对应ImageView/UIImageView等。
 
     ![React Native](./images/v2-66c6ad07b5446a9eb555388355931e8b_b.png)
 
@@ -32,9 +32,9 @@ title: Fluter与React Native深度对比分析
 
     > 看过我Flutter系列文章可能知道，Flutter中我们写的Widget，其实并非真正的渲染控件，这一点和React Native中标签类似，Widget更像配置文件，由它组成的Widget树并非真正的渲染树
 
-    **Widget在渲染时会经过Element变化，最后转化为RenderObject在进行绘制，而最终组成的RenderObject树才是"真正的渲染DOM"**每次Widget树触发的改变，并不一定会导出RenderObject树的完全更新
+    <span style="color: blue">**Widget在渲染时会经过Element变化，最后转化为RenderObject在进行绘制，而最终组成的RenderObject树才是"真正的渲染DOM"每次Widget树触发的改变，并不一定会导出RenderObject树的完全更新**</span>
 
-    **所以在实现原理上 React Native 和 Flutter 是完全不同的思路，虽然都有类似“虚拟 DOM 的概念” ，但是React Native 带有较强的平台关联性，而 Flutter UI 的平台关联性十分薄弱。**
+    <span style="color: blue">**所以在实现原理上 React Native 和 Flutter 是完全不同的思路，虽然都有类似“虚拟 DOM 的概念” ，但是React Native 带有较强的平台关联性，而 Flutter UI 的平台关联性十分薄弱。**</span>
 
 
 

@@ -170,7 +170,7 @@ class Promise {
                 setTimeout(() => {
                     try {
                         // onResolved/onRejected有返回值则把返回值定义为x
-                        const x = onResolve(this.data);
+                        const x = onResolved(this.data); //这里获取到的this.data  所以在.then(resolve) resolve函数可以直接执行resolve(this.data)
                         // 执行[[Resolve]](promis2, x);
                         this.resolvePromise(promise2, x, resolve, reject);
                     } catch(e) {
@@ -182,7 +182,7 @@ class Promise {
             if(this.status === 'rejected') {
                 setTimeout(() => {
                     try {
-                        const x = onReject(this.data);
+                        const x = onRejected(this.data);
                         this.resolvePromise(promise2, x, resolve, reject);
                     } catch(e) {
                         reject(e);

@@ -191,12 +191,12 @@ async function laotie() {
 + 原来的yield由await代替
 这样做的直接好处就是更加语义化，可读性更强。但是其实async做到的远不止如此。
 
-1. 首先第一点，就是async不用不断执行next()了，async函数内置了执行器，使的我们在调用函数时，只需要直接调用就可以
+1. <span style="color: blue">首先第一点，就是async不用不断执行next()了，async函数内置了执行器，使的我们在调用函数时，只需要直接调用就可以</span>
 ```
 // 接上一个代码块
 laotie()
 ```
-2. 现在async的await还是保留这等待的功能,但是因为没有了next(),所以在调用await不会像yield那样返回值了。在async中，只有return返回，而且返回的是一个promise对象.
+2. <span style="color: blue">现在async的await还是保留这等待的功能,但是因为没有了next(),所以在调用await不会像yield那样返回值了。**在async中，只有return返回，而且返回的是一个promise对象**.</span>
 
 拿上面的代码直接改成async加await格式
 ```

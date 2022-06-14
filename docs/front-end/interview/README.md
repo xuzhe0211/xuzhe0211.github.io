@@ -13,11 +13,19 @@ netlify 部署
 :::
 [大厂面试题每日一题](https://q.shanyue.tech/engineering/740.html#%E4%B8%80%E4%B8%AA-npm-script-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
 
-[面试题](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues?page=10&q=is%3Aissue+is%3Aopen)
+[面试题--重点看一看](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues?page=10&q=is%3Aissue+is%3Aopen)
+
+[面试题--重点看一看-字节](https://github.com/Advanced-Frontend/Daily-Interview-Question/labels/%E5%AD%97%E8%8A%82)
 
 [面试题1](https://github.com/Vibing/blog/issues/3)
 
 [面试题2](https://github.com/webVueBlog/Leetcode)
+
+[面试题](https://github.com/daily-interview/fe-interview)
+
+[面试秘籍](https://juejin.cn/post/7074055897349095454#heading-8)
+
+[基础很好？22个高频JavaScript手写代码了解一下](https://juejin.cn/post/6996289669851774984#heading-15)
 ### 开发模式、算法、并发限制
 ## 柯里化函数 add(1)(2)(3)
 ```js

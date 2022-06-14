@@ -211,4 +211,31 @@ var cuttingRope = function(n) {
     return dp[n];
 };
 ```
+## 最长公共子序列
+```
+输入：text1 = "abcde", text2 = "ace" 
+输出：3  
+解释：最长公共子序列是 "ace" ，它的长度为 3 。
+```
+解答
+```js
+const longestCommonSubsequence = (str1, str2) => {
+    let n = str1.length;
+    let m = str2.length;
+    let dp = Array.from(Array(n + 1), (_, i) => Array(m + 1).fill(0));
+    for(let i = 1; i <= n; i++) {
+        let c1 = str1[i - 1];
+        for(let j = 1; j <= m; j++) {
+            let c2 = str2[j - 1];
+            if(c1 === c2) {
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1])
+            }
+        }
+    }
+    return dp[n][m]
+}
+```
+
 [leetcode](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)

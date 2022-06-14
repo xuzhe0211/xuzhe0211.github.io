@@ -16,7 +16,7 @@ script标签用于加载脚本与执行脚本，在前端开发中可以说是�
 :::tip
 如果script标签设置了该属性，则浏览器会异步的下载该文件并不会影响到后续DOM渲染；
 如果有多个设置了defer的script标签存在，则会按照顺序执行所有的script；
-**defer脚本会在文档渲染完毕后，DOMContentLoaded时间调用前执行。**
+**defer脚本会在文档渲染完毕后，DOMContentLoaded事件调用前执行。**
 :::
 我们做了一个测试页面，页面中包含了两个script标签的加载，给他们都加上defer标识。
 P.S. 为了更直观，我们给script1.js添加了1s的延迟，给script2.js添加了2s的延迟。

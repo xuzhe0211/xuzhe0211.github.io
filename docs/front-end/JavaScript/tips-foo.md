@@ -139,7 +139,7 @@ getName = function() {console.log(4)}; // 这里
 
 ## 练习
 ```js
-unction Foo() {
+function Foo() {
     try{
         console.log('内部1', this.a());
         console.log('内部2', this.a())

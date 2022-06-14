@@ -16,7 +16,7 @@ function fib(num) {
     if (num == 1 || num === 2) {
         return 1;
     }
-    return fib(num - 1) + fib(num - 2)
+    return fib(num - 1) + fib(num - 2) // O(2n)
 }
 ```
 最普通的递归存在大量计算,所以，最优解是使用动态规划来做，用空间换时间

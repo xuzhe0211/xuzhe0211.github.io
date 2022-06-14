@@ -185,12 +185,14 @@ console.log('重新激活沙箱：', proxyWindow.a, window.a);
 在单实例的场景中，我们的fakeWindow是一个空的对象，其没有任何存储变量的功能，尾应用创建的变量最终实际都是挂载在window上的，这就限制了同一时刻不能有两个激活的应用。
 ```js
 class MultipleProxySandbox {
+
     active() {
         this.sandboxRunning = true;
     }
     inactive() {
         this.sandboxRunning = false;
     }
+
     /**
      * 构造函数
      * @param {*} name 沙箱名称 
@@ -202,17 +204,17 @@ class MultipleProxySandbox {
         this.proxy = null;
         const fakeWindow = Object.create({});
         const proxy = new Proxy(fakeWindow, {
-            set(target, name, value) {
-                if(this.sandboxRunning) {
+            set: (target, name, value) => { // 这里需要注意 不能用set(){}   主要是下面用到this
+                if (this.sandboxRunning) {
                     if (Object.keys(context).includes(name)) {
                         context[name] = value;
                     }
                     target[name] = value;
                 }
             },
-            get(target, name) {
+            get: (target, name) => {
                 // 优先使用共享对象
-                if(Object.keys(context).includes(name)) {
+                if (Object.keys(context).includes(name)) {
                     return context[name];
                 }
                 return target[name];
@@ -224,20 +226,22 @@ class MultipleProxySandbox {
 
 const context = { document: window.document };
 
-const newSandBox1 = new MultipleProxySandbox('代理沙箱1',context);
+const newSandBox1 = new MultipleProxySandbox('代理沙箱1', context);
 newSandBox1.active();
 const proxyWindow1 = newSandBox1.proxy;
 
 const newSandBox2 = new MultipleProxySandbox('代理沙箱2', context);
 newSandBox2.active();
 const proxyWindow2 = newSandBox2.proxy;
-
 console.log('共享对象是否相等', window.document === proxyWindow1.document, window.document ===  proxyWindow2.document);
 
 proxyWindow1.a = '1'; // 设置代理1的值
 proxyWindow2.a = '2'; // 设置代理2的值
 window.a = '3';  // 设置window的值
 console.log('打印输出的值', proxyWindow1.a, proxyWindow2.a, window.a);
+
+
+newSandBox1.inactive(); newSandBox2.inactive(); // 两个沙箱都失活
 
 proxyWindow1.a = '4'; // 设置代理1的值
 proxyWindow2.a = '4'; // 设置代理2的值

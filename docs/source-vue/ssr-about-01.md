@@ -5,7 +5,7 @@ title: SSR，优雅降级策略
 ## 相关概念
 - <span style="color: blue">CSR:客户端渲染(Client Side Render).渲染过程全部交给浏览器进行处理，服务器不参与任何渲染。页面初始加载HTML文档中无内容，需要下载执行JS文件，由浏览器动态生成页面，并通过JS进行页面交互事件与状态管理。</span>
 - <span style="color: blue">SSR:服务端渲染(Server Side Render).DOM树在服务端生成，而后返回给前端。即当前页面的内容是服务器生成好一次性给到浏览器的进行渲染的</span>
-- <span style="color: blue">同构:客户端渲染和服务器端渲染的结合，在服务器端执行一次，用于实现服务器端渲染(首屏直出)，在客户端在执行一次，用于接管页面交出(绑定事件)，**核心解决SEO和首屏渲染慢的问题**。采用同构思想的框架：Nuxt.js(基于Vue)、Next.js（基于React）</span>
+- <span style="color: blue">同构:客户端渲染和服务器端渲染的结合，在服务器端执行一次，用于实现服务器端渲染(首屏直出)，在客户端在执行一次，用于接管页面交互(绑定事件)，**核心解决SEO和首屏渲染慢的问题**。采用同构思想的框架：Nuxt.js(基于Vue)、Next.js（基于React）</span>
 
 ![同构](./images/624buz57s5.png)
 

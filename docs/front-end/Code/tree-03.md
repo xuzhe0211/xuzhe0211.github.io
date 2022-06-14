@@ -195,24 +195,24 @@ function arrayToTree(items) {
 主要思路也是把数据转成<span style="color: orange">Map</span>去存储，之后遍历的同时借助<span style="color: orange">对象的引用</span>,直接从<span style="color: orange">Map</span>找对应的数据做存储。不同点在遍历的时候就做<span style="color: orange">Map</span>存储，有找对应关系，性能更好
 ```javascript
 function arrayToTree(items) {
-  const result = []; // 存放结果集
-  const itemMap = {};
+  const result = [];   // 存放结果集
+  const itemMap = {};  // 
   for (const item of items) {
     const id = item.id;
     const pid = item.pid;
 
     if (!itemMap[id]) {
       itemMap[id] = {
-        children: []
+        children: [],
       }
     }
 
     itemMap[id] = {
       ...item,
-      children: itemMpa[id]['children']
+      children: itemMap[id]['children']
     }
 
-    const treeItem = itemMap[id]
+    const treeItem =  itemMap[id];
 
     if (pid === 0) {
       result.push(treeItem);
@@ -224,6 +224,7 @@ function arrayToTree(items) {
       }
       itemMap[pid].children.push(treeItem)
     }
+
   }
   return result;
 }

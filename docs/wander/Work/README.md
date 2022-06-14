@@ -160,8 +160,6 @@ Cannot find module '@/utils/request' or its corresponding type declarations.Vetu
 
 直接把项目移至工作区的第一位
 
-<img :src="$withBase('/images/20210219091528898.png')" alt="解决方案">
-
 
 ## 二进制/十进制互相转换
 

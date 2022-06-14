@@ -458,7 +458,7 @@ function sendRequest(urls: string[], max: number, callback: () => void) {
 4. 讲一下 react 常用的优化项
 5. 讲一下 dom-diff 算法
 6. 实现下面功能
- ```
+ ```js
     class Scheduler {
         add(promiseCreator) {
         	// 手写代码部分

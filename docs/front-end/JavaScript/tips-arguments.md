@@ -13,7 +13,7 @@ function.arguments属性代表传入函数的实参，它是一个类数组对�
 
 <span style="color: red">function.arguments已经被废弃了，**现在推荐的做法是使用函数内部可用的arguments对象来访问函数的实参**。</span>
 
-<span style="color: red">在函数递归调用的时候(在某一刻同意函数运行了多次，也就是有多套实参)，那么arguments属性值是最近一次该函数调用时传入的实参。</span>
+<span style="color: red">在函数递归调用的时候(在某一刻同一函数运行了多次，也就是有多套实参)，那么arguments属性值是最近一次该函数调用时传入的实参。</span>
 
 <span style="color: red">如果函数不再执行期间，那么该函数的arguments属性的值是null。</span>
 

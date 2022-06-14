@@ -2,7 +2,7 @@
 title: react hooks如何获取上一轮props、state
 ---
 通过ref来手动获取上一轮props或者state的值
-```
+```js
 function Counter() {
     const [count, setCount] = useState(0);
 
@@ -16,7 +16,7 @@ function Counter() {
 }
 ```
 这或许有一点错综复杂，但你可以把它抽取成一个自定义Hook：
-```
+```js
 function Counter() {
     const [count, setCount] = useState(0);
     const prevCount = usePrevious(count);

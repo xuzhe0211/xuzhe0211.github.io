@@ -169,10 +169,15 @@ test();// Uncaught ReferenceError: t is not defined
     test();
     ```
 4. 禁止使用arguments.callee/arguments.caller
-5. 不可删除声明的普通变量
+5. <span style="color: red">不可删除声明的普通变量</span>
 
     普通模式下可以删除，并且可以删除成功
     ```js
+    // 直接删除数据
+    'use strict';
+    delete 0; // true
+
+    // 删除声明的变量 
     'use strict';
     let a = 6;
     delete a;//Uncaught SyntaxError: Delete of an unqualified identifier in strict mode.

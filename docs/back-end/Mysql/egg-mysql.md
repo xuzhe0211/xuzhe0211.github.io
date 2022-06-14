@@ -7,11 +7,11 @@ title: Egg-MySQL
 
 ### 安装与配置
 安装对应的插件egg-mysql
-```
+```js
 $ npm i --save egg-mysql
 ```
 开启插件
-```
+```js
 // config/plugin.js
 exports.mysql = {
   enable: true,
@@ -22,7 +22,7 @@ exports.mysql = {
 
 ### 单数据源
 如果我们的应用只需要访问一个MySQL数据库实例，可以如下配置
-```
+```js
 // config/congig.${env}.js
 exports.mysql = {
   // 单数据库信息配置
@@ -45,13 +45,13 @@ exports.mysql = {
 }
 ```
 使用方式：
-```
+```js
 await app.mysql.query(sql, values); // 单实例可以直接通过app.mysql访问
 ```
 
 ### 多数据源
 如果我们的应用需要访问多个MySQL数据源，可以按照如下配置
-```
+```js
 exports.mysql = {
   clients: {
     // clientId, 获取client实例，需要通过 app.mysql.get('clientId') 获取
@@ -91,7 +91,7 @@ exports.mysql = {
 };
 ```
 使用方式
-```
+```js
 const client1 = app.mysql.get('db1');
 await client1.query(sql, values);
 
@@ -101,7 +101,7 @@ await client2.query(sql, value);
 
 ### 动态创建
 我们可以不需要将配置提前申明在配置文件中，而是在应用运行时动态的从配置中心获取实际的参数，再来初始化一个实例
-```
+```js
 // {app_root}/app.js
 module.exports = (app) => {
   app.beforeStart(async () => {
@@ -119,7 +119,7 @@ module.exports = (app) => {
 下面是一个 Service 中访问 MySQL 数据库的例子。
 
 更多 Service 层的介绍，可以参考 [Service](https://www.eggjs.org/zh-CN/basics/service)
-```
+```js
 // app/service/user.js
 class UserService extends Service {
   async find(uid) {
@@ -130,7 +130,7 @@ class UserService extends Service {
 }
 ```
 之后可以通过Controller获取Service层拿到的数据
-```
+```js
 // /app/controller/user.js
 class UserController extends Controller {
   async info() {
@@ -147,7 +147,7 @@ class UserController extends Controller {
 
 ### Create
 可以直接使用insert方法插入一条记录
-```
+```js
 // 插入
 const result = await this.app.mysql.insert('posts', {title: 'Hello World'}); // 在post表中，插入title为Hello World的记录
 
@@ -174,7 +174,7 @@ const insertSuccess = result.affectedRows === 1;
 可以直接使用get方法或select方法获取一条或多条记录。select方法支持条件查询与结果的定制。
 - 查询一条记录
 
-  ```
+  ```js
   const post = await this.app.mysql.get('posts', { id: 12 });
 
   => SELECT * FROM `posts` WHERE `id` = 12 LIMIT 0, 1
@@ -182,7 +182,7 @@ const insertSuccess = result.affectedRows === 1;
 
 - 查询全表
 
-  ```
+  ```js
   const result = await this.app.mysql.get('posts');
 
   => SELECT * FROM `posts`;
@@ -190,7 +190,7 @@ const insertSuccess = result.affectedRows === 1;
 
 - 条件查询和结果定制
 
-  ```
+  ```js
   const results = await this.app.mysql.select('posts', { // 搜索post表
     where: { status: 'draft', author: ['author1', 'author2']}, // WHERE条件
     columns: ['author', 'title'], // 要查询的字段
@@ -206,7 +206,7 @@ const insertSuccess = result.affectedRows === 1;
 
 ### Update
 可以使用update方法更新数据库记录。
-```
+```js
 // 修改数据，将会根据主键ID查找，并更新
 const row = {
   id: 123,
@@ -243,7 +243,7 @@ const updateSuccess = result.offectedRows === 1;
 
 ### Delete
 可以直接使用delete方法删除数据库记录
-```
+```js
 const result = await this.app.mysql.delete('posts', {
   author: 'fengmk2'
 })
@@ -259,7 +259,7 @@ const result = await this.app.mysql.delete('posts', {
 如果我们必须要自己拼接sql语句，请使用mysql.escape方法。
 
 参考[preventing-sql-injection-in-node-js](https://stackoverflow.com/questions/15778572/preventing-sql-injection-in-node-js)
-```
+```js
 const postId = 1;
 const results = await this.app.mysql.query('update posts set hits = (hits + ?) where id=?', [1, postId])
 
@@ -283,7 +283,7 @@ egg-mysql 提供了两种类型的事务。
 ### 手动控制
 - 优点：beginTransaction,commit或rollback都有开发者控制，可以做到非常细粒度的控制。
 - 缺点:手写代码比较多，不是每个人都能写好。忘记了捕获异常和clearup都会导致严重bug
-```
+```js
 const conn = await app.mysql.beginTransaction(); // 初始化事务
 
 try {
@@ -305,7 +305,7 @@ try {
 - 优点：使用简单，不容易犯错，就感觉事务不存在的样子。
 - 缺点：整个事务要么成功，要么失败，无法做细粒度控制。
 
-```
+```js
 const result = await app.mysql.beginTransactionScope(async (conn) => {
   // don't commit or rollback by yourself
   await conn.insert(table, row1);
@@ -320,7 +320,7 @@ const result = await app.mysql.beginTransactionScope(async (conn) => {
 如果需要调用 MySQL 内置的函数（或表达式），可以使用 Literal。
 ### 内置表达式
 - NOW()：数据库当前系统时间，通过 app.mysql.literals.now 获取。
-```
+```js
 await this.app.mysql.insert(table, {
   create_time: this.app.mysql.literals.now,
 });
@@ -330,7 +330,7 @@ await this.app.mysql.insert(table, {
 ```
 ### 自动以表达式
 下例展示了如何调用 MySQL 内置的 CONCAT(s1, ...sn) 函数，做字符串拼接。
-```
+```js
 const Literal = this.app.mysql.literals.Literal;
 const first = 'James';
 const last = 'Bond';

@@ -21,7 +21,7 @@ http的请求方式包括OPTIONS、GET、POST、HEAD、PUT、DELETE、TRACE和CO
   3. 请求头没有自定义HTTP头部。请求头限制这几个字段：Accept、Accept-Language、Content-Language、Content-Type、Last-Event-ID。
 
 ## options请求的作用
-官方将头部带自定义信息的请求方式称为带预检的跨域请求。在实际调用接口之前，会首先发出一个options请求，检测服务器是否支持真实的请求进行跨域请求。真实请求在options请求中，通过request-header将 Access-Control-Request-Headers与Access-Control-Request-Method发送给后台，另外浏览器会自行加上一个Origin请求地址。服务端在接收到预检请求后，根据资源权限配置，在response-header头部加入access-control-allow-headers(允许跨域请求的请求头)、access-control-allow-methods(允许跨域请求的请求方式)、access-control-allow-origin(允许跨域请求的域)。另外，服务端还可以通过Access-Control-Max-Age来设置一定时间内无须再进行预检请求，直接用之前的预检请求的协商结果即可。浏览器再根据服务端返回的信息，进行决定是否再进行真实的跨域请求。这个过程对于用户来说，也是透明的。
+官方将头部带自定义信息的请求方式称为带预检的跨域请求。在实际调用接口之前，会首先发出一个options请求，检测服务器是否支持真实的请求进行跨域请求。<span style="color: blue">真实请求在options请求中，**通过request-header将 Access-Control-Request-Headers与Access-Control-Request-Method发送给后台，另外浏览器会自行加上一个Origin请求地址**。服务端在接收到预检请求后，根据资源权限配置，在response-header头部加入access-control-allow-headers(允许跨域请求的请求头)、access-control-allow-methods(允许跨域请求的请求方式)、access-control-allow-origin(允许跨域请求的域)。**另外，服务端还可以通过Access-Control-Max-Age来设置一定时间内无须再进行预检请求，直接用之前的预检请求的协商结果即可**。浏览器再根据服务端返回的信息，进行决定是否再进行真实的跨域请求。这个过程对于用户来说，也是透明的。</span>
 
 另外在HTTP响应头，凡是浏览器请求中携带了身份信息，而响应头中没有返回Access-Control-Allow-Credentials: true的，浏览器都会忽略此次响应。
 

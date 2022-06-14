@@ -62,15 +62,15 @@ xhr.send(null || new FormData || 'a=1&b=2' || 'json字符串');
 
 readyState
 
-- <span style="color: red">0: 请求初始化</span>
+- <span style="color: red;font-weight: bold;">0: 请求初始化</span>
 
-- <span style="color: red">1: 服务器建立连接</span>
+- <span style="color: red;font-weight: bold">1: 服务器建立连接</span>
 
-- <span style="color: red">2: 请求已接受</span>
+- <span style="color: red;font-weight: bold">2: 请求已接受</span>
 
-- <span style="color: red">3: 请求处理中</span>
+- <span style="color: red;font-weight: bold">3: 请求处理中</span>
 
-- <span style="color: red">4：请求已完成</span>
+- <span style="color: red;font-weight: bold">4：请求已完成</span>
 
 ## Jquery ajax
 

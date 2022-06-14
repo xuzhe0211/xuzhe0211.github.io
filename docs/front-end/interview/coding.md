@@ -391,21 +391,44 @@ pMap([1, 2, 3], x => x * 3).then(o => console.log(o))
 
 ## 已知一个函数asyncAdd，实现一个函数sum达到预期效果
 ```js
-function asyncAdd(a, b, callback) {
-    setTimeout(() => {
-        callback(null, a + b)
-    }, Math.random * 1000)
-}
-// 实现一个sum()函数，只允许调用asyncAdd不允许调用其他运算符
-const resut = await sum(1,2,3,4)
+标题
+异步加减法
+
+题目描述
+假设有一台本地机器，无法做加减乘除运算（包括位运算），因此无法执行 a + b、a+ = 1 这样的 JS 代码，然后我们提供一个服务器端的 HTTP API，可以传两个数字类型的参数，响应结果是这两个参数的和，这个 HTTP API 的 JS SDK（在本地机器上运行）的使用方法如下：​
+​
+asyncAdd(3, 5, (err, result) => {​
+  console.log(result); // 8​
+});​​​
+​
+// SDK 的模拟实现：​
+​
+function asyncAdd(a, b, cb) {​
+  setTimeout(() => {​
+    cb(null, a + b);​
+  }, 1000)​
+}​​​
+​
+现在要求在本地机器上实现一个 sum 函数，支持以下用法：​
+​
+(async () => {
+    const result1 = await sum(1, 4, 6, 9, 2, 4);
+    const result2 = await sum(3, 4, 9, 2, 5, 3, 2, 1, 7);
+    const result3 = await sum(1, 6, 0, 5);
+    console.log([result1, result2, result3]); // [26, 36, 12]​
+})()
+​
+要求 sum 能在最短的时间里返回以上结果
 ``` 
 
 ```js
+
 function asyncAdd(a, b, callback) {
     setTimeout(() => {
         callback(null, a + b)
     }, Math.random * 1000)
 }
+// 自己实现的---
 const promisify = func => {
     return function(...args) {
         return new Promise(resolve => {
@@ -418,21 +441,86 @@ const promisify = func => {
 }
 function sum(...args) {
     return new Promise(async resolve => {
-        for (let i = 0; i < args.length; i += 2) {
-            let arr = args.slice(i, i + 2);
-            if (arr.length < 2) break;
-            const fn = promisify(asyncAdd);
-            const res = await fn(arr[0], arr[1])
-            args.push(res[1]);
-        }
-        resolve(args[args.length - 1])
+        let nums = args;
+          while(nums.length >= 2) {
+              let arr = nums.splice(0, 2)
+              let resolveFn = promisify(asyncAdd);
+              let result = await resolveFn(arr[0], arr[1]) // null 3  2个一组。promise.all 二分？
+              nums.push(result[1]);
+          }
+          resolve(nums[nums.length - 1])
     })
 }
-(async function() {
-    const x = await sum(1,2,3,4);
-    console.log(x)
+// 方法二---但是是顺序执行了
+// 封装一个promise版的add函数
+function add(a, b) {
+    return new Promise(resolve => {
+        asyncAdd(a, b, (_, sum) => {
+            resolve(sum);
+        })
+    })
+}
+function sum(...args) {
+    return new Promise(resolve => {
+        args.reduce((p, n) => p.then(total => add(total, n)), Promise.resolve(0)).then(resolve);
+    })
+}
+
+// 方法三--时间优化  使用promise.all
+function add(a, b) {
+    return new Promise(resolve => {
+        asyncAdd(a, b, (_, sum) => {
+            resolve(sum);
+        })
+    })
+}
+async function sum(...args) {
+    // 如果仅有一个，直接返回
+    if(args.length === 1) return args[0];
+    let result = [];
+    // 两两一组，如果有剩余一个，直接进入
+    for(let i = 0; i < args.length - 1; i += 2) {
+        result.push(add(args[i], args[i + 1]));
+    }
+    if(args.length % 2) result.push(args[args.length - 1]);
+    // Promise.all 组内求和
+    return sum(...await Promise.all(result));
+}
+
+// 输出测试
+(async () => {
+    const result1 = await sum(1, 4, 6, 9, 2, 4);
+    const result2 = await sum(3, 4, 9, 2, 5, 3, 2, 1, 7);
+    const result3 = await sum(1, 6, 0, 5);
+    console.log([result1, result2, result3]); // [26, 36, 12]​
 })()
 ```
+### 其他
+```js
+function asyncAdd(a, b, callback) {
+    setTimeout(() => {
+        callback(null, a + b)
+    }, Math.random() * 1000);
+}
+function add(a, b) {
+    return new Promise(resolve => {
+        asyncAdd(a, b, (_, sum) => {
+            resolve(sum);
+        })
+    })
+}
+const test = async (...args) => {
+    return new Promise(resolve => {
+        add(1, 2).then(resolve);
+    })
+}
+
+(async function() {
+    const res = await test();
+    console.log(res)
+})()
+```
+[实现一个异步求和函数 ](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/484)
 ## 超时调用
 实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的reject
 ```js
@@ -680,12 +768,14 @@ const fromatArray = nums => {
     let right = 0;
     let arr = [...nums];
     // let temp = arr.slice(0,2); // [{index, num}]
+    let temp;
     for (let i = 0; i < arr.length; i++) {
         right = i + 1;
         while(right < arr.length) {
-            if (arr[i] === arr[right]) {
-                temp.push(arr[i])
-                arr.splice(i, right + 1)
+            if (arr[i] === arr[right] || arr[i] === temp) {
+                // temp.push(arr[i])
+                temp = arr[i]
+                arr.splice(i, 1)
                 i = -1;
             } else {
                 right++;
@@ -694,5 +784,52 @@ const fromatArray = nums => {
     }
     return arr;
 }
-console.log(fromatArray(nums))
+console.log(fromatArray([1,6,6,6,7,7,8,9]))
+
+// 删除重复的元素--类似原理
+const removeDuplicates = nums => {
+    let i = 0; 
+    for(let j = 1; j < nums.length; j++) {
+        if(nums[j] !== nums[i]) {
+            nums[i + 1] = nums[j];
+            i++;
+        }
+    }
+    return nums.slice(0, i + 1);
+    // return i + 1;
+}
+console.log(removeDuplicates([0,0,1,1,1,2,2,3,3,4]))
+```
+## 一行图片 宽度一定 等比例
+```js
+// function alignImages(imgs, width) {...}
+
+// alignImages([[1, 1], [1, 1]], 3) // [[1.5, 1.5], [1.5, 1.5]]
+// alignImages([[2, 4], [2, 2], [2, 4]], 4) // [[1, 2], [2, 2], [1, 2]]
+// 字符图示例：a 表示 [2, 4]（宽为 2，高为 4 的图片）, b 表示 [2, 2], c 表示 [2, 4]
+// aa  bb  cc
+// aa  bb  cc
+// aa      cc
+// aa      cc
+
+// 等比例缩放之后：
+// abbc
+// abbc
+
+const alignImages = (nums, width) => {
+    let n = nums.length;
+    let m = nums[0].length;
+    let matrix = Array.from(Array(n), (_, i) => Array(m))
+    let sumWidth = nums.reduce((total, cur) => {
+        return total + cur[0]
+    }, 0)
+    for(let i = 0; i < n; i++) {
+        let a = nums[i][0] / nums[i][1];
+        for(let j = 0; j < m; j++) {
+            matrix[i][j] = Math.ceil((width / sumWidth) * a * nums[i][j])
+        }
+    }
+    return matrix;
+}
+console.log(alignImages([[2, 4], [2, 2], [2, 4]], 4))
 ```

@@ -14,7 +14,7 @@ title: cache-loader、hard-source-webpack-plugin、webpack5缓存的区别是什
 但是这对Webpack来说是一种挑战，面对可能会被蚕食的用户市场，Webpack5的内置缓存方案终于出来了。
 
 ## 插件简介
-<span style="color: red">HardSourceWebpackPlugin是webpack插件，用于为模块提供中间缓存</span>。为了查看结果，您需要实用次插件运行两次
+<span style="color: red">HardSourceWebpackPlugin是webpack插件，用于为模块提供中间缓存</span>。为了查看结果，您需要使用此插件运行两次
 
 webpack:第一次构建将花费正常时间。第二个版本将明显更快。适用于在开发模式developmentent和生产模式production下。速度提升效果是原来的好几倍
 

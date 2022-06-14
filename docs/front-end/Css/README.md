@@ -17,7 +17,7 @@ title: Css命名规范
 
   **BEM命名模式**
 
-  ```
+  ```css
   .block {}
   .block__element {}
   .block--modifier {}
@@ -27,14 +27,14 @@ title: Css命名规范
   - block--modifier代表.block的不同状态或不同版本。
 
   使用两个连字符和下划线而不是一个，是为了让你自己的块可以用单个连字符来界定。如：
-  ```
+  ```css
   .sub-block__element {}
   .sub-block--modifier {}
   ```
   **BEM命名法的好处**
 
   BEM的关键是，可以获得更多的描述和更加清晰的结构，从其名字就可以知道某个标记的含义。通过查看HTML代码中的class属性，就能知道元素之间的关联。
-  ```
+  ```html
   //常规的命名示例
   <div class="article">
       <div class="body">
@@ -46,7 +46,7 @@ title: Css命名规范
   这种写法从DOM结构和类命名可以了解每个元素的意义，但无法明确真实的层级关系。在css定义时，也必须依靠层级选择器来限定约束作用域，以避免跨组件的样式污染
 
   使用BEM命名方法
-  ```
+  ```html
   <div class="article">
       <div class="article__body">
           <div class="tag"></div>
@@ -62,7 +62,7 @@ title: Css命名规范
   并不是每个地方都应该使用BEM命名方式。当需要明确关联性的模块关系时，应当使用BEM格式。
 
   比如只是一条公共的单独的样式，就没有使用BEM格式的意义：
-  ```
+  ```css
   .hide{
       display:none !important;
   }
@@ -73,7 +73,7 @@ title: Css命名规范
   BEM的一个槽点是，命名方式长而难看，书写不雅。相比BEM格式带来的便利来说，我们应客观看待。
 
   而且，一般来说会通过LESS/SASS等预处理器语言来编写CSS，利用其语言特性书写起来要简单的很多。
-  ```
+  ```css
   .article{
       max-width:1200px;
       &__body{
@@ -97,14 +97,14 @@ title: Css命名规范
 前提条件：必须要先有字体文件，比如.ttf文件，叫UI给或者自己下载
 
 1. 使用@font-face引入字体文件，并且定义该字体的名称：myFirstFont
-```
+```css
 @font-face{
 	font-family: myFirstFont;
     src: url('你自己的字体文件路径.ttf');
 }
 ```
 2. 使用
-```
+```html
 <body>
 	<div>这是默认字体</div>
     <div class="my_font">这是自定义字体</div>

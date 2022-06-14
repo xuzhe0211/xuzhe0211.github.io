@@ -165,6 +165,23 @@ this指向调用它的外部
   */
   console.log(person.say()())
   ```
+3. <span style="color: red">**问题三**</span>
+```js
+function timer() {
+    this.s1 = 0;
+    this.s2 = 0
+    setInterval(() => {
+        this.s1++;
+    }, 1000)
+    setInterval(function(){ 
+        this.s2++; // this == window
+    }, 1000)
+}
+
+var t = new timer()
+setTimeout(() => console.log(t.s1), 3100); // 3
+setTimeout(() => console.log(t.s2), 3100); // 0
+```
 ## 块作用域和私有变量
 ### 块作用域
 ```js
@@ -210,7 +227,7 @@ function Person(name) {
   }
 }
 var p = new Person('xz');
-console.log(p.name)
+console.log(p.name) // undefined
 ```
 解决
 ```js
@@ -218,7 +235,7 @@ var Person;
 (function() {
   var name = '';
   Person = function(value) {
-    name = value;
+    name = value; // 赋值给函数外的name
   }
   Person.prototype.getName = function() {
     return name;
@@ -232,3 +249,7 @@ console.log(p1.getName())
 p1.setName('bb')
 console.log(p1.getName())
 ```
+
+[class 严格模式](/front-end/JavaScript/es6-strict.html#严格模式)
+
+[一道算法题](/front-end/JavaScript/tips-foo.html#简介)

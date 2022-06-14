@@ -27,7 +27,7 @@ title: 函数防抖、节流
 
 ## 实现原理
 ### 函数防抖
-```bash
+```js
 const debounce = (func, wait) => {
 	let timer;
     return () => {
@@ -37,7 +37,7 @@ const debounce = (func, wait) => {
 }
 ```
 ### 函数节流
-```
+```js
 const throttle = (func, wait) => {
 	let timer;
     return ()=> {
@@ -50,7 +50,7 @@ const throttle = (func, wait) => {
 }
 ```
 - 函数节流的时间戳简单实现
-```
+```js
 const throttle = (func, wait) => {
 	let last = 0;
     return () => {

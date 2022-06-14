@@ -1,5 +1,6 @@
 ---
-title: useEffect和useLayoutEffect的区别
+autoGroup-2: react-hooks
+title: useEffect和useLayoutEffect、useInsertionEffect的区别
 ---
 react hook面试已经有一段时间了，相信很多人都已经在代码中用上hooks。而对于useEffect和useLayoutEffect,我们使用的最多的应该就是useEffect。那么他们两个到底有什么不一样的地方？
 
@@ -7,8 +8,12 @@ react hook面试已经有一段时间了，相信很多人都已经在代码中�
 这两个函数的使用方式其实非常简单，它们都接受一个函数一个数组，只有在数组里面的值改变的情况下才会再次执行effect。所以对于使用方式我就不过多介绍了，具体查看[官网](https://zh-hans.reactjs.org/docs/hooks-reference.html)
 
 ## 差异
-- <span style="color:blue">useEffect是异步执行的，而useLayoutEffect是同步执行的</span>
+- <span style="color:blue">useEffect(渲染后)是异步执行的，而useLayoutEffect(渲染时)是同步执行的</span>
 - <span style="color:blue">useEffect的执行时机是浏览器完成渲染之后，而useLayoutEffect的执行时机是浏览器把内容真正渲染到界面之前，和componentDidMount等价</span>
+
+- <span style="color:blue">useInsertionEffect(渲染前)工作原理类似useLayoutEffect,区别在于回调执行时还不能访问ref中的DOM节点。</span>
+    - 你可以在这个Hook内操作全局DOM节点(比如&lt;style&gt;或者SVG&lt;defs&gt;)
+    - 操作CSS库(比如CSS-IN-js方案)可以用这个Hook插入全局style
 
 ## 具体表现
 🌰

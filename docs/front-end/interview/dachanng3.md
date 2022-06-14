@@ -443,15 +443,15 @@ https协议由http+ssl协议构成，具体的连接过程可参考SSL或者TSL�
 - 盒模型
 
 很多人不知道的是，重绘和回流其实和Event Loop有关
-1. 每次Event Loop执行完Microtasks,会判断document是否需要更新。因为浏览器60HZ的刷新率，每16ms才会更新一次。(1000/ 60)
-2. 然后判断是否有resize或者scroll，有的话就触发事件，所以resize和scroll时间也至少16ms才会触发一次，并且自带节流功能
-3. 判断是否触发了media query
-4. 更新动画并发发送事件
-5. 判断是否有全屏操作事件
-6. 执行requestAnimationFrame回调
-7. 执行IntersectionObserver回调，该方法判断元素是否客家，可以用于懒加载上，但是兼容性不好
-8. 更新界面
-9. 以上就是一帧中可能会做的事情，如果在一帧中有空闲时间，就会执行requestIdleCallback回调
+1. <span style="color: red">每次Event Loop执行完Microtasks,会判断document是否需要更新。因为浏览器60HZ的刷新率，每16ms才会更新一次。(1000/ 60)</span>
+2. <span style="color: red">然后判断是否有resize或者scroll，有的话就触发事件，所以resize和scroll时间也至少16ms才会触发一次，并且自带节流功能</span>
+3. <span style="color: red"> 判断是否触发了media query</span>
+4. <span style="color: red">更新动画并发发送事件</span>
+5. <span style="color: red">判断是否有全屏操作事件</span>
+6. <span style="color: red">执行 requestAnimationFrame回调</span>
+7. <span style="color: red">执行 IntersectionObserver回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好</span>
+8. <span style="color: red">更新界面</span>
+9. <span style="color: red">以上就是一帧中可能会做的事情，如果在一帧中有空闲时间，就会执行requestIdleCallback回调</span>
 
 **减少重绘和回流**
 - 使用translate替代top

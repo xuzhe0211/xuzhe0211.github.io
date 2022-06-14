@@ -5,7 +5,7 @@ title: 多行文本内容超出隐藏
 
 ## css 超出隐藏
 1. 如果单行文本的溢出显示省略号都知道用text-overflow:ellipsis属性来，
-    ```
+    ```css
     .hide {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -14,7 +14,7 @@ title: 多行文本内容超出隐藏
     ```
 2. 多行文本溢出
 
-    ```
+    ```css
     display:-webkit-box;/**对象作为伸缩盒子模型展示**/
     -webkit-box-orient:vertical;/**设置或检索伸缩盒子对象的子元素的排列方式**/
     -webkit-line-clamp:3;/**显示的行数**/
@@ -22,11 +22,11 @@ title: 多行文本内容超出隐藏
     ```
 
 ## js超出隐藏
-通过css可以事先，但受限于浏览器兼容问题，有时候还需要依赖JS来实现。通过JS实现，就需要考虑到文字大小，中英文、数字、标点符号所对应的字节长度不一致，如果考虑的不全面，对于不同的问题内容，总会有点差距
+通过css可以实现，但受限于浏览器兼容问题，有时候还需要依赖JS来实现。通过JS实现，就需要考虑到文字大小，中英文、数字、标点符号所对应的字节长度不一致，如果考虑的不全面，对于不同的问题内容，总会有点差距
 
 - 首先，我们需要了解，中文汉字，英文字母，数字以及特殊符号所占的字节长度是不一样的，如果需要计算准确，就不能按照字符串的元素个数去截取，把他们换成字节数来截取，准确度更高。所以我们需要个获取字符串字节长度的方法
 
-    ```
+    ```js
     function bitCompute(Content) {
         var total = 0,
             len = arguments[0].length || 0;
@@ -42,7 +42,7 @@ title: 多行文本内容超出隐藏
     ```
 - 对于要截取多少内容的字节数，我们需要知悉能放入容器内的字节数和总子节数的比例，展示字节数/总字节数 = offsetWidth / scrollWidth
 
-    ```
+    ```js
     fucntion complate() {
         var offsetWidth = el.offsetWidth;
         var scrollWidth = el.scrollWidth;
@@ -56,7 +56,7 @@ title: 多行文本内容超出隐藏
     ```
 - 根据计算出的数据，可以操作字符串了
 
-    ```
+    ```js
     function cut(content) {
         el.innerHTML = content;
         var info = complate(),
@@ -90,7 +90,7 @@ title: 多行文本内容超出隐藏
 
 - 当然文字展示的多少，也和字体大小相关的，所以我们也需要把自己大小的因素考虑到，而且作为一个工作方法，本身就不应该页面中的元素有关系，所以我们应该在方法中自己创建元素，放入内容，计算offsetWidth和scrollWidth
 
-    ```
+    ```js
     function cutFactory(opt) {
         var cfs = {
             padding: opt.padding || '...',
@@ -133,7 +133,7 @@ title: 多行文本内容超出隐藏
     ```
 - 最后，在暴露一个方法，方便使用者调用。为了性能考虑，不能创建过多dom元素，我们可以缓存一下字体大小和容器高度相同的截取方法
 
-    ```
+    ```js
     function subStringEl(name, fontSize, width) {
         this.subStringElFns || (this.subStringElFns = {});
         var key = 'key_' + fontSize + '_' + width;

@@ -686,4 +686,43 @@ sendRequest(ps, 3, ({reason, value, status}) => {
 ![输出](http://img1.sycdn.imooc.com/5e65b3e20001095e04850421.jpg)
 
 
+## info
+```js
+module.exports = function() {
+    var result = {};
+    result.promise = new Promise(function(resolve, reject) {
+        result.resolve = resolve;
+        result.reject = reject;
+    });
+    return result;
+};
+
+import defer from '../common/defer'
+
+getInfo: function () {
+    var yktk = Global.Cookies.get("yktk");
+
+    var deferred = defer();
+
+    Vue.http({
+        url: 'http://api.hudong.youku.com/zghsy/api/verify-cookie?yktk='+encodeURIComponent(yktk),
+        method: 'jsonp'
+    }).then(function (res) {
+        var uid = res.data.data.ytid;
+        deferred.resolve(uid);
+    },function(res){
+        var uid = res.data.data.ytid
+        deferred.reject(uid);
+    })
+
+    return deferred.promise;
+}
+
+this.getInfo().then(function(uid){
+    return uid;
+}, function(uid){
+    return uid;
+});
+```
+
 [promise.allSettled](https://segmentfault.com/a/1190000020034361)

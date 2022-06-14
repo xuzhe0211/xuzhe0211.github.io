@@ -10,11 +10,11 @@ title: proxy
 首先需要先理解什么是可变数据:举个例子
 ```js
 var objA = {name: '小明'}；
-var objB = objA.name;
+var objB = objA;
 objB.name = '小红';
 console.log(objA.name) // objA的那么也变成了小红
 ```
-像这样我们铭铭只修改代码objB的name，发现ObjA也发生了改变，这个就是可变数据。
+像这样我们明明只修改代码objB的name，发现ObjA也发生了改变，这个就是可变数据。
 
 那不可变数据是什么呢？
 

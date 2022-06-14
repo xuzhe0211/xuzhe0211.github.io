@@ -8,7 +8,7 @@ title: React中函数组件和类组件的区别
 :::
 
 ## 函数组件
-```
+```js
 function Welcome(props) {
    return <h1>Welcome {props.name}</h1>
 }
@@ -17,7 +17,7 @@ ReactDOM.render(<Welcome name='react'/>, document.getElementById('root'));
 函数组件接收一个单一的props对象并返回一个React元素
 
 ## 类组件
-```
+```js
 class Welcome extends React.Component {
   render() {
     return (
@@ -33,7 +33,7 @@ ReactDOM.render(<Welcome name='react' />, document.getElementById('root'));
 
 所有 React 组件都必须是纯函数，并禁止修改其自身 props 。
 
-React是单项数据流，父组件改变了属性，那么子组件视图会更新。
+<span stle="color: blue">React是单项数据流，父组件改变了属性，那么子组件视图会更新。</span>
 
 属性 props 是外界传递过来的，状态 state 是组件本身的，状态可以在组件中任意修改
 
@@ -41,18 +41,14 @@ React是单项数据流，父组件改变了属性，那么子组件视图会更
 
 ## 类、函数组件区别：
 
-函数组件和类组件当然是有区别的，而且函数组件的性能比类组件的性能要高，
-
-因为类组件使用的时候要实例化，而函数组件直接执行函数取返回结果即可。
+<span style="color: blue">函数组件和类组件当然是有区别的，**而且函数组件的性能比类组件的性能要高，因为类组件使用的时候要实例化，而函数组件直接执行函数取返回结果即可**。</span>
 
 为了提高性能，尽量使用函数组件。
 
-函数组件没有this,没有生命周期，没有状态state,
+<span style="color: blue">**函数组件没有this,没有生命周期，没有状态state,类组件有this,有生命周期，有状态state。**</span>
 
-类组件有this,有生命周期，有状态state。
-
-1. 类组件的性能消耗大，因为类组件需要创建类组件的实例，而且不能销毁
-2. 函数组件性能消耗少，因为函数式组件不需要创建实例，渲染的时候就执行一下，得到返回的react元素后直接把中间量全部销毁了
+1. <span style="color: blue">类组件的性能消耗大，因为类组件需要创建类组件的实例，而且不能销毁</span>
+2. <span style="color: blue">函数组件性能消耗少，因为函数式组件不需要创建实例，渲染的时候就执行一下，得到返回的react元素后直接把中间量全部销毁了</span>
 
 **函数式组件是不能有状态的，但是现在有了react hooks,也可能有状态了**
 
@@ -63,7 +59,7 @@ React是单项数据流，父组件改变了属性，那么子组件视图会更
 > 类组件的自身缺陷
 
 1. 如果我们需要一个只跟着视图走的数据，我们不能直接使用props或者state.这个我们可以通过一个实例看看
-    ```
+    ```js
     class ProfilePage extends React.Component {
         showMessage = () => {
             alert('Followed' + this.props.user);
@@ -101,7 +97,7 @@ React是单项数据流，父组件改变了属性，那么子组件视图会更
 :::
 
 ### 传统类组件
-```
+```js
 import {Component} from 'react';
 export default class ListWithPagination extends Component {
     stata = {
@@ -154,7 +150,7 @@ export default class ListWithPagination extends Component {
     这种方式返回的组件继承了被传入的组件，所以它能访问的区域、权限更多比如可以直接访问传入组件的state数据
 
 接着上面说的变成高阶函数会怎么样呢
-```
+```js
 export default function ListHoc(listComponent) {
     return class ListWithPagination extends Component {
         // 同上省略
@@ -179,7 +175,7 @@ export default function ListHoc(listComponent) {
 这么一来，后面在写列表时，使用高级组件包裹一下再把数据请求方法以props传入，达到一个复用状态逻辑与分页组件的效果。
 
 ### Hooks改造
-```
+```js
 import {userState, userEffect} from 'react';
 export default function List() {
     const [page, setPage] = useState(1); // 初始页码为1
@@ -215,7 +211,7 @@ export default function List() {
 这里运行机制就不说了，下面就用hooks来抽离我们的逻辑
 
 首先将我们的分页抽离出来
-```
+```js
 const usePagination = (fetchApi) => {
     const [page, setPage] = useState(1);
     const [list, setList] = useState([]);
@@ -237,7 +233,7 @@ export default function List() {
 }
 ```
 如果你希望分页的dom结构也想复用，那就在抽个函数就好
-```
+```js
 function renderCommonList({ ListComponent, fetchApi }) {
   const [list, { page }, { prevPage, nextPage }] = usePagination(fetchApi);
   return (
@@ -279,7 +275,7 @@ export default function List() {
 
     这个特性在对函数组件进行性能优化时也是会带来很大的麻烦，因为每次props和state数据变化，都会导致函数组件中所有内容的重新渲染。我们需要通过memo，useMemo，useCallback这些方法手动去减少组件的render。当一个组件结构比较复杂，嵌套较多时，依赖项问题的处理也很让人头疼
 2. 状态不同步，在一次渲染中组件的props和state是保持不变的，这个特性导致的闭包陷阱，是我们开发中常见的问题，因为函数的运行是独立的，每个函数都有自己的作用域，函数变量是保存在运行时的作用域里面的，当我们有异步操作时会看到回调函数中的变量引用的是之前的也就是旧的，
-```
+```js
 import React, { useState } from 'react';
 const Counter = () => {
     const [counter, setCounter] = useState(0);
@@ -299,3 +295,6 @@ const Counter = () => {
 export default Counter
 ```
 当我点击完show count后里面去点击change count这一定会在3s内，三面后我们看到的结果竟然是0 而不是1，这个问题在class component不会出现，因为class component的属性和方法都在一个instace上，调用方式是：this.state.xxx 和this.method().因为每次都是从一个不变的instance上进行取值，所以不存在引用是旧的问题
+
+## 资料
+[React 函数组件和类组件的区别](https://cloud.tencent.com/developer/article/1843744)

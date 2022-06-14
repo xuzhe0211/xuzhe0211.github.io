@@ -118,8 +118,9 @@ title: 网络编程/http协议相关
 - 5xx---服务的错误--服务器未能实现合法的请求
 	  - 500 Internal Server Error 服务器发生不可预期的错误-- 内部服务器错误
     - 501 未实现---状态告诉客户端服务器不支持请求中要求的功能。例如，客户端执行了如PUT这样的服务器并不支持的命令。
+    - <span style="color: blue">502 Bad Gateway。一般表现为自己写的应用层服务(Java/go/php)挂了，网关层无法接受到响应</span>
     - 503 Server Unavailable 服务无法获得  --服务器当前不能处理客户端的请求，一段时间后可能恢复请求
-    - 504--网关超时
+    - <span style="color: blue">504--gateway Timeout(网关超时),一般表现为应用层服务(upstream)超时，如果查库操作耗时十分钟，超过了Nginx配置的超时时间</span>
     - 505 不支持的HTTP版本
     - 511 要求网络认证
     

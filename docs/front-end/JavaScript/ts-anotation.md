@@ -14,7 +14,7 @@ title: TS中的装饰器
 :::
 
 ## 定义一个方法
-```
+```js
 class log{
     print(msg) {
         console.log(msg);
@@ -29,11 +29,11 @@ log.print('hello');
 + 日志美化
 + 执行日志AOP
 
-```
+```js
 const dec = (target, property) => {
     const old = target.prototype[property];
     target.prototype[property] = msg => {
-        console.log('执行pront方法....')；
+        console.log('执行pront方法....');
         msg = `{${msg}}`;
         old(msg);
     }
@@ -45,7 +45,7 @@ dec(Log, 'print');
 
 - 打印定制化
 
-```
+```js
 const dec = name => (target,property) => {
     const old = target.prototype.print
     target.prototype[property] = msg => {
@@ -59,7 +59,7 @@ dec('name')(Log, 'print');
 
 ## 注解风格的装饰器
 
-```
+```js
 function decorate(target, property, descriptor) {
     var oldValue = descriptor.value;
     descriptor.value = msg => {
@@ -79,7 +79,7 @@ class Log{
 
 1. anotation 源码
 
-```
+```js
 const anotation = (target,proterty,decorate) => {
     const descriptor = decorate(Log.prototype, proterty, Object.getOwnPropertyDescriptor(Log.prototype, proterty))
     Object.defineProperty(Log.prototype ,proterty,descriptor)
@@ -98,7 +98,7 @@ anotation(Log,'print',decorate)
 
 object.getOwnPropertyDescriptor()方法返回指定对象上一个自有属性对应的属性描述符(自有属性指的是直接赋予改对象的属性，不需要从原型链上进行查找的属性)。
 
-```
+```js
 cosnt object1 = {
     property1: 42
 }
@@ -118,7 +118,7 @@ console.log(descriptor1.value); // 42
 
 Object.defineProperty()方法直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此属性。
 
-```
+```js
 const object1 = {};
 
 Object.defineProperty(object1, 'property1', {
@@ -193,7 +193,7 @@ console.log(object1.property1);
 ### 示例
 
 1. 数据属性
-```
+```js
 var person = {}
 Object.defineProperty(person,'name',{
     configurable:false,// 能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为false
@@ -226,7 +226,7 @@ Object.defineProperty(person,'name',{
 
 2. 访问器属性
 
-```
+```js
 var book = {
     _year: 2004,//属性前面加_，代表属性只能通过对象方法访问
     edition: 0

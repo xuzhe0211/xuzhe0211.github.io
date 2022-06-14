@@ -93,7 +93,8 @@ var theirVideo = document.getElementById('theirs');
 if (hasUserMedia()) {
     navigator.getUserMedia({ video: true, audio: false },
         stream => {
-            yourVideo.src = window.URL.createObjectURL(stream);
+            // yourVideo.src = window.URL.createObjectURL(stream); // 最新chrome浏览器不支持
+            yourVideo.srcObject = stream;
             if (hasRTCPeerConnection()) {
                 // 稍后我们实现 startPeerConnection
                 startPeerConnection(stream);
@@ -113,3 +114,104 @@ if (hasUserMedia()) {
 
 下一步是实现 startPeerConnection 方法，建立传输视频数据所需要的 ICE 通信路径，这里我们以 Chrome 为例：
 
+```js
+function startPeerConnection(stream) {
+    // 这里使用了几个公共的stun协议服务器
+    const config = {
+        'iceServers': [{ 'url': 'stun:stun.services.mozilla.com' }, { 'url': 'stun:stunserver.org' }, { 'url': 'stun:stun.l.google.com:19302' }]
+    };
+    yourConnection = new RTCPeerConnection(config);
+    theirsConnection = new RTCPeerConnection(config);
+    yourConnection.onicecandidate = function(e) {
+        if(e.candidate) {
+            theirsConnection.addIceCandidate(new RTCIceCandidate(e.candidate));
+        }
+    }
+    theirsConnection.onicecandidate = function() {
+        if(e.candidate) {
+            yourConnection.addIceCandidate(new RTCIceCandidate(e.candidate))
+        }
+    }
+}
+```
+我们使用这个函数创建了两个连接对象，在config里，你可以任意指定ICE服务器，虽然有些服务器内置了ICE服务器，可以不用配置，但还是建议加上这些配置；下面，我进进行SDP握手。
+
+由于在同一个页面中进行通信，所以我们可以直接交换双方的candidate对象，在不同的页面中，可能需要一个额外的服务器协助这个交换过程
+
+## 建立SDP Offer和SDP Answer
+
+## 加入视频流
+现在我们已经有了一个可靠的视频数据传输通道了，下一步只需要向这个通道加入数据流即可。WebRTC直接为我们封装好了加入视频流的接口，当视频流添加时，另一方的浏览器会通过onaddstream来告知用户，通道中有视频流加入
+```js
+yourConnection.addStream(stream);
+theirsConnection.onaddstream = function(e) {
+    theirVideo.src = window.URL.createObjectURL(e.stream)
+}
+```
+
+
+```js
+function hasUserMedia() {
+    navigator.getUserMedia = navigator.getUserMedia || navigator.msGetUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    return !!navigator.getUserMedia;
+}
+function hasRTCPeerConnection() {
+    window.RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.msRTCPeerConnection;
+    return !!window.RTCPeerConnection;
+}
+ 
+var yourVideo = document.getElementById("yours");
+var theirVideo = document.getElementById("theirs");
+var yourConnection, theirConnection;
+ 
+if (hasUserMedia()) {
+    navigator.getUserMedia({ video: true, audio: false },
+        stream => {
+            yourVideo.src = window.URL.createObjectURL(stream);
+            if (hasRTCPeerConnection()) {
+                startPeerConnection(stream);
+            } else {
+                alert("没有RTCPeerConnection API");
+            }
+        },
+        err => {
+            console.log(err);
+        })
+} else {
+    alert("没有userMedia API")
+}
+ 
+function startPeerConnection(stream) {
+    var config = {
+        'iceServers': [{ 'url': 'stun:stun.services.mozilla.com' }, { 'url': 'stun:stunserver.org' }, { 'url': 'stun:stun.l.google.com:19302' }]
+    };
+    yourConnection = new RTCPeerConnection(config);
+    theirConnection = new RTCPeerConnection(config);
+ 
+    yourConnection.onicecandidate = function(e) {
+        if (e.candidate) {
+            theirConnection.addIceCandidate(new RTCIceCandidate(e.candidate));
+        }
+    }
+    theirConnection.onicecandidate = function(e) {
+        if (e.candidate) {
+            yourConnection.addIceCandidate(new RTCIceCandidate(e.candidate));
+        }
+    }
+     
+    theirConnection.onaddstream = function(e) {
+        // theirVideo.src = window.URL.createObjectURL(e.stream);// 最新chrome浏览器不支持
+        theirVideo.srcObject = stream;
+    }
+    yourConnection.addStream(stream);
+     
+    yourConnection.createOffer().then(offer => {
+        yourConnection.setLocalDescription(offer);
+        theirConnection.setRemoteDescription(offer);
+        theirConnection.createAnswer().then(answer => {
+            theirConnection.setLocalDescription(answer);
+            yourConnection.setRemoteDescription(answer);
+        })
+    });
+}
+```

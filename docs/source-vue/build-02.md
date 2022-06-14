@@ -83,7 +83,7 @@ const routes = [
 <span style="color: red">import和require是两种不同的规范，ES6的引入方式是Vue官方文档推荐的，**实际上到最后还是会变成require方式**。通过懒加载的方式，会编译打包成不同的js，而不是将所有组件都打包成一个js，也就是说能够在用户进入某个页面的时候才会加载某个页面，而不是一开始就加载全部</span>
 
 ## 懒加载可能出现的打包问题
-以上三种方式，<span style="color: red">**如果路径参数中都包含变量**</span>，webpack打包就会出现问题。
+<span style="color: orange;font-family:'微软雅黑'">**以上三种方式，如果路径参数中都包含变量,webpack打包就会出现问题。**</span>
 
 ### <span style="color:red">import()会将该组件所在的目录内的所有组件都引入进来</span>
 ```js
@@ -125,7 +125,7 @@ const routes = [
   },
 ]
 ```
-### require()和require.ensure则会包所有带上变量的路由组件打包为一个js
+### require()和require.ensure则会将所有带上变量的路由组件打包为一个js
 ```js
 let home = 'views/Home'
 let about = 'views/About'
@@ -183,6 +183,8 @@ Vue.component('demo-msg', Message);
 
 
 ## 资料
+[vue异步组件](/source-vue/vue-about.html#动态组件-异步组件)
+
 [Vue实现路由懒加载的方式以及打包问题](https://segmentfault.com/a/1190000021897656)
 
 [vue页面首次加载缓慢原因及解决方案](https://www.cnblogs.com/zyulike/p/11190012.html)

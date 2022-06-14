@@ -45,7 +45,7 @@ title: 浏览器渲染工作原理
 
 而其中，GUI渲染线程和Javascript引擎线程是互斥的，所以script脚本在执行的时候会阻塞DOM树解析渲染，延迟[DOMContentLoaded](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/DOMContentLoaded_event)事件触发.
 
-这里就要提到script标签的async和defer属性了，async会异步下载脚本，<span style="color: red">**但是它的执行依然会阻塞HTML解析,不会阻塞HTML渲染**</span>。defer的含义就是将脚本的解析执行推迟到了HTML解析之后，不会造成HTML阻塞，<span style="color: red">但是依然会延迟[DOMContentLoaded](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/DOMContentLoaded_event)事件触发</span>，其将在defer执行完后触发。多个async-script的执行顺序不能确定，而多个defer-script的执行顺序是确定的。
+这里就要提到<span style="color: red">**script标签的async和defer属性了，async会异步下载脚本，但是它的执行依然会阻塞HTML解析,不会阻塞HTML渲染**</span>。defer的含义就是将脚本的解析执行推迟到了HTML解析之后，不会造成HTML阻塞，<span style="color: red">但是依然会延迟[DOMContentLoaded](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/DOMContentLoaded_event)事件触发</span>，其将在defer执行完后触发。多个async-script的执行顺序不能确定，而多个defer-script的执行顺序是确定的。
 
 [浅谈script标签中的async和defer](/front-end/JavaScript/brower-Async-refer.html)
 

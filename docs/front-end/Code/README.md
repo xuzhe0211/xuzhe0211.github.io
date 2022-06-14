@@ -28,6 +28,78 @@ const longStr = str => {
 var str = readline() // 使用readline()读取
 console.log(longStr(str))
 ```
+## 正则表达式匹配
+给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
+- '.'匹配任意单个字符
+- '*'匹配另个或多个签名的那一个元素
+所谓匹配，是要涵盖整个字符串s的，而不是部分字符串
+```
+输入：s = "aa", p = "a"
+输出：false
+解释："a" 无法匹配 "aa" 整个字符串。
+
+输入：s = "aa", p = "a*"
+输出：true
+解释：因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 "aa" 可被视为 'a' 重复了一次。
+
+
+输入：s = "ab", p = ".*"
+输出：true
+解释：".*" 表示可匹配零个或多个（'*'）任意字符（'.'）。
+```
+解答
+```js
+var isMatch = function(s, p) {
+    if(s === null || p === null) return false;
+    const sLen = s.length;
+    const pLen = p.length;
+    const dp = Array.from(Array(sLen + 1), (_, i) => Array(pLen + 1).fill(false));
+    // base case
+    dp[0][0] = true;
+    for (let j = 1; j < pLen + 1; j++) {
+        if (p[j - 1] === '*') dp[0][j] = dp[0][j - 2];
+    }
+    // 迭代
+    for(let i = 1; i < sLen + 1; i++) {
+        for (let j = 1; j < pLen + 1; j++) {
+            if (s[i - 1] == p[j - 1] || p[j - 1] == ".") {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else if(p[j - 1] === '*') {
+                if (s[i - 1] == p[j - 2] || p[j - 2] == ".") {
+                    dp[i][j] = dp[i][j - 2] || dp[i - 1][j - 2] || dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i][j - 2];
+                }
+            }
+        }
+    }
+    return dp[sLen][pLen];
+};
+// 第二种
+function isMatch(s, p) {
+  var lenS = s.length;
+  var lenP = p.length;
+  var map = {};
+
+  return check(0, 0);
+
+  function check(idxS, idxP) {
+    if (map[idxS + ':' + idxP] !== undefined) return map[idxS + ':' + idxP];
+    if (idxS > lenS) return false;
+    if (idxS === lenS && idxP === lenP) return true;
+
+    if (p[idxP] === '.' || p[idxP] === s[idxS]) {
+      map[idxS + ':' + idxP] = p[idxP + 1] === '*' ?
+        check(idxS + 1, idxP) || check(idxS, idxP + 2) :
+        check(idxS + 1, idxP + 1);
+    } else {
+      map[idxS + ':' + idxP] = p[idxP + 1] === '*' ?
+        check(idxS, idxP + 2) : false;
+    }
+    return map[idxS + ':' + idxP];
+  }
+}
+```
 ## 两数之和
 ```javascript
 var twoSum = function(nums, target) {
@@ -413,6 +485,24 @@ var trap = function(height) {
     }
     return ans;
 };
+// 单调栈
+let trap = function(height) {
+    let ans = 0;
+    const starck = [];
+    const n = height.length;
+    for(let i = 0; i < n; i++) {
+        while(stack.length && height[i] > height[stack[stack.length - 1]]) {
+            const top = stack.pop();
+            if(!stack.length) break;
+            const left = stack[stack.length - 1];
+            const currWidth = i - left - 1;
+            const currHeight = Math.min(height[left], height[i]) - height[top];
+            ans += currWidth * currHeight;
+        }
+        stack.push(i);
+    }
+    return ans;
+}
 ```
 [leetcode](https://leetcode-cn.com/problems/trapping-rain-water/solution/jie-yu-shui-by-leetcode-solution-tuvc/)
 ## 大数相加
@@ -435,9 +525,9 @@ var addstring = function(num1, num2) {
         } else {
             temp = 0;
         }
-        if (temp) {
-            res = 1 +res; 
-        }
+    }
+    if (temp) {
+        res = 1 +res; 
     }
     return res;
 }
@@ -587,6 +677,25 @@ var lengthOfLongestSubstring = function(s) {
         return Math.max(max, i - left + 1);
     }, 0)
 };
+
+// 最长字符串
+const longstr = str => {
+    let left = 0;
+    let map = {};
+    let max = 0;
+    let x = 0;
+    max = str.split('').reduce((max, v, i) => {
+        left = map[v] >= left ? map[v] + 1: left;
+        map[v] = i;
+        if(i - left + 1 > max) {
+            x = left;
+            max = i - left + 1;
+        }
+        return max;
+    }, 0)
+    return str.slice(x, max)
+}
+console.log(longstr('fdasfasf'))
 ```
 ## z-字形变换
 将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。
@@ -853,6 +962,8 @@ var findKthLargest = function(nums, k) {
   }
 }
 ```
+[总结-JS数据结构与常用算法](/front-end/Code/concept-xsummary.html#常见算法及算法思想)
+
 [力扣官方](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/shu-zu-zhong-de-di-kge-zui-da-yuan-su-by-leetcode-/)
 
 [数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/xie-gei-qian-duan-tong-xue-de-ti-jie-yi-kt5p2/)
@@ -929,7 +1040,6 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 [leetcode](https://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/xing-dai-lu-hua-dong-chuang-kou-suan-fa-8sei6/)
-
 ## [数组]分割数组最大值
 
 **定一个非负整数数组 nums 和一个整数 m ，你需要将这个数组分成 m 个非空的连续子数组。**
@@ -1081,6 +1191,59 @@ var maxSubsequence = function(nums, k) {
 
 ```
 [leetcode](https://leetcode-cn.com/problems/find-subsequence-of-length-k-with-the-largest-sum/solution/zhou-sai-t1-by-lianxin-kicz/)
+
+## [数组]-划分为k个相等的子集
+给定一个整数数组  nums 和一个正整数 k，找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
+
+> 另一提 求k的最大值
+
+```
+输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+输出： True
+说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。
+```
+```js
+// 整体思路
+// 找子集，相当于找组合，本解法用DFS多叉树来搜索(也可以用DFS二叉树)
+// 目标组合需满足和为 target0 = sum(nums) / k;
+// 找到目标组合后，继续递归，找到下一个组合
+var canPartitionKSubsets = function(nums, k) {
+  const total = nums.reduce((total, num) => total + num, 0)
+  const target0 = total / k // 目标组合的和
+  if (target0 !== Math.floor(target0)) return false
+  let used = new Array(nums.length).fill(false)
+  nums.sort((a, b) => a - b) // 从小到大排序
+  // 如果找到 k - 1 个目标组合，那么剩下的数肯定能组成第 k 个目标组合
+  return dfs(target0, k - 1, 0, used, nums)
+
+  // 返回是否找到 k 个目标组合，
+  // target 表示当前组合还可以容纳多大的数
+  function dfs(target, k, start, used, nums) {
+    // 找到一个目标组合，接着找下一个目标组合
+    if (target === 0) return dfs(target0, k - 1, 0, used, nums)
+    if (k === 0) return true // 已找到所有目标组合
+    // 尝试将每个数放入当前组合
+    // 因为是找组合，无需回头尝试，比如组合 {a, b} 和组合 {b, a} 是等价的
+    for (let i = start; i < nums.length; ++i) {
+      if (used[i]) continue
+      const num = nums[i]
+      // 可行性剪枝: 
+      // num 无法构成目标组合
+      // nums 从小到大排序，既然 nums[i] 都偏大了， nums[i + 1] 更加偏大，无需尝试
+      if (num > target) return false
+
+      used[i] = true
+      const got = dfs(target - num, k, i + 1, used, nums) // 找当前组合的下一个数
+      if (got) return got
+      used[i] = false
+    }
+    return false
+  }
+}
+```
+[划分为k个相等的子集](https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/)
+
+[划分为k个相等的子集1](https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/solution/yong-shi-ji-bai-100-2chong-jie-fa-dfsjia-w15d/)
 ## [数组-回溯]数组组合
 [力扣地址](https://leetcode-cn.com/problems/combinations/)
 给定两个整数n和k,返回1...n中所有可能的k个数的组合。
@@ -1124,6 +1287,54 @@ const combine = function(n, k) {
 }
 ```
 [数组组合](https://leetcode-cn.com/problems/combination-sum/solution/)
+
+## [数组-组合]下一个排列
+整数数组的一个 排列  就是将其所有成员以序列或线性顺序排列。
+
+例如，arr = [1,2,3] ，以下这些都可以视作 arr 的排列：[1,2,3]、[1,3,2]、[3,1,2]、[2,3,1] 。
+
+整数数组的 下一个排列 是指其整数的下一个字典序更大的排列。更正式地，如果数组的所有排列根据其字典顺序从小到大排列在一个容器中，那么数组的 下一个排列 就是在这个有序容器中排在它后面的那个排列。如果不存在下一个更大的排列，那么这个数组必须重排为字典序最小的排列（即，其元素按升序排列）。
+
+例如，arr = [1,2,3] 的下一个排列是 [1,3,2] 。
+
+类似地，arr = [2,3,1] 的下一个排列是 [3,1,2] 。
+
+而 arr = [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。
+
+给你一个整数数组 nums ，找出 nums 的下一个排列。
+
+必须 原地 修改，只允许使用额外常数空间。
+
+```js
+const nextPermutation = nums => {
+    for(let i = nums.length; i >= 0; i--) {
+        if(nums[i] < nums[i + 1]) {
+            let large = nextLarge(i);
+            swap(i, large);
+            reverse(i + 1);
+            return nums;
+        }
+    }
+    nums.reverse();
+    return nums;
+    function swap(i, j) {
+        [nums[i], nums[j]] = [nums[j], nums[i]];
+    }
+    function reverse(idx) {
+        let start = idx, end = nums.length - 1;
+        while(start < end) {
+            swap(start, end);
+            start++;
+            end--;
+        }
+    }
+    function nextLarge(idx) {
+        for(let i = idx; i < nums.length; i++) {
+            if(nums[i] > nums[idx]) return i;
+        }
+    }
+}
+```
 ## 最长连续序列
 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
 
@@ -2275,6 +2486,92 @@ function flownumber(n) {
         }
     }
     return result;
+}
+```
+## 使绳子变成彩色的最短时间
+**单指针形式**
+
+[leetcode](https://leetcode.cn/problems/minimum-time-to-make-rope-colorful/)
+```js
+// 输入：colors = "abaac", neededTime = [1,2,3,4,5]
+// 输出：3
+// 解释：在上图中，'a' 是蓝色，'b' 是红色且 'c' 是绿色。
+// Bob 可以移除下标 2 的蓝色气球。这将花费 3 秒。
+// 移除后，不存在两个连续的气球涂着相同的颜色。总时间 = 3 。
+
+const minCost = function(colors, neededTime) {
+    // 记录连续的相同颜色气球序列中:加和、最大值
+    let res = 0;
+    let c = 0;
+    while(c < colors.length) {
+        let cur = 0;
+        let curColor = colors[c];
+        let max = 0;
+        while(c < colors.length && colors[c] === curColor) {
+            cur += neededTime[c]; // 满足条件 相加的值
+            max = Math.max(max, neededTime[c]); // 找到大的那个值
+            c += 1;
+        }
+        res += cur - max; // 满足条件相加的值 减去大的值 得到用时较少的那个 累加
+    }
+    return res;
+}
+```
+## [滑动窗口]学生分数的最小差值
+```js
+// 输入：nums = [9,4,1,7], k = 2
+// 输出：2
+// 解释：选出 2 名学生的分数，有 6 种方法：
+// - [9,4,1,7] 最高分和最低分之间的差值是 9 - 4 = 5
+// - [9,4,1,7] 最高分和最低分之间的差值是 9 - 1 = 8
+// - [9,4,1,7] 最高分和最低分之间的差值是 9 - 7 = 2
+// - [9,4,1,7] 最高分和最低分之间的差值是 4 - 1 = 3
+// - [9,4,1,7] 最高分和最低分之间的差值是 7 - 4 = 3
+// - [9,4,1,7] 最高分和最低分之间的差值是 7 - 1 = 6
+// 可能的最小差值是 2
+
+const minimumDifference = (nums, k) => {
+    if(k === 1) return 0;
+    nums.sort((a, b) => a - b);
+    let ans = Infinity;
+    for(let i = 0; i <= nums.length - k; i++) {
+        ans = Math.min(ans, nums[i + k - 1] - nums[i]);
+    }
+    return ans;
+}
+```
+## 基本计算器
+给你一个字符串表达式s，请你实现一个基本计算器来计算并返回它的值。
+```js
+// 输入： s = '1 + 1';
+// 输出2
+
+// 输入：s = "(1+(4+5+2)-3)+(6+8)"
+// 输出：23
+const calculate = s => {
+    let ans = 0;
+    let num_stack = [];
+    let op_stack = [];
+    let sign = 1;
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] == ' ') continue;
+        if (s[i] == '+' || s[i] == '-') sign = s[i] == '+' ? 1 : -1;
+        else if (s[i] >= '0' && s[i] <= '9') {
+            let num = parseInt(s[i]);
+            while (i < s.length - 1 && s[i + 1] >= '0' && s[i + 1] <= '9') {
+                num = num * 10 + parseInt(s[++i]);
+            }
+            ans += sign * num;
+        } else if (s[i] == '(') {
+            num_stack.push(ans);
+            op_stack.push(sign);
+            ans = 0;
+            sign = 1;
+        } else {
+            ans = num_stack.pop() + ans * op_stack.pop();
+        }
+    }
+    return ans;
 }
 ```
 ## 逻辑思维

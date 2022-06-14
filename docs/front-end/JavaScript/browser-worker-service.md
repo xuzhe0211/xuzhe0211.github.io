@@ -7,18 +7,18 @@ title: Service Worker
 
 ### 一句话概括
 
-一个服务器与浏览器之间的中间人角色，如果网站中注册了service worker那么它可以拦截当前网站所有的请求，进行判断(需要编写响应的判断程序)，如果需要向服务器发起请求的就转给服务器，如果可以直接使用缓存的就直接返回缓存不再转给服务器。从而大大提高浏览体验。
+<span style="color: blue">一个服务器与浏览器之间的中间人角色，如果网站中注册了service worker那么它可以拦截当前网站所有的请求，进行判断(需要编写响应的判断程序)，如果需要向服务器发起请求的就转给服务器，如果可以直接使用缓存的就直接返回缓存不再转给服务器。从而大大提高浏览体验。</span>
 
 ### 一下是一些细碎的描述
 
-+ 基于web worker(一个独立于JavaScript主线程的独立线程，在里面执行需要消耗大量资源的操作不会堵塞主线程)
-+ 在web worker的基础上增加了离线缓存的能力
-+ 本质上充当Web应用程序(服务器)与浏览器之间的代理服务器(可以拦截全站的请求，并做出相应的动作->由开发者指定的动作)
-+ 创建有效的离线体验(将一些不常更新的内容缓存在浏览器，提高访问体验)
-+ 由事件驱动的，具有生命周期
-+ 可以访问cache和indexDB
-+ 支持推送
-+ 并且可以让开发者自己控制缓存的内容以及版本
++ <span style="color: blue">基于web worker</span>(一个独立于JavaScript主线程的独立线程，在里面执行需要消耗大量资源的操作不会堵塞主线程)
++ <span style="color: blue">在web worker的基础上增加了离线缓存的能力</span>
++ <span style="color: blue">本质上充当Web应用程序(服务器)与浏览器之间的代理服务器</span>(可以拦截全站的请求，并做出相应的动作->由开发者指定的动作)
++ <span style="color: blue">创建有效的离线体验(将一些不常更新的内容缓存在浏览器，提高访问体验)</span>
++ <span style="color: blue">由事件驱动的，具有生命周期</span>
++ <span style="color: blue">可以访问cache和indexDB</span>
++ <span style="color: blue">支持推送</span>
++ <span style="color: blue">并且可以让开发者自己控制缓存的内容以及版本</span>
 
 ## Service Worker的生命周期
 
@@ -41,7 +41,7 @@ service worker有完全独立于web页面的生命周期。
 
 1. 注册Service Worker在你的index.html加入一下内容
 
-```
+```js
 // 判断当前浏览器是否支持serviceWorker
 if ('serviceWorker' in navigator) {
     // 当页面加载完成就创建一个serviceWorker
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
 
 2. 安装woker: 在我们指定的处理程序serviceWorker.js中书写对应的安装及拦截逻辑
 
-```
+```js
 // 监听安装事件，install事件一般是被用来设置你的浏览器的离线缓存逻辑
 this.addEventListener('install', function(event) {
     // 通过这个方法可以防止缓存未完成，就关闭serviceWorker

@@ -114,7 +114,21 @@ var calculateBonus = function(level, salary) {
 }
 console.log(calculateBonus('S', 20000)); // 输出 80000
 ```
+## 命令模式
+<span style="color: red">简单来说，命令模式将方法、数据封装到单一的对象中，对调用方与执行方进行解耦，达到职责分离的牡蛎</span>
 
+以顾客在餐厅吃饭为例子
+
+- 顾客点餐时，选择想吃的才，提交一份点餐单
+- 厨师收到这份菜单后根据内容做菜
+
+<span style="color: blue">期间，顾客和厨师之间没有见面交谈，而是通过一份点餐单来形成联系，这份点餐单就是一个命令对象，这样的交互模式就是命令模式</span>
+
+
+
+[命令模式](/front-end/JavaScript/a-revocation-revert.html#功能初实现)
+
+## 资料
 [大厂设计模式](/front-end/interview/dachanng3.html#js的四种设计模式)
 
 [策略模式](https://www.cnblogs.com/yuzhongyu/p/14203862.html)

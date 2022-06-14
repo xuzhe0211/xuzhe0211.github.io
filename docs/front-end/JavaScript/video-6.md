@@ -12,17 +12,13 @@ title: 开发过程中视频、音频问题
 
 ## 解决方法
 
-1. 微信下自动播放
-```
+1. 微信下自动播放 -- 切换home键播放问题
+```js
 document.addEventListener('visibilitychange', () => {
     audio.play();
 })
-```
-
-2. 切换home键播放问题
-
-```
-document.addEventListener('visiblitychange', () => {
+//
+document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         console.log('页面非激活，暂停播放');
     } else {

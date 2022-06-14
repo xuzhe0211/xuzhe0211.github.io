@@ -97,7 +97,7 @@ prototypeObj.isPrototypeOf(object)
 - normal
 
   ```js
-  unction Foo() {}
+  function Foo() {}
   function Bar() {}
   function Baz() {}
   

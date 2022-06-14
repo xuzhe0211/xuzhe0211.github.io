@@ -329,6 +329,7 @@ justify-item: start；
 ```
 上面代码表示，单元格的内容左对齐，效果如下图。
 
+<!-- grid-column-start: 2; -->
 
 ## 资料
 [CSS Grid网络布局教程](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)

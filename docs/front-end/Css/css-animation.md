@@ -7,7 +7,7 @@ title: css3 animaition动画执行结束，停顿几秒后重新开始执行
 
 ## css代码
 
-```
+```css
 .home .scrollTip {
     position: relative;
 }
@@ -25,7 +25,7 @@ title: css3 animaition动画执行结束，停顿几秒后重新开始执行
 ```
 ## js代码
 
-```
+```css
 // 获取dom节点
 const scrollTip = document.querySelector('.scrollTip');
 // 页面载入时，给它执行一次

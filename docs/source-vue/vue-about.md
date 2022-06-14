@@ -18,6 +18,12 @@ data() {
 }
 //点击methods方法
 handTabClick() {
+    // 参考
+    this.obj = {a:1, b: 2} // 改变this.obj.a this.obj.c的值视图会更新 data上的obj绑定了响应式
+	this.obj.c = 3 // 改变this.obj.c的值  视图不会更新
+	Object.assign(this.obj, {d: 4}) // 改变this.obj.c的值 视图不会更新
+	this.$set(this.obj, 'e', 5) // 改百年this.obj.e时 视图会更新
+
 	 //直接赋值不会触发更新
      this.arr[2] = {name: 'name',age:4}
      console.log(this.arr)
@@ -986,17 +992,17 @@ beforeRouteLeave(to, from, next) {
 
 **完整的导航解析流程**
 - <span style="color: blue">导航被触发</span>
-- <span style="color: blue">在失活的组件里调用离开守卫</span>
-- <span style="color: blue">调用全局的beforeEach守卫</span>
-- <span style="color: blue">在重用的组件里调用beforeRouteUpdate守卫</span>
-- <span style="color: blue">在路由配置里调用beforeEnter.</span>
+- <span style="color: blue">在失活的组件里调用离开守卫(**beforeRouteLeave**)</span>
+- <span style="color: blue">调用全局的beforeEach守卫(**beforeEach**)</span>
+- <span style="color: blue">在重用的组件里调用beforeRouteUpdate守卫(**beforeRouteUpdate**)</span>
+- <span style="color: blue">在路由配置里调用beforeEnter.(**beforeEnter**)</span>
 - <span style="color: blue">解析异步路由组件</span>
-- <span style="color: blue">在被激活的组件里调用beforeRouteEnter.</span>
-- <span style="color: blue">调用全局的beforeResolve守卫</span>
+- <span style="color: blue">在被激活的组件里调用beforeRouteEnter.(**beforeRouteEnter**)</span>
+- <span style="color: blue">调用全局的beforeResolve守卫(**beforeResolve**)</span>
 - <span style="color: blue">导航被确认</span>
-- <span style="color: blue">调用全局的afterEach钩子</span>
+- <span style="color: blue">调用全局的afterEach钩子(**afterEach**)</span>
 - <span style="color: blue">触发DOM更新</span>
-- <span style="color: blue">用创建好的实例调动beforeRouterEnter守卫中传给next的回调函数</span>
+- <span style="color: blue">用创建好的实例调动beforeRouterEnter守卫中传给next的回调函数(**beforeRouterEnter**)</span>
 
 
 ## vue优化

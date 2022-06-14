@@ -6,7 +6,7 @@ title: css中的百分比
 ### 一个例子-css实现正方形div的三种方式
 1. css3 vw单位
     1vw = 1% viewport width
-    ```
+    ```html
     <div class="vw">hello, viewport</div>
     <style>
         .vw {
@@ -19,12 +19,14 @@ title: css中的百分比
     实测不管用（chrome，版本 49.0.2623.110）
 
 2. pading-bottom+after+abslute
-    ```
+
+    ```html
     <div class="square">
         <div class="content">
             Hello!
         </div>
     </div>
+    <style>
     .square {
         width: 50%;
         background: #ccc;
@@ -41,6 +43,7 @@ title: css中的百分比
         width: 100%;
         height: 100%;
     }
+    </style>
     ```
     这个方法不错，而且还能在里面写字
 3. 其他方法

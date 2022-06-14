@@ -89,7 +89,7 @@ console.log(arr.filter(x => {
 
 - 解析
 
-    这题比较简单，arr[10] = 10,那么索引3- 9位置上都是undefined，arr[3]等打印出来也确实是undefined，但是，这里其实涉及到ECMAScript版本不同对应方法行为不同的问题，**ES6之前的遍历方法都会跳过数组未赋值过的位置，也就是空位，但是ES6新增的for of方法就不会跳过**
+    这题比较简单，arr[10] = 10,那么索引3- 9位置上都是undefined，arr[3]等打印出来也确实是undefined，但是，这里其实涉及到ECMAScript版本不同对应方法行为不同的问题，<span style="color: red">**ES6之前的遍历方法都会跳过数组未赋值过的位置，也就是空位，但是ES6新增的for of方法就不会跳过**</span>
 
 ## 第六题
 ```js
@@ -173,6 +173,23 @@ console.log((inner.func = inner.func)()) // 25
     3. 加了个括号，看起来有点迷惑人，但实际(inner.func)和inner.func是完全相等的，所以还是作为对象的方法调用
     4. 复制表达式和逗号表达式类似，都是返回的值本身，所以也相对于在全局环境下调用函数
 
+## 第九题1
+```js
+function timer() {
+    this.s1 = 0;
+    this.s2 = 0
+    setInterval(() => {
+        this.s1++;
+    }, 1000)
+    setInterval(function(){
+        this.s2++; // this 指向function
+    }, 1000)
+}
+
+var t = new timer()
+setTimeout(() => console.log(t.s1), 3100); // 3
+setTimeout(() => console.log(t.s2), 3100) // 0
+```
 ## 第十题
 ```js
 let {a, b, c} = {c: 3, b: 2, a : 1};

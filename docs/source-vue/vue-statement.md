@@ -55,7 +55,7 @@ methods: {
 2. created实例创建完毕后被调用，此时data和属性已经有了，但是还没有挂载到页面上，$el还为undefined
 3. beforeMount在挂载之前被调用，$el还为undefined
 4. mounted挂载完毕，el被新创建的vm.$el替换，页面上渲染元素成功
-5. beforeUpdate数据更新时候调用，虚拟dom打补丁之前，数据是更新后的数据
+5. <span style="color: blue">beforeUpdate数据更新时候调用，虚拟dom打补丁之前，数据是更新后的数据</span>
 6. updated数据更改导致虚拟dom重新渲染和打补丁，在这之后调用该方法
 7. beforeDestory实例销毁前调用，data数据和上面的方法依旧存在，$el还能或得到dom元素
 8. destoryed实例销毁后，data数据和上面的方法依旧存在，$el已经被删除

@@ -42,7 +42,7 @@ proxy.name // 劫持你的数据访问name -> wang.haoyu
 ## Proxy中receiver[rɪˈsiːvər]
 上面的demo中一起看起来顺风顺水，细心的同学在阅读Proxy的MDN文档中可能会发现其实Proxy中get陷阱还会存在一个额外的参数receiver。
 
-那么这里的receiver究竟表示什么意思呢？**大多数同学会将它理解成为代理对象，但这是不全面的**
+那么这里的receiver究竟表示什么意思呢？<span style="color: red">**大多数同学会将它理解成为代理对象，但这是不全面的**</span>
 
 以一个demo为切入点
 ```js
@@ -98,7 +98,7 @@ obj.value; // false
 
 那么你可以思考下这里的receiver究竟是什么？其实这也是proxy中geet陷阱第三个receiver存在的意义
 
-<span style="color: red">**它是为了传递争取的调用者指向**</span>,看下面代码
+<span style="color: red">**它是为了传递正确的调用者指向**</span>,看下面代码
 
 ```js
 // ...
@@ -112,15 +112,15 @@ const proxy = new Proxy(parent, {
 })
 // ...
 ```
-<span style="color: red">其实简单来说，get陷阱中的receiver存在的意义就是为了正确的在陷阱中传递上下文</span>
+<span style="color: blue">**其实简单来说，get陷阱中的receiver存在的意义就是为了正确的在陷阱中传递上下文**</span>
 
 涉及到属性访问时，不要忘记get陷阱还会触发对应的属性访问器，也就是所谓的get访问器方法
 
 我们可以看到上述的receiver代表的是继承与Proxy的对象，也就是obj
 
-<span style="color: red">看到这里，我们明白了Proxy中get陷阱的receiver不仅仅代表的是Proxy代理对象本身，同时也许他汇代表继承Proxy的那个对象</span>
+<span style="color: red">**看到这里，我们明白了Proxy中get陷阱的receiver不仅仅代表的是Proxy代理对象本身，同时也许他会代表继承Proxy的那个对象**</span>
 
-其实本质上来说它还是Wie了确保陷阱函数中调用者的正确的上下文访问，比如这里的receiver指向的obj
+<span style="color: blue">**其实本质上来说它还是为了确保陷阱函数中调用者的正确的上下文访问，比如这里的receiver指向的obj**</span>
 
 :::danger
 当然，你不要将 revceiver 和 get 陷阱中的 this 弄混了，陷阱中的 this 关键字表示的是代理的 handler 对象。
@@ -183,7 +183,7 @@ Object.setPrototypeOf(obj, proxy);
 console.log(obj.value); // 19Qingfeng
 ```
 分析下上面代码
-- <span style="color: blue">当啊我们调用obj.value时，由于obj本身不存在value属性</span>
+- <span style="color: blue">当我们调用obj.value时，由于obj本身不存在value属性</span>
 - <span style="color: blue">它继承的proxy对象中存在value的属性访问操作符，所以会发生屏蔽效果</span>
 - <span style="color: blue">此时会触发proxy上的get value()属性访问操作</span>
 - <span style="color: blue">同时由于访问了proxy上的value属性访问器，所以此时会触发get陷阱</span>
@@ -233,7 +233,7 @@ console.log(obj.value); // wang.haoyu
 相信看到这里你已经明白 Relfect 中的 receiver 代表的含义是什么了，没错它正是可以修改属性访问中的 this 指向为传入的 receiver 对象。
 
 ## 总结
-相信看到这里大家已经明白了，为什么Proxy一定配合Reflect使用。<span style="color:blue">恰恰是为什么触发代理对象的劫持时保证争取的this上下文指向</span>
+相信看到这里大家已经明白了，为什么Proxy一定配合Reflect使用。<span style="color:blue">恰恰是为什么触发代理对象的劫持时保证正确的this上下文指向</span>
 
 我们稍稍会议一下，针对于get陷阱(当然set其他之类设计到receiver的陷阱同理)：
 - <span style="color: red">Proxy中接受的Receiver形参表示代理对象本身或者继承与代理对象的对象</span>

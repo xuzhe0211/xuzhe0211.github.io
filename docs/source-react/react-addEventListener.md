@@ -11,7 +11,7 @@ title: React合成时间和DOM原生时间混用须知
 
 ### 原理
 React中，如果需要绑定事件，我们常常在jsx中怎么写：
-```javascript
+```html
 <div onClick={this.onClick}>
   React事件
 </div>
@@ -41,7 +41,7 @@ React并不是将click事件绑在该div的真实DOM上，而是在document处�
 
 **由于原生事件需要绑定在真实DOM上，所以一般是在componentDidMount阶段/ref的函数执行阶段进行绑定操作，在componentWillUnmount阶段进行解绑操作以避免内存泄露**
 
-```
+```js
 class Demo extends React.PureComponent {
     componentDidMount() {
         const $this = ReactDOM.findDOMNode(this);
@@ -62,7 +62,7 @@ class Demo extends React.PureComponent {
 
 ### 响应顺序
 先看个例子
-```
+```js
 class Demo extends React.PureComponent {
     componentDidMount() {
         const $this = ReactDOM.findDOMNode(this)
@@ -88,7 +88,7 @@ class Demo extends React.PureComponent {
 
 即，最终控制台输出为：
 
-```
+```js
 dom event react event
 ```
 ### 阻止冒泡
@@ -96,12 +96,12 @@ dom event react event
 
 由于DOM事件被阻止冒泡了，无法达到document，所以合成事件自然不会被触发，控制台输出就变成了
 
-```
+```js
 dom event
 ```
 
 简单的例子都比较容易理解，例子在复杂一些
-```
+```js
 class Demo extends React.PureComponent {
     componentDidMount() {
         const $parent = ReactDOM.findDOMNode(this)
@@ -140,13 +140,13 @@ class Demo extends React.PureComponent {
 ```
 如果在onChildClick中调用evt.stopPropagtion()，则控制台输出变为：
 
-```
+```js
 child dom event 
 parent dom event
 child react event
 ```
 这样的结果是因为React给合成事件封装的stopPropagation函数在调用时给自己加了个isPropagationStopped的标记来确定后续监听器是否执行,源码如下
-```
+```js
 // https://github.com/facebook/react/blob/v15.6.1/src/renderers/shared/stack/event/EventPluginUtils.js
 for (var i = 0; i < dispatchListeners.length; i++) {
   if (event.isPropagationStopped()) {

@@ -19,7 +19,7 @@ Internet Explorer10，Firefox， chrome safari和Opera都支持
 
 ## HTML Web Worker实例
 
-```
+```js
 //worker.js文件代码
 var i = 0;
 function timedCount() {
@@ -74,7 +74,7 @@ MessageChannel()-返回一个带有两个MessagePort属性的MessageChannel新�
 ### 初识MessageChannel对象
 
 通过构造函数MessageChannel()可以创建一个消息通道，实例化的对象会继承两个属性：port1和port2
-```
+```js
 let ms = new MessageChannel();
 //port1和port2都是MessagePort对象，在这里是只读的，无法对其进行字面量赋值
 ms.port1 = {name: 'wise'}
@@ -83,7 +83,7 @@ ms.port1.name = 'wise'
 ```
 MessagePort对象具有onmessage和onmessageerror两个属性
 
-这是两个回调方法，使用MessagePort.postMessage方法发送消息的时候，就回去触发另一个端口onmessage
+这是两个回调方法，使用MessagePort.postMessage方法发送消息的时候，就会去触发另一个端口onmessage
 
 消息通道就想一条左右贯通的管道，左右两个端口就是port1和port2
 
@@ -94,7 +94,7 @@ MessagePort对象具有onmessage和onmessageerror两个属性
 ### 多个Web Worker之间通信
 
 MessageChannel可以结合Web Worker实现多线程通信
-```
+```js
 //mian.js
 let worker1 = new Worker('./worker1.js');
 let worker2 = new Worker('./worker2.js');
@@ -117,7 +117,7 @@ transferList | 由被传输对象组成的数组，这些对象的所有权会�
 所以上面的代码，就是把消息通道的port1分配给了worker1，把port2分配给workerr2
 
 也就是用消息通道，将两个worker给连接起来
-```
+```js
 //worker1.js
 onmessage = function(e) {
 	if(e.date === 'main') {
@@ -141,7 +141,7 @@ onmessage = function(e) {
 
 在以下代码块中，您可以看到使用MessageChannel构造函数实例化了一个channel对象。当iframe加载完毕，我们使用MessagePort.postMessage方法把一条消息和MessageChannel.port2传递给iframe。handleMessage处理程序将会从iframe中(使用MessagePort.onmessage监听事件)接收到消息，将数据放入innerHTML中。
 
-```
+```js
 var channel = new MessageChannel();
 var para = document.querySelector('p');
 
@@ -163,14 +163,14 @@ function handleMessage(e) {
 ### 深拷贝
 
 大部分需要深拷贝的场景，都可以使用下面代码
-```
+```js
 JSON.parse(JSON.stringify(object));
 ```
 但是这种办法会忽略undefined、function、symbol和循环引用对象
 
 而通过postMessage()方法传输的message参数是深拷贝的。
 
-```
+```js
 function deepClone(obj) {
 	return new Promise(resolve => {
     	const { port1, port2 } = new MessageChannel();
@@ -208,7 +208,7 @@ window.postMessage()方法可以安全的实现跨源通信。通常，对于两
 
 ##### 语法
 
-```
+```js
 otherWindos.postMessage(message, targetOrigin, [transfer]);
 ```
 **OtherWindow**
@@ -230,7 +230,7 @@ otherWindos.postMessage(message, targetOrigin, [transfer]);
 ##### The dispatched event
 
 执行如下代码，其他window可以监听分发的message
-```
+```js
 window.addEventListener('message', receiveMessage, false);
 
 function receiveMessage(event) {
@@ -266,7 +266,7 @@ message的属性有
 
 在html5，window对象上有一个方法叫做postMessage,和它的名字一样，这个方法就是用来发送消息的，但是它只能在两个窗口之间发送消息
 
-```
+```js
 win.postMessage(data, origin);
 //win这个参数需要接受消息的window对象
 //当我们通过window.open()打开一个新窗口时，会返回一个新窗口的window对象，通过这个新窗口的window对象，就可以向新窗口发送消息
@@ -289,7 +289,7 @@ window.addEventListener('message', function(e) {....})
 消息的发送与接收并不难，那么下面就来实现以下文章开篇提出来需求
 
 superWindow.html
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -322,7 +322,7 @@ superWindow.html
 </html>
 ```
 subWindow.html
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>

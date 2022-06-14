@@ -50,7 +50,7 @@ data之所以只是一个函数，是因为一个组件可能会多处调用，�
 ### 组件之间的传值方式有哪些？
 - 父组件传值给子组件，子组件使用props进行接收
 - 子组件传值给父组件，子组件使用$emit+ 事件 对父组件进行传值
-- 组件中可以使用$parent和$children获取到父组件实例和子组件实例，进而获取数据
+- <span style="color: blue">组件中可以使用$parent和$children(vue3已被移除)获取到父组件实例和子组件实例，进而获取数据</span>
 - 使用$attrs和$listeners,在对一些组件进行二次封装可以方便传值，例如A->B->C [参考](https://www.cnblogs.com/lsboom/p/11365293.html)
 - 使用$ref获取组件实例，进而获取数据
 - 使用Vuex进行状态管理
@@ -65,24 +65,24 @@ data之所以只是一个函数，是因为一个组件可能会多处调用，�
 ### 如何设置动态class，动态style
 - 动态class对象：
 
-  ```
+  ```html
   <div :class="{'is-active': true, 'red': isRed}"></div>
   ```
 - 动态class数组
 
-  ```
+  ```html
   <div :class="['is-active', isRed ? 'red' : '']"></div>
   ```
 
 - 动态style对象
 
-  ```
+  ```html
   <div :style="{color: textColor, fontSize: '18px'}></div>
   ```
 
 - 动态style数组
 
-  ```
+  ```html
   <div :style="[{color: textColor, fontSize: '18px'}, {fontWeight: '300'}]"></div>
   ```
 
@@ -101,13 +101,14 @@ data之所以只是一个函数，是因为一个组件可能会多处调用，�
 
 ### 为什么v-if和v-for不建议用在同一标签
 在vue2中，v-for优先级是高于v-if的
-```
+```html
 <div v-for="item in [1,2,3,4,5,6, 7]" v-if="item !== 3">
   {{item}}
 </div>
-```
+```html
 上面的写法是v-for和v-if同时存在，会先把7个元素都遍历出来，然后在一个个判断是否为3，并把3给隐藏掉，这样的坏处是，渲染了无用的3节点，增加无用的dom操作，建议使用computed来解决这个问题
-```
+
+```js
 <div v-for="item in list">
   {{item}}
 </div>
@@ -129,7 +130,7 @@ computed() {
 
 ## 至尊星耀
 ### 不需要响应时的数据应该怎么处理
-```
+```js
 // 方法一：将数据定义在data之外
 data () {
   this.list1 = { xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }
@@ -153,7 +154,7 @@ data () {
 ```
 ### watch有哪些属性，分别有什么用
 当我们监听一个基本数据类型时
-```
+```js
 watch: {
   value() {
     // do something
@@ -161,7 +162,7 @@ watch: {
 }
 ```
 当我们监听一个引用数据类型时
-```
+```js
 watch: {
   obj: {
     handler() { // 执行回调
@@ -191,7 +192,7 @@ watch: {
 使用Vue.$set(arr, index, value)
 
 ### 为什么不建议用index做key，为什么不建议用随机数做key？
-```
+```html
 <div v-for="(item, index) in list" :key="index">{{item.name}}</div>
 
 list: [
@@ -246,15 +247,15 @@ list: [
 可以看出，原有的三项都不变，只是新增了小林这个人，这才是最理想的结果
 ```
 ### nextTick的用处
-```
+```js
 this.name = '陆二陆';
 this.age = 11;
 this.gender = '男'
 ```
-修改了三个变量，那问题来了，是没修改一次，Dom就更新一次吗？不是的，Vue采用的是异步更新的策略,通俗点说就是，**同一个事件循环(一轮事件循环只取一个宏任务，宏任务中的同步代码执行完后，就依次从前往后执行微任务队列中的微任务)内多次修改,会统一进行一次视图更新**，这样才能节省性能
+修改了三个变量，那问题来了，是每修改一次，Dom就更新一次吗？不是的，Vue采用的是异步更新的策略,通俗点说就是，**同一个事件循环(一轮事件循环只取一个宏任务，宏任务中的同步代码执行完后，就依次从前往后执行微任务队列中的微任务)内多次修改,会统一进行一次视图更新**，这样才能节省性能
 
 看懂了上面，那你应该看得懂下面的例子
-```
+```js
 <div ref="testDiv">{{name}}</div>
 
 name: '小林'
@@ -263,7 +264,7 @@ this.name = '林三心'
 console.log(this.$refs.testDiv.innerHTML) // 这里是啥呢
 ```
 答案是“小林”，前面说了，Vue是异步更新，所以数据一更新，视图却还没更新，所以拿到的还是上一次的旧视图数据，那么想要拿到最新视图数据怎么办呢？
-```
+```js
 this.name = '林三心'
 this.$nextTick(() => {
     console.log(this.$refs.testDiv.innerHTML) // 林三心
@@ -285,7 +286,7 @@ this.$nextTick(() => {
 因为对象最多也就几十个属性，拦截起来数量不多，但是数组可能会有几百几千项，拦截起来非常耗性能，所以直接重写数组原型上的方法,是比较节省性能的方案
 
 ### Vue.set方法的原理？
-```
+```js
 function set(target, key, val) {
   // 判断是否是数组
   if(Array.isArray(val)) {
@@ -310,7 +311,7 @@ function set(target, key, val) {
 }
 ```
 ### Vue.delete方法的原理
-```
+```js
 function del(target, key) {
   // 判断是否为数组
   if(Array.isArray(target)) {
@@ -334,7 +335,7 @@ function del(target, key) {
 }
 ```
 ### nextTick的原理
-```
+```js
 let callback = []; // 回调函数
 let pending = false; 
 function flushCallbacks() {
@@ -388,7 +389,7 @@ export function nextTick(cb) {
 - 改变props数据是基本类型
 
   如果修改的是基本类型，则会报错
-  ```
+  ```js
   props: {
     num: Number,
   }
@@ -399,7 +400,7 @@ export function nextTick(cb) {
 
 - 改变的props数据是引用类型
 
-  ```
+  ```js
   props:  {
     item: {
       default: () => {}
@@ -414,7 +415,7 @@ export function nextTick(cb) {
   }
   ```
 ### props怎么自定义验证
-```
+```js
 props: {
   num: {
     default: 1,
@@ -429,7 +430,7 @@ props: {
 ```
 ### watch监听一个对象时，如何排除某些属性的监听
 下面代码是，params发生改变就重新请求数据，无论是a，b，c，d属性改变
-```
+```js
 data() {
     return {
       params: {
@@ -451,7 +452,7 @@ watch: {
 ```
 但是如果我只想要a，b改变时重新请求，c，d改变时不重新请求呢？
 
-```
+```js
 mounted() {
   Object.keys(this.params).filter( _ => !['c', 'd'].includes(_)).forEach( _ => {
     this.$watch(vm  => vm.params[_], handler, {
@@ -479,7 +480,7 @@ watch: {
   }
 ```
 ### computed如何实现传参
-```
+```html
 // html
 <div>{{ total(3)}}</div>
 
@@ -627,7 +628,7 @@ new Vue({
 ```
 ### 相同的路由组件如何渲染
 开发人员经常遇到的情况是，多个路由解析为同一个Vue组件。问题是，Vue出于性能原因，默认情况下共享组件将不会重新渲染，如果你尝试在使用相同组件的路由之间进行切换，则不会发生任何变化。
-```
+```js
 const routes = [
   {
     path: "/a",
@@ -640,7 +641,7 @@ const routes = [
 ];
 ```
 如果依然想重新渲染怎么办？可以使用key
-```
+```html
 <template>
     <router-view :key="$route.path"></router-view>
 </template>
@@ -649,7 +650,7 @@ const routes = [
 ::: danger
 默认情况下，v-model是@input事件监听器和:value属性上的语法糖。但是你可以在你的vue组件中指定一个模型属性来定义使用什么事件和value属性--- 非常棒
 :::
-```
+```js
 export default {
   model: {
     event: 'change',
@@ -661,7 +662,7 @@ export default {
 :::tip
 开发中，有时候需要拿初始状态去计算。例如
 :::
-```
+```js
 data() {
   return {
     num: 10
@@ -680,7 +681,7 @@ methods: {
 ```
 
 ### 计算变量时候，methods和computed哪个好
-```
+```js
 <div>
     <div>{{howMuch1()}}</div>
     <div>{{howMuch2()}}</div>

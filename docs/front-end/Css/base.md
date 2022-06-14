@@ -2,7 +2,7 @@
 title: base.css
 ---
 
-```
+```css
 html {
     -webkit-text-size-adjust: none;
     background: #4728ef;

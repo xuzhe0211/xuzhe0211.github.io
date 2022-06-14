@@ -33,3 +33,5 @@ title: 前端监控
 [大前端时代前端监控的最佳实践](https://mp.weixin.qq.com/s/YiKRY_LDURY0uONtEhkUfg)
 
 [前端监控和概念统计](https://zhuanlan.zhihu.com/p/134132381)
+
+[火山引擎推出基于全新视角的 Web 端性能监控方案](https://mp.weixin.qq.com/s/eDMH6SC8e5lhky5qTBD2mA)

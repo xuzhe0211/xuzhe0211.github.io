@@ -42,19 +42,19 @@ Vue.use(Fragment.Plugin)
 
 ### Fragments
 Fragments作为<span style="color:red">vue3</span>的新特性之一，允许一个vue组件可以有多个根节点。创建一个如下的组件，vue3中开箱即用
-```javascript
+```html
 <template>
     <header>...</header>
     <main v-bind="attrs">...</main>
     <footer></footer>
 </template>
 ```
-相比于vue3, vue2规定创建一个vue组件，只能有一个根节点，在vue2中创建如上一个vue组件，会报如下错误
+<span style="color: red">相比于vue3, **vue2规定创建一个vue组件，只能有一个根节点**，在vue2中创建如上一个vue组件，会报如下错误</span>
 ```
 Errors compiling template:
 Component template should contain exactly one root element.
 ```
-原因是代表任何组件的vue实例需要绑定到一个单一的DOM元素中。唯一可以创建具有多个DOM节点的组件的方法就是创建一个没有底层Vue实例的功能的功能组件
+<span style="color: blue">**原因是代表任何组件的vue实例需要绑定到一个单一的DOM元素中。唯一可以创建一个具有多个DOM节点的组件的方法就是创建一个没有底层Vue实例的功能组件**</span>
 
 <span style="color: blue">目前可以在vue2中使用vue-fragments库使用Fragments</span>
 

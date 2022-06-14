@@ -36,9 +36,9 @@ bundle是文件，最终打包出来的文件，通常一个buundle对应一个c
 
 2.webpack中loader和plugin作用
 
-loader是文件转换器，将webpack不能处理的模块转换为webpack能处理的模块，就是js模块
+<span style="color: red">loader是文件转换器，将webpack不能处理的模块转换为webpack能处理的模块，就是js模块</span>
 
-plugin是功能扩张，干预webpack的打包过程，修改编译结果或者打包结果
+<span style="color: red">plugin是功能扩张，干预webpack的打包过程，修改编译结果或者打包结果</span>
 
 ## webpack打包流程-原理
 1. 初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数；
@@ -77,7 +77,7 @@ plugin是功能扩张，干预webpack的打包过程，修改编译结果或者�
 ** 4.1 缩小文件的搜索范围 **
 
 1.优化loader配置
-```
+```js
 module.exprots = {
 	module:{
     	rules: [
@@ -94,7 +94,7 @@ module.exprots = {
 }
 ```
 2.优化resolve.modules配置
-```
+```js
 module.exports = {
 	resolve: {
     	//使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
@@ -104,7 +104,7 @@ module.exports = {
 }
 ```
 3.优化resolve.mainFields配置
-```
+```js
 module.exports = {
 	resolve:{
     	//只采用main字段作为入口于文件的描述字段，以减少搜索步骤
@@ -113,7 +113,7 @@ module.exports = {
 }
 ```
 4.优化resolve.alias配置
-```
+```js
 module.exports = {
 	resolve: {
     	//使用alias将导入react的语句替换成直接使用单独、完整的react.min.js文件
@@ -125,7 +125,7 @@ module.exports = {
 }
 ```
 5.优化resolve.extensionos配置
-```
+```js
 module.exports = {
 	resolve: {
     	//尽可能减少后缀尝试的可能性
@@ -134,7 +134,7 @@ module.exports = {
 }
 ```
 6.优化module.noParse配置
-```
+```js
 const path = require('path');
 module.exports = {
 	module: {
@@ -153,7 +153,7 @@ module.exports = {
 
 3.页面依赖的所有动态链接库都需要被加载 
 
-为什么Web项目构建接入动态链接库的思想后，会打打提升构建速度？原因在于，包含大量复用模块的动态链接库只需要被编译一次，在之后构建过程中被动态里阿杰库包含的模块将不会重新编译，而是直接使用动态链接库的代码。由于动态链接库中大多数包含的是常用的第三方模块。例如react/react-dom所以只要不升级这些模块的版本，动态链接库就不需要重新。
+<span style="color: blue">为什么Web项目构建接入动态链接库的思想后，会打打提升构建速度？原因在于，**包含大量复用模块的动态链接库只需要被编译一次，在之后构建过程中被动态链接库包含的模块将不会重新编译，而是直接使用动态链接库的代码。由于动态链接库中大多数包含的是常用的第三方模块**。例如react/react-dom所以只要不升级这些模块的版本，动态链接库就不需要重新。</span>
 
 ** 4.3 使用HappyPack **
 
@@ -192,7 +192,7 @@ DevServer支持第二，第三种方法；第二种是DevServer默认采用的�
 
 ** 4.7区分环境 **
 
-```
+```js
 if(process.env.NODE_ENV === 'production') {
 	console.log('线上环境')
 } else {
@@ -203,7 +203,7 @@ if(process.env.NODE_ENV === 'production') {
 ** 4.8代码压缩 **
 
 ** 4.9 CDN加速 **
-```
+```js
 // cdn链接--其中一CND优化
 const cdn = {
     // cdn：模块名称和模块作用域命名（对应window里面挂载的变量名称）

@@ -23,7 +23,7 @@ webpack的模块联邦原理与import相似，也是做成了预留的promise坑
     ```
 我一开始以为start是webpack-dev-server，现在是webpack serve启动，且webpack-dev-server无法独立启动并且必须安装
 
-我们摸你2个团队，团队A开发组件部署到线上给团队B使用，团队B使用远程组件
+我们模拟2个团队，团队A开发组件部署到线上给团队B使用，团队B使用远程组件
 
 ## TeamA
 - 首先做teamA的设置，新建webpack.config.js

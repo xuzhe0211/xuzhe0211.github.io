@@ -133,7 +133,7 @@ var x;
 x = 6;
 x = 'hfhan'
 ```
-JavaScript中可以用typeof操作符来检测一个数据的数据类型，但是需要注意的是typeof null结果是Object,这个是历史遗漏bug
+JavaScript中可以用typeof操作符来检测一个数据的数据类型，<span style="color: red">但是需要注意的是**typeof null结果是Object**,这个是历史遗漏bug</span>
 ```js
 typeof 123 // numbner
 typeof 'hfhan' // string
@@ -297,7 +297,7 @@ Object.prototype.toString.apply(p1); // "[object object]"
 function b(){console.log(1)};
 b.prototype.constructor === b;
 ```
-抽象理解：构造函数是妻子，原型对象是丈夫，prototype是找丈夫，constructor是找妻子
+抽象理解：<span style="color: red">**构造函数是妻子，原型对象是丈夫，prototype是找丈夫，constructor是找妻子**</span>
 
 手动更改函数的原型对象
 ```js
@@ -307,7 +307,7 @@ a.constructor // function Object() {native code}
 ```
 为什么这里a.constructor不指向B函数？
 
-这是因为变量a所对应的对象是事先声明好的，不是跟随函数一起创建的，所以他没有constructor属性，这时候寻找construcotor属性就会到父对象上去找，而所有对象默认都继承自己Object.Prototype,所以最后找的就是Object.Prototype.Contructor,也就是Object函数。
+<span style="color: red">**这是因为变量a所对应的对象是事先声明好的，不是跟随函数一起创建的，所以他没有constructor属性，这时候寻找construcotor属性就会到父对象上去找，而所有对象默认都继承自己Object.Prototype,所以最后找的就是Object.Prototype.Contructor,也就是Object函数**。</span>
 
 继承又是怎么一回事呢？？？
 所有对象都有一个__proto__属性，这个属性指向其父元素，也就是所继承的对象，一般为构造函数的prototype对象
@@ -367,7 +367,7 @@ var b = new Object();        //通过new来创建对象
 b.a                          //结果是???
 ```
 
-<span style="color: red">这里我原本以为会打印1，但是实际上打印的还是undefined，然后在控制台打印下Object.prototype，发现Object.prototype仍然指向对象先祖，也就是说Object.prototype = {a:1}指向更改失败，我猜测和上面Object.prototype的__proto__属性不允许更改，原因是一样的，是浏览器对Object.prototype的保护措施。</span>
+<span style="color: red">**这里我原本以为会打印1，但是实际上打印的还是undefined，然后在控制台打印下Object.prototype，发现Object.prototype仍然指向对象先祖，也就是说Object.prototype = {a:1}指向更改失败，我猜测和上面Object.prototype的__proto__属性不允许更改，原因是一样的，是浏览器对Object.prototype的保护措施。**</span>
 
   在控制台打印下Object.prototype的保护属性：
 ```js
@@ -440,4 +440,23 @@ function A () {}
 const a = new A();
 a.a(); // 不存在 报错
 a.b();// a.a()注释 可以执行alert(2)
+
+
+// 第二题
+function Foo(a) {
+    function baz() {
+        console.log(a)
+    }
+    this.biz = function() {
+        console.log(a, 111);
+    }
+}
+Foo.prototype.bfz = function() {
+    // console.log(a);
+}
+var f = new Foo(3);
+// console.log(f.baz());
+console.log(f.biz());
+console.log(f.bfz());
+console.log(Foo.biz())
 ```

@@ -757,6 +757,19 @@ var removeDuplicates = function(nums) {
     }
     return i + 1;
 }
+// 写法二
+const removeDuplicates = nums => {
+    let i = j = 0;
+    while(i < nums.length){
+        if(nums[i] !== nums[j]) {
+            nums[j + 1] = nums[i];
+            j++;
+        }
+        i++
+    }
+    return nums.slice(0, j + 1)
+}
+console.log(removeDuplicates([1,1,2]))
 ```
 ### 合并两个有序数组
 

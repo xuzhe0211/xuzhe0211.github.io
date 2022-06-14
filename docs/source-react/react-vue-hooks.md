@@ -1,4 +1,5 @@
 ---
+autoGroup-2: react-hooks
 title: React Hooks vs Vue Composition Api
 ---
 

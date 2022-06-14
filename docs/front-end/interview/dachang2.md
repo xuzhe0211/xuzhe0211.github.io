@@ -1126,8 +1126,8 @@ Commonjs是一种模块规范，最初被应用于Nodejs,成为Nodejs的模块�
 - Commonjs的this是当前模块，ES Module的this是undefined
 
 ### RAF和RIC是什么
-- requestAnimationFrame: 告诉浏览器在下次重绘之前执行传入的回调函数(通常是操纵DOM，更新动画函数);由于是每帧执行一次,那结果就是每秒的执行次数与浏览器刷新次数一样，通常是60次
-- requestIdleCallback: 会在浏览器空闲时间执行回调，也就是允许开发人员在主事件循环中执行低优先级任务，而不影响一些延迟关键事件。如果有多个回调，会按照先进先出原则执行，但是当传入了timeout，为了避免超时，有可能会打乱这个顺序
+- <span style="color: red">requestAnimationFrame: 告诉浏览器在下次重绘之前执行传入的回调函数(通常是操纵DOM，更新动画函数);由于是每帧执行一次,那结果就是每秒的执行次数与浏览器刷新次数一样，通常是60次</span>
+- <span style="color: red">requestIdleCallback: 会在浏览器空闲时间执行回调，也就是允许开发人员在主事件循环中执行低优先级任务，而不影响一些延迟关键事件。如果有多个回调，会按照先进先出原则执行，但是当传入了timeout，为了避免超时，有可能会打乱这个顺序</span>
 
 ## 困难
 ### ES6的let实现原理

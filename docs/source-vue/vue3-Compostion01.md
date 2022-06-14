@@ -39,7 +39,7 @@ composition就是为了解决这个问题存在的，通过组合的方式，把
 
 ## 代码实现
 1. 编写一个变色的复合API工厂，首先将变色的逻辑封装在一个复合API工厂中，这个API还可以保证用参数控制变色的范围，和变色频繁
-    ```
+    ```js
     function useColor(type, time) {
         const state = reactive({
             color: '#000000'
@@ -58,7 +58,7 @@ composition就是为了解决这个问题存在的，通过组合的方式，把
     ```
 2. 根据需求组装视图组件
     我们只需要根据产品的需求，调用原有的变色API去组装就可以了，你要怎么样就怎么样。由于输出的数据本身还是响应时的，其实你即使组合后也可以是响应式的
-    ```
+    ```js
     const MyComponents = {
         temeplate: `<button type="button" class="el-button" :style="{ background,color }"><span>按钮</span></button>`,
         setup() {
