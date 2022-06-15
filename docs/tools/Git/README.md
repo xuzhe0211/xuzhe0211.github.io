@@ -305,6 +305,7 @@ git push
 
 ### 例子
 ```
+git pull origin mobile_1.0.0
 git rebase origin/mobile_1.0.0
 git push origin mobile_xz
 ```
