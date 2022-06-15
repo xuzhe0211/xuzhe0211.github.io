@@ -202,6 +202,61 @@ React是一个用于构建用户界面的javascript的库，主要负责将数�
 
 ## 六、useCallback的使用
 前面介绍了，useCallback是对一个方法的包装，返回一个具有缓存的方法，常见的使用场景是，父组件要传递一个方法给子组件
+1. 在不是用useCallback的时候
+
+    ```js
+    const Child = (props) => {
+        console.log('渲染了子组件');
+        const { onClick } = props;
+        return (
+            <button onClick={onClick}>点击按钮获取值</button>
+        )
+    } 
+
+    const ChildMemo = React.memo(Child);
+
+    const parent = () => {
+        const [text, updateText] = useState('');
+        const textRef = useRef(text);
+        const handleSubmit = () => {
+            console.log('当前的值', text);
+        }
+        return (
+            <div>
+                我是父组件
+                <input type="text" value={text} onChange={e => updateText(e.target.value)}/>
+                <ChildMemo onClick={handleSubmit}/>
+            </div>
+        )
+    }
+    ```
+    结果是每次输入框输入值的时候，子组件就会重新渲染一次，其实子组件中仅仅是一个按钮，要获取最终输入的值，每次父组件输入值的时候，子组件就更新，很耗性能的
+2. 使用useCallback来包装一个方法
+
+    ```js
+    const Parent = () => {
+        const [text, updateText] = useState('');
+        const textRef = useRef();
+
+        // useCallback又依赖了textRef的变化，因此可以获取到最新的数据
+        const handleSubmit = useCallback(() => {
+            console.log('当前输入框的值:', textRef.current);
+        }, [textRef])
+
+        // 当text的值变化的时候就会给textRef的current重新赋值
+        useEffect(() => {
+            textRef.current = text;
+        }, [text]);
+        
+        return(
+            <div>
+            我是父组件
+            <input type="text" value={text} onChange={(e) => updateText(e.target.value)}/>
+            <ChildMemo onClick={handleSubmit}/>
+            </div>
+        )
+    }
+    ```
 
 
 ## 资料
