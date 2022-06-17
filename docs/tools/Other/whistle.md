@@ -10,7 +10,7 @@ title: 代理、证书、移动端调试问题
 - 调试
 
 常用命令
-```
+```shell
 # 安装
 npm install whistle -g --registry=https://registry.npm.taobao.org
 # 升级版本
@@ -39,17 +39,17 @@ https协议需要证书，证书加密用来防止中间人攻击
 ## 实践
 
 ### 查看移动端日志
-```
+```shell
 testapi-zl.xx.cn log://
 ```
 
 ### ipad显示手机页面
-```
+```js
 local.zhiliao.xx.cn ua://Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1
 ```
 
 ### 在xx中打开了本地页面，调式test环境接口
-```
+```shell
 # 前端页面走本地代码，接口走后端
 # 接口不代理
 https://testapi-zl.xxx.cn/api  https://testapi-zl.xxx.cn/api
@@ -58,7 +58,7 @@ https://testapi-zl.xxx.cn/ http://127.0.0.1:8080
 ```
 
 ### 修改返回值
-```
+```js
 # 修改接口返回值
 //  test.json
 {
@@ -71,7 +71,7 @@ https://local.***.***.cn/a resBody://{test.json}
 ```
 
 ## 修改js、css内容
-```
+```js
 local.***.***.cn 127.0.0.1:8081
 //  test.js
 alert(1);
@@ -88,7 +88,7 @@ local.***.***.cn/1.css cssAppend://{test.css}
 可以审查元素修改样式、看网络请求、看日志
 
 开启配置
-```
+```shell
 testapi-zl.xxx.cn weinre://xxx
 ```
 点击这里打开面板
