@@ -102,5 +102,61 @@ store.dispatch(addTodo('睡觉'));
 console.log('state is:' + store.getState()); // state is: 读书,写作,睡觉
 ```
 
+## redux中的connect()
+### 作用
+connect()方法的作用是将store和组件联系到一起，但是它并不会改变它连接的connect组件，而是提供一个经过包裹的connect组件
+### 参数详解
+```js
+connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options]);
+```
+1. mapStateToProps
+
+    该方法允许我们将store中的数据作为props绑定到组件中，只要store发生了变化就会调用mapStateToProps方法，mapStateToProps返回的结果必须是一个纯对象，这个对象会与组件的prop合并
+    ```js
+    const mapStateToProps = state => {
+        return ({
+            // 第一个list是自己在组件中定义的,将来在组件中通过this.props.list来引入
+            // 第二个list则是你在store中存入的list
+            list: state.list
+        })
+    }
+
+    // 之后一定记得将这个属性放到connect中
+    export default connect(mapStateToProps)(ToDoList)
+    ```
+2. mapDispatchToProps
+
+    该方法允许我们将action作为props绑定到组件中，用于建立组件跟store.dispatch的映射关系，可以是一个object，也可以是一个函数。
+    
+    如果传递的是一个对象，那么每个定义在该对象的函数都将被当做Redux action creator，对象所定义的方法名将作为属性名；每个方法返回一个新的函数，函数中dispatch方法会将action creator的返回值作为参数执行。这些属性会被合并到组件的props中；
+
+    如果传递的是一个函数，可以直接传入dispatch、ownProps，定义UI组件如何发出action，实际上就是要调用dispatch方法
+
+    ```js
+    // 在大型项目中，一般会将这action，单独放一个组件里
+    const mapDispatchToProps = dispatch => {
+        inputChange(e) {
+            console.log(e.target.value);
+            let action = {
+                type: 'change_input',
+                value: e.target.value
+            }
+            dispatch(action)
+        }
+    }
+    // 之后一定记得将这个属性放在connect中
+    export default connect(mapStateToProps, mapDispatchToProps)(ToDoList)
+    ```
+- mergeProps
+
+    如果指定了这个参数，mapStateToProps()与mapDispatchToProps()的执行结果和组件自身的props将传入到这个回调函数中。该回调函数返回的对象将作为props传递到被包装的组件中。你也许可以用这个回调函数，根据组件的props来刷选部分的state数据，或者把props中某个特定变量与action creator绑定在一起。如果你省略这个参数。默认情况下返回Object.assign({}, ownProps, stateProps, dispatchProps)的结果。
+
+- option
+
+    如果指定这个参数，可以定制connector的行为
+
+
 ## 资料
 [Redux系列01：从一个简单例子了解action、store、reducer](https://www.cnblogs.com/chyingp/p/redux-01-introduction-actou-store-reducer-action.html)
+
+[官网](https://www.redux.org.cn/docs/recipes/reducers/UsingCombineReducers.html)
