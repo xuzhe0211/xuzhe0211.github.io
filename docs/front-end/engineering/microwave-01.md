@@ -27,7 +27,7 @@ title: 01-qiankun(乾坤)实例
 
 Systemjs是一个通用的模块加载器，它能在浏览器上动态加载模块，微前端的核心就是加载微应用，我们将应用打包成模块，在浏览器中通过systemjs来加载模块
 
-```
+```js
 npm install webpack webpack-cli webpack-dev-server babel-loader @babel/core @babel/preset-env @babel/preset-react html-webpack-plugin -D
 
 

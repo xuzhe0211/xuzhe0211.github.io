@@ -397,6 +397,10 @@ git rest --soft origin/branchname
 ```
 git commit --amennd -no-edit
 ```
+## git diff
+```js
+git diff origin/feature-xz-0617 > 1.diff
+```
 
 [参考文档](https://zhuanlan.zhihu.com/p/100243017)
 

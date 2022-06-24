@@ -1159,11 +1159,11 @@ beforeRouteLeave(to, from, next) {
   以下为项目中引入element-ui组件库的实例
 
   **首先，安装babel-plugin-compontent**
-  ```
+  ```js
   npm install babel-plugin-compontent -D
   ```
   **然后，将.babelrc修改为**
-  ```
+  ```js
   {
       "presets":[["es2015", {"module": false}]],
       "plugins":[
@@ -1321,11 +1321,11 @@ preload提供了一种声明式的命令，让浏览器提前加载指定资源(
   babel-plugin-transform-runtime插件就是用来实现这个作用的，将相关辅助函数进行替换成导入语句，从而减少babel编译处理来的代码的文件大小。
 
   首先，安装babel-plugin-transform-runtime
-  ```
+  ```js
   npm install babel-plugin-transform-runtime --save-dev
   ```
   然后，修改.babelrc配置文件
-  ```
+  ```js
   "plugins":[
       "transform-runtime"
   ]
