@@ -1,6 +1,6 @@
 ---
 autoGroup-12: 工程化知识卡片
-title: Webpack 实战: 多入口项目打包 & 代码拆分实战分享
+title: Webpack 实战-多入口项目打包 & 代码拆分实战分享
 ---
 
 
