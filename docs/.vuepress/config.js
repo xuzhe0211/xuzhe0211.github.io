@@ -3,7 +3,7 @@ const navConf = require('./config/navConf.js');
 const headConf = require('./config/headConf.js');
 
 module.exports = {
-    host: 'localhost', // ip
+    host: '0.0.0.0', // ip
     port: '8099', // 端口号
     title: '随风',
     description: '随风随雨又随流',
