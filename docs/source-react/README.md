@@ -18,6 +18,8 @@ title: React相关
 
 https://zhuanlan.zhihu.com/p/68842994
 
+https://juejin.cn/post/6981728346937753630#heading-7
+
 [React：组件的生命周期](https://segmentfault.com/a/1190000004168886)
 
 
