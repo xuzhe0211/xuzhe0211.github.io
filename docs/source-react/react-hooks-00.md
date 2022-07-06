@@ -170,6 +170,148 @@ const TestButton = React.memo((Props: any) => {
 useRef可以获取当前元素的所有属性，并且返回一个可变的ref对象，并且这个对象只有current属性，可设置initialValue
 
 #### 通过useRef获取对应的属性值
+```js
+import React, { useState, useRef } from 'react';
+
+const Index:React.FC<any> = () => {
+    const scrollRef = useRef<any>(null);
+    const [clientHeight, setClientHeight] = useState<number>(0);
+    const [scrollTop, setScrollTop] = useState<number>(0);
+    const [scrollHeight, setScrollHeight] = useState<number>(0);
+
+    const onScroll = () => {
+        if(scrollRef?.current) {
+            let clientHeight = scrollRef?.current.clientHeight; // 可视区域高度
+            let scrollTop = scrollRef?.current.scrollTop; // 滚动条高度
+            let scrollHeight = scrollRef?.current.scrollHeight; // 滚动内容高度
+            setClientHeight(clientHeight);
+            setScrollTop(scrollTop);
+            setScrollHeight(scrollHeight);
+        }
+    }
+
+    return (
+        <div>
+            <div>
+                <p>可视区域高度：{clientHeight}</p>
+                <p>滚动条滚动高度：{scrollTop}</p>
+                <p>滚动内容高度:{scrollHeight}</p>
+            </div>
+            <div style={{height: 200, overflowY: 'auto'}} ref={scrollRef} onScroll={onScroll}>
+                <div style={{height: 20000}}></div>
+            </div>
+        </div>
+    )
+}
+export default Index;
+```
+从上述可知，我们可以通过useRef来获取对应元素的相关属性，从此来做一些操作
+
+![useRef](./images/ce0221becc3940ec8610783afa66f5dc_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.png)
+
+### 缓存数据
+除了获取对应的属性外，useRef还有一点比较重要的特性，那就是缓存数据
+
+上述讲到我们封装一个合格的自定义hooks的时候需要结合 useMemo、useCallback等Api,但我们控制变量的值用useState有可能会导致拿到的是旧值，并且如果他们更新会带来整个组件重新执行，这种情况下，我们使用useRef是非常不错的选择。
+
+在react-redux的源码中，在hooks推出后，react-redux用大量的useMemo重做了Provide等核心模块，其中就是运用useRef来缓存数据，并且所运用的userRef（）没有一个是绑定在dom上的，都是做数据缓存作用
+
+简单来看一下
+```js
+// 缓存数据
+/* react-redux 用userRef 来缓存 merge之后的 props */ 
+const lastChildProps = useRef() 
+
+// lastWrapperProps 用 useRef 来存放组件真正的 props信息 
+const lastWrapperProps = useRef(wrapperProps) 
+
+//是否储存props是否处于正在更新状态 
+const renderIsScheduled = useRef(false)
+
+//更新数据
+function captureWrapperProps( 
+    lastWrapperProps, 
+    lastChildProps, 
+    renderIsScheduled, 
+    wrapperProps, 
+    actualChildProps, 
+    childPropsFromStoreUpdate, 
+    notifyNestedSubs 
+) { 
+    lastWrapperProps.current = wrapperProps 
+    lastChildProps.current = actualChildProps 
+    renderIsScheduled.current = false 
+}
+```
+我们看到react-redux用重新赋值的方法，改变了缓存的数据源，减少了不必要的更新，如果采用useState势必会重新渲染
+
+### useLatest
+经过上面的讲解我们知道useRef可以拿到最新值，我们可以进行简单的封装，这样做的好处是：**可以随时确保获取的是最新值，并且也可以解决闭包问题**
+
+```js
+import {useRef} from 'react';
+
+const useLatest = <T>(value: T) => {
+    const ref = useRef(value);
+    ref.current = value;
+    return ref;
+}
+export default useLatest;
+```
+## 结合useMemo和useRef封装useCreation
+useCreation:是useMemo或useRef的替代品。换言之，useCreation这个钩子增强了useMemo 和 useRef，这个钩子替换这两个钩子([useCreation](https://ahooks.js.org/zh-CN/hooks/use-creation))
+
+- useMemo的值不一定是最新的值，但useCreation可以保证拿到的值一定是最新的值
+- 对于复杂常量的创建，useRef容易出现潜在的性能隐患，但useCreation可以避免
+
+<span style="color: red">这里的性能隐患是指</span>
+
+```js
+// 每次重渲染，都会执行实例化Subject的过程，即便这个示例立刻就被扔掉了
+const a = useRef(new Subject());
+
+// 通过factory函数 可以避免性能隐患
+const b = useCreation(() => new Subject(), [])
+```
+接下来我们来看看如何封装一个useCreation，首先我们要明白一下三点：
+
+- <span style="color:blue">第一点：先确定参数，useCreation的参数与useMemo的一致，第一个参数是函数，第二个参数是可变的数组</span>
+- <span style="color:blue">第二点: 我们的值要保存在useRef中，这个可以将值缓存，从而减少无关的刷新</span>
+- <span style="color:blue">第三点: 更新值的判断，怎么通过第二个参数判断是否更新 useRef里的值</span>
+
+明白以上三点我们可以自己实现一个useCreation
+```ts
+import { useRef } from 'react';
+import type { DependencyList } from 'react';
+
+const depsAreSame = (oldDeps: DependencyList, deps: DependencyList): boolean => {
+    if(oldDeps === deps) return true;
+
+    for(let i = 0; i < oldDeps.length; i++) {
+        // 判断两个值是否是同一个值
+        if(!Object.is(oldDeps[i], deps[i)) return false;
+    }
+    return true;
+}
+
+const useCreation = <T>(fn: () => T, deps: DependencyList) => {
+    const { current } = useRef({
+        deps, 
+        obj: undefined as undefined | T,
+        initialized: false
+    })
+    if(current.initialized === false || !depsAreSame(current.deps, deps)) {
+        current.deps = deps;
+        current.obj = fn();
+        current.initialized = true;
+    }
+    return current.obj as T;
+}
+export default useCreation;
+```
+在useRef判断是否更新通过initialized 和 depsAreSame 来判断，其中 depsAreSame 通过存储在useRef 下的 deps(旧值)和新传入的 deps(新值)来做对比，判断两数组的数组是否一致，来确定是否更新
+
+### 验证 useCreation
 
 
 
