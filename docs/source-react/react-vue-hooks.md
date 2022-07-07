@@ -539,7 +539,7 @@ const ThemeContext = React.createContext('light');
 // consummer
 const theme = useContext(ThemeContext);
 ```
-
+[容易理解的--参考](https://www.jianshu.com/p/65b348bf86ad)
 ### vue
 Vue 中类似的 API 叫provide/inject。在 Vue 2.x 中作为组件选项存在，而在 Composition API 中增加了一对用在setup()中的 provide 和 inject 函数：
 ```js
