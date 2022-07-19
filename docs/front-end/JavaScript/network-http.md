@@ -22,8 +22,8 @@ title: 网络编程/http协议相关
   - CONNECT--- 保留将来使用/HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。
   - OPTIONS---预检请求/请求查询服务器的性能，或者查询与资源相关的选项和需求
   ##### 注意
-   - 方法名称是区分大小写的，当某个请求所针对的资源不支持对应的请求方法的时候，服务器应当返回状态码405（Mothod Not Allowed）；当服务器不认识或者不支持对应的请求方法时，应返回状态码501（Not Implemented）。
-   - HTTP服务器至少应该实现GET和HEAD/POST方法，其他方法都是可选的，此外除上述方法，特定的HTTP服务器支持扩展自定义的方法。
+   - <span style="color: red">**方法名称是区分大小写的**，当某个请求所针对的资源不支持对应的请求方法的时候，服务器应当返回状态码405（Mothod Not Allowed）；当服务器不认识或者不支持对应的请求方法时，应返回状态码501（Not Implemented）。</span>
+   - <span style="color: red">HTTP服务器至少应该实现GET和HEAD/POST方法，其他方法都是可选的，此外除上述方法，特定的HTTP服务器支持扩展自定义的方法。</span>
 - RequestUrl---https://www.baidu.com/img
 - HttpVersion--Http 1.1
 

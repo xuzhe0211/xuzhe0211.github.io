@@ -49,6 +49,7 @@ console.log(numbersequal(a,b)); //true
 - CleanMyMac X  
     激活id: 2005277667335 
 - VideoScribe
+- iterm2 /Warp(开箱即用)
 
 
 ## 书籍

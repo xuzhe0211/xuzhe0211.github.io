@@ -60,8 +60,9 @@ ALL THE TIME，我们写的大部分<span style="color: orange">javascript</span
 - <span style="color: blue">**timer阶段**:一个timer指定一个下限时间而不是准确时间，在达到这个下线时间后执行回调。在指定时间过后，timers会尽可能早执行回调，但是系统调度或者其他回调的执行可能会延迟它们</span>
    - 注意:技术上来说，poll阶段控制timers什么时候执行
    - 注意:这个下限时间有个范围：[1, 2147483647]，如果设定的时间不在这个范围，将被设置为1。
-   
+
 - <span style="color: blue">I/O callbacks阶段：这个阶段执行一些系统操作的回调。比如TCP错误，如一个TCP socket在想要连接时收到ECONNREFUSED类unix系统会等待以报告错误，这就会放到I/O callbacks阶段的队列执行。名字会让人误解为执行I/O回调处理城西，实际上I/O回调会由Poll阶段执行</span>
+
 - <span style="color: blue">Poll阶段:poll阶段有两个主要功能：1. 执行下限时间已经达到timers的回调 2.然后处理poll队列里的时间。当event loop进入poll阶段，并且没有设定的timers，会发生下面两件事之一：</span>
 
 

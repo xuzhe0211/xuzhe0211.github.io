@@ -2,6 +2,41 @@
 title: React相关
 ---
 ## 组件生命周期
+组件的生命周期可分为三个状态
+- <span style="color:blue">Mounting(挂载):已插入真实DOM</span>
+- <span style="color:blue">Updating(更新):正在被重新渲染</span>
+- <span style="color:blue">Unmounting(卸载):已移出真实DOM</span>
+
+![组件生命周期](./images/ogimage.png)
+
+### 挂载
+当组件实例被创建并插入DOM中时，其生命周期调用顺序如下
+- <span style="color:blue">constructor(): 在React组件挂载之前，会调用它的构造函数</span>
+- <span style="color:blue">getDerivedStateFromProps(): 在调用render方法之前调用，并且在初始挂载及后续更新时都会被调用</span>
+- <span style="color:blue">render(): render()方法是class组件中唯一必须实现的方法</span>
+- <span style="color:blue">componentDidMount():在组件挂载后(插入DOM树中)理解调用</span>
+render()方法是class组件中唯一必须实现的方法，其他方法可以根据自己的需求来实现。
+
+这些方法的详细说明，可以参考[官方文档](https://zh-hans.reactjs.org/docs/react-component.html#reference)。
+
+### 更新
+每当组件的state或props发生变化时，组件就会更新。
+
+当组件的props或state发生变化时会触发更新。组件更新的生命周期调用顺序如下
+- <span style="color:blue">getDerivedStateFromProps():在调用render方法之前调用，并且在初始挂载及后续更新时都会被调用。根据shouldComponentUpdate()的返回值，判断React组件的输出是否受当前state或props更改的影响</span>
+- <span style="color:blue">shouldComponentUpdate():当props或state发生变化时，shouldComponentUpdate()会在渲染执行之前被调用</span>
+- <span style="color:blue">render()：render()方法是class组件中唯一必须实现的方法</span>
+- <span style="color:blue">getSnapshotBeforeUpdate()：在最近一次渲染输出(提交到DOM节点)之前调用。</span>
+- <span style="color:blue">componentDidUpdaet():在更新后会被立即调用</span>
+
+### 卸载
+当组件从DOM中移除时会调用如下方法
+- <span style="color:blue">componentWilUnmount():在组件卸载及销毁之前直接调用</span>
+
+这些方法的详细说明，可以参考[官方文档](https://zh-hans.reactjs.org/docs/react-component.html#reference)
+
+[react-教程](https://www.runoob.com/react/react-component-life-cycle.html)
+
 [组件生命周期](https://zh-hans.reactjs.org/docs/react-component.html#the-component-lifecycle)
 ## 函数的副作用
 
