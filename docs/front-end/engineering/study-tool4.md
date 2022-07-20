@@ -660,7 +660,7 @@ function loader2(sourceCode) {
 
 module.exports = loader2;
 ```
-<span style="color: #fff; background:red;">实现简单自定义loader</span>
+<span style="color: #fff; background:red;">使用loader处理文件</span>
 
 在搞清楚了loader就是一个单纯的函数之后，让我们在进行模块分析之前将内容先交给匹配的loader去处理下吧。
 ```js

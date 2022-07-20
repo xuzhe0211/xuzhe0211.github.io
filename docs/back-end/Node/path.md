@@ -6,12 +6,12 @@ title: 路径path
 
 [path](https://nodejs.org/dist/latest-v14.x/docs/api/path.html) (opens new window)是 node 提供的处理文件和目录路径的工具。
 
-```
+```js
 const path = require("path");
 ```
 
 ## node 获取当前路径的三种方法
-```
+```js
 const { resolve } = require('path');
 
 console.log('__dirname:' + __dirname)
@@ -22,12 +22,12 @@ console.log('cwd :' + process.cwd())
 //cwd       : D:\new\node
 ```
 可以看到三个命令都返回了相同的路径，但是他们是不一样的
-- __dirname: 返回运行文件所在的目录
-- resolve('./'):当前命令所在目录
-- process.cwd():当前命令所在的目录
+- <span style="color: blue">__dirname: 返回运行文件所在的目录</span>
+- <span style="color: blue">resolve('./'):当前命令所在目录</span>
+- <span style="color: blue">process.cwd():当前命令所在的目录</span>
 
 我们返回到new的目录，测试一下
-```
+```js
 const {resolve} = require('path')
 
 
@@ -41,7 +41,7 @@ console.log('cwd       : ' + process.cwd())
 ```
 ## 示例
 
-```
+```js
 const path = require("path");
 const pick = require("lodash.pick");
 
