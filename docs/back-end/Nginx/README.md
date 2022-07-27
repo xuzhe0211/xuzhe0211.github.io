@@ -6,8 +6,6 @@ title: Nginx
 
 [前端工程师不可不知的 Nginx 知识](https://mp.weixin.qq.com/s/zlq-KhyuAbp8bRpPtRp0IQ)
 
-[就是要让你搞懂Nginx，这篇就够了！](https://mp.weixin.qq.com/s/8aiYfxlPJrwP0AhbacPa4w)
-
 [面试官：Nginx 如何实现高并发？常见的优化手段有哪些？](https://mp.weixin.qq.com/s/5QE6SzPn9MFNBXOBt9HCvA)
 
 [可以在 Nginx 中运行 JavaScript，厉害了！](https://mp.weixin.qq.com/s/22e4xLKwLidmSWItjtHtkw)

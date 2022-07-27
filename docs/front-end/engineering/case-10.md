@@ -31,6 +31,37 @@ module.exports = (_, $1) => {
     }
     return _str;
 };
+
+// langmap
+const jet = require('fs-jetpack');
+const path = require('path');
+const os = require('os');
+const dirVars = {
+    lang: path.resolve(__dirname, 'lang'),
+    langVar: path.resolve(__dirname, 'lang/variable.json'),
+};
+const allJSON = jet.find(dirVars.lang, { matching: ['*.json', '!variable.json'] });
+const langListObj = jet.read(dirVars.langVar, 'json');
+const maps = langListObj;
+const langdoc = {};
+allJSON.forEach(filePath => {
+    const json = jet.read(filePath, 'json');
+    const [_, name] = os.platform() === 'win32' ? filePath.split('\\') : filePath.split('/');
+    const lang = name.substr(0, 5);
+    if (path.basename(filePath).split('-').pop() === 'Tdoc.json') {
+        langdoc[lang] = json[lang];
+    }
+    if (maps[lang]) { // 翻译存在再进行合并
+        maps[lang] = Object.assign(maps[lang], json[lang]);
+    }
+});
+Reflect.ownKeys(maps).forEach(lang => {
+    Object.assign(maps[lang] || {}, langdoc[lang] || {});
+});
+module.exports = {
+    langs: Object.keys(langListObj),
+    maps,
+};
 ```
 
 

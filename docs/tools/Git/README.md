@@ -4,14 +4,14 @@ title: Git相关
 
 ![git](./images/1.jpg)
 ## 本地项目关联远程仓库
-```
+```js
 git remote add origin git@xxx.gitlab.com:zhiliao/web-client/zhiliao-site.git
 
 ```
 
 ## Git push问题
 
-```
+```js
 git add .
 git ci -m 'first my'
 git push origin HEAD:refs/for/master
@@ -36,7 +36,7 @@ git reset --hard <commit_id>
 ```
 
 ## 切换分支
-```
+```js
 git branch -r // 查看所有远程分支
 // 拉取远程分支并创建本地分支
 // 方法一
@@ -86,7 +86,7 @@ A---C---E----G（master）
  B---D----F-----I(dev)
 ```
 分支的基本操作
-```
+```js
 git branch //查看本地所有分支
 git branch -r //查看远程所有分支
 git branch -a //查看本地和远程的所有分支
@@ -125,24 +125,25 @@ git branch -m <oldbranch> <newbranch> //重命名本地分支
 3. git fetch用法
 
 git fetch命令
-```
+
+```js
+// 重要
 git fetch <远程主机> //这个命令是将某个远程主机的更新全部去回到本地
 ```
 
-**如果只想取回特定分支的更新，可以指定分支名**
+<span style="color: red">**如果只想取回特定分支的更新，可以指定分支名**</span>
 ```
 git fetch <远程主机> <分支名>
 ```
 
 最长见的命令是取回origin主机的master分支
-```
+```js
 git fetch origin master
-
 
 git checkout -b daily-jingxiong-v2 origin/daily-jingxiong-v2 // 拉取远程切换本地分支----
 ```
 取回更新后，会返回一个FETCH_HEAD,指的是某个branch在服务器上的最新状态，我们可以在本地通过它查看刚去会的更新信息
-```
+```js
 git log -p FETCH_HEAD
 ```
 可以看到返回的信息更新的文件名，更新的作者和时间，以及跟新的代码
@@ -152,7 +153,7 @@ git log -p FETCH_HEAD
 4. git pull 用法
 
 git pull的过程可以理解为
-```
+```js
 git fetch origin master //从远程主机master分支拉去最新内容
 git merge FEATCH_HEAD//将拉去下来的最新内容合并到当前所在的分支中
 ```
@@ -402,6 +403,21 @@ git commit --amennd -no-edit
 git diff origin/feature-xz-0617 > 1.diff
 ```
 
+## 强推
+```js
+1、在gitlab上找到要恢复的版本号，如：
+
+139dcfaa558e3276b30b6b2e5cbbb9c00bbdca96
+
+2、在客户端执行如下命令（执行前，先将本地代码切换到对应分支）：
+
+git reset --hard 139dcfaa558e3276b30b6b2e5cbbb9c00bbdca96
+
+3、强制push到对应的远程分支（如提交到develop分支）
+
+git push -f -u origin develop
+
+```
 [参考文档](https://zhuanlan.zhihu.com/p/100243017)
 
 [git 修改之前的某次commit 注释和常见问题和解决方法](https://blog.csdn.net/w6718189/article/details/108873270)

@@ -14,7 +14,8 @@ title: React相关
 - <span style="color:blue">constructor(): 在React组件挂载之前，会调用它的构造函数</span>
 - <span style="color:blue">getDerivedStateFromProps(): 在调用render方法之前调用，并且在初始挂载及后续更新时都会被调用</span>
 - <span style="color:blue">render(): render()方法是class组件中唯一必须实现的方法</span>
-- <span style="color:blue">componentDidMount():在组件挂载后(插入DOM树中)理解调用</span>
+- <span style="color:blue">componentDidMount():在组件挂载后(插入DOM树中)立即调用</span>
+
 render()方法是class组件中唯一必须实现的方法，其他方法可以根据自己的需求来实现。
 
 这些方法的详细说明，可以参考[官方文档](https://zh-hans.reactjs.org/docs/react-component.html#reference)。
