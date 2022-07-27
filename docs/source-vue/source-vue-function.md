@@ -182,7 +182,7 @@ function isObject(obk) {
 由上思路我自己写一个深拷贝方法，不过简单的深拷贝我们可以用 JSON.stringify() 来实现即可
 
 ```js
-unction deepClone(source) {
+function deepClone(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'deepClone')
   }
@@ -196,6 +196,29 @@ unction deepClone(source) {
   })
   return targetObj
 }
+// 二
+function deepClone(initalObj, finalObj) {
+	var obj = finalObj || {}
+	for (var i in initalObj) {
+		var prop = initalObj[i] // 避免相互引用对象导致死循环，如initalObj.a = initalObj的情况
+		if (prop === obj) {
+			continue
+		}
+		if (typeof prop === 'object') {
+            obj[i] = prop.constructor === Array ? [] : {}
+			arguments.callee(prop, obj[i])
+		} else {
+            obj[i] = prop
+		}
+	}
+	return obj
+}
+const obj = {
+	a: '1x',
+	b: '2x',
+	c: [2, 3, 4, [4, 5, 6, { a: 1, b: 2 }]],
+}
+console.log(obj, deepClone(obj))
 ```
 
 ## 资料
