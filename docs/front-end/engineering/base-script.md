@@ -118,7 +118,7 @@ $ npm run script1.js && npm run script2.js
 "start": "node server.js"，
 "install": "node-gyp rebuild"
 ```
-上面代码中，npm run start的默认值是node server.js，前提是项目根目录下有server.js这个脚本；npm run install的默认值是node-gyp rebuild，前提是项目根目录下有binding.gyp文件。
+<span style="color: red">上面代码中，**npm run start的默认值是node server.js，前提是项目根目录下有server.js这个脚本；npm run install的默认值是node-gyp rebuild，前提是项目根目录下有binding.gyp文件**。</span>
 
 ## 钩子---hooks
 
