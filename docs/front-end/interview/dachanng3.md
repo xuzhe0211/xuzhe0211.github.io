@@ -856,7 +856,7 @@ sayHi
 ```
 在函数中，我们首先使用val关键字声明了name变量。这意味着变量在创建阶段会被提升(javascript会在创建阶段为其分配内存空间),默认值为undefined,直到我们实际执行到该变量的行，我们还没为name变量赋值，所以它仍保持undeined的值
 
-使用let关键(const)申明的变量也会存在变量提升，但是与val不同，初始化没有提升。在我们声明(初始化)他们之前，他们不可以访问，这就成为暂时死去，当我们在声明变量之前尝试访问变量，javascript会抛出一个referenceError；
+<span style="color: red">使用let关键(const)申明的变量也会存在变量提升，但是与val不同，初始化没有提升。在我们声明(初始化)他们之前，他们不可以访问，这就成为暂时死去，当我们在声明变量之前尝试访问变量，javascript会抛出一个referenceError；</span>
 
 关于let的是否存在变量提升，我们何以用下面的例子来验证：
 ```js
@@ -874,9 +874,9 @@ let变量如果不存在变量提升，console.log(name)就会输出ConardLi，�
 - <span style="color: red">真正赋值</span>
 
 关于let、val和function
-- <span style="color: red">let的创建过程被提升了，但是初始化没有提升</span>
-- <span style="color: red">val的创建和初始化都被提升了</span>
-- <span style="color: red">function的创建、初始化、赋值都被提升了</span>
+- <span style="color: red">**let的创建过程被提升了，但是初始化没有提升**</span>
+- <span style="color: red">**val的创建和初始化都被提升了**</span>
+- <span style="color: red">**function的创建、初始化、赋值都被提升了**</span>
 ### 下面代码输出的是什么
 ```js
 var a = 10;

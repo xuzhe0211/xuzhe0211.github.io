@@ -1,6 +1,20 @@
 ---
 title: 大厂coding2
 ---
+## 请把俩个数组 [A1, A2, B1, B2, C1, C2, D1, D2] 和 [A, B, C, D]，合并为 [A1, A2, A, B1, B2, B, C1, C2, C, D1, D2, D]。
+```js
+let a1 =  ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2']
+let a2 = ['A','B', 'C', 'D'].map(item => {
+    return item + 3
+})
+let a3 = [...a1, ...a2].sort().map(item => {
+    if(item.includes('3')) {
+        return item.split('')[0]
+    }
+    return item;
+})
+```
+[原题](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/39)
 ## 实现一个异步求和函数
 [实现一个异步求和函数](/front-end/interview/coding.html#已知一个函数asyncadd-实现一个函数sum达到预期效果)
 

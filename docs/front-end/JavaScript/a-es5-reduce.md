@@ -212,6 +212,7 @@ let result = pipe(f1, f2)(1)
 console.log(result) // 4
 
 ```
+[compose](/front-end/JavaScript/basics-7.html#组合-compose)
 ## 实现扁平化数组函数
 
 ```js

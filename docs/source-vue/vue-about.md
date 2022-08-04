@@ -13,13 +13,14 @@ data() {
     	arr:[],
     	obj: {
         	a:1,
-        }
+        },
+        obj1: null
     }
 }
 //点击methods方法
 handTabClick() {
     // 参考
-    this.obj = {a:1, b: 2} // 改变this.obj.a this.obj.c的值视图会更新 data上的obj绑定了响应式
+    this.obj = {a:1, b: 2} // 改变this.obj.a、this.obj.b的值视图会更新 data上的obj绑定了响应式
 	this.obj.c = 3 // 改变this.obj.c的值  视图不会更新
 	Object.assign(this.obj, {d: 4}) // 改变this.obj.c的值 视图不会更新
 	this.$set(this.obj, 'e', 5) // 改百年this.obj.e时 视图会更新
@@ -27,8 +28,8 @@ handTabClick() {
 	 //直接赋值不会触发更新
      this.arr[2] = {name: 'name',age:4}
      console.log(this.arr)
-     //对象 这样添加到对象上的新属性不会触发更新
-     this.obj = Object.assign(this.obj, {a:1, b:2})
+     //对象 这样添加到对象上的新属性不会触发更新 c未绑定响应式
+     this.obj = Object.assign(this.obj, {c:3})
      console.log(this.obj)
      //应该用原对象与要混合进去的对象属性一起创建一个新的对象
      this.obj1 = Object.assign(this.obj, {a:1, b:2})

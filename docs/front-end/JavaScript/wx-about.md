@@ -58,3 +58,6 @@ title: 小程序
 [参考地址]（https://www.cnblogs.com/SophiaLees/p/11409339.html）
 
 [vue和小程序的生命周期](https://blog.csdn.net/Mrzhouzh/article/details/115250893)
+
+
+[小程序同构](https://wenku.baidu.com/view/e1c4984bdeccda38376baf1ffc4ffe473268fd42.html)

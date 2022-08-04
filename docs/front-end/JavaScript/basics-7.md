@@ -266,11 +266,11 @@ array.forEach(i => console.log(i));
 
 这里我们可以先停下来从头回顾一下，函数式编程。
 
-- <span style="color: blue">函数式编程，更关注的是动作，比如我们定义的节流函数，就是把节流的这个动作抽象出来</span>
-- <span style="color: blue">所以这样的函数必须要输入和输出确定且对外界没有副作用，我们吧这样的函数叫做纯函数</span>
-- <span style="color: blue">对于不纯函数的提纯的过程中，用到了柯里化的方法</span>
-- <span style="color: blue">我们柯里化过程中，我们传进去的参数恰恰是一个函数，返回的也是一个函数，这就叫高阶函数</span>
-- <span style="color: blue">高阶函数往往能抽象下厨想节流这样的功能函数</span>
+- <span style="color: red">函数式编程，更关注的是动作，比如我们定义的节流函数，就是把节流的这个动作抽象出来</span>
+- <span style="color: red">**所以这样的函数必须要输入和输出确定且对外界没有副作用，我们吧这样的函数叫做纯函数**</span>
+- <span style="color: red">**对于不纯函数的提纯的过程中，用到了柯里化的方法**</span>
+- <span style="color: red">我们柯里化过程中，我们传进去的参数恰恰是一个函数，返回的也是一个函数，这就叫高阶函数</span>
+- <span style="color: red">高阶函数往往能抽象下厨想节流这样的功能函数</span>
 - **<span style="color: blue">声明式就是在使用这些功能函数</span>**
 
 **问题：现在我们对函数编程有了初步了解，但还没有感受到的它的厉害，还记得我们之前讲的纯函数可以合并吗？下一节 我们就去实现它**
@@ -304,7 +304,7 @@ numDeal(1)
 那么这时候就有几个问题
 - <span style="color: red">这只使用一个采纳数，如果是多个参数怎么办？有的同学已经想到了柯里化</span>
 - <span style="color: red">还有这只是两个函数，如果是多个函数怎么办。知道reduce用法的同学，可能已经有了思路</span>
-- <span style="color: red">compose是从右往左执行，我想左往又行不行？当然它还有个专门的名字管道(pipe)函数</span>
+- **<span style="color: red">compose是从右往左执行，我想左往又行不行？当然它还有个专门的名字管道(pipe)函数</span>**
 
 **问题：现在我们想完成一些功能都需要去合并函数，而且合并的函数还会有一定顺序，我们能不能像JQ的链式调用那样去处理数据呢。**
 
@@ -366,9 +366,9 @@ num.add5().double()
 - <span style="color: blue">把处理的值，作为参数传了进去从而改变this.value的值</span>
 - <span style="color: blue">我们把这个对象返了回去，可以继续调用方法去处理函数</span>
 
-我们发现，new Num(this.value + 5)中对this.value的处理，完全可以通过穿进去一个函数进行处理
+我们发现，new Num(this.value + 5)中对this.value的处理，完全可以通过传进去一个函数进行处理
 
-并且在真实情况中，我们也不可能为每个实例都创建这样有不同方法的构造函数，我们需要一个同意的一个方法
+并且在真实情况中，我们也不可能为每个实例都创建这样有不同方法的构造函数，我们需要一个统一的一个方法
 ```javascript
 class Num{
        constructor (value) {
