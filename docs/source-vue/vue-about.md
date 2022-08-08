@@ -124,7 +124,7 @@ computed: {
 ```
 当模板中不使用updateMessage,即使message发生改变之后，也不会走computed.
 
-在这里，就需要我们注意一下，不是说我们更改了getter中使用的变量(即依赖的属性)，就会出发computed的更新，他有一个前提是computed里的值必须要在模板中使用才可以，但是会出发声明周期的updated();
+在这里，就需要我们注意一下，不是说我们更改了getter中使用的变量(即依赖的属性)，就会触发computed的更新，他有一个前提是computed里的值必须要在模板中使用才可以，但是会触发声明周期的updated();
 
 ### computed中的setter函数
 
@@ -332,7 +332,7 @@ const store = new Vuex.Store({
 export default store
 
 ```
-
+[require.context()的用法详解](/front-end/engineering/case-11.html)
 ## Vue.nextTick的原理和用途
  一. 概览
    - 用法<br/>

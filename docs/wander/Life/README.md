@@ -23,6 +23,7 @@ function numbersequal(a,b){
 var a=0.1+0.2， b=0.3;
 console.log(numbersequal(a,b)); //true
 ```
+[JS浮点数运算](/front-end/JavaScript/a-float.html)
 
 [一个字节由多少个二进制位组成？](https://zhidao.baidu.com/question/559713484660353724.html)
 

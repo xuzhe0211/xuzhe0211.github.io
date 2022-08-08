@@ -98,7 +98,7 @@ function useEvent(handler) {
 ### 先回顾几个Hook相关知识点
 - [useRef](https://zh-hans.reactjs.org/docs/hooks-reference.html#useref)
 
-    > useRef返回一个可变的ref对象，其.current属性被初始化为传入的参数(initialValue).返回ref对象在组件的整个生命周期内持续存在
+    > <span style="color: red">useRef返回一个可变的ref对象，其.current属性被初始化为传入的参数(initialValue).返回ref对象在组件的整个生命周期内持续存在</span>
     这里通过useRef保存回调函数handler到handlerRef.current，然后再在useCallback中从handlerRef.current来取函数在调用，这边避免了直接调用，跳出了闭包陷阱。并且不出意外的话handler在整个生命周期内持续存在，也就是**只有一个引用**
 - useLayoutEffect
 

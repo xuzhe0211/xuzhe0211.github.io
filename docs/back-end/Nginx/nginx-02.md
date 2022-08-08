@@ -5,7 +5,7 @@ title: 写给前端的Nginx入门指南
 
 nginx有一个主进程和几个工作进程.<span style="color: blue">主进程的主要目的是为了读取和评估配置并且维护工作进程。工作进程处理实际请求。nginx在工作进程中采用事件驱动模型和OS依赖机制有效分配请求。</span>工作进程的数量取决于配置文件中定义的固定值或是通过有效的CPU核数自动判定数量。工作进程的数量在配置文件中定义，可据给定的配置对工作进行的数量进行固定，也可根据可用CPU内核数量进行自动调整
 
-nginx及其各模块的工作方式取决于配置文件。默认情况下，配置文件名为nginx.conf，并放置在/usr/local/nginx/conf、/etc/nginx或/usr/local/ect/nginx目录中
+<span style="color: blue">nginx及其各模块的工作方式取决于配置文件。默认情况下，配置文件名为nginx.conf，并放置在/usr/local/nginx/conf、/etc/nginx或/usr/local/ect/nginx目录中</span>
 
 ## 启动，停止和重新加载配置文件
 启动的时候直接运行nginx.exe或nginx。如果nginx已经启动，就可以直接使用参数-s来进行调用执行，具体的使用语法如下
