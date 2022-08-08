@@ -224,5 +224,45 @@ function Demo2() {
 ## 完毕
 通过一次“闭包陷阱” 浅谈 react hooks 全文再此就结束了。 反正写完了这篇文章，宝宝我对 hooks 的认识是比以前深了。
 
+## demos
+```js
+const [changeState, setChangeState] = useState(0)
+const fn = useCallback(function(){
+    setInterval(function(){
+        let i = changeState
+        // console.log(++i, 'i')
+        setChangeState(i++)
+        console.log(i) // 1   1   1  
+    }, 1000)
+}, [changeState])
+useEffect(()=>{ fn() }, [])
+
+// demo2
+<script type="text/babel">
+function HelloWorld(){
+    const [txt, settxt] = React.useState(1);
+
+//函数
+    const handle = () => {
+    settxt(txt=>txt+1);
+    setTimeout(()=>{
+        console.log(txt);  //1
+        settxt(txt =>{
+        console.log(txt); //2
+        return txt;
+        })
+    },4000)
+    };
+    return(<div>
+        <button style={{width:"100px",height:'100px',color:"#f00"}} onClick={handle}>点击我</button>
+        <div>{txt}</div>
+    </div>)
+}
+ReactDOM.render(<HelloWorld/>,document.getElementById('root'));
+</script>
+//  主要原因:第一个console.log();在函数setTimeOut里面被闭包了，
+// 第二个console.log();通过setState重新获取了state的最新值不会，打印出来2。
+```
+
 ## 资料
 [原文](https://juejin.cn/post/6844904193044512782)

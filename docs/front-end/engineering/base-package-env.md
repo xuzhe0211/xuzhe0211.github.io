@@ -18,9 +18,9 @@ title: package.json中browser,module, main字段优先级
 
 由于我们使用的模块规范有ESM和commonJS两种，为了能在node环境下原生执行ESM规范的脚本文件，.mjs文件就应运而生。
 
-当存在index.mjs和index.js这种同名不同后缀的文件时，import './index'或者require('./index')是会优先加载index.mjs文件的
+<span style="color: blue">当存在index.mjs和index.js这种同名不同后缀的文件时，import './index'或者require('./index')是会优先加载index.mjs文件的</span>
 
-也就是:**优先级mjs > js**
+<span style="color: blue">也就是:**优先级mjs > js**</span>
 
 ## browser, module和main字段
 ### 字段定义

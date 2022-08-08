@@ -17,7 +17,7 @@ vue中的事件绑定有两种，一种是原生的事件绑定，另一种是�
 
 ### vue中如何绑定事件
 vue事件分为两类，一个是原生dom事件，一个是组件自定义事件，绑定方法类似
-```
+```html
 // 绑定原生事件
 <div id="example-1">
     <button v-on:click="handle">Add 1</button>
@@ -39,7 +39,7 @@ vue事件分为两类，一个是原生dom事件，一个是组件自定义事�
 <my-component @[eventName]="doSomething"></my-component>
 ```
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +77,7 @@ vue事件分为两类，一个是原生dom事件，一个是组件自定义事�
 </body>
 </html>
 ```
-.native--主要是给自定义的组件添加原生事件，可以理解为该修饰符的作用就是吧一个vue组件转化为一个普通的HTML标签，并且该修饰符对普通的hTML是没有任何作用的
+.native--主要是给自定义的组件添加原生事件，可以理解为该修饰符的作用就是吧一个vue组件转化为一个普通的HTML标签，并且该修饰符对普通的HTML是没有任何作用的
 
 ## 资料
 [Vue 中的事件处理机制详解](https://blog.csdn.net/weixin_41275295/article/details/100549145)
