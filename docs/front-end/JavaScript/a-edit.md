@@ -29,6 +29,27 @@ const fn = (s1, s2) => {
 }
 
 console.log(fn('flow', 'aflowbxx'))
+
+// 好理解
+const fn = (s1, s2) => {
+    let left = 0;
+    let max = 0;
+    while(left < s1.length) {
+        let right = 0;
+        while(right < s2.length) {
+            let str = s1.substring(left,right)
+                if(s2.indexOf(str)>-1){
+                    if(max<str.length) {
+                        max = str.length
+                    }
+                }
+            right++;
+        }
+        left++;
+    }
+    return max
+}
+console.log(fn('flow', 'aflowbxx'))
 ```
 [demo](https://www.nowcoder.com/practice/98dc82c094e043ccb7e0570e5342dd1b?tpId=37&tqId=21298&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D2%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 

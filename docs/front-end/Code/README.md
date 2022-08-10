@@ -27,6 +27,28 @@ const longStr = str => {
 }
 var str = readline() // 使用readline()读取
 console.log(longStr(str))
+
+// 公共子串
+const fun = () => {
+    let line
+    while(line = readline()) {
+        let str1 = line
+        let str2 = readline()
+        let count = 0
+        for(let i=0;i<=line.length;i++) {
+            for(let j=i;j<=line.length;j++) {
+                let str = line.substring(i,j)
+                if(str2.indexOf(str)>-1){
+                    if(count<str.length) {
+                        count = str.length
+                    }
+                }
+            }
+        }
+        console.log(count)
+    }
+}
+fun()
 ```
 ## 正则表达式匹配
 给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
