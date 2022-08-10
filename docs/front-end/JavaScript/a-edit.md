@@ -9,5 +9,23 @@ title: web应用富文本编辑器是如何实现协同编辑的
 
 <span style="color: red">最长公共子串</span>
 
+```js
+const fn = (s1, s2) => {
+    let len = 0;
+    let res = 0;
+    for(let i = 0; i < s1.length; i++) {
+        while(s2.includes(s1.substr(i, len + 1)) && len < s1.length -i) {
+            len++;
+        }
+        if(len > res) res = len;
+        len = 0;
+    }
+    return res;
+}
+
+console.log(fn('flow', 'aflowbxx'))
+```
+[demo](https://www.nowcoder.com/practice/98dc82c094e043ccb7e0570e5342dd1b?tpId=37&tqId=21298&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D2%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
+
 ## 资料
 [富文本编辑器是如何实现协同编辑的](https://zhuanlan.zhihu.com/p/416018080)

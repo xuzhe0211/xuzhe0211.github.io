@@ -7,8 +7,8 @@ title: ES6中的super
 
 super关键字，即可以当做函数使用，也可以当做对象使用。在这两种情况下，它的作用完全不同。
 
-- 第一种情况，super作为函数调用时，代表父类的构造函数。ES6要求，子类的构造函数必须执行super函数。子类没有写constructor方法，js引擎默认，帮你执行constructor（） {super()}
-- 第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类 
+- <span style="color: red">**第一种情况，super作为函数调用时，代表父类的构造函数**。ES6要求，子类的构造函数必须执行super函数。子类没有写constructor方法，js引擎默认，帮你执行constructor（） {super()}</span>
+- <span style="color: red">**第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类** </span>
 
 **由于spuer指向父类的原型对象，所以定义在父类实例上的方法或属性，是无法通过super调用的**
 
@@ -16,7 +16,7 @@ super关键字，即可以当做函数使用，也可以当做对象使用。在
 
 ### super类似于ES5语法中的call继承
 
-```
+```js
 class A {
 	constructor(n) {
     	console.log(n); // => 100
@@ -44,7 +44,7 @@ let f = new B();
 
 这个问题的答案很容易找到，可以把super赋值给其他变量试试，会得到一个语法错误
 
-```
+```js
 class A extends Object {
   constructor() {
     const a = super;  //=>Uncaught SyntaxError: 'super' keyword unexpected here
@@ -54,7 +54,7 @@ class A extends Object {
 ```
 因为 super 的词法定义是伴随后面那对括号的，它和 this 不同。this 的定义是 this 这个关键字会被替换成一个引用，而 super 则是 super(…) 被替换成一个调用。而且 super 除了在 constructor 里直接调用外还可以使用 super.xxx(…) 来调用父类上的某个原型方法，这同样是一种限定语法。
 
-```
+```js
  class A {
       constructor(name,color) {
       this.name = name;

@@ -231,25 +231,48 @@ const fn = useCallback(function(){
     setInterval(function(){
         let i = changeState
         // console.log(++i, 'i')
-        setChangeState(i++)
+        setChangeState(i++) 
         console.log(i) // 1   1   1  
     }, 1000)
 }, [changeState])
 useEffect(()=>{ fn() }, [])
 
 // demo2
-<script type="text/babel">
+
+function Memo1() {
+  const [changeState, setChangeState] = React.useState(0)
+  const fn = React.useCallback(function(){
+    let i = changeState
+    setChangeState(++i) // 1 
+    console.log(changeState) // 渲染两次
+     
+      // setInterval(function(){
+      //     let i = changeState
+      //     setChangeState(i++) // i++ 显示0， ++i显示1
+      //     console.log(i, changeState) // i++ ++i 都显示1, 0
+      // }, 1000)
+  }, [changeState])
+  React.useEffect(()=>fn(), [])
+  console.log('xxx')
+  return (<div>world!!!{changeState}</div>)
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<div><h1>Hello,</h1><Memo1></Memo1></div>);
+
+
+
+// demo3
 function HelloWorld(){
     const [txt, settxt] = React.useState(1);
-
-//函数
+    //函数
     const handle = () => {
     settxt(txt=>txt+1);
     setTimeout(()=>{
         console.log(txt);  //1
         settxt(txt =>{
-        console.log(txt); //2
-        return txt;
+            console.log(txt); //2
+            return txt;
         })
     },4000)
     };
@@ -259,10 +282,57 @@ function HelloWorld(){
     </div>)
 }
 ReactDOM.render(<HelloWorld/>,document.getElementById('root'));
-</script>
 //  主要原因:第一个console.log();在函数setTimeOut里面被闭包了，
 // 第二个console.log();通过setState重新获取了state的最新值不会，打印出来2。
+
+
+function() {
+    var i = 0;
+    return function() {
+
+    }
+}
 ```
+[demo](https://codepen.io/gaearon/pen/MjrdWg?editors=1010)
+
+## useState实现
+```js
+let state = [];
+let setters = [];
+let index = 0;
+
+function createState(index) {
+    return function(newState) {
+        state[index] = newState;
+        render();
+    }
+}
+function useState(initData) {
+    state[index] = state[index] ? state[index] : initData;
+    setters.push(createState(index));
+    let value = state[index];
+    let setter = setters[index];
+    index++;
+    return [value, setter];
+}
+function render() { // setcount执行后 重新挂载重新执行hooks 然后获取count
+    index = 0;
+    ReactDOM.render('', document.getElementById('root'));
+}
+export default function App() {
+    const [count, setCount] = useState(0);
+    const [name, setName] = useState('张三')；
+    return (
+        <div>
+            {count}
+            <button onClick={() => setCount(count + 1)}>setCount</button>
+            {name}
+            <button onClick={() => setName(name)}>setName</button>
+        </div>
+    )
+}
+```
+
 
 ## 资料
 [原文](https://juejin.cn/post/6844904193044512782)
