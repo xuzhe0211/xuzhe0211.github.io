@@ -13,11 +13,16 @@ title: web应用富文本编辑器是如何实现协同编辑的
 const fn = (s1, s2) => {
     let len = 0;
     let res = 0;
+    // let ans = ''
     for(let i = 0; i < s1.length; i++) {
         while(s2.includes(s1.substr(i, len + 1)) && len < s1.length -i) {
             len++;
         }
         if(len > res) res = len;
+        // if(len > res) {
+        //     res = len;
+        //     ans = s1.substr(i - res, res)
+        // }
         len = 0;
     }
     return res;
