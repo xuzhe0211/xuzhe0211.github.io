@@ -49,7 +49,52 @@ const fun = () => {
     }
 }
 fun()
+
+// 购物清单
+let line1 = readline()
+const n = parseInt(line1.split(' ')[0]), m = parseInt(line1.split(' ')[1])
+const v = [''], w = [''], s = ['']
+let index = 0
+while(index < m) {
+    let line = readline().split(' ')
+    v.push(parseInt(line[0]))
+    w.push(parseInt(line[1]))
+    s.push(parseInt(line[2]))
+    index++
+}
+ 
+const solve = (n, m, v, w, s) => {
+    const dp = new Array(m+1).fill(0).map(() => new Array(n+1).fill(0))
+    let res = 0
+    for(let i=1;i<=m;i++) {
+        for(let j=0;j<=n;j++) {
+            if (!s[i]) {
+                if(j >= v[i]){ // 主件
+                    const sub = [] // 收集所有附件
+                    for (let k=1;k<=s.length;k++) {
+                        if (s[k] == i) sub.push(k)
+                    }
+                    // 0附件
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j - v[i]] + w[i]*v[i])
+                    if(sub[0] && j>= v[i]+v[sub[0]]) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i-1][j - v[i] - v[sub[0]]] + w[i]*v[i] + w[sub[0]] * v[sub[0]])
+                    }
+                    if(sub[1] && j>= v[i]+v[sub[1]]) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i-1][j - v[i] - v[sub[1]]] + w[i]*v[i] + w[sub[1]] * v[sub[1]])
+                    }
+                    if (sub.length == 2 && j>= v[i]+v[sub[1]]+v[sub[0]]) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i-1][j-v[i]-v[sub[0]]-v[sub[1]]] +w[i]*v[i]+w[sub[1]] * v[sub[1]]+w[sub[0]] * v[sub[0]])
+                    }
+                    res = Math.max(res, dp[i][j])
+                } else dp[i][j] = dp[i-1][j]
+            } else dp[i][j] = dp[i-1][j]
+        }
+    }
+    return res
+}
+console.log(solve(n,m,v,w,s))
 ```
+[购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 ## 正则表达式匹配
 给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
 - '.'匹配任意单个字符
