@@ -6,6 +6,16 @@ title: 算法
 
 ## 牛客
 ```js
+// 模拟readline()函数
+function* items() {
+    yield '3';
+    yield '1 2 3'
+}
+let num = items();
+function readline() {
+    return num.next().value;
+}
+// 无重复最长
 const longStr = str => {
     if(str.length === 0) return 0;
     let len = str.length;
@@ -93,6 +103,22 @@ const solve = (n, m, v, w, s) => {
     return res
 }
 console.log(solve(n,m,v,w,s))
+
+// 尼科彻斯定理 输入：6  输出：31+33+35+37+39+41
+//规律：最后一个数为：num的平方+num-1，第一个数为：num的平方-num-1
+    // 1:1-0
+    // 2:4-1
+    // 3:9-2
+    // 4:16-3
+    // 5:25-4
+    // 6:36-5
+    // let line = parseInt(readline());
+    // let start = line * (line - 1) + 1;
+    // let res = [];
+    // for(let i = 0; i < line; i++) {
+    //     res.push(start + i * 2)
+    // }
+    // return res.join('+')
 ```
 [购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 ## 正则表达式匹配
@@ -1962,26 +1988,26 @@ var minDistance = function(word1, word2) {
 // 动态规划
 function minDistance(word1, word2) {
     const m = word1.length, n = word2.length;
-    // 我们要多添加一行一列，用来base case
-    const dp = Array.from(Array(word1.length + 1), () => Array(word1.length + 1).fill(0));
-    // 添加一列base case
-    for(let i = 1; i < m; i++) {
+    // 我们要多添加一行一列，用来做base case
+    const dp = Array.from(Array(word1.length + 1), () => Array(word2.length+1).fill(0));
+    // 添加一列，base case
+    for (let i = 1; i <= m; i++) {
         dp[i][0] = i;
     }
-    // 添加一行 base case
-    for(let i = 1; i < n; i++) {
-        dp[i][i] = i
+    // 添加一行，base case
+    for (let i = 1; i <= n; i++) {
+        dp[0][i] = i;
     }
-    // 因为我们补了一行/列base case 这里都从1开始
+    // 因为我们补了一行/列base case,这里都从1开始
     for (let i = 1; i <= m; i++) {
         for (let j = 1; j <= n; j++) {
-            if (word1[i - 1] === word2[j - 1]) { // 相等什么都不做
-                dp[i][j] = dp[i - 1][j - 1];
+            if (word1[i - 1] === word2[j - 1]) { // 相等，什么都不做
+                dp[i][j] = dp[i - 1][j - 1]
             } else {
                 dp[i][j] = Math.min(
                     dp[i - 1][j] + 1, // s1删除操作
                     dp[i][j - 1] + 1, // s1插入操作
-                    dp[i - 1][j - 1]+ 1 // 替换
+                    dp[i -1][j - 1] + 1 // 替换
                 )
             }
         }

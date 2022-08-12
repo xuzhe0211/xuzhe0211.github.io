@@ -6,7 +6,7 @@ title: 快速掌握iterator Generator和async之间的关系极其用法
 ## 遍历器(迭代器)Iterator
 ### for遍历
 首先从远古讲起，刚出js的时候如何遍历一个数组呢
-```
+```js
 var arr = [1, 2, 3, 4, 7, 8, 9]
 for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
@@ -14,7 +14,7 @@ for (let i = 0; i < arr.length; i++) {
 ```
 ### forEach遍历
 看起来笨的一批，所以ES5给你研究了一个foreach方法，但是这个方法不能break，也不能改变数组自身的值，也不能返回任何值。
-```
+```js
 var arr = [1, 2, 3, 4, 7, 8, 9];
 var arr2 = arr.forEach((element, index) => {
     console.log(`第${index}个数值为${element}`);
@@ -31,7 +31,7 @@ console.log(arr); // [1, 2,3,4, 8 , 9]
 那么关于他们两的区别，[深入理解枚举属性与for-in和for-of](https://www.cnblogs.com/wangzirui98/p/11227853.html)
 
 值得一提的是for-in是可以遍历数组的，但是不推荐用for-in遍历数组，为什么呢？因为for-in返回的可枚举属性是字符类型，不是数字类型，如果'0', '1'这样的属性和1，2数组发生相加，很可能不是直接相加，二十字符串的叠加。例如：
-```
+```js
 const items = [1,2, 3,4];
 for (item in items) {
     let tempitem = item + 1;
@@ -43,7 +43,7 @@ for (item in items) {
 
 ### for-of
 接下来进入正题了，因为for-in在数组这边比较难用，所以ES6新添加的for-of来弥补for-in的不足。这个是正儿八经遍历数组的方法。与forEach()不同的是，它支持break、continue和return语句.而且他本身的语法非常简单
-```
+```js
 for (variable of iterable) {
     // statements
 }
@@ -61,7 +61,7 @@ for (variable of iterable) {
  + NodeList对象
 
 而他的原理在于这些类数组对象中都有一个属性，就是Symbol.iterator,也就是说，只要带Symbol.iterator他都能遍历，我们单独把这个属性拿出来，自己手动执行next()方法就会看到我们成功遍历了这个数组
-```
+```js
 const items = [1,2, 3,4];
 const giao = items[Symbol.iterator]();
 console.log(giao.next()); // {value: 1, done: false};
@@ -72,7 +72,7 @@ console.log(giao.next()); // {value: undefined, done: true};
 ```
 同理，我们可以通过手动写一个iterator来更深入的了解他的原理：
 
-```
+```js
 Array.prototype.myiterator = function() {
     let i = 0;
     let items = this;
@@ -98,7 +98,7 @@ giao.next(); // {value: 4, done: false}
 giao.next(); // {value: undefined, done: true}
 ```
 效果更for of 一样。另外值得注意的是，你可以在任意对象里添加这个属性，让他们可遍历。
-```
+```js
 const items = ['blue', 'yellow', 'white', 'black'];
 for(item of items) {
     console.log(item);
@@ -112,7 +112,7 @@ for(item of items) {
 本质上，**生成器函数返回的就是一个遍历器**
 
 生成器的语法很简单，就是在function后面加个*,然后用yield来返回对应的值。(其实也可以将yield看做return,只不过需要next()来进行外调用，还有一个函数只能由一个return，而yield可以有多个)
-```
+```js
 function* items() {
     yield '1';
     yield '2';
@@ -129,7 +129,7 @@ num.next(); // {value: undefined, done: true}
 ```
 那么我们yield的之间同样也可以加入运算
 
-```
+```js
 function* items() {
     let i = 0;
     yield i; // 0
@@ -148,7 +148,7 @@ console.log(nu.next()); // {value: undefined, done: true}
 ```
 利用这样的特性，我们可以用Generator来进行ajax的等待操作
 
-```
+```js
 fuction ajax(url) {
     // 请求成功自动调用next()方法。然后返回数据结果
     axios.get(url).then(res => gen.next(res.data));
@@ -169,7 +169,7 @@ gen.next(); // 获取到score
 
 *可以添加到任意位置，都不会影响genterator。下面的下发都是可以的
 
-```
+```js
 function * foo(x, y) {...}
 function *foo(x, y) {...}
 function* foo(x, y) {...}
@@ -181,7 +181,7 @@ function*foo(x, y) {...}
 
 ### 语法
 准确的说,async就是Generator的语法糖，首先看他的语法
-```
+```js
 async function laotie() {
     const data = await dosomething();
 }
@@ -199,7 +199,7 @@ laotie()
 2. <span style="color: blue">现在async的await还是保留这等待的功能,但是因为没有了next(),所以在调用await不会像yield那样返回值了。**在async中，只有return返回，而且返回的是一个promise对象**.</span>
 
 拿上面的代码直接改成async加await格式
-```
+```js
 async function items() {
     let i = 0; 
     await i;
@@ -215,7 +215,7 @@ console.log(items()) // Promise{<pending>}
 
 而这个对象，返回的值就是函数里return出来的值。我们可以用then()函数来接受这个值并答应它。
 
-```
+```js
 async function items() {
     let i = 3;
     return i ;
@@ -229,7 +229,7 @@ items().then(res => {
 ### 用法
 
 正确的用法现在是在await之后加入一个异步函数, await相当于将这个异步函数转化为同步函数，等这个异步函数执行完毕返回resolved的时候才往下执行进一步的操作：例如：
-```
+```js
 async function asyncPrint(value, ms) {
     await new Promise(resolve => {
         setTimeout(resoove, ms);
@@ -243,7 +243,7 @@ asyncPrint('hello world', 1000); // 疫苗打印除hello world
 ***用法2***
 
 先让我们把之前generator的例子拿过来
-```
+```js
 function ajax(url) {
     // 请求成功自动调用next()方法。然后返回数据结果
     axios.get(url).then(res => gen.next(res.data))
@@ -259,7 +259,7 @@ const gen = step();
 gen.next();
 ```
 写着挺累的，但是async可以快速的简化它。因为await接受的就是一个Promise函数，所以我们可以直接在await后面使用axios，然后直接使用对象解构赋值获取相应的值。
-```
+```js
 async function step() {
     const {data: {class}} = await axios.get(`http: //laotiecom/getclass`);
     cosnt {data: {core}} = await axios.get(`http://laotie.com/getscore?name=${class[0].name}`);
@@ -268,7 +268,7 @@ async function step() {
 ```
 
 对象可以设置Symbol.iterator
-```
+```js
 let iterable = {
     data: {a: 1, b: 2, c: 3}, 
     [Symbol.iterator]() {
