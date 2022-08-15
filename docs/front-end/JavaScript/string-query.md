@@ -43,7 +43,7 @@ str.charAt(index)
 
 
 
-## String.prototype.charCodeAt
+## String.prototype.charCodeAt---重要
 
 ### 1. 语法
 
@@ -77,6 +77,11 @@ str.charCodeAt(index)
   'ABC'.charCodeAt(999); // NaN
   ```
 
+## String.fromCharCode---重要
+unicode 转字符
+```js
+String.fromCharCode(65)
+```
 
 
 ## String.prototype.codePointAt
