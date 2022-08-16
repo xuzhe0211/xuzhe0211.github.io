@@ -256,7 +256,8 @@ const isDarkMode = () => {
 console.log(isDarkMode())
 ```
 ## 滚动到顶部
-初学者经常发现自己在正确滚动元素的过程中遇到困难。最简单的滚动元素的方法是使用scrollIntoView方法。添加行为。"smooth "来实现平滑的滚动动画。
+
+<span style="color: red">初学者经常发现自己在正确滚动元素的过程中遇到困难。最简单的滚动元素的方法是使用scrollIntoView方法。添加行为。"smooth "来实现平滑的滚动动画。</span>
 ```js
 const scrollTop = element => element.scrollIntoView({ behavior: 'smooth', block: 'start'});
 ```

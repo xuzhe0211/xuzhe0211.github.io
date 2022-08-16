@@ -626,7 +626,7 @@ var addstring = function(num1, num2) {
 }
 ```
 
-## sqrt
+## sqrt---平方根
 
   ```javascript
   var mySqrt = function(x) {
@@ -644,6 +644,50 @@ var addstring = function(num1, num2) {
        return right
   };
   ```
+## 立方根
+```js
+let num = readline();
+function fn(res) {
+    return res < 0 ? Math.cbrt(res).toFixed(1) : Math.pow(res, 1/3).toFixed(1);
+}
+console.log(fn(num))
+
+// 递归求解
+let str=readline()
+let num=0
+function cal(str){
+    str=Math.abs(str)
+    if(num*num*num<=str){
+        num+=0.01
+        cal(str)
+    }else{
+    return num
+    }
+}
+cal(str)
+console.log(str>=0?num.toFixed(1):-num.toFixed(1))
+
+// 二分
+const val = parseFloat(readline());
+ 
+function bs(v) { 
+  const sign = v >= 0 ? 1 : -1;
+  v = Math.abs(v);
+  let left = 0, right = Math.max(v, 1);
+  let mid;
+  while (right - left > 1e-5) {
+    mid = (right + left) / 2;
+    if (v - mid * mid * mid > 0) {
+      left = mid;
+    } else {
+      right = mid;
+    }
+  }
+  return sign * mid;
+}
+const rv =bs(val).toFixed(1);
+console.log(rv);
+```
 
 ## [动态规划]恢复空格
 
