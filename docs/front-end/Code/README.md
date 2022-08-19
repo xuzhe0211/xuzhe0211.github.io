@@ -2730,6 +2730,186 @@ const calculate = s => {
 ## 转置矩阵
 [转置矩阵](/front-end/interview/dachang.html#bigo)
 
+
+
+## hw机试
+### 字符串最大嵌套深度
+```js
+// 力扣 ()
+const maxDepth = function(s) {
+    let ans = 0, size = 0;
+    for(let i = 0; i < s.length; ++i) {
+        const ch = s[i];
+        if(ch === '(') {
+            ++size;
+            ans = Math.max(ans, size);
+        } else if(ch === ')') {
+            --size;
+        }
+    }
+    return ans;
+}
+
+// 
+function* items() {
+    yield '([]{[()]})'
+}
+const nums = items();
+const readline = () => {
+    return nums.next().value
+}
+const fn = () => {
+    const str = readline();
+    // 判断是否是有效字符串 -- 单调栈
+    const isValid = (s, n = 0) => {
+        let stack = [];
+        let nums = []
+        for (let v of s) {
+            if(!/\(|\)|\[|\]|\{|\}/.test(v)) return 0
+            if(v === '('){
+                stack.push(')');
+                n++
+            } else if(v === '['){
+                stack.push(']');
+                n++
+            } else if(v === '{'){
+                stack.push('}')
+                n++
+            } else {
+                let char = stack.pop()
+                s.includes(char) && n--
+            }
+            nums.push(n)
+        }
+        console.log(n)
+        return n === 0 ? Math.max.apply(null, nums) : 0
+    }
+    n = isValid(str, 0) 
+}
+fn('([【】])')
+```
+[参考](/front-end/Code/#最长有效括号)
+[字符串最大嵌套深度](https://leetcode.cn/problems/maximum-nesting-depth-of-the-parentheses/solution/gua-hao-de-zui-da-qian-tao-shen-du-by-le-av5b/)
+
+### 序号排序
+```js
+function* items() {
+    // yield 4'
+    // yield '100 100 120 130' // 身高
+    // yield '40 30 60 50' // 体重
+    yield '3'
+    yield '90 110 90' // 身高
+    yield '45 60 45' // 体重
+}
+const nums = items();
+const readline = () => {
+    return nums.next().value
+}
+const fn = () => {
+    let n = readline();
+    let heights = readline().split(' ').map(n => Number(n));
+    let tzs = readline().split(' ').map(n => Number(n));
+    let persons = Array.from(Array(Number(n)), (_, i) => i + 1)
+    let left = 0;
+    while(left < persons.length) {
+        let current = heights[left++];
+        let right = left + 1;
+        while(right < persons.length) {
+            let rightNode = heights[right]
+            if(rightNode < current) {
+                swap(persons, left, right);
+                swap(heights, left, right)
+                swap(tzs, left, right)
+            } else if(rightNode === current && tzs[right] < tzs[left]) {
+                swap(persons, left, right);
+                swap(heights, left, right)
+                swap(tzs, left, right)
+            }
+            right++
+        }
+    }
+    console.log(persons.join(' '))
+}
+const swap = (arr, i, j) => {
+    [arr[i], arr[j]] = [arr[j], arr[i]]
+}
+fn();
+```
+##  图 有向无权图单源最短路径问题
+```js
+function* items() {
+    yield '3 3'
+    yield '1 2 11'
+    yield '2 3 13'
+    yield '1 3 50'
+    yield '1 3' // 返回24
+    // yield '([]{[()]})'
+}
+const nums = items();
+const readline = () => {
+    return nums.next().value
+}
+// 150 10: 30 无向图 表示 [{node: 1, target:2, time: 11}]
+/**
+ * 1- 3  50或24
+ * nodes: [1, 2, 3]
+ * [{node: 1, targets: [{node: 2, target:[3]}, {node: 3, target: null}]},]
+ */
+// 自己写的 ---有些问题
+const fn = () => {
+    let line = readline()
+    const [n, m] = line.split(' '); // 节点个数n 时延列表的长度M
+    let nodes = []
+    let timesArr = []
+    let maps = []
+    for(let i = 0; i < m; i++) {
+        let times = readline().split(' ')
+        timesArr.push(times)
+        nodes = nodes.concat([times[0], times[1]])
+    }
+    const [origin, target] = readline().split(' ');
+    nodes = [...new Set(nodes)]
+    for(let v of nodes) {
+        let obj = {
+            node: v,
+            target: [],
+            times: []
+        }
+        for (let m of timesArr) {
+            if(m[0] === v) {
+                obj.target.push(m[1])
+                obj.times.push(m[2])
+            }
+        }
+        maps.push(obj)
+    }
+    let result = [];
+    let res = []
+    findnodes(maps, origin, origin, target, result, res)
+    console.log(Math.min.apply(null, res))
+}
+const findnodes = (maps, node, origin, target, result, res) => {
+    for(let obj of maps) {  
+        if(obj.node === node) {
+            let index = obj.target.indexOf(target)
+            if(index > -1) {
+                result.push(obj.times[index])
+                result = result.reduce((a, b) =>  Number(a) + Number(b), 0);
+                res.push(result)
+            } 
+            obj.target.splice(index, 1)
+            if(obj.target.length === 0) return res
+            for (let [i, v] of obj.target.entries()) {
+                findnodes(maps, v, origin, target, [obj.times[i]], res)
+            }
+        }
+    }
+}
+fn();
+```
+[LeetCode刷题16-最小传输时延](https://www.cnblogs.com/chch213/p/16558839.html)
+
+[华为OD机试真题（JavaScript）](https://blog.csdn.net/weixin_40767375/article/details/125276961)
 ## 其他
 [算法面试题汇总](https://leetcode-cn.com/leetbook/read/top-interview-questions/xmlwi1/)
 
