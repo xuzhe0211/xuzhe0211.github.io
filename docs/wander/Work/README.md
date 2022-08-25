@@ -366,6 +366,18 @@ https://github.com/cnpm/cnpmjs.org/issues/1050
 1. 路由的懒加载造成view内组件全部懒加载 
 2. splitChunk打包
 
+## html2canvas 图片引入
+:::tip
+如果图片服务器已经允许跨域;图片中添加标签crossOrigin="anonymous"
+
+之前遇到一个问题就是等待图片加载完成 img.load 其实没必要，html2canvas是根据静态节点生成图片
+:::
+```js
+{userInfo && userInfo.image && <div className='user-avatar' id="imgWrap">
+    <img src={`${userInfo && userInfo.image}?time=${Date.now()}` || `https://content-all-s3.hbfile.net/images/dynamic/2022-06/18b4bef0b3235c53454b8a4e7830ba99.png?time=${Date.now()}`} crossOrigin="anonymous"/>
+</div>}
+```
+
 **开发之前的详细设计评审(接口评审)**
 
 

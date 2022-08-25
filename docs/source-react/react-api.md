@@ -46,7 +46,9 @@ class Index extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            number: 0
+            data: {
+                number: 0
+            }
         }
     }
     render() {
