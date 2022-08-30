@@ -11,7 +11,7 @@ EcmaScript 2015中引入了[Proxy代理](https://developer.mozilla.org/zh-CN/doc
 大多数开发者都了解这两个ES6中的新增的内置模块，可是你也许并不清楚Proxy一定要配合Reflect使用。
 
 ## 前置知识
-- <span style="color: blue">Proxy代理，它内置了一系列"陷阱"用于创建一个对象的代理，从而实现基本操作的拦击和自定义(如属性查找、赋值、枚举、函数调用等)</span>
+- <span style="color: blue">Proxy代理，它内置了一系列"陷阱"用于创建一个对象的代理，从而实现基本操作的拦截和自定义(如属性查找、赋值、枚举、函数调用等)</span>
 - <span style="color: blue">Reflect反射，它提供了Javascript操作的方法。这些方法与**Proxy**的方法相同</span>
 
 <span style="color: red">**简单来说，我们可以通过Proxy创建对于原始对象的代理对象，从而在代理对象中使用Reflect达到对于Javascript原始操作的拦截**</span>
@@ -96,7 +96,7 @@ obj.value; // false
 
 我们可以看到，上述的代码同样我在proxy对象的get陷阱上打印了 console.log(receiver === proxy); 结果却是false,
 
-那么你可以思考下这里的receiver究竟是什么？其实这也是proxy中geet陷阱第三个receiver存在的意义
+那么你可以思考下这里的receiver究竟是什么？其实这也是proxy中get陷阱第二个receiver存在的意义
 
 <span style="color: red">**它是为了传递正确的调用者指向**</span>,看下面代码
 
