@@ -378,8 +378,55 @@ https://github.com/cnpm/cnpmjs.org/issues/1050
 </div>}
 ```
 
-**开发之前的详细设计评审(接口评审)**
+## 判断字符是否超过两行
+```js
+componentDidMount () {
+    const titles = document.querySelectorAll('.activity-item-title')
+    for (const item of titles) {
+      const spanOffsetHeight = item.querySelector('span').offsetHeight
+      if (spanOffsetHeight > 30) {
+        this.setState({line: 2})
+      }
+    }
+  }
+  handleLink = (path) => {
+    this.props.history.push(path)
+    sensorsSend(path === '/activity/trade/spot' ? 'home_joinspot' : 'home_joinfuture')
+  }
+  render () {
+    const { state = 1 } = this.props.activityInfo || {}
+    const {line} = this.state
+    this.isloading = Object.prototype.toString.call(state).slice(8, -1).toLowerCase() !== 'number'
+    return (
+      <div>
+        {this.isloading ? ''
+          : <div className={`infomation-entry-sub ${state !== 0 && 'infomation-entry-activity'}`}>
+            <div className='activity-item'>
+              {state !== 0 && <span className="btn btn-primary" onClick={this.handleLink.bind(this, '/activity/trade/spot')}>{intl('{#进入赛场#}')}</span>}
+              <div className={line === 2 ? 'activity-item-title activity-item-titleHeight' : 'activity-item-title'}><span>{intl('{#交易赛#}')}</span></div>
+              <div className='activity-item-content'>
+                <span>{intl('{#赢取#}')}</span>
+                <p>1,000,000<s>USDT</s></p>
+              </div>
+            </div>
+            <div className='activity-item'>
+              {state !== 0 && <span className="btn btn-primary" onClick={this.handleLink.bind(this, '/activity/trade/contract')}>{intl('{#进入赛场#}')}</span>}
+              <div className={line === 2 ? 'activity-item-title activity-item-titleHeight' : 'activity-item-title'}><span>{intl('{#交易赛#}')}</span></div>
+              <div className='activity-item-content'>
+                <span>{intl('{#赢取#}')}</span>
+                <p>1,000,000<s>USDT</s></p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    )
+  }
+}
+```
+[参考资料](https://www.it1352.com/721302.html)
 
+**开发之前的详细设计评审(接口评审)**
 
 
 
