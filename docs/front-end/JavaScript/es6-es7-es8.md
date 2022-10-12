@@ -419,10 +419,10 @@ if (arr.includes('react')) {
 ```
 
 ### 指数操作符
-在ES7中引入指数运算符**， **具有与Math.pow(..)等效得计算结果
+<span style="color: red">在ES7中引入指数运算符**， **具有与Math.pow(..)等效得计算结果</span>
 > 不使用指数操作符
 使用自定义的递归函数calculateExponent或Math.pow()进行指数运算：
-```
+```js
 function calculateExponent(base, exponent) {
     if (exponent === 1) {
         return base;
@@ -435,7 +435,7 @@ console.log(calculateExponent(2, 10)); // 1024 console.log(Math.pow(2, 10));
 > 使用指数操作符
 
 使用指数运算符**， 就像+，-等操作符一样
-```
+```js
 console.log(2 ** 10);
 ```
 

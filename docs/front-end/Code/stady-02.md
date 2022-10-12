@@ -1029,7 +1029,7 @@ var intersect = function(nums1, nums2) {
     const nums1len = nums1.length;
     const nums2len = nums2.length;
     const ret = [];
-    if (l1 < nums1len && l2 < nums2.length) {
+    while (l1 < nums1len && l2 < nums2len) {
         if (nums1[l1] === nums2[l2]) {
             ret.push(num1[l1]);
             l1++;

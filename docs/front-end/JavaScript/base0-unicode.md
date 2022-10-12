@@ -31,13 +31,13 @@ U+597D = 好
 ![码点规则](./images/bg2014121104.png)
 
 ## UTF-32与URF-8
-Unicode只规定了每个字符的码点，到是用什么样的字节序表示这个码点，就涉及到编码方法。
+<mark>Unicode只规定了每个字符的码点，到是用什么样的字节序表示这个码点，就涉及到编码方法</mark>。
 
 <span style="color: blue">**最直观的编码方法是，每个码点使用四个字节表示，字节内容一一对应码点。这种编码方法就叫做UTF-32**</span>。比如，码点0就用四个字节的0表示，码点597D就在前面加两个字节0
 
 ```js
 U+0000 = 0x0000 0000
-U+597D = 0x000 597D
+U+597D = 0x0000 597D
 ```
 ![UTF-32编码](./images/bg2014121116.png)
 
@@ -82,3 +82,9 @@ ES6可以自动识别4字节的码点。因此，遍历字符串就简单多了�
 
 ## 资料
 [原文](https://www.ruanyifeng.com/blog/2014/12/unicode.html)
+
+[bililli--编码](https://www.bilibili.com/video/BV1cB4y177QR/?spm_id_from=333.934.0.0&vd_source=de30ac81210d4a5cbe5f60dc49fcb9a3)
+
+[计算机组成](/wander/Life/)
+
+<!-- unicode--字符集-->

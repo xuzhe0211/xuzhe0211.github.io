@@ -1,5 +1,5 @@
 ---
-autoGroup-1: 调试
+autoGroup-1: 性能指标-调试
 title: chrome调试-性能分析performance篇
 ---
 ## performance 页面性能分析

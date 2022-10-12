@@ -6,3 +6,5 @@ title: 关于JS浮点数运算不精确的原因和解决方案
 
 ## 资料
 [原文](https://zhuanlan.zhihu.com/p/272108051)
+
+[小数部分二进制计算](https://jingyan.baidu.com/article/eb9f7b6dc692e9c79264e878.html)

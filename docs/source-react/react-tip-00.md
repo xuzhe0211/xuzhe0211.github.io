@@ -3,7 +3,7 @@ autoGroup-1: react-tips
 title: React中setState方法详解
 ---
 ## 为什么要使用setState方法,如何用？
-在React中，组件分为有状态组件和无状态组件,有状态的组件就是能够定义state的组件，比如类组件;无状态的组件反之，比如函数组件。state就是用来描述事物在某时刻的数据，可以改变，改变后与视图相映射，用来保存数据和响应视图。
+在React中，组件分为有状态组件和无状态组件,有状态的组件就是能够定义state的组件，比如类组件;无状态的组件反之，比如函数组件。<span style="color: red">state就是用来描述事物在某时刻的数据，可以改变，改变后与视图相映射，用来保存数据和响应视图</span>。
 
 虽然状态可以改变，但不是响应式的，动态改变并没有与视图响应，想要改变并响应视图则需要setState修改并更新视图
 
@@ -171,11 +171,11 @@ componentDidUpdate() {
 
     export default class App extends Component {
         state = {
-            cuont: 1,
+            count: 1,
         }
         countRef = createRef();
         componentDidMount() {
-            this.countRef.current.onClick = () => {
+            this.countRef.current.onclick = () => {
                 this.setState({
                     count: this.state.count + 1,
                 })
@@ -185,7 +185,7 @@ componentDidUpdate() {
         render() {
             return 
                 <div>
-                    <h2>{this.state.cuont}</h2>
+                    <h2>{this.state.count}</h2>
                     <button ref={this.countRef}>点击</button>
                 </div>
         }

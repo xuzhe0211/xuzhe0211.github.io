@@ -108,6 +108,11 @@ function getLists() {
 let [lists = getLists()] = [];
 console.log(lists); // [1,2,3,4,5]
 // 因为变量 lists 无法匹配到值，函数getLists()就会执行。故而返回数据[1,2,3,4,5]
+
+// 区别********************************
+let xx 
+var {obj = xx} = {obj: {a: 1}} // obj: {a: 1} xx undefined
+var {obj : xx} = {obj: {a: 1}} // obj: {a: 1} xx: {a: 1}
 ```
 <span style="color: blue">**注意点:** 默认值可以引用解构赋值的其他变量，但该变量必须已经声明</span>
 
@@ -218,7 +223,7 @@ let {name: userName, age: userAge} = profiles;
 console.log(userName); // April
 console.log(userAge); // 27
 ```
-由此克制，对象的结构赋值其实就是let {name:name, age: age} = {name: 'April', age: '27'}代码的简写。也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后在赋给对应的变量。真正被赋值的是后者，而不是前者。
+<span style="color: red">由此可知，对象的结构赋值其实就是let {name:name, age: age} = {name: 'April', age: '27'}代码的简写。也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后在赋给对应的变量。真正被赋值的是后者，而不是前者。</span>
 
 <span style="color: blue">上面的代码中，name是匹配模式，userName才是变量。真正被赋值的是变量userName，而不是模式name</span>
 

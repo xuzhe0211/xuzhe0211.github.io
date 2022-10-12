@@ -101,4 +101,6 @@ a = 11;
 **回到上面的js运行时两个阶段，编译阶段和执行阶段，编译阶段就是源码->AST->字节码，执行阶段就是基于字节码、机器码执行**
 
 ## 资料
+[创建变量、初始化、赋值](/front-end/interview/dachanng3.html#程序阅读题)
+
 [探究javascript的运行时](https://www.jianshu.com/p/672d512fdbae)

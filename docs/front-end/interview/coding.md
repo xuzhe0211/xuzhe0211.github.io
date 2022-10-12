@@ -555,6 +555,8 @@ function timeout(fn, seconds) {
 ```
 [实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/387)
 
+[超时取消](/front-end/JavaScript/es6-promise02-race.html#让promise等待指定时间)
+
 ## 实现二维数组斜线打印
 ```js
 var arr = [
@@ -765,24 +767,22 @@ console.log(flatten(treeData))
 ## 相邻且相等，则消除
 ```js
 const fromatArray = nums => {
-    let right = 0;
-    let arr = [...nums];
-    // let temp = arr.slice(0,2); // [{index, num}]
+    let len = nums.length;
+    let left = 1;
     let temp;
-    for (let i = 0; i < arr.length; i++) {
-        right = i + 1;
-        while(right < arr.length) {
-            if (arr[i] === arr[right] || arr[i] === temp) {
-                // temp.push(arr[i])
-                temp = arr[i]
-                arr.splice(i, 1)
-                i = -1;
-            } else {
-                right++;
-            }
+    while(left < nums.length) {
+        if(nums[left - 1] === nums[left]) {
+            temp = nums[left]
+            nums.splice(left - 1, 2);
+            left = 1;
+            continue;
+        } else if(temp === nums[left]) {
+            nums.splice(left, 1)
+            temp = ''
         }
+        left++;
     }
-    return arr;
+    return nums;
 }
 console.log(fromatArray([1,6,6,6,7,7,8,9]))
 

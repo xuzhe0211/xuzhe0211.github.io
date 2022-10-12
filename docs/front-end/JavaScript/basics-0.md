@@ -93,13 +93,13 @@ BOM与DOM的结构关系示意图
 
 BOM的核心是window，而Window对象又具有双重角色，它即是通过js访问浏览器窗口的一个接口，又是一个Global(全局)对象。这意味着在网页中定义的任何对象，变量和函数，都以window作为其global对象
 
-window对象包含属性：document,location,navigator,screen,history,frames
+<span style="color:red">window对象包含属性：document,location,navigator,screen,history,frames</span>
 
 document根节点包含子节点：forms，location,anchors,images,links
 
 从window.document已然可以看出，DOM的最根本的对象是BOM的window对象的子对象
 
-区别：DOM没描述了处理网页内容的方法和接口，BOM描述了与浏览器进行交互的方法和接口
+区别：DOM描述了处理网页内容的方法和接口，BOM描述了与浏览器进行交互的方法和接口
 
 ### window对象
 window对象是Javascript层级中的顶层对象

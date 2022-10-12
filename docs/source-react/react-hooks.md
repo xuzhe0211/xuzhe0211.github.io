@@ -106,7 +106,7 @@ useState就是一个Hooks，以前的函数组件是无状态的，但是有了H
 
 先举一个关于class生命周期钩子问题的例子
 
-```
+```js
 // Count 计数组件
 class Example extends React.Component {
     constructor(props) {
@@ -139,7 +139,7 @@ class Example extends React.Component {
 
 useEffect是怎么解决？
 
-```
+```js
 import React, { useState, useEffect } from 'react';
 
 function Example() {

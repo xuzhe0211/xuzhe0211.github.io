@@ -57,7 +57,7 @@ if('WebSocket' in window) {
             }
             ws.send(JSON.stringify(message2));
             // 心跳检测启动
-            $scope.heartCheck.start(); // 订阅业务发送之后启动心跳检测机制
+            $scope.heardCheck.start(); // 订阅业务发送之后启动心跳检测机制
         }
         // 业务订阅成功后接受服务端推送消息
         ws.onmessage = function(evt) {

@@ -8,37 +8,37 @@ title: Set/Map区别
 ## 总结
 ### set
 
-1. 成员不能重复
-2. 只有键值，没有键名，有点类似数组
-3. 可以遍历，方法有add，delete, has
+1. <span style="color: blue">成员不能重复</span>
+2. <span style="color: blue">只有键值，没有键名，有点类似数组</span>
+3. <span style="color: blue">**可以遍历，方法有add，delete, has**</span>
 
 ### weakSet
 
-1. 成员都是对象
-2. 成员都是弱引用，随时可以消失。可以用来保存DOM节点，不容易造成内存泄漏
-3. 不能遍历，方法有add,delete, has
+1. <span style="color: blue">成员都是对象</span>
+2. <span style="color: blue">**成员都是弱引用，随时可以消失。可以用来保存DOM节点，不容易造成内存泄漏**</span>
+3. <span style="color: blue">**不能遍历，方法有add,delete, has**</span>
 
 ### Map
 
-1. 本质上是键值对的集合，类似集合。
-2. 可以遍历，方法有很多，可以跟各种数据转换
+1. <span style="color: blue">本质上是键值对的集合，类似集合。</span>
+2. <span style="color: blue">可以遍历，方法有很多，可以跟各种数据转换</span>
 
 ### weakMap
 
-1. 直接受对象作为建名(null除外)，不接受其他类型的值作为键名
-2. 键名所指向的对象，不计入垃圾回收机制
-3. 不能遍历，方法get,set,has, delete
+1. <span style="color: blue">直接受对象作为建名(null除外)，不接受其他类型的值作为键名</span>
+2. <span style="color: blue">键名所指向的对象，不计入垃圾回收机制</span>
+3. <span style="color: blue">不能遍历，方法get,set,has, delete</span>
 
-Set和Map主要的应用场景在于数据重组和数据储存
+<span style="color: red">Set和Map主要的应用场景在于数据重组和数据储存</span>
 
-Set是一种叫做集合的数据类型，Map是一种叫做字典的数据类型。
+<span style="color: red">Set是一种叫做集合的数据类型，Map是一种叫做字典的数据类型。</span>
 
 ## 集合(Set)
 
 ES6新增的一种新的数据类型，类似数组，但是成员的唯一且无序的，没有与重复的值。
 
 Set本身是构造函数，用来生成Set数据类型
-```
+```js
 new Set();
 //举个栗子
 const s = new Set();
@@ -56,7 +56,7 @@ Set对象允许你储存任何类型的唯一值，无论是原始值或是对�
 向Set加入值的时候，不会发生类型转换，所以5和'5'是不同的值。
 
 Set内部判断两个值是否不同，使用的算法叫做'Same-value-zero equuality'，它类似精确相等运算符(===)，主要区别是NaN等于自身，而精确相等运算法认为NaN不等于自身
-```
+```js
 let set = new Set();
 let a = NaN;
 let b = NaN;
@@ -72,7 +72,7 @@ console.log([...set1])//[5, '5']
 Set实例属性
 - construcotor属性
 - size元素数量
-```
+```js
 let set = new Set([1,2,3,2,1]);
 console.log(set.length) //undefined
 console.log(set.size);//3
@@ -82,7 +82,7 @@ Set实例方法
 - delete(value):存在即删除集合中value
 - has(value):判断集合中是否存在value
 - clear():清空集合
-```
+```js
 let set = new Set();
 set.add(1).add(2).add(1);
 set.has(1);//true
@@ -91,7 +91,7 @@ set.delete(1);/
 set.has(1);//false;
 ```
 Array.from方法可以将Set结构转成数组
-```
+```js
 const items = new Set([1,2,3,2]);
 const array = Array.from(items);
 console.log(array);
@@ -106,7 +106,7 @@ console.log(arr);
 - entries():返回一个包含Set对象中所有元素的键值对的迭代器
 - forEach(callbackFn, thisArg):用于对集合成员执行callbackFn操作，如果提供了thisArg参数，回调中的this会是这个参数，没有返回值
 
-```
+```js
 let set = new Set([1,2,3]);
 console.log(set.keys())
 console.log(set.values())
@@ -119,12 +119,12 @@ for (let item of set.keys()) {
 
 Set可默认遍历，默认迭代器生成函数是values()方法
 
-```
+```js
 Set.prototype[Symbol.intertor] === Set.prototype.values // true
 ```
 所以，Set可以使用map,filter方法
 
-```
+```js
 let set = new Set([1,2,3]);
 set = new Set([...set]).map(item => item * 2);
 console.log([...set]) //[2,4,6]
@@ -135,7 +135,7 @@ console.log([...set])
 
 因此，Set很容易实现交集、并集、差集
 
-```
+```js
 let set1 = new Set([1,2,3]);
 let set2 = new Set([4,3,2]);
 
@@ -158,7 +158,7 @@ WeakSet与Set的区别：
 - has(value):判断WeakSet对象中是否包含value
 - delete(value):删除元素value
 
-```
+```js
 var ws = new WeakSet();
 var obj = {};
 var foo = {};
@@ -238,7 +238,7 @@ map.get(NaN);//123
 - constructor:构造函数
 - size:返回字典中所包含的元素个数
 
-  ```
+  ```js
   const map = new Map([
       ['name', 'An'],
       ['des', 'JS']
@@ -260,7 +260,7 @@ map.get(NaN);//123
 - entries():返回所有成员的迭代器
 - forEach():遍历字典所有成员
 
-```
+```javascript
 const map = new Map([
 	['name', 'An'],
     ['des', 'JS']
@@ -268,14 +268,15 @@ const map = new Map([
 console.log(map.entries())    // [Map Entries] { [ 'name', 'An' ], [ 'des', 'JS' ] }
 console.log(map.keys()) // [Map Iterator] { 'name', 'des' }
 ```
+
 Map结构的默认遍历器接口(Symbol.interator属性)，就是entries方法
-```
+```js
 map[Symbol.iterator] === map.entries;//true
 ```
 
 Map结构转为数组结构，比较快速的方法就是使用扩展运算符(...)
 
-```
+```js
 const reporter = {
 	report: function(key, value) {
     	console.log('Key: %s, Value: %s', key, value);
@@ -293,19 +294,19 @@ map.forEach(function(value, key, map){
 
 **与其他数据结构的相互转换**
 1. Map转Array
-```
+```js
 const map = new Map([[1,1], [2,2]， [3,3]]);
 console.log([...map])
 ```
 2. Array转map
-```
+```js
 const map = new Map([[1,1], [2,2], [3,4]]);
 console.log(map)
 ```
 3. Map转Object
 
 因为Object的键名都为字符串，而Map的键名为对象，所以转换的时候会把非字符串键名转换为字符串键名
-```
+```js
 function mapToObj(map) {
 	var obj = Object.create(null);
     for (let [key, value] of map) {
@@ -318,7 +319,7 @@ mapToObj(map)
 ```
 4. Object 转 Map
 
-```
+```js
 functon objToMap(obj) {
 	let map = new Map();
     for (let key of Object.keys(obj)) {
@@ -330,13 +331,14 @@ objToMap({'name': 'An', 'des': 'Js'})
 ```
 
 5. Map转JSON
-```
+
+```js
 function mapToJson(map) {
 	return JSON.stringify([...map])
 }
 ```
 6. JSON转Map
-```
+```js
 function jsonToStrMap(jsonStr) {
 	return objToMap(JSON.parse(jsonStr))
 }
@@ -359,7 +361,7 @@ WeakMap中，每个键对自己所引用对象的引用都是弱引用，在没�
 - set(key):设置一组key关联对象
 - delete(key)：删除key的关联对象
 
-```
+```js
 let myElement = document.getElementById('logo');
 let myWeakmap = new WeakMap();
 

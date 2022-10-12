@@ -120,7 +120,7 @@ let arr = [
   console.log('输出a,b,c',a, b, c)
   ```
 
-- 递归实现，调用fun函数，每次都创建1个变量k。调用n次，空间复杂度O(n * 1) = O(n)
+- <span style="color: red">**递归实现，调用fun函数，每次都创建1个变量k。调用n次，空间复杂度O(n * 1) = O(n)**</span>
 
   ```
   function fun(n) {

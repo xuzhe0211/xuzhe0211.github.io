@@ -31,21 +31,25 @@ Nodejs主要由V8、Libuv和第三方库组成：
 上图是Node.js的代码架构，Node.js的代码主要分为JS、C++、C三种
 1. <span style="color: blue">JS是我们平时使用的那些模块(http/fs)</span>
 2. <span style="color: blue">C++代码分为三个部分，第一部分是封装了Libuv的功能，第二部分则是不依赖于Libuv(crypto部分API使用了Libuv线程池)，比如Buffer模块，第三部分是V8的代码</span>
-3. <span style="color: blue">C语言层的代码主要是分支了操作系统的功能TCP UDP</span>
+3. <span style="color: blue">C语言层的代码主要是封装了操作系统的功能，比如TCP UDP</span>
 
 了解了Node.js的组成和代码架构之后，我们看看Node.js启动的过程都做了什么？
 
 ## Node.js启动过程
+1. <mark>注册C++模块</mark>
+2. <mark>Environment对象和绑定Context</mark>
+3. <mark>初始化模块加载器</mark>
+4. <mark>执行用户代码。Libuv事件循环</mark>
 ### 注册C++模块
 
 ![注册C++模块](./images/641.jpg)
 
 首先Node.js会调用registerBuiltinModules函数注册C++模块，这个函数会调用一系列registerxxx函数，我们在Node.js源码里找不到这些函数，因为这些函数是在各个C++模块中，通过宏定义实现的，宏展开后就是上图黄色框的内容，每个registerxxx函数的作用就是往C++模块的链表插入一个节点，最后形式一个链表
 
-那么Node里是如何访问这些C++模块的呢？在Node.js中，是通过internalBinding访问C++模块的，internalBinding的逻辑很简单，就是根据模块名从模块队列中找到对应的模块。但是这个函数只能在Node.js内部使用，用户可以通过process.binding访问C++模块
+<span style="color:red">那么Node里是如何访问这些C++模块的呢？在Node.js中，是通过internalBinding访问C++模块的，internalBinding的逻辑很简单，就是根据模块名从模块队列中找到对应的模块。</span><mark>但是这个函数只能在Node.js内部使用，用户可以通过process.binding访问C++模块</mark>
 
 ### Environment对象和绑定Context
-注册完C++模块后就开始创建Environment对象，Environment是Node.js执行时的环境对象，类似一个全局变量的作用,他记录了Nodejs在运行时的一些公共数据。创建完Environment后，Node.js会把该对象绑定到V8的Context中，为什么要这样做呢？主要是为了在V8的执行上下文里拿到env对象，因为V8中只有Isolate、Context这些对象，如果我们想在V8的执行环境中获取Environment对象的内容，就可以通过Context获取Environment对象
+<mark>注册完C++模块后就开始创建Environment对象，Environment是Node.js执行时的环境对象，类似一个全局变量的作用,他记录了Nodejs在运行时的一些公共数据</mark>。创建完Environment后，Node.js会把该对象绑定到V8的Context中，为什么要这样做呢？主要是为了在V8的执行上下文里拿到env对象，因为V8中只有Isolate、Context这些对象，如果我们想在V8的执行环境中获取Environment对象的内容，就可以通过Context获取Environment对象
 
 ![Environment对象和绑定Context](./images/642.jpg)
 ![Environment对象和绑定Context-1](./images/643.jpg)
@@ -61,7 +65,7 @@ Nodejs主要由V8、Libuv和第三方库组成：
 
 分别加载了一个用户模块和原生JS模块，我们看看加载过程，执行require的时候
 
-1. <span style="color: blue">Node.js首先判断是否是原生JS模块，如果不是咋直接加载用户模块，否则会使用原生模块加载器加载原生JS模块</span>
+1. <span style="color: blue">Node.js首先判断是否是原生JS模块，如果不是则直接加载用户模块，否则会使用原生模块加载器加载原生JS模块</span>
 2. <span style="color: blue">加载原生JS模块的时候，如果用到C++模块，则使用internalBinding去加载</span>
 
 ![初始化模块加载器](./images/644.jpg)
@@ -131,7 +135,7 @@ Poll IO阶段是最重要和复杂的一个阶段，下面我们看一下实现�
 ### 创建进程
 <span style="color: blue">Node.js中的进程是使用fork+exec模式创建的，fork就是复制主进程的数据，exec是加载新的程序执行。</span>
 
-<span style="color: blue">Node.js提供了异步和同步创建进程两种模式</span>
+<mark>Node.js提供了异步和同步创建进程两种模式</mark>
 
 1. <span style="color:red">异步方式就是创建一个子进程后，主进程和子进程独立执行，互不干扰。在主进程的数据结构中如图所示，主进程会记录子进程的信息，子进程退出的时候会用到</span>
     ![异步方式](./images/653.jpg)
@@ -149,7 +153,7 @@ Poll IO阶段是最重要和复杂的一个阶段，下面我们看一下实现�
 
 ![进程间通信](./images/656.jpg)
 
-Node.js选取的进程间通信方式是Unix域，Node.js为什么会选取Unix域呢？因为只有Unix域支持描述符传递，文件描述符传递是一个非常重要的能力。
+<mark>Node.js选取的进程间通信方式是Unix域，Node.js为什么会选取Unix域呢？因为只有Unix域支持描述符传递，文件描述符传递是一个非常重要的能力。</mark>
 
 首先我们看一下文件系统和进程的关系，在操作系统中，当进程打开一个文件的时候，他就是形成了一个fd->file-inode这样的管理，这种关系在fork子进程的时候会被继承
 
@@ -159,9 +163,9 @@ Node.js选取的进程间通信方式是Unix域，Node.js为什么会选取Unix�
 
 具体实现
 
-1. Node.js底层通过cosketpair创建两个文件描述符，主进程拿到其中一个文件描述符，并且封装了send和onmessage方法进程进程间通信
-2. 接着主进程通过环境变量把另一个文件描述符传给子进程
-3. 子进程同样基于文件描述符封装发送和接受数据的接口，这样两个进程就可以进行通信了
+1. <span style="color: blue">Node.js底层通过socketpair创建两个文件描述符，主进程拿到其中一个文件描述符，并且封装了send和onmessage方法进程进程间通信</span>
+2. <span style="color: blue">接着主进程通过环境变量把另一个文件描述符传给子进程</span>
+3. <span style="color: blue">子进程同样基于文件描述符封装发送和接受数据的接口，这样两个进程就可以进行通信了</span>
 
 ![进程通信](./images/657.jpg)
 
@@ -185,7 +189,7 @@ Node.js中多线程的架构如下图所示，每个子线程本质上是独立�
 4. 接着从通信的数据中读取文件，然后加载对应的js文件，最后进入事件循环
 
 ### 线程间通信
-那么Node.js中的线程是如果通信的呢？线程和进程不一样，进程的地址空间是独立，不能直接通信，但是线程的地址是共享的，所以可以基于进程的内存直接进行通信
+那么Node.js中的线程是如果通信的呢？<span style="color: blue">线程和进程不一样，进程的地址空间是独立，不能直接通信，但是线程的地址是共享的，所以可以基于进程的内存直接进行通信</span>
 
 ![线程内存通信](./images/660.jpg)
 
@@ -202,14 +206,19 @@ Node.js中多线程的架构如下图所示，每个子线程本质上是独立�
 1. 线程1调用postMessage发送消息
 2. postMessage会先对消息进行序列化
 3. 然后拿到对端消息队列的锁，并把消息插入度列中
-4. 城府发送消息后，还需要通知消息接收者所在的线程
-5. 消息接收者会在时间循环的Poll IO阶段处理这个消息
+4. 成功发送消息后，还需要通知消息接收者所在的线程
+5. 消息接收者会在事件循环的Poll IO阶段处理这个消息
 
 ![线程通信](./images/662.jpg)
 
 ## Cluster
 
 我们知道Node.js是单进程架构的，不能很好地利用多核，Cluster模块使得Node.js支持多进程的服务器架构。<span style="color:blue">Node.js支持轮训(主进程accept)和共享(子进程accept)两种模式，可以通过环境变量进行设置。多进程的服务器架构通常有两种模式，**第一种是主进程处理连接，然后分发给子进程处理，第二种是进程共享socket，通过竞争的方式获取连接进行处理**</span>
+
+:::danger
+cluster模块采用的是经典的主从模型，Cluster会创建一个master，然后根据你指定的数量复制处多个子进程，可以使用cluster.isMaster属性判断当前进程是master还是worker(工作进程).由master来管理所有的子进程，主进程不负责具体的任务处理，主要工作是负责调度和管理
+:::
+[Node.js的进程](/back-end/Node/base-02.html#node-js中的进程)
 
 ![多进程](./images/663.jpg)
 
@@ -297,7 +306,7 @@ Node.js中，是通过监听newListener事件来实现信号的监听的，newLi
 
 ## 文件
 ### 文件操作
-Node.js中文件操作分为同步和异步模式，同步模式就是在主进程中直接调用文件系统的API，这种方式可能会引起进程的阻塞，异步方式是借助了Libuv线程池，把阻塞操作放到子线程中去处理，主线程可以继续处理其他操作
+<span style="color: red">Node.js中文件操作分为同步和异步模式，同步模式就是在主进程中直接调用文件系统的API，这种方式可能会引起进程的阻塞，**异步方式是借助了Libuv线程池**，把阻塞操作放到子线程中去处理，主线程可以继续处理其他操作</span>
 
 ![文件操作](./images/608.jpg)
 

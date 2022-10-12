@@ -52,6 +52,7 @@ rgb2hex('rgb(255, 255, 255)')
 rgb2hex('rgb(16, 10, 255)')
 // "#100AFF"
 ```
+[非捕获正则](/front-end/JavaScript/a-exgrep1.html#子表达式)
 ## 如何模拟实现Array.prototype.splice
 ```js
 Array.prototype._splice = function(start, deleteCount, ...addList) {
@@ -99,7 +100,7 @@ function test() {
 }
 test()
 ```
-<span style="color: red">forEach是不能阻塞的，默认是请求并行发起,所以同时输出1、4、9</span>
+<span style="color: red">**forEach(map/every/some)是不能阻塞的，默认是请求并行发起,所以同时输出1、4、9**</span>
 
 串行解决方案
 ```js

@@ -210,14 +210,14 @@ if (cluster.isMaster) {
 开启多进程时候端口疑问讲解:如果多个Node进程监听同一个端口时出现Error：listen EADDRIUNS的错误，而cluster为什么可以让多个子进程监听同一个端口呢？**<span style="color: blue">原因是master进程内部启动了一个TCP服务器，而真正监听端口的只有这个服务器，当来自前端的请求触发服务器的connection事件后，master会将对应的socket句柄发送给子进程</span>**
 
 ### child_process模块与cluster模块总结
-无论是child_process模块还是cluster模块，为了解决Node.js实例单线程运行，无法利用多核CPU的问题而出现的。**<span style="color: blue">核心就是父进程(即master进程)负责监听端口，接收到新的请求后将其分发给下面的worker进程</span>**
+<mark>无论是child_process模块还是cluster模块，为了解决Node.js实例单线程运行，无法利用多核CPU的问题而出现的</mark>。**<span style="color: blue">核心就是父进程(即master进程)负责监听端口，接收到新的请求后将其分发给下面的worker进程</span>**
 
 cluster模块的弊端
 
 ![child_process](./images/618.jpg)
 ![cluster](./images/16d04aa5bbe66349_tplv-t2oaga2asx-zoom-in-crop-mark_1304_0_0_0.png)
 
-<span style="color: blue">cluster内部隐式的构建TCP服务器的方式对使用者确实简单和透明了很多，但是这种方式无法像使用child_process那样灵活，因为一直主进程只能管理一组相同的工作进程；而自行通过child_process来创建的工作进程，一个主进程可以控制多组进程。原因是child_process操作子进程时，可以隐式的创建多个TCP服务器，对比上面的两幅图应该能理解</span>
+<span style="color: blue">cluster内部隐式的构建TCP服务器的方式对使用者确实简单和透明了很多，但是这种方式无法像使用child_process那样灵活，因为一直主进程只能管理一组相同的工作进程；而自行通过child_process来创建的工作进程，一个主进程可以控制多组进程。<mark>原因是child_process操作子进程时，可以隐式的创建多个TCP服务器，对比上面的两幅图应该能理解</mark></span>
 
 ## Node.js进程通信原理
 前面讲解的无论是child_process模块，还是cluster模块，都需要主进程和工作进程之间的通信。<span style="color: blue">通过fork()或者其他API,创建了子进程之后,为了实现父子进程之间的通信,父子继承之间才能通过message和send()传递消息。</span>
@@ -410,6 +410,9 @@ https://www.jianshu.com/p/fdc12d82b661
 - 查找与进程相关的PID号
     ```javascript
     ps aux | grep server
+
+    // demo
+    px aux | grep 41184
     ```
 - 杀死进程
     - 以优雅的方式结束进程

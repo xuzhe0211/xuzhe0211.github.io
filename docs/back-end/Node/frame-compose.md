@@ -5,13 +5,13 @@ title: Koa2 和 Express 中间件对比
 ## Koa2中间件
 koa2的中间件是通过async await实现的，中间件执行顺序是"洋葱性"模型。
 
-中间件之间通过next函数联系，当一个中间件调用next()后，会将控制权交给下一个中间件，直到下一个中间件不在执行next()后，将会沿路这番，将控制权一次交给前一个中间件
+<mark>中间件之间通过next函数联系，当一个中间件调用next()后，会将控制权交给下一个中间件，直到下一个中间件不在执行next()后，将会沿路折返，将控制权依次交换给前一个中间件</mark>
 
 ![洋葱模型1](./images/2892151181-5ab48de7b5013_fix732.png)
 
 ### koa2中间件实例
 app.js
-```
+```js
 const Koa = require('koa');
 const app = new Koa();
 
@@ -42,7 +42,7 @@ app.use(async ctx => {
 app.listen(3000);
 ```
 执行app.js后，浏览器访问 http://localhost:3000/text , 控制台输出结果：
-```
+```js
 第一层 - 开始
 第二层 - 开始
 第三层 - 开始
@@ -55,7 +55,7 @@ app.listen(3000);
 下面是一个登录验证的中间件
 
 loginCheck.js
-```
+```js
 module.exports = async (ctx, next) => {
   if (ctx.session.username) {
     // 登录成功，需执行await next()，以继续执行下一步
@@ -70,7 +70,7 @@ module.exports = async (ctx, next) => {
 }
 ```
 在删除操作中使用loginCheck.js
-```
+```js
 router.post('delete', loginCheck, async (ctx, next) => {
   const author = ctx.session.username;
   const id = ctx.query.id;
@@ -99,7 +99,7 @@ router.post('delete', loginCheck, async (ctx, next) => {
 - 实现next机制，即上一个中间件会通过next触发下一个中间件
 
 ### express中间件实例
-```
+```js
 const express = require('express');
 
 const app = express();
@@ -133,7 +133,7 @@ app.listen(3000, () => {
 })
 ```
 执行app.js后，浏览器访问 http://localhost:3000/api , 控制台输出结果：
-```
+```js
 第一层 - 开始
 第一层 - 结束
 第二层 - 开始
@@ -144,7 +144,7 @@ app.listen(3000, () => {
 因为上面各个中间件中的next()是异步执行的，所以打印结果是线性输出的。
 
 如果取消上面next()的异步执行，直接如下方式
-```
+```js
 const express = require('express')
 
 const app = express()
@@ -188,7 +188,7 @@ app.listen(3000, () => {
 下面是一个登录验证的中间件
 
 // loginCheck.js
-```
+```js
 module.exports = (req, res, next) => {
     if (req.session.username) {
         // 登陆成功，需执行 next()，以继续执行下一步
@@ -203,7 +203,7 @@ module.exports = (req, res, next) => {
 } 
 ```
 在删除操作中使用 loginCheck.js :
-```
+```js
 router.post('/delete', loginCheck, (req, res, next) => {
     const author = req.session.username
     const id = req.query.id

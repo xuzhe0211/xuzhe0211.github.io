@@ -120,6 +120,9 @@ console.log(solve(n,m,v,w,s))
     // }
     // return res.join('+')
 ```
+
+[最长公共子序列](/front-end/Code/concept-dp.html#最长公共子序列)
+
 [购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 ## 正则表达式匹配
 给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
@@ -507,7 +510,7 @@ console.log(formatArr([1,2,3,4,5]))
 [洗牌函数](/front-end/interview/coding.html#如何实现一个数组的洗牌函数)
 ## JavaScript 深拷贝
   ```javascript
-  //
+  //简单
   function copyObj(obj) {
       var newobj = {};
       for(const key in obj) {
@@ -519,6 +522,21 @@ console.log(formatArr([1,2,3,4,5]))
       }
       return newobj;
   }
+  // 数组对象
+    function deepClone(obj, initobj) {
+        let newobj = initobj || {};
+            for(let key in obj) {
+                if(typeof obj[key] === 'object') {
+                    newobj[key] = obj[key].constructor === Array ? [] : {}
+                    deepClone(obj[key], newobj[key])
+                } else {
+                    newobj[key] = obj[key];
+                }
+            }
+        return newobj;
+    }
+    console.log(deepClone({a: 1, b: 2, c:[2, 3, 4, [4, 5, 6, { a: 1, b: 2 }]]}))
+
   /** MessageChannel接口允许创建一个新的消息通道，并通过它的两个MessagePort属性发送数据。MessageChannel接口实例化以后，会有两个属性port1和port2.**/
   function copyObj(obj) {
       return new Promise(resolve => {
@@ -531,6 +549,8 @@ console.log(formatArr([1,2,3,4,5]))
   var clone1 = await structuralClone(obj1)
   ```
 [深拷贝的实现，如果遇到function怎么办-3](/front-end/interview/record-02.html)
+
+[对象copy](/source-vue/source-vue-function.html#对象判断)
 ## 盛水最多的容器---双指针法
   ```javascript
   var maxArea = function(height) {
@@ -589,7 +609,7 @@ let trap = function(height) {
             if(!stack.length) break;
             const left = stack[stack.length - 1];
             const currWidth = i - left - 1;
-            const currHeight = Math.min(height[left], height[i]) - height[top];
+            const currHeight = Math.min(height[left], height[i]) - height[top]; // 面积 可能左侧的更小...
             ans += currWidth * currHeight;
         }
         stack.push(i);
@@ -660,9 +680,8 @@ function cal(str){
     if(num*num*num<=str){
         num+=0.01
         cal(str)
-    }else{
-    return num
     }
+    return num
 }
 cal(str)
 console.log(str>=0?num.toFixed(1):-num.toFixed(1))
@@ -818,19 +837,19 @@ var lengthOfLongestSubstring = function(s) {
 // 最长字符串
 const longstr = str => {
     let left = 0;
-    let map = {};
+    let map = {}
+    let temp = '';
     let max = 0;
-    let x = 0;
     max = str.split('').reduce((max, v, i) => {
-        left = map[v] >= left ? map[v] + 1: left;
+        left = map[v] >= left ? map[v] + 1 : left;
         map[v] = i;
         if(i - left + 1 > max) {
-            x = left;
+            temp = str.substring(left, i + 1)
             max = i - left + 1;
         }
         return max;
     }, 0)
-    return str.slice(x, max)
+    return temp;
 }
 console.log(longstr('fdasfasf'))
 ```
@@ -1015,6 +1034,55 @@ const merge = intervals => {
     return res
 }
 ```
+## [数组]汇总区间
+```js
+// 输入：nums = [0,1,2,4,5,7]
+// 输出：["0->2","4->5","7"]
+// 解释：区间范围是：
+// [0,2] --> "0->2"
+// [4,5] --> "4->5"
+// [7,7] --> "7"
+const summaryRanges = nums => {
+    const ret = [];
+    let i = 0;
+    const n = nums.length;
+    while(i < n) {
+        let low = i;
+        i++;
+        while(i < n && nums[i] === nums[i - 1] + 1) {
+            i++;
+        }
+        let high = i - 1;
+        let temp = ['' + nums[low]];
+        if(low < high) {
+            temp.push('->');
+            temp.push('' + nums[high])
+        }
+        ret.push(temp.join(''))
+    }
+    return ret;
+}
+// 双指针
+function summaryRanges(nums) {
+    let ans = [];
+    let last = nums[0];
+    let start = nums[0];
+    for(let i of nums.keys()) {
+        let num = nums[i + 1];
+        if(num != last + 1) {
+            if(last === start) {
+                ans.push(String(last));
+            } else {
+                ans.push([start, last].join('->'));
+            }
+            start = num;
+        }
+        last = num;
+    }
+    return ans;
+}
+```
+[汇总区间](https://leetcode.cn/problems/summary-ranges/)
 ## [数组]除自身以外的数组的乘积
 ```
 输入: nums = [1,2,3,4]
@@ -1626,6 +1694,30 @@ var longestValidParentheses = function(S) {
 };
 ```
 [leetcode](https://leetcode-cn.com/problems/longest-valid-parentheses/solution/shou-hua-tu-jie-zhan-de-xiang-xi-si-lu-by-hyj8/)
+
+## 括号的分数
+```js
+// 输入： "()()"
+// 输出： 2
+// 示例 4：
+
+// 输入： "(()(()))"
+// 输出： 6
+const scoreOfParentheses = s => {
+    let stack = [0];
+    for(let i = 0; i < s.length; i++) {
+        if(s[i] === '(') {
+            stack.push(0);
+        } else {
+            let v = stack.pop();
+            let top = stack.pop() + Math.max(2 * v, 1);
+            stack.push(top)
+        }
+    }
+    return stack[0]
+}
+```
+[括号的分数](https://leetcode.cn/problems/score-of-parentheses/solution/gua-hao-de-fen-shu-by-leetcode-solution-we6b/)
 ## 会议室问题
 1. 会议室①
   给定一个会议时间安排的数组intervals，每个会议时间都会包括开始和结束时间intervals[i] = [starti, endi],请你判断一个人是否能够参加里面的全部会议
@@ -2654,6 +2746,7 @@ const minCost = function(colors, neededTime) {
     return res;
 }
 ```
+[相邻且相等，则消除](/front-end/interview/coding.html#相邻且相等-则消除)
 ## [滑动窗口]学生分数的最小差值
 ```js
 // 输入：nums = [9,4,1,7], k = 2

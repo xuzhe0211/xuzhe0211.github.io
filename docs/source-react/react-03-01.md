@@ -54,7 +54,7 @@ Vue使用的是模板语法，模板的特点，就是语法受限，我们可�
 
 ![vue3优化](./images/32.jpg)
 
-<span style="color: blue">在Vue3.0里面，就有这样一条类似的优化策略，它的compiler可以根据节点的动态属性，为每个虚拟dom创建不同的patchflag，比如说，节点具有动态的text，或者具有动态的class，都会被打伤不同的patchflag</span>
+<span style="color: blue">在Vue3.0里面，就有这样一条类似的优化策略，它的compiler可以根据节点的动态属性，为每个虚拟dom创建不同的patchflag，比如说，节点具有动态的text，或者具有动态的class，都会被打上不同的patchflag</span>
 
 ![patchflag](./images/33.jpg)
 
@@ -77,6 +77,7 @@ IO的问题就比较好理解了，很多组件需要等待一些网络延迟，
 
 好，我们聊完了为什么React主要的优化策略都在运行时，以及运行时主要解决的问题，下面我们就来具体看一下，React最近这几个大的版本都有什么更新和变化
 
+[requestAnimationFrame vs requestIdleCallback](/front-end/JavaScript/browser-requestAnimation.html)
 ## React15-半自动批处理
 我们先来看看React15， React应该就是在这个版本之后开始火起来的，也就是在这个版本之后，React的更新变得越来越慢
 
@@ -186,7 +187,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 ### React15 的缺陷
 ![React15 缺陷](./images/37.jpg)
 
-<span style="color: red">虽然在 React 15 中引入批处理这样的优化逻辑，但是由于React 15本身的架构是递归同步更新的，如果节点非常多，即便只有一次state变更，React也需要进行复杂的递归更新，更新一旦开始，中午就无法中断，知道遍历完整一棵树，才能释放住线程</span>
+<span style="color: red">虽然在 React 15 中引入批处理这样的优化逻辑，但是由于React 15本身的架构是递归同步更新的，如果节点非常多，即便只有一次state变更，React也需要进行复杂的递归更新，更新一旦开始，中途就无法中断，直到遍历完整一棵树，才能释放住线程</span>
 
 ![worker](./images/38.jpg)
 
@@ -214,13 +215,13 @@ React 官方的描述是这样的
 
 里面比较重点的就是，为了让应用保持响应，我们需要先了解是什么在制约应用响应的？？
 
-在上面张姐中，我们也提到了，在运行时的主要瓶颈就是CPU、IO，如果能够破这两个瓶颈，就可以实现应用的保持响应。
+在上面章节中，我们也提到了，在运行时的主要瓶颈就是CPU、IO，如果能够破这两个瓶颈，就可以实现应用的保持响应。
 
 <span style="color: blue">在CPU上，我们的主要问题是，在JS执行超过16.6ms 时，页面就会产生卡顿，那么React的解决思路，就是在浏览器每一帧的时间中预留一些时间给JS线程，React利用这部分时间更新组件。当预留时间不够用时，React将线程控制权交换给浏览器让他有时间渲染UI，React则等待下一帧在继续被中断的工作</span>
 
 其实，上面我们提到的，这种将长任务分拆到每一帧，每一帧执行一小段任务的操作，就是我们常说的**时间分片**
 
-那么在IOS上面，需要解决的是发送网络请求后，由于需要等待数据返回才能进一步操作导致不能快速响应的问题。React希望通过控制组件渲染的优先级去解决这个问题。
+<span style="color: blue">那么在IOS上面，需要解决的是发送网络请求后，由于需要等待数据返回才能进一步操作导致不能快速响应的问题。**React希望通过控制组件渲染的优先级去解决这个问题**。</span>
 
 **实际上，Concurrent Mode 就是为了解决以上两个问题而设计的一套新的架构，重点就是，让组件的渲染"可中断"并且具有"优先级"，其中包括几个不同的模块，他们各自负责不同的工作。首先，我们先来看看，如果让组件的渲染"可中断呢？"**
 
@@ -530,7 +531,7 @@ function runWithPriority(priorityLevel, eventHandler) {
 
 ![生命周期](./images/50.jpg)
 
-<span style="color: red">两个阶段的分界点，就是 render 函数。render函数之前的所有声明周期(包括render)都属于第一阶段，之后都属于第二阶段。开始 Concurrent Mode 之后， render之前的所有声明周期都有可能会被打断，或者重复调用</span>
+<span style="color: red">**两个阶段的分界点，就是 render 函数**。render函数之前的所有声明周期(包括render)都属于第一阶段，之后都属于第二阶段。开始 Concurrent Mode 之后， render之前的所有声明周期都有可能会被打断，或者重复调用</span>
 
 - componentWillMount
 - componentWillReceiveProps

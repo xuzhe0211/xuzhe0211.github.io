@@ -182,6 +182,7 @@ var t = new timer()
 setTimeout(() => console.log(t.s1), 3100); // 3
 setTimeout(() => console.log(t.s2), 3100); // 0
 ```
+[参考](/front-end/interview/demo4.html#第九题1)
 ## 块作用域和私有变量
 ### 块作用域
 ```js

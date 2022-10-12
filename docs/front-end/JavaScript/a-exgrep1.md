@@ -4,7 +4,7 @@ title: 正则表达式不要背
 ---
 
 ## 正则表达式到底是什么
-正则表达式(Regular Expression)其实就是一门工具，目的是为了字符串模式匹配，从而实现搜索和替换功能。它是一种描述规则的表达式。而它的底层原理也十分简单，就是使用状态机的思想进行模式匹配，大家可以利用[https://regexper.com/](https://regexper.com/)这个工具很好的可视化自己写的表达式
+正则表达式(Regular Expression)其实就是一门工具，目的是为了字符串模式匹配，从而实现搜索和替换功能。它是一种描述规则的表达式。<span style="color: red">而它的底层原理也十分简单，就是使用状态机的思想进行模式匹配，大家可以利用[https://regexper.com/](https://regexper.com/)这个工具很好的可视化自己写的表达式</span>
 
 如<span style="color:orange">/\d\w+/</span> 这个正则表达式
 

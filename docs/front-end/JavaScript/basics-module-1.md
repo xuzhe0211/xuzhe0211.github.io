@@ -150,7 +150,7 @@ exports = function(r) {
 ```
 其实是对exportsj你行了覆盖,也就是说exports指向了一块新的内存(内存为一个计算圆面试的函数)，也就是说exports和module.exports不再指向同一块内存，也就说此时exports和module.exports毫无关系，也就是说module.exports指向的那块内存并没有做任何改变，仍为以个空对象{},也就是说area.js导出了一个空对象，所以我们在app.js中调用area(4)会报TypeError:Object is not a function错误
 
-所以一句话总结：**<span style="color: blue">当我们想让模块导出的是一个对象时，exports和module.exports均可使用(但exports也不能重新为为一个新的对象)，而当我们想导出非对象接口时，就必须也只能覆盖module.exports</span>**
+所以一句话总结：**<span style="color: blue">当我们想让模块导出的是一个对象时，exports和module.exports均可使用(但exports也不能重新覆盖为一个新的对象)，而当我们想导出非对象接口时，就必须也只能覆盖module.exports</span>**
 
 我们经常看到这样的写法
 ```javascript
@@ -160,7 +160,7 @@ module.exports = somethings
 exports = module.exports;
 ```
 
-<span style="color: blue">因也很简单， module.exports = somethings 是对 module.exports 进行了覆盖，此时 module.exports 和 exports 的关系断裂，module.exports 指向了新的内存块，而 exports 还是指向原来的内存块，为了让 module.exports 和 exports 还是指向同一块内存或者说指向同一个 “对象”，所以我们就 exports = module.exports 。</span>
+<span style="color: blue">**因也很简单， module.exports = somethings 是对 module.exports 进行了覆盖，此时 module.exports 和 exports 的关系断裂，module.exports 指向了新的内存块，而 exports 还是指向原来的内存块，为了让 module.exports 和 exports 还是指向同一块内存或者说指向同一个 “对象”，所以我们就 exports = module.exports**。</span>
 
 ## ES6
 ES6特性,模块化--export/import对模块进行导出导入的

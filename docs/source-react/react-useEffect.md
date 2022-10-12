@@ -99,3 +99,4 @@ function updateEffect(create, deps) {
 [梳理useEffect和useLayoutEffect的原理与区别](https://zhuanlan.zhihu.com/p/346977585)
 
 
+[react杂谈之componentDidMount ----重要](https://zhuanlan.zhihu.com/p/388636591)

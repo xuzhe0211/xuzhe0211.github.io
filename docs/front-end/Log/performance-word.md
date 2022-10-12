@@ -1,5 +1,5 @@
 ---
-autoGroup-1: 调试
+autoGroup-1: 性能指标-调试
 title: 前端性能优化指标
 ---
 
@@ -122,12 +122,24 @@ FPS,全程Frames Per Second，翻译为每秒帧率，表示的是每秒钟画�
 https://www.cnblogs.com/coco1s/p/8029582.html
 
 ## 设备信息
+从window.navigator.userAgent中可以获取用户设备信息，如图:
+![设备信息-window.navigator.userAgent](./images/performace-01.jpg)
 
+从window.navigator.connection中可以获取设备网络信息
+
+![navigator.connection](./images/performace-02.jpg)
+
+从window.devicePixelRatio可以获取设备像素比
 ## 上报策略
+### pv/uv
+监听各种页面切换的情况，SPA页面可以监听hashChange
 
+### 性能数据/设备信息/网络状态
+- 在页面离开前上报:beforeUnload/visibilityChange/pagehide...+sendBeancon/ajax
+- img标签+切片+压缩
 ## 总结
 
-
+![总结](./images/performace-03.jpg)
 
 [前端性能优化指标](https://mp.weixin.qq.com/s/wDKKj5R8SYm-_75Zn1y30A)
 

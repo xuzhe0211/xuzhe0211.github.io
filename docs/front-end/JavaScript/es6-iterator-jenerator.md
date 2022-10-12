@@ -30,7 +30,8 @@ console.log(arr); // [1, 2,3,4, 8 , 9]
 
 那么关于他们两的区别，[深入理解枚举属性与for-in和for-of](https://www.cnblogs.com/wangzirui98/p/11227853.html)
 
-值得一提的是for-in是可以遍历数组的，但是不推荐用for-in遍历数组，为什么呢？因为for-in返回的可枚举属性是字符类型，不是数字类型，如果'0', '1'这样的属性和1，2数组发生相加，很可能不是直接相加，二十字符串的叠加。例如：
+<span style="color: red">值得一提的是for-in是可以遍历数组的，但是不推荐用for-in遍历数组，为什么呢？因为for-in返回的可枚举属性是字符类型，不是数字类型，如果'0', '1'这样的属性和1，2数组发生相加，很可能不是直接相加，二十字符串的叠加</span>。例如：
+
 ```js
 const items = [1,2, 3,4];
 for (item in items) {
@@ -49,7 +50,7 @@ for (variable of iterable) {
 }
 ```
 + variable: 在每次迭代中，将不同属性的值分配给变量
-+ iterable: 被迭代枚举启属性的对象。
++ iterable: 被迭代枚举其属性的对象。
 
 而且关键的问题是for-of不仅可以遍历数组，他也可以遍历很多类似数组对象。
  + Array
@@ -60,7 +61,7 @@ for (variable of iterable) {
  + 函数的arguments对象
  + NodeList对象
 
-而他的原理在于这些类数组对象中都有一个属性，就是Symbol.iterator,也就是说，只要带Symbol.iterator他都能遍历，我们单独把这个属性拿出来，自己手动执行next()方法就会看到我们成功遍历了这个数组
+<span style="color: blue">**而他的原理在于这些类数组对象中都有一个属性，就是Symbol.iterator,也就是说，只要带Symbol.iterator他都能遍历，我们单独把这个属性拿出来，自己手动执行next()方法就会看到我们成功遍历了这个数组**</span>
 ```js
 const items = [1,2, 3,4];
 const giao = items[Symbol.iterator]();
@@ -106,6 +107,8 @@ for(item of items) {
 ```
 ### 总结
 遍历器如果存在一个对象内,它就可以让这个对象可供for-of遍历，for-of的遍历方法就是不停的调用遍历器的next()方法，直到done属性变为true。
+
+[快速掌握ES6 iterator Generator和async 之间的关系及其用法](https://www.cnblogs.com/wangzirui98/p/12423454.html)
 
 ## 生成器Generator
 

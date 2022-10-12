@@ -66,6 +66,89 @@ ALL THE TIME，我们写的大部分<span style="color: orange">javascript</span
 - <span style="color: blue">Poll阶段:poll阶段有两个主要功能：1. 执行下限时间已经达到timers的回调 2.然后处理poll队列里的时间。当event loop进入poll阶段，并且没有设定的timers，会发生下面两件事之一：</span>
 
 
+## 走进案例分析
+### 1. nextTick与setImmediate
+- process.nextTick 不属于事件循环的任何一个阶段，它属于该阶段和下阶段的过渡，即本阶段执行结束，进入下一个阶段前，所要执行的回调。有给人一种插队的感觉
+- setImmediate的回调处于check阶段，当poll阶段的队列为空，切换到check阶段执行
+
+### 3. setTimeout 与 setImmediate
+- setImmediate()被设计在poll阶段结束后立即执行的回调
+- setTimeout()被设计在指定下线时间达到后执行回调
+
+无 I/O 处理情况下：
+```js
+setTimeout(function timeout () {
+  console.log('timeout');
+},0);
+
+setImmediate(function immediate () {
+  console.log('immediate');
+});
+```
+执行结果
+```js
+C:\Users\92809\Desktop\node_test>node test.js
+timeout
+immediate
+
+C:\Users\92809\Desktop\node_test>node test.js
+timeout
+immediate
+
+C:\Users\92809\Desktop\node_test>node test.js
+timeout
+immediate
+
+C:\Users\92809\Desktop\node_test>node test.js
+immediate
+timeout
+```
+从结果，我们可以发现，这里打印输出出来的结果，并没有什么固定的先后顺序，偏向于随机，为什么会发生这样的情况呢？
+
+答：首先进入的是timers阶段，如果我们的机器性能一般，那么进入timers阶段，1ms已经过去了 ==(setTimeout(fn, 0)等价于setTimeout(fn, 1))==，那么setTimeout的回调会首先执行。
+
+如果没有到1ms，那么在timers阶段的时候，下限时间没到，setTimeout回调不执行，事件循环来到了poll阶段，这个时候队列为空，于是往下继续，先执行了setImmediate()的回调函数，之后在下一个事件循环再执行setTimemout的回调函数。
+
+问题总结：而我们在==执行启动代码==的时候，进入timers的时间延迟其实是==随机的==，并不是确定的，所以会出现两个函数执行顺序随机的情况。
+
+### 4.nextTick 与 promise
+概念：对于这两个,我们可以把他们理解成一个微任务。也就是说，它其实不属于事件循环的一部分。那么他们是在什么时候执行呢？不管在什么地方调用，他们都会在其所处的事件循环最后，事件循环进入下一个循环的阶段前执行
+```js
+setTimeout(() => {
+    console.log('timeout0');
+    new Promise((resolve, reject) => { resolve('resolved')}).then(res => console.log(res));
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('timeout resolved')
+        })
+    }).then(res => console.log(res))
+    process.nextTick(() => {
+        console.log('nextTick1');
+        process.nextTick(() => {
+            console.log('nextTick2')
+        })
+    })
+    process.nextTick(() => {
+        console.log('nextTick3');
+    })
+    console.log('sync');
+    setTimeout(() => {
+        console.log('timeout2')
+    }, 0)
+}, 0)
+```
+打印结果
+```js
+timeout0
+sync
+nextTick1
+nextTick2
+nextTick3
+resolved
+timeout2
+timeout resolved
+```
+
 ## 资料
 [深深入理解NodeJS事件循环机制](https://juejin.cn/post/6844903999506923528)
 

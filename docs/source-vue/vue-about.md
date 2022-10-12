@@ -38,6 +38,59 @@ handTabClick() {
      this.$set(this.obj, obj);
 }
 ```
+[https://www.cnblogs.com/zuobaiquan01/p/9034516.html](https://www.cnblogs.com/zuobaiquan01/p/9034516.html)
+
+[Vue项目，通过数组下标更改数组的值不生效，页面没有重新渲染](https://blog.csdn.net/weixin_44370837/article/details/123814474)
+
+[面试题分享，修改数据无法更新UI](https://mp.weixin.qq.com/s/CgyoUGp_FNyXKgRlkyZ4lg)
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>vue.js Hello World</title>
+        <meta charset="utf-8">
+        <!-- <script src="bower_components/vue/dist/vue.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    </head>
+    <body>
+      <div id="demo">
+        <p>{{message}}</p>
+        <div>{{list[0]}}</div>
+        <button @click="test()">点击</button>
+        <input v-model="message">
+    </div>
+
+
+    <script type="text/javascript">
+        var data = {
+            message: 'Hello Vue.js!',
+            list: [{a: 1},1]
+        }
+        vm = new Vue({
+            el: '#demo',
+            data: data, 
+            mounted() {
+                // this.test();
+                console.log(123)
+                // this.list[1].b = 'b';
+                // this.$set(this.list, 1, 'test')
+                // console.log(this.list)
+                // setTimeout(() => {
+                //     this.message = 'xxx'
+                // }, 2000)
+            },
+            methods: {
+                test() {
+                    console.log(this.list)
+                    this.list[0].a = {c: 3}
+                }
+            }
+        })
+    </script>
+    </body>
+</html>
+```
+
 ## vue计算属性computed
 
 ### vue计算属性computed方法内传参

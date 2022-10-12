@@ -970,6 +970,40 @@ Array.prototype.quickSort = function() {
         return profit
     }
     ```
+3. 优势洗牌
+
+    ```js
+    // 给定两个大小相等的数组 nums1 和 nums2，nums1 相对于 nums2 的优势可以用满足 nums1[i] > nums2[i] 的索引 i 的数目来描述。
+
+    // 返回 nums1 的任意排列，使其相对于 nums2 的优势最大化。
+    // 输入：nums1 = [2,7,11,15], nums2 = [1,10,4,11]
+    // 输出：[2,11,7,15]
+    const advantageCount = (nums1, nums2) => {
+        let n = nums1.length;
+        let idx1 = new Array(n).fill(0);
+        let idx2 = new Array(n).fill(0);
+        for(let i = 0; i < n; ++i) {
+            idx1[i] = i;
+            idx2[i] = i;
+        }
+        idx1.sort((i, j) =>  nums1[i] - nums1[j]);
+        idx2.sort((i, j) =>  nums2[i] - nums2[j]);
+
+        let ans = new Array(n).fill(0);
+        let left = 0, right = n - 1;
+        for(let i = 0; i < n; ++i) {
+            if(nums1[idx1[i]] > nums2[idx2[left]]) {
+                ans[idx2[left]] = nums1[idx1[i]];
+                ++left;
+            } else {
+                ans[idx2[right]] = nums1[idx1[i]];
+                --right;
+            }
+        }
+        return ans;
+    }
+    ```
+[贪心算法---迪杰斯拉特算法](/front-end/Code/concept-dijkstra.html)
 
 ### 回溯算法
 

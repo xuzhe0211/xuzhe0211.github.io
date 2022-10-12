@@ -1,4 +1,5 @@
 ---
+autoGroup-2: react-hooks
 title: 「React 深入」一文吃透React v18全部Api
 ---
 本文将会全面总结所有的React Api，包含组件类、工具类、生命周期、react-hooks、react-dom五大模块，并配带示例，帮助大家更好的掌握，如有不全、不对的地方欢迎大家指出
@@ -82,10 +83,10 @@ this.setState({ data: { ...data }})
 
 也可以这么理解：<span style="color: blue">PureComponent通过自带的props和state的浅比较实现了ShouldComponentUpdate()，这点是Component不具备的</span>
 
-PureComponent可能会因深层的数据不一致而产生错误的否定判断，从而导致ShouldComponentUpdate结果返回false，界面得不到更新，要谨慎使用
+<span style="color: red">PureComponent可能会因深层的数据不一致而产生错误的否定判断，从而导致ShouldComponentUpdate结果返回false，界面得不到更新，要谨慎使用</span>
 
 ### memo
-memo:结合了PureComponent纯组件和componentShouldUpdate功能，会对传入的props进行一次对比，然后根据第二个函数返回值来进一步判断哪些props需要更新
+memo:结合了PureComponent纯组件和ShouldComponentUpdate功能，会对传入的props进行一次对比，然后根据第二个函数返回值来进一步判断哪些props需要更新
 
 <span style="color: red">要注意memo是一个高阶组件，函数式组件和类组件都可以使用</span>
 
@@ -190,6 +191,7 @@ class Index extends Component {
 }
 ```
 ![效果](./images/414605cc3658444d9a36938275ee7b00_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.gif)
+
 当数字小宇7，才会触发Child的更新，通过返回的布尔值来控制
 
 #### memo的注意事项
@@ -366,7 +368,7 @@ export default Index;
 ![效果](./images/4c0e47787a5e4e02ba5472625d20ce86_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.gif)
 
 ### Suspense
-<span style="color:blue">Suspense:让组件等待某个异步组件操作；知道该异步组件操作结束即可渲染</span>
+<span style="color:blue">Suspense:让组件等待某个异步组件操作；直到该异步组件操作结束即可渲染</span>
 
 与上面lazy中的案例一样，两者需要配合使用，其中fallback为等待时渲染的样式
 
@@ -738,10 +740,10 @@ console.log(React.isValidElement(<div>xxxxxxx</div>)) // true
 console.log(React.isValidElement('大家好，我是小肚肚')) // true
 ```
 
-### verson
+### Version
 查看React版本号
 ```js
-console.log(React.verson)
+console.log(React.version)
 ```
 我们可以看下在React中的文件位置，在react中有一个单独处理版本信息的位置：
 
@@ -938,33 +940,33 @@ useEffect:副作用，你可以理解为是类组件的生命周期，也是我�
     我么可以利用useEffect弄挂载和卸载阶段，通常我们用于监听addEventListener和removeEventListener的使用
     ```js
     import React, { useState, useEffect } from 'react';
-    import { Button } from 'antd-mobile'
+    // import { Button } from 'antd-mobile'
 
     const Child = () => {
         useEffect(() => {
-            console.log('挂载')；
+            console.log('挂载');
             return () => {
                 console.log('卸载')
             }
         }, [])
+        console.log('render')
         return <div>大家好，我是小肚肚</div>
     }
     const Index = () => {
-        const [flag, setFlag] = useEffect(false)
+        const [flag, setFlag] = useState(false)
 
         return <div style={{padding: 20}}>
-            <Button
+            <button
                 color="primary"
-                onClick = {() => {
-                    setFlag(v => !v）
-                }}
+                onClick = {() => {setFlag(v => !v)}}
             >
                 {flag ? '卸载' : '挂载'}
-            </Button>
+            </button>
             {flag && <Child />}
         </div>
     }
     export default Index;
+    // render 、挂载；卸载
     ```
     ![效果](./images/12a7e4b40008436daf0d7ebe45aa2c78_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.gif)
 
@@ -1675,7 +1677,7 @@ const Child = ({children}) => {
     }, [])
 
     return <div>
-        <div ref={ref}>统计的节点</div>
+        <div ref={ref}>同级的节点</div>
         <div>
             这层的节点
             {newDom}
@@ -1738,6 +1740,7 @@ class Index extends Component {
 }
 ```
 我们看看点击按钮会打印出什么？
+
 ![效果](./images/0c3803007e4e425c8af37620a385d8db_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.gif)
 
 这个不难理解，因为this.setState会进行批量更新，所以打印出的是3 接下来，我们用flushSync处理下number: 2 来看看是什么效果：

@@ -138,3 +138,5 @@ console.log(es6Arr); // ['h', 'e', 'l', 'l', 'o']
 
 ## 资料
 [ES6扩展运算符](https://segmentfault.com/a/1190000020259974)
+
+[arguments & 剩余参数](/front-end/JavaScript/tips-arguments.html#剩余参数)

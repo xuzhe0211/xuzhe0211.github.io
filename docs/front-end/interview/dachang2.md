@@ -1159,7 +1159,7 @@ cosnt实现
 ```js
 var const_customer = function(param, value) {
     // 目前是在浏览器端测试全局对象window,如果是在node环境全局对象global
-    var _grobal = window;
+    var _global = window;
 
     var KEY_WORD = ['const', 'let', 'var', 'class', 'return']; // 关键字列表不全
     var REG_NUMBER = '^[1-9][0-9]*([.][0-9]+)?$|0'; // 数字正则表达式

@@ -92,3 +92,5 @@ event.type：返回事件类型
 [非常有用的pointer-events属性](https://www.runoob.com/cssref/css-units.html)
 
 [MDN pointer-events](https://developer.mozilla.org/zh-CN/docs/Web/CSS/pointer-events)
+
+[pointer-events](https://zhuanlan.zhihu.com/p/71865866)

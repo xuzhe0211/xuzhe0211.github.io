@@ -28,16 +28,16 @@ var exp2 = new RegExp('(^\\s+)|(\\s+$)', 'g')
 exp1和exp2是两个完全等价的正则表达式，需要注意的是，传递给RegExp构造函数的两个参数都是字符串，不能把正则表达式字面量传递给RegExp构造函数
 
 与其他语言中的正则表达式类似，模式中使用的元字符都必须转义，正则表达式中的元字符包括
-```
+```js
 ( [ { \ ^ $ | ? * + . } ] )
 ```
 这些元字符在正则表达式中的都有一种或多重特殊用途，因此如果想要匹配字符串中包含的这些字符，就必须对他们进行转义
 
-```
+```js
 var exp = /\.docx/gi;
 ```
 由于RegExp构造函数的模式参数是字符串，所以在某些情况下要对字符串进行双重转义。**所有元字符都必须双重转义**，哪些已经转义过的字符也是如此
-```
+```js
 // 对\.再次转义
 var exp = new RegExp('\\.docx', 'gi');
 
@@ -67,7 +67,7 @@ $匹配一个字符的结尾，比如(b$)就是匹配以字母b结尾的字符�
 
 ^和$配合可以有效匹配完整字符串
 
-```
+```js
 /d+/.test('4xpt'); // true - 部分匹配成功
 /^\d+$/.test('4xpt'); // false - 完整匹配失败
 ```
@@ -105,8 +105,8 @@ RegExp.$3 // 26
 // 2016年03月26日
 
 ```
-\1表示后向引用，是指正则表达式中，从左往右数，第1个()中的内容，以此类推，\d表示第2个()，\0表示整个表达式
-```
+\1表示后向引用，是指正则表达式中，从左往右数，第1个()中的内容，以此类推，\2表示第2个()，\0表示整个表达式
+```js
 //匹配日期格式，表达式中的\1代表重复(\-|\/|.)
 varrgx = /\d{4}(\-|\/|.)\d{1,2}\1\d{1,2}/
  
@@ -118,7 +118,7 @@ rgx.test('2016-03.26')// false
 
 ## test 与match
 前面的大都是JS正则表达式的语法，而test则是用来检测字符串是否匹配某一个正则表达式，如果匹配就会返回true,反之则返回false
-```
+```js
 /\d+/.test('123') // true
 
 /\d+/.text('abc'); // false
@@ -130,7 +130,7 @@ match是获取正则匹配的结果，以数组的形式返回
 
 ## replace
 replace本身是JavaScript字符串对象的一个方法,它允许接收两个参数
-```
+```js
 replace(RegExp[string], [string|Function])
 ```
 1. 参数1 可以是一个普通的字符串或是一个正则表达式
@@ -148,7 +148,7 @@ replace(RegExp[string], [string|Function])
 ## 经典案例
 
 ### 实现字符串的trim函数，去除字符串两边的空格
-```
+```js
 Strinng.prototype.trim = function() {
     // 方式一：将陪陪到的每个结果都用''替换
     return this.replace(/(^\s+)|(\s+$)/, function() {
@@ -161,7 +161,7 @@ Strinng.prototype.trim = function() {
 ```
 ^\s+表示以空格开头的连续空白字符， \s+$表示以空格结尾的连续空白字符，加上()就是将匹配到的结果提取出来，由于是|的关系，因此这个表达式会match到两个结果集，然后执行两次替换
 
-```
+```js
 String.prototype.trim = function() {
     /**
      * @param rs：匹配结果
@@ -185,7 +185,7 @@ String.prototype.trim = function() {
 
 ### 提取浏览器url中的参数名和参数值，生成key/value的对象
 
-```
+```js
 function getUrlParamObj() {
     var obj = {};
     // 获取url的参数部分
@@ -199,7 +199,7 @@ function getUrlParamObj() {
 ```
 
 ### 在字符串指定位置插入新字符串
-```
+```js
 String.prototype.insetAt = function(str, offset) {
     offset = offset + 1;
     var reg = new RegExp(`(^.{${offset}})`);
@@ -209,7 +209,7 @@ console.log(reg)
 'abcd'.insetAt('xyz',2);
 ```
 ## 常用正则
-```
+```js
 // ip
 var re = /(((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d{1,2})|(1\d{2})|(2[0-4]\d)|(25[0-5]))/
 

@@ -161,9 +161,16 @@ Foo.prototype.a = function() {
     console.log('外6')
 }
 Foo.a(); // 外部5
-var foo = new Foo(); // 外6   内部1 外6 内部2
+var foo = new Foo(); // 外6   内部1 undefined  外6 内部2 undefined this.a()   Foo.prototype.a 没有return 
 foo.a(); // 内部4
 Foo.a();// 内部4
+
+
+// 测试 demo
+function test() {
+    console.log('test')
+}
+console.log(1, test())
 ```
 
 ## 参考

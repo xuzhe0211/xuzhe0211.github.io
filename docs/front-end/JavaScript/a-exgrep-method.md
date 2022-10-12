@@ -60,6 +60,13 @@ var str = 'haj123sdk54hask33dkhalsd879';
 var re = /\d+/g;
 
 console.log(str.match(re)); // [123,54, 33, 879];
+
+// match正则不全局匹配  exec需使用while
+var str = 'haj123sdk54hask33dkhalsd879';
+var re = /\d+/;
+
+console.log(str.match(re)); // [123,54, 33, 879];
+// VM9483:4 ['123', index: 3, input: 'haj123sdk54hask33dkhalsd879', groups: undefined]
 ```
 **javascript正则表达式中使用变量关键字**
 

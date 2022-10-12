@@ -1,5 +1,5 @@
 ---
-autoGroup-1: 调试
+autoGroup-1: 性能指标-调试
 title: 使用 Lighthouse 分析前端性能
 ---
 

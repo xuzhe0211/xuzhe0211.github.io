@@ -14,7 +14,7 @@ Node运行在单线程下，但这并不意味着无法利用多核/多机下多
 
 ### spawn
 
-```
+```js
 const { spawn } = require('child_process');
 const child = spawn('pwd');
 //带参数的形式
@@ -32,7 +32,13 @@ spawn()返回ChildProcess实例，ChildProcess同样基于事件机制(EventEmit
 P.S.close和exit的区别主要体现在多进程共享同一stdio流的场景，某个进程退出了并不意味着stdio流被关闭了
 
 在子进程中，stdout/stderr具有Readable特性，而stdin具有Writable特性，与主进程情况正好相反
-```
+```js
+const spawn = require('child_process').spawn;
+const child = spawn('pwd')
+// child.stdout.on('data', data => {
+//     console.log(data.toString())
+// })
+
 child.stout.on('data', (data) => {
 	console.log(`child stdout: \n${data}`);
 })
@@ -41,7 +47,7 @@ child.stderr.on('data', (data) => {
 })
 ```
 利用进程stdio流的管道特性，就可以完成更复杂的事情，例如：
-```
+```js
 const { spawn } = require('child_process');
 const find = spawn('find', ['.', '-type', 'f']);
 const wc = spawn('wc', ['-1']);
@@ -55,7 +61,7 @@ wc.stdout.on('data', (data) => {
 #### IPC选项
 
 另外，通过spawn()方法的stdio选项可以建立IPC机制：
-```
+```js
 const { spawn } = require('child_process');
 const child = spawn('node', ['./ipc-child.js'], {stdio: [null, null, null, 'ipc']});
 child.on('message', (m) => {
@@ -70,10 +76,10 @@ process.on('message', (m) => {
 
 ### exec
 
-spawn()方法默认不会创建shell去执行传入的命令(所以性能上稍微好一点)，而exec()方法会创建一个shell。另外,exec()不是基于stream的，而是把传入命令的执行结果暂存到buffer中，在整个传递给回调函数。
+<span style="color: red">spawn()方法默认不会创建shell去执行传入的命令(所以性能上稍微好一点)，而exec()方法会创建一个shell。另外,exec()不是基于stream的，而是把传入命令的执行结果暂存到buffer中，在整个传递给回调函数。</span>
 
 exec()方法的特点就是完全支持shell语法，可以直接传入任意shell脚本
-```
+```js
 const { exec } = require('child_process');
 exec('find . -type f | wc -l',(err, stdout, stderr) => {
 	if (err) {
@@ -89,7 +95,7 @@ exec('find . -type f | wc -l',(err, stdout, stderr) => {
 
 有！两全其美的方式如下
 
-```
+```js
 const { spawn } = require('child_process');
 const child = spawn('find . -type f | wc -l', {
 	shell: true
@@ -97,7 +103,7 @@ const child = spawn('find . -type f | wc -l', {
 child.stdout.pipe(process.stdout);
 ```
 开启spawn()的shell选项，并通过pipe()方法把子进程的标准输出简单地接到当前进程的标准输入上，以便看到命令执行结果。实际上还有更容易的方式
-```
+```js
 const { spawn } = require('child_process');
 process.stdout.on('data', (data) => {
 	console.log(data);
@@ -110,7 +116,7 @@ const child = spawn('find . -type f | wc -l', {
 stdio:'inherit'允许子进程继承当前进程的标准输入输出(共享stdin, stdout和stderr).所以上例能够通过监听当前进程process.stdout的data事件拿到子进程的输出结果
 
 另外，除了stdio和shell选项，spawn()还支持一些其他选项。如：
-```
+```js
 const child = spawn('find . -type f | wc -l', {
 	stdio：'inherit',
     shell: true,
@@ -127,7 +133,7 @@ const child = spawn('find . -type f | wc -l', {
 注意，env选项除了以环境变量形式向子进程传递数据外,还可以用来实现沙箱式的环境变量隔离，默认把process.env作为子进程的环境变量集，子进程与当前进程一样能够访问所有环境变量，如果像上例中指定自定义对象作为子进程的环境变量集，子进程就无法访问其他环境变量
 
 所以，想要增/删环境变量的话，需要这样做
-```
+```js
 var spawn_env = JSON.parse(JSON.stringify(process.env));
 //remove those env vars
 delete spawn_env.ATOM_SHELL_INTERNAL_RUN_AS_NODE;
@@ -135,7 +141,7 @@ delete spawn_env.ELECTRON_RUNN_AD_NODE;
 var sp = spawn(command, [.], [cwd: cwd, env: spawn_env])
 ```
 detached选项更有意思
-```
+```js
 const { spawn } = require('child_process');
 const child = spawn('node', ['stuff.js'], {
 	detaached: true, 
@@ -149,7 +155,7 @@ unref方法用来断绝关系，这样父进程可以独立退出(不会导致�
 
 ### execFile
 
-```
+```js
 const { execFile } = require('child_process');
 const child = execFile('node', ['--version'], (err, stdout, stderr) => {
     if (error) {
@@ -164,9 +170,9 @@ const child = execFile('node', ['--version'], (err, stdout, stderr) => {
 
 **xxxSync**
 
-spawn, exec和execFile都有对应的同步阻塞版本，一直等到子进程退出
+<mark>spawn, exec和execFile都有对应的同步阻塞版本，一直等到子进程退出</mark>
 
-```
+```js
 const {
     spawnSync,
     execSync,
@@ -179,7 +185,7 @@ const {
 fork()是spawn()的变体，用来创建Node进程，最大的特点是父子进程自带通信机制(IPC管道)。
 
 例如：
-```
+```js
 var n = child_process.fork('./child.js');
 n.on('message', function(n) {
     console.log('PARENT got message:' , m);
@@ -192,7 +198,7 @@ process.on('message', function(m) {
 process.send({ foo: 'bar'});
 ```
 因为fork()自带通信机制的优势，尤其适合用来拆分耗时逻辑,例如：
-```
+```js
 const http = require('http');
 const longComputation = () => {
     let sum = 0;
@@ -216,7 +222,7 @@ server.listen(3000);
 
 为了避免耗时操作阻塞主进程的事件循环，可以把 longComputation() 拆分到子进程中：
 
-```
+```js
 // compute.js
 const longComputation = () => {
   let sum = 0;
@@ -232,7 +238,7 @@ process.on('message', (msg) => {
 });
 ```
 主进程开启子进程执行 longComputation ：
-```
+```js
 const http = require('http');
 const { fork } = require('child_process');
 const server = http.createServer();
@@ -261,7 +267,7 @@ P.S.实际上， cluster 模块就是对多进程服务能力的封装， 思路
 
 最直接的通信方式，拿到子进程的handle后，可以访问其stdio流，然后约定一种message格式开始愉快的通信
 
-```
+```js
 const { spawn } = require('child_process');
 child = spawn('node', ['./stdio-child.js']);
 child.stdout.setEncoding('utf8');
@@ -279,7 +285,7 @@ child.stdout.on('data', function(chunk) {
 ```
 子进程与之类似
 
-```
+```js
 // ./stdio-child.js
 // 子进程-收
 process.stdin.onn('data', (chunk) => {
@@ -322,7 +328,7 @@ P.S.关于stream及pipe的详细信息,请查看[node中的流](http://ju.outofm
 
 [node-ipc](https://www.npmjs.com/package/node-ipc)就是采用这种方案
 
-```
+```js
 // server
 const ipc = require('../../../node-ipc');
 ipc.config.id = 'world';
@@ -405,7 +411,7 @@ P.S.不好实现？包一层能解决嘛？不行就包两层....
 
 比较受欢迎的有 [smrchy/rsmq](https://github.com/smrchy/rsmq) ，例如：
 
-```
+```js
 // init 
 RedisSMQ = require('rsmq');
 rsmq = new RedisSMQ({host: "127.0.0.1", port: 6379, ns: "rsmq"});

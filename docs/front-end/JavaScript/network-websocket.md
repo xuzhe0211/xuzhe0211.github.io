@@ -20,7 +20,7 @@ setInterval(function() {
 缺点:会造成数据在一小段时间内不同步和大小无效的请求,安全性差、浪费资源
 
 ## 长轮询
-客户端发送请求后服务器端不会理解返回数据，服务器端会阻塞请求连接不会立即断开，知道服务器端有数据更新或是连接超时才返回，客户端才再次发出请求新建连接、如此反复从而获取最新数据
+客户端发送请求后服务器端不会立即返回数据，服务器端会阻塞请求连接不会立即断开，直到服务器端有数据更新或是连接超时才返回，客户端才再次发出请求新建连接、如此反复从而获取最新数据
 
 ![长轮询](./images/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2pwZy92ekVpYjlJUmhaRDcyNFpjWUgzaWFtSmpUcjhpY2ZSRXo1ZDRSQlhqT1ZZcXlCblc0T2VVMWhIcjRxekxlY0NJN3pLb2NsYXFKNXBFYjZhRXl1NEV4aWJLVXcvNjQw.jpeg)
 
@@ -46,7 +46,7 @@ function async() {
 
 ### 通信原理
 
-当客户端要和服务端建立WebSocket连接时，在客户端和服务器的握手过程中，客户端首先会向服务端发送一个HTTP请求，包含一个Upgrade请求头来告知服务端客户端想建立一个WebSocket连接。
+<span style="color: red">当客户端要和服务端建立WebSocket连接时，在客户端和服务器的握手过程中，客户端首先会向服务端发送一个HTTP请求，包含一个Upgrade请求头来告知服务端客户端想建立一个WebSocket连接。</span>
 
 在客户端建立一个WebSocket连接非常简单
 
@@ -78,7 +78,7 @@ Connection: Upgrade
 Sec-WebSocket-Accept: ZUip34t+bCjhkvxxwhmdEOyx9hE=
 Upgrade: websocket
 ```
-此时响应行(Genneral)中可以看到状态码status code 是101 Switching Protocols，表示该连接已经从HTTP协议转换为WebSocket通信协议。转换成功后，该连接并没有中断，而是建立了一个全双工通信，后续发送和接收消息都会走这个连接通道。
+<span style="color: red">此时响应行(Genneral)中可以看到状态码status code 是101 Switching Protocols，表示该连接已经从HTTP协议转换为WebSocket通信协议。转换成功后，该连接并没有中断，而是建立了一个全双工通信，后续发送和接收消息都会走这个连接通道。</span>
 
 注意,请求头中有个Sec-WebSocket-Key字段，和响应头中的Sec-WebSocket-Accept是配套应用，它的作用是提供了基本防护，比如恶意的连接或者无效的连接。Sec-WebSocket-Key是客户端随机生成的一个base64编码，服务器会使用这个编码，并更具一个固定的算法
 ```
@@ -93,7 +93,7 @@ accept = base64(sha1(key + GUID));	// key 就是 Sec-WebSocket-Key 值，accept 
 ### 实现简单聊
 
 客户端
-```
+```js
 function connectWebsocket() {
     ws = new WebSocket('ws://localhost:9000');
     // 监听连接成功
@@ -125,7 +125,7 @@ connectWebsocket();
 从上面可以看到 WebSocket 实例的 API 很容易理解，简单好用，通过 send() 方法可以发送消息，onmessage 事件用来接收消息，然后对消息进行处理显示在页面上。当 onerror 事件（监听连接失败）触发时，最好进行执行重连，以保持连接不中断。
 
 服务端 Node: （这里使用 ws 库）
-```
+```js
 const path = require('path');
 const express = require('express');
 const app = express();

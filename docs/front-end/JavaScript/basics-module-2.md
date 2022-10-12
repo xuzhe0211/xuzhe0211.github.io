@@ -9,7 +9,7 @@ Node.js是commonJS规范的主要实践者，<span style="color:orange">它有�
 ```javascript
 // 定义模块math.js
 var basicNum = 0;
-function(a, b) {
+function add(a, b) {
     return a + b;
 }
 module.exports = { // 在这里写上需要向外暴露的函数、变量

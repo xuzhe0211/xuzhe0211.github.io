@@ -21,7 +21,7 @@ Vite的快，主要体现在两个方面：<span style="color: red">**快速的�
 
     这个问题，**主要是由webpack内部的核心机制--bundle模式引发的**
 
-    webpack能大行其道，归功于它划时代的采用了bundle机制。通过这种bundle机制，webpack可以将项目中各种类型的文件转化为浏览器识别的js、css、img等文件，建立源文件之间的依赖关系，并将数量庞大的源文件合并为少量的几个输出文件
+    <mark>webpack能大行其道，归功于它划时代的采用了bundle机制。通过这种bundle机制，webpack可以将项目中各种类型的文件转化为浏览器识别的js、css、img等文件，建立源文件之间的依赖关系，并将数量庞大的源文件合并为少量的几个输出文件</mark>
 
     bundle工作机制的核心部分分为两块：<span style="color: blue">**构建模块依赖图--module graph和将module graph分解为最终浏览器使用的几个输出文件**</span>
 
@@ -147,3 +147,5 @@ Vite的快，主要体现在两个方面：<span style="color: red">**快速的�
 
 ## 资料
 [为什么有人说 vite 快，有人却说 vite 慢](https://juejin.cn/post/7129041114174062628)
+
+[webpack bundle 函数详解](https://zhuanlan.zhihu.com/p/387722743)

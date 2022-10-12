@@ -125,5 +125,11 @@ npm install -g typescript
 ts-node xx.ts
 ```
 [ts-node使用报错：Cannot find name 'console'](https://www.jianshu.com/p/9db8b7e61473)
+
+
+## 函数实现重复。ts(2393)
+vscode提示函数重复，你看一下上下文会发现，没有重复的函数名，这是因为vscode把同文件夹下同样的函数名给报错了，因为编译过后，js文件中会有同名的函数。解决方法是在文件夹下创建一个tsconfig.json文件
+
+[函数实现重复。ts(2393)](https://blog.csdn.net/weixin_42560424/article/details/121028602)
 ## 资料
 [深入理解TypeScript - 认识TypeScript&配置详解](https://blog.csdn.net/qq_41831345/article/details/106727200)

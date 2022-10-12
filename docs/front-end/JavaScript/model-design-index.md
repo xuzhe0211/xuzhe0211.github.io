@@ -126,7 +126,7 @@ console.log(calculateBonus('S', 20000)); // 输出 80000
 
 
 
-[命令模式](/front-end/JavaScript/a-revocation-revert.html#功能初实现)
+[命令模式](/front-end/JavaScript/a-edit-revocation-revert.html#功能分析)
 
 ## 资料
 [大厂设计模式](/front-end/interview/dachanng3.html#js的四种设计模式)

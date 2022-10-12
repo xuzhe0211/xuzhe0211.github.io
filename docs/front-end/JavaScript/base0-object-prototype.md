@@ -21,6 +21,8 @@ var p2 = Person('Ada',33)
 ```
 <span style="color: red">使用工厂模式虽然解决了子类的问题，但是无法检测子类的数据类型</span>
 
+[工厂模式&抽象工厂模式](/front-end/JavaScript/model-design-factory.html#工厂模式)
+
 + 构造函数
 ```js
 function Person(name, age) {
@@ -278,9 +280,9 @@ var p1 = new Person();
 Object.prototype.toString.apply(p1); // "[object object]"
 ```
 
-**3. 构造函数和普通函数 **
+3. **构造函数和普通函数**
 
-实际上并不存在创建构造函数，其与普通函数唯一的区别在于调用方法。对于任意函数，使用new操作符调用，那么它就是构造函数，又叫工厂函数；不使用new操作符调用，那么它就是普通函数。
+<span style="color: red">实际上并不存在创建构造函数，其与普通函数唯一的区别在于调用方法。对于任意函数，使用new操作符调用，那么它就是构造函数，又叫工厂函数；不使用new操作符调用，那么它就是普通函数。</span>
 
 按照惯例，我们约定构造函数名以大写字母开头，普通函数以小写字符开头，这样有利于显性区分二者
 
@@ -297,7 +299,7 @@ Object.prototype.toString.apply(p1); // "[object object]"
 function b(){console.log(1)};
 b.prototype.constructor === b;
 ```
-抽象理解：<span style="color: red">**构造函数是妻子，原型对象是丈夫，prototype是找丈夫，constructor是找妻子**</span>
+抽象理解：<span style="color: orange">**构造函数是妻子，原型对象是丈夫，prototype是找丈夫，constructor是找妻子**</span>
 
 手动更改函数的原型对象
 ```js

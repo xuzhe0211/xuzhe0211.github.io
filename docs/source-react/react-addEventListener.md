@@ -32,6 +32,49 @@ React并不是将click事件绑在该div的真实DOM上，而是在document处�
 <span style="color: blue">如果要以异步方式访问事件属性，应该对事件调用 event.persist() ，这将从池中删除合成事件，并允许> 用户代码保留对事件的引用。</span>
 :::
 
+```js
+class App extends React.Component {
+    state = {search: ''}
+
+    /**
+     * 这个"防抖"函数的简单实现，它会以队列的方式在250ms内调用
+     * 表达式并取消所有挂起的队列表达式。以这种方式我们可以在用户输入停止输入时延迟250ms来调用表达式
+     **/
+    handleChange = event => {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.setState({
+                search: event.target.value
+            })
+        }, 250)
+    }
+    render() {
+        return (
+            <div>
+                <input type="text" onChange={this.handlerChange}/>
+                {this.state.search ? <p>Search fro: {this.state.search}</p> : null}
+            </div>
+        )
+    }
+}
+// 这里的问题是在 React 中 event 是一个 SyntheticEvent，如果和它的交互被延迟了（例如：通过 setTimeout），事件会被清除并且 .target.value 引用不会再有效。
+class App extends React.Component {
+    ...
+    handleChange = event => {
+        event.persist();
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            console.log(event.target.value); // 正常了
+            this.setState({
+                search: event.target.value
+            })
+        }, 250)
+    }
+    render() {
+        ....
+    }
+}
+```
 ## 如何在React中使用原生事件
 虽然React封装了几乎所有的原生事件，但诸如
 - Modal开启以后点空白区域需要关闭Modal
@@ -138,7 +181,7 @@ class Demo extends React.PureComponent {
     }
 }
 ```
-如果在onChildClick中调用evt.stopPropagtion()，则控制台输出变为：
+<span style="color: red">如果在onChildClick中调用evt.stopPropagtion()，则控制台输出变为：</span>
 
 ```js
 child dom event 
@@ -175,9 +218,9 @@ stopImmediatePropagation常常在多个第三方库混用时，用来阻止多�
 
 事实上nativeEvent的stopImmediaePropagation只能阻止绑定在document上的事件监听器。此外，由于[事件绑定的顺序问题](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/stopImmediatePropagation),需要注意，如果是在react-dom.js加载钱绑定的document时间,stopImmediatePropagation也无法阻止
 ## 结论
-1. 合成事件的监听器是统一注册在document上的，且仅有冒泡阶段。所以原生时间的监听器响应总是比合成时间的监听器早
-2. 阻止原生事件的冒泡后，会阻止合成事件的监听器执行
-3. 合成事件的nativeEvent在文本场景中 没毛用
+1. <span style="color: blue">合成事件的监听器是统一注册在document上的，且仅有冒泡阶段。所以原生事件的监听器响应总是比合成时间的监听器早</span>
+2. <span style="color: blue">阻止原生事件的冒泡后，会阻止合成事件的监听器执行</span>
+3. <span style="color: blue">合成事件的nativeEvent在文本场景中 没毛用</span>
 
 
 ## 资料

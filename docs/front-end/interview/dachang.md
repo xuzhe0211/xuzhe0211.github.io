@@ -97,15 +97,15 @@ title: 大厂面试
     [leetcode爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/solution/pa-lou-ti-by-leetcode-solution/)
 7. [使用最小花费爬楼梯](https://leetcode-cn.com/problems/min-cost-climbing-stairs/solution/shi-yong-zui-xiao-hua-fei-pa-lou-ti-by-l-ncf8/)
     ```js
-    var minCostClimbingStairs = function() {
+    var minCostClimbingStairs = function(cost) {
         const n = cost.length;
         const dp = new Array(n + 1);
         dp[0] = dp[1] = 0;
-        for(let i = 2; i <=n; i++) {
+        for (let i = 2; i <= n; i++) {
             dp[i] = Math.min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
         }
-        return dp[n]
-    }
+        return dp[n];
+    };
     ```
 8. [编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 
@@ -177,6 +177,11 @@ title: 大厂面试
         }
         return this.arr[index].get(snapIds[low - 1]) || null;
     }
+    let snap = new SnapshotArray(3)
+    snap.set(0, 5)
+    snap.snap()
+    snap.set(0, 6)
+    console.log(snap.get(0, 0))
     ```
 
 ### 四面

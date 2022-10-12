@@ -56,7 +56,7 @@ var e = React.createElement(
 ## React Diffing
 "Diffing"即"找不同"，就是解决上文引出的React的核心目标---如何通过对比新旧虚拟DOM树，以最小的操作次数下将旧DOM树转换为新DOM树。
 
-<span style="color: red">在算法领域中，两棵树的转换目前最优的算法复杂度为O(n ** 3), n为节点个数。</span>这意味着当书上有1000个元素时，需要10亿次比较，显然远远不够搞笑
+<span style="color: red">在算法领域中，两棵树的转换目前最优的算法复杂度为O(n ** 3), n为节点个数。</span>这意味着当书上有1000个元素时，需要10亿次比较，显然远远不够高效
 
 React在基于以下两个假设的基础上，提出了一套复杂度为O(n)的启发式算法
 1. <span style="color: blue">不同类型(即标签名、组件名)的元素会产生不同的树.</span>
@@ -99,11 +99,11 @@ React在基于以下两个假设的基础上，提出了一套复杂度为O(n)�
 <span style="color: red">2.1节的策略解决了Diffing算法的时间复杂度的问题，但我们还面临着另外一个重大的性能问题---浏览器的渲染线程和JS的执行线程是互斥的，这意味着DOM节点过多时，虚拟DOM树的构建和处理会长时间占用主线程，使得一些需要高优先级处理的操作如用户输入、平滑动画等被阻塞，严重影响使用体验</span>
 
 #### 时间切片(Time Slice)
-为了解决浏览器主线程的阻塞问题，引出<span style="color: blue">**时间切片**的策略---将整个工作流程分解成小的工作单元，并在浏览器空闲时交由浏览器执行这些工作单元，每个执行单元执行完毕后，浏览器都可以选择中断渲染并处理其他需要更高优先级处理的工作</span>
+为了解决浏览器主线程的阻塞问题，引出<span style="color: blue">**[时间切片](/front-end/JavaScript/basices-time-siicing.html)**的策略---将整个工作流程分解成小的工作单元，并在浏览器空闲时交由浏览器执行这些工作单元，每个执行单元执行完毕后，浏览器都可以选择中断渲染并处理其他需要更高优先级处理的工作</span>
 
 浏览器中提供了requestIdleCallback方法实现此功能，将待调用的函数加入执行队列，浏览器将在不影响关键事件处理的情况下逐个调用
 
-<span style="color: red">考虑到浏览器的兼容性以及requestIdleCallback方法的不稳定性,React自己实现了专门用于React的类似requestIdleCallback且功能更完备的**Scheduler**来实现空闲时触发回调，并提供了多种优先级供任务设置。</span>
+<span style="color: red">考虑到浏览器的兼容性以及[requestIdleCallback](/front-end/JavaScript/browser-requestAnimation.html)方法的不稳定性,React自己实现了专门用于React的类似[requestIdleCallback](/front-end/JavaScript/browser-requestAnimation.html)且功能更完备的**Scheduler**来实现空闲时触发回调，并提供了多种优先级供任务设置。</span>
 
 ### 递归与时间切片
 时间切片策略要求我们将虚拟DOM的更新操作分解为小的工作单元，同时具备一下特性
@@ -177,7 +177,7 @@ const sectionFiber = {
 
 在3.1节中我们介绍过，在Fiber节点中有一个重要的属性alternate，单词意为"备用"。
 
-实际上，在React中最多会同事存在两棵Fiber树：
+实际上，在React中最多会同时存在两棵Fiber树：
 - 当前显示在屏幕上、已经构建完成的Fiber树称为"Current Fiber Tree"，我们将其中的Fiber节点简写为currFiber
 - 当前正在构建的Fiber树称为"WorkInProgress Fiber Tree"，我们将其Fiber节点简写为"wipFiber"
 
@@ -222,7 +222,7 @@ requestIdleCallback(workLoop)
 <span style="color: blue">以上步骤说明，Fiber节点通过 child->sibling->return 的顺序进行深度优先遍历"处理"，而后更新Fiber树。那么如何"处理"Fiber节点呢？</span>
 
 ### 3.3 对Fiber节点的处理过程
-<span style="color: orange">对Fiber节点的处理就是执行一个 performUnitOfWork 方法,它接收一个将要处理的Fiber节点，然后完成一下工作：</span>
+<span style="color: orange">对Fiber节点的处理就是执行一个 performUnitOfWork 方法,它接收一个将要处理的Fiber节点，然后完成以下工作：</span>
 
 - <span style="color: blue">完善构建Fiber节点:创建DOM并获取children</span>
 

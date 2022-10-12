@@ -39,9 +39,9 @@ for(var i = 0; i < 5; i++) {
     })(i)
 }
 ```
-这个原理其实就是使用闭包，定时器的回调函数去引用立即执行函数里定义的变量，形成闭包保存了立即执行函数执行时i的值，异步定时器的回调函数才如我们想要的打印了顺序的值
+这个原理其实就是使用闭包，定时器的回调函数去引用立即执行函数里定义的变量，形成闭包保存了立即执行函数执行时 i 的值，异步定时器的回调函数才如我们想要的打印了顺序的值。
 
-其实，useEffect的那个场景的原因，跟这个，简直是一样的，<span style="color: blue">**useEffect闭包陷阱场景的出现，是react组件更新流程以及useEffect的视线的自然而然的结果**</span>
+其实，useEffect的那个场景的原因，跟这个，简直是一样的，<span style="color: blue">**useEffect 闭包陷阱场景的出现，是react组件更新流程以及 useEffect 的实现的自然而然的结果**</span>
  
 ## 浅谈hooks原理，理解useEffect的"闭包陷阱"出现原因
 <span style="color: blue">首先，可能都听过react的Fiber架构,其实一个Fiber节点就对应一的是一个组件。对于classComponent而言，有state是一件正常的事情，Fiber对象上有一个memoizedState用于存放组件的state。ok，现在看hooks所针对的FunctionComponent。无论开发者怎么折腾，一个对象都只能有一个state属性或者memoizedState属性，可是，谁知道可爱的开发者们会在FunctionComponent里写上多少个useState，useEffect等等？所以，react用来链表这种数据结构来存储FunctionComponent里面的hooks</span>，比如
@@ -96,7 +96,7 @@ function App() {
 <span style="color: red">ok，这次更新的过程中根本就没有涉及到这个定时器,这个定时器还在坚持的，默默地，每隔1s打印一次count.注意这里打印的count,是组件第一次渲染时候App()时的count,count的值为1，**因为在定时器的回调里面被引用了，形式了闭包一直被保存**</span>
 
 ## 难道真的要在依赖数组里写上的值，才能拿到新鲜的值？
-仿佛都习惯性都去认为，只有在依赖数组里写上我们所需要的值，才能在更新的过程中拿到最新鲜的值。那么看一下这个场景
+仿佛都习惯性都去任务，只有在依赖数组里写上我们所需要的值，才能在更新的过程中拿到最新鲜的值。那么看一下这个场景
 ```js
 function App() {
     return <Demo1/>
@@ -197,10 +197,19 @@ function Demo2() {
             let nowObj = Object.assign(prevState, {
                 name: 'baobao',
                 age: 24
-            })
+            }) // Object.assign 如果变量在第二个参数  得到的结果是对第二个参数对象的浅拷贝 如果是第一个参数是引用了...
             console.log(nowObj == preState); // true
             return nowObj
         })
+
+        // setObj((prevState) => {
+        //     let nowObj = Object.assign({
+        //         name: 'baobao',
+        //         age: 24
+        //     }, prevState)
+        //     console.log(nowObj === prevState); // true
+        //     return nowObj
+        // }) // setInterval 还是原来的值 {name: 'chechengyi'}
     }
     return (
         <div>
@@ -221,6 +230,11 @@ function Demo2() {
     age: 24
 }
 ```
+> 这个demo页面未更新，如果是对象进行浅比较，直接传入并不会更新
+
+[参考](/source-react/react-api.html#react-hooks)
+
+[Object.assign](/front-end/JavaScript/object-constructor-methods.html#object-assign)
 ## 完毕
 通过一次“闭包陷阱” 浅谈 react hooks 全文再此就结束了。 反正写完了这篇文章，宝宝我对 hooks 的认识是比以前深了。
 

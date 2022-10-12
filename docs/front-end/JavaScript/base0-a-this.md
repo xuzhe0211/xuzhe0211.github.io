@@ -6,7 +6,7 @@ title: JS中的this详解
 在绝大多数情况下，函数的调用方式决定了this值。this不能在执行期间被赋值，并且在每次函数被调用时候this的值也可能会不同。
 
 - <span style="color: blue">this的值表示当前执行环境对象，而与声明环境无关,所以this代表的对象要等函数运行。类似定义函数时的参数列表，只有在函数调用时才传入真正的对象。</span>
-- <span style="color: blue">this 关键字虽然会根据环境变化，但它始终代表的是调用当前函数的对象</span>
+- <span style="color: blue">this 关键字虽然会根据环境变化，**但它始终代表的是调用当前函数的对象**</span>
 
 ## 全局环境
 无论是否在严格模式下，在全局执行环境中(在任何函数体外部)，this都指向全局对象
@@ -32,7 +32,7 @@ function f2() {
 }
 fn2() === undefined
 ```
-在严格模式下，如果 this 没有执行环境定义，那它将保持为undefined。
+<span style="color: red">**在严格模式下，如果 this 没有执行环境定义，那它将保持为undefined。**</span>
 
 如果想把 this 的值从一个环境传到另一个，就要用 call 或者 apply 方法
 ```js
@@ -48,7 +48,7 @@ whatsThis(); // Global
 whatsThis.call(obj); // Custom
 whatsThis.apply(obj); // Custom
 ```
-当一个函数在其主体中使用this关键字时，可以使用函数继承自 Function.prototype 的call或apply方法将 this 值绑定到调用中的特定对象。
+<span style="color: blue">当一个函数在其主体中使用this关键字时，可以使用函数继承自 Function.prototype 的call或apply方法将 this 值绑定到调用中的特定对象。</span>
 
 使用call 和apply 函数的时候，如果传递给 this 的值不是一个对象，JavaScript会尝试使用内部 toObject 操作 将其转换为对象。
 ```js

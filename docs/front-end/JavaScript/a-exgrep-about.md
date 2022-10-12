@@ -69,9 +69,9 @@ var aes = 'abc'
 ### match() 字符串方法是否有符合匹配字符串，返回一个数组
 
 ```js
-var reg = /abg/gi;
+var reg = /abc/gi;
 var abc = 'abcedabcsdfABC';
-console.log(abc.match(regs)) // ['abc', 'abc', 'ABC']
+console.log(abc.match(reg)) // ['abc', 'abc', 'ABC']
 ```
 
 ### search（）方法 第一个匹配字符串的下标

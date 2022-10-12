@@ -24,7 +24,7 @@ reader.onload = function() {
 reader.readAsText(myBlob);
 ```
 
-## Bolb
+## Blob
 我们首先来介绍Blob,Blob是用来支持文件操作的。简单的说：<span style="color: blue">在JS中，有两个构造函数File和Blob，而File继承了所有Blob的属性</span>
 
 <span style="color: blue">所以在我们看来，File对象可以看做一种特殊的Blob对象。</span>
@@ -47,7 +47,7 @@ Blob URL所实现的下载或者显示等功能，仅仅可以在单个浏览器
 ```js
 blob:d3958f5c-0777-0845-9dcf-2cb28783acaf
 ```
-<span style="color: blue">和冗长的Base64格式的Data URL相比，Blob URL的长度显然不能够存储足够的信息，这也就意味着它只是类似于一个浏览器内部的『引用』。从这个角度看Blob URL是一个浏览器自行制定的一个伪协议</span>
+<span style="color: blue">**和冗长的Base64格式的Data URL相比，Blob URL的长度显然不能够存储足够的信息，这也就意味着它只是类似于一个浏览器内部的『引用』。从这个角度看Blob URL是一个浏览器自行制定的一个伪协议**</span>
 
 ### Blob下载文件
 <span style="color: blue">我们可以通过window.URL.createObjectURL,接受一个Blob(File)对象，将其转化为Blob URL,然后赋给a.download属性，然后在页面上点击这个链接就可以实现下载了</span>
@@ -83,7 +83,7 @@ window.URL.createObjectURL生成的Blob URL还可以赋给img.src，从而实现
         const img = document.getElementById('img');
         const url = window.URL.createObjectURL(file);
         img.src = url;
-        img.onloaf = function() {
+        img.onload = function() {
             // 释放一个之前通过调用URL.createObjectURL创建的URL对象
             window.URL.revokeObjectURL(url)
         }

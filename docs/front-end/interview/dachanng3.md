@@ -452,6 +452,18 @@ https协议由http+ssl协议构成，具体的连接过程可参考SSL或者TSL�
 7. <span style="color: red">执行 IntersectionObserver回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好</span>
 8. <span style="color: red">更新界面</span>
 9. <span style="color: red">以上就是一帧中可能会做的事情，如果在一帧中有空闲时间，就会执行requestIdleCallback回调</span>
+[requestAnimationFrame和requestIdleCallback](https://blog.csdn.net/doomliu/article/details/124771222)
+
+通过上图可看到，一帧内需要完成如下六个步骤的任务：
+
+- 处理用户的交互
+- JS 解析执行
+- 帧开始。窗口尺寸变更，页面滚去等的处理
+- requestAnimationFrame(rAF)
+- 布局
+- 绘制
+
+[requestIdleCallback和requestAnimationFrame详解](https://www.cnblogs.com/cangqinglang/p/13877078.html)
 
 **减少重绘和回流**
 - 使用translate替代top

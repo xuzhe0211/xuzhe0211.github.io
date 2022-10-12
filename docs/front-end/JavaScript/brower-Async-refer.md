@@ -8,7 +8,7 @@ script标签用于加载脚本与执行脚本，在前端开发中可以说是�
 :::
 现在大家习惯于在页面中引用各种的第三方脚本，如果第三方服务商出现一些小问题，比如延迟之类的，就会使得页面白屏。
 
-好在script提供了两种方式来解决上述问题，<span style="color:orange">async和defer</span>,这两个属性使得script都不会阻塞DOM的渲染。
+好在script提供了两种方式来解决上述问题，<span style="color:orange">**async和defer,这两个属性使得script都不会阻塞DOM的渲染**。</span>
 
 但既然会存在两个属性，那么就说明，这两个属性肯定有差异的
 

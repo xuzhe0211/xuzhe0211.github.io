@@ -18,11 +18,11 @@ title: 排序算法
 3. 针对所有的元素重复以上步骤，除了最后一个。
 4. 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较
 
-```
+```js
 function bubbleSort(arr) {
     var len = arr.length;
     for (var i = 0; i < len; i++) {
-        for(j = 0; i < len - 1 - i; j++) {
+        for(j = 0; j < len - 1 - i; j++) {
             if(arr[j] > arr[j + 1]) {
                 var temp = arr[j + 1];
                 arr[j + 1] = arr[j];
@@ -30,12 +30,12 @@ function bubbleSort(arr) {
             }
         }
     }
-    returnnn arr;
+    return arr;
 }
 ```
 改进1: 设置一标志性变量pos，用于记录每趟排序中最后一次进行交换的位置。由于pos位置之后记录均已交换能到位，故在进行下一趟排序时只要扫描到post位置即可
 
-```
+```js
 function bubbleSort2(arr) {
     console.time('改进后冒泡排序耗时');
     var i = arr.length - 1; // 初始时，最后位置保持不变
@@ -58,7 +58,7 @@ function bubbleSort2(arr) {
 
 改进2: 传统冒泡排序中每一趟排序操作值能找到一个最大值或最小值,我们考虑利用在每趟排序中进行正向和反向两遍冒泡的方法一次可以得到两个最终值(最大值和最小值)，从而是排序数减少了一半
 
-```
+```js
 function bubbleSort3(arrr) {
     var low = 0;
     var high = arr.length - 1; // 设置变量的初始值
@@ -101,7 +101,7 @@ function bubbleSort3(arrr) {
 2. 按增量序列个数k，对序列进行k趟排序。
 3. 每趟排序，根据对应的增量ti,将待排序分割成若干长度为m的子序列，分别对各子表进行直接插入排序。仅增量因子为1时，整个序列作为一个表来处理，表常数即为整个序列长度
 
-```
+```js
 function shellSort(arr) {
     var len = arr.length,
         temp,
@@ -138,7 +138,7 @@ console.log(shellSort(arr));
 2. 把这两个子序列分别采用归并排序；
 3. 讲两个排序好的子序列合并成一个最终的排序序列
 
-```
+```js
 function mergeSort(arr) { // 采用自上而下的递归方法
     var len = arr.length;
     if (len < 2) {
@@ -180,7 +180,7 @@ function merge(left, right) {
 2. 创建两个指针，左边一个指向数组的第一项，右边指向数组最后一项。移动左指针直到我们找到一个比主元大的元 素，接着，移动右指针直到找到一个比主元小的元素。然后交换它们，重复这个过程，直到左指针超过了右指针。这个 过程是的比主元小的值都排在了主元之前，而比主元大的值都排在了主元之后，这一步叫划分操作。
 3. 接着，算法对划分的小数组(较主元小的值组成的子数组，以及较主元大的值组成的子数组)重复之前的两个步骤， 直至数组以完全排序
 
-```
+```js
 // 快速排序
 const quickSort = (function() {
     // 默认状态下的比较函数

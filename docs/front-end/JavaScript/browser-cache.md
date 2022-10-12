@@ -28,7 +28,7 @@ title: 浏览器缓存原理以及本地存储
 - 请求返回200的状态码
 - 在chrome控制台的network选项中可以看到size显示from disk cache或from memory cache
 
-from memory cache代表使用内存中的缓存，from disk cache则代表使用的是硬盘中的缓存,浏览器的读取缓存的顺序为memory->disk。在浏览器中，浏览器会在js和图片等文件解析执行后直接存入内存缓存中，那么当刷新时只需直接从内存缓存中读取(from memory cache);而css文件则会存入硬盘文件中，所以每次渲染页面都需要从硬盘读取缓存(from disk cache)
+<span style="color: red">from memory cache代表使用内存中的缓存，from disk cache则代表使用的是硬盘中的缓存,浏览器的读取缓存的顺序为memory->disk。在浏览器中，浏览器会在js和图片等文件解析执行后直接存入内存缓存中，那么当刷新时只需直接从内存缓存中读取(from memory cache);**而css文件则会存入硬盘文件中，所以每次渲染页面都需要从硬盘读取缓存(from disk cache)**</span>
 
 ![浏览器缓存](./images/cache02.png)
 

@@ -31,7 +31,7 @@ Redis与其他key-value缓存产品有以下三个特点
 4. 丰富的特性
 
 ## 使用
-```
+```js
 // controller/home.js
 const Controller = require('egg').Controller;
 
@@ -99,7 +99,7 @@ module.exports = app => {
 
 新建routes/index.js，默认index.js没有前缀
 
-```
+```js
 module.exports = {
     'get /': async ctx => {
         ctx.body = '首页'
@@ -111,7 +111,7 @@ module.exports = {
 ```
 
 新建routes/user.js 路由前缀/user
-```
+```js
 module.exports = {
     // /user/
     'get /': async ctx => {

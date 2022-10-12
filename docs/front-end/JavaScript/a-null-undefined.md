@@ -19,11 +19,11 @@ null >= null // Number(null) >= Number(null) 即 0 >= 0 ===true
 undefined >= undefined // Number(undefined) >= Number(undefined) 即NaN >= NaN false!(注意：NaN不等于NaN);
 
 
-null === undefined // true
-null === null // true
-undefined === undefined // true
-null === 0; // false
-undefined === 0 // false
+null == undefined // true
+null == null // true
+undefined == undefined // true
+null == 0; // false
+undefined == 0 // false
 ```
 <span style="color: red">在关系运算符中，null、undefined会被Number()强制转换成数字类型</span>
 
