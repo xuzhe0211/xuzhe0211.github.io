@@ -47,7 +47,8 @@ title: css权重规则(特异性)
 
 ## 实例
 
-```
+```html
+<style>
 a{color: yellow;} /*特殊性值：0,0,0,1*/
  div a{color: green;} /*特殊性值：0,0,0,2*/
 .demo a{color: black;} /*特殊性值：0,0,1,1*/
@@ -55,6 +56,7 @@ a{color: yellow;} /*特殊性值：0,0,0,1*/
  .demo *[type="text"]{color: grey;} /*特殊性值：0,0,2,0*/
  #demo a{color: orange;} /*特殊性值：0,1,0,1*/
  div#demo a{color: red;} /*特殊性值：0,1,0,2*/
+</style>
 
 <a href="">第一条应该是黄色</a> <!--适用第1行规则-->
 <div class="demo">

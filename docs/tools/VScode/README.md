@@ -89,6 +89,16 @@ vscode最常用的tab移到最前面
 [实时预览组件效果，这个库让你方便到哭](https://mp.weixin.qq.com/s/3BvgKFzkYm0wIq0dP-euIw)
 
 [官网](https://previewjs.com/)
+
+## code translate
+滑词翻译插件
+
+## 驼峰翻译助手
+```
+win: "Alt+shift+t" 
+mac": "cmd+shift+t"
+```
+> 英文驼峰命名 --- 感觉更好用一些
 ## 资料
 
 [vscode 摸鱼](https://mp.weixin.qq.com/s/1lS9GWPkVZvVLIJjjXU4iw)

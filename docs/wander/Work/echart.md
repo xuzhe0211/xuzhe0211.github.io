@@ -5,7 +5,7 @@ title: echart-svg
 
 ## 使用
 
-```
+```js
 // 使用Canvas 渲染器(默认)
 var chart = echarts.init(containerDom, null, {renderer: 'canvas'});
 // 等价于

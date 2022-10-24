@@ -11,7 +11,7 @@ title: WebRTC--使用webRTC构建简单的前端视频通讯
 
 传统的视频推流的技术实现一般是这样的:客户端采集视频数据，推流到服务器上,服务器在根据情况将视频数据推送到其他客户端上。
 
-<span style="color: red">**但webRTC却截然不同，它可以在客户端之间直接搭建基于UDP的数据通道，经过简单的接收流程之后，可以在不同设备间的两个浏览器内直接传输任意数据。**</span>
+<span style="color: red">但webRTC却截然不同，它可以在客户端之间直接搭建基于UDP的数据通道，经过简单的接收流程之后，**可以在不同设备间的两个浏览器内直接传输任意数据。**</span>
 
 这其中的[流程](/front-end/JavaScript/video-2-1.html)包括
 
@@ -139,6 +139,12 @@ function startPeerConnection(stream) {
 由于在同一个页面中进行通信，所以我们可以直接交换双方的candidate对象，在不同的页面中，可能需要一个额外的服务器协助这个交换过程
 
 ## 建立SDP Offer和SDP Answer
+浏览器为我们封装好了响应的Offer和Answer方法，我们可以直接使用
+```js
+function startPeerConnection(stream) {
+    
+}
+```
 
 ## 加入视频流
 现在我们已经有了一个可靠的视频数据传输通道了，下一步只需要向这个通道加入数据流即可。WebRTC直接为我们封装好了加入视频流的接口，当视频流添加时，另一方的浏览器会通过onaddstream来告知用户，通道中有视频流加入

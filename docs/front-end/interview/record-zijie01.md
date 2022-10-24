@@ -4,7 +4,7 @@ title: 一年经验面试抖音电商
 ---
 
 ## 一面
-1. leetcode第112题， [路径总和](/front-end/Code/three.html#路径总和)
+1. leetcode第112题， [路径总和](/front-end/Code/tree.html#路径总和)
 
   ```js
   const hasPathSum = (root, sum) => {

@@ -11,16 +11,20 @@ title: 标签沿轨道运动效果设计思路
 ## 一、标签动还是轨迹动
 ### 标签动：不同类名设置宽高、定位属性，点击时改变标签赋值的类型；要愤青标签的顺序和位置的顺序
 ![标签动1](./images/239c0a048f2c49dcb3a26d75cd768baa_tplv-k3u1fbpfcp-watermark.jpg)
+
 此时的位置顺序为[0, 1,2,3,4,5]
 
 当标签运行时
+
 ![标签动2](./images/a9d15bc4ebf042f7a50fa8dbfdca428d_tplv-k3u1fbpfcp-watermark.jpg)
-此时标签位置顺序为[5,0, 1,2,3,4](标签0在5的位置)
+
+此时标签位置顺序为5,0, 1,2,3,4 
+>(标签0在5的位置)
 
 即：我们需要拿到当前点击标签的顺序值，这个标签到位置1，其他的依次排列，如点击标签4,则标签顺序为[2,3,4,5,0,1],点击标签5，顺便变[1,2,3,4,5,0]
 
 代码以vue+css为例HTML
-```
+```html
 <ul class="label_ul">
     <li
         class="label_li"
@@ -36,7 +40,7 @@ title: 标签沿轨道运动效果设计思路
 </ul>
 ```
 在data中存储当前的位置信息，indexList存储位置数组,初始值为[0,1,2,3,4,5]，之后点击动作即改变位置数组
-```
+```js
 // css
 .label_ul {
     .label_li {
@@ -86,7 +90,7 @@ mthod: {
 ![2/4跳转](./images/635505d8f8e34077bfe82f78eb2b5e08_tplv-k3u1fbpfcp-watermark.jpg)
 
 解决办法：当判断位置为2时，移到位置1，即将indexList末尾删除移到首位;当判断为位置4时，移动到位置5,即将indexList首位删除移到末尾
-```
+```js
 watch: {
     currentIndex(n) {
         if (this.order == 2) {
@@ -117,14 +121,14 @@ watch: {
 ### 轨道动：一个标签与轨道为一个整体，标签沿着轨道运动实际为轨道的旋转
 1. 布局轨道与标签
     ![布局轨道与标签](./images/663a7c43e9634a1aa921574b2411362f_tplv-k3u1fbpfcp-watermark.jpg)
-    ```
+    ```html
     <div class="track">
         <div class="label"></div>
     </div>
     ```
 2. 将轨道旋转、压缩、变为椭圆
     ![轨道旋转、压缩，变为椭圆](./images/d29213f542f94beb82fba610392ea20b_tplv-k3u1fbpfcp-watermark.jpg)
-    ```
+    ```css
     .track {
         width: 315px;
         height: 315px;

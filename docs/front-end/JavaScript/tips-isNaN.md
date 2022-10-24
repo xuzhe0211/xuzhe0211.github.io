@@ -3,7 +3,7 @@ autoGroup-16: Tips/方法实现
 title: isNaN与Number.isNaN的区别
 ---
 ## NaN是什么？
-NaN全称是Not-A-Number(不是一个数字)，我们可以通过Number.NaN来获得一个NaN,在类型转换失败的时候,我们常常会得到一个NaN,需要注意的是，NaN是Js中唯一一个自身不相等的存在
+NaN全称是Not-A-Number(不是一个数字)，我们可以通过Number.NaN来获得一个NaN,在类型转换失败的时候,我们常常会得到一个NaN,需要注意的是，<span style="color: red">**NaN是Js中唯一一个自身不相等的存在**</span>
 ```javascript
 Number.NaN // NaN
 NaN === NaN // false
@@ -13,7 +13,7 @@ NaN只是number上的一个静态属性。
 ```javascript
 Number('echo'); // NaN
 ```
-比如Number('echo')会得到NaN,它只是为了告诉我你这个不是一个数字，一种表示方法，而非一个精准有效的值，因此NaN不能参与计算，也无法与自身比较
+比如Number('echo')会得到NaN,<span style="color: red">它只是为了告诉我你这个不是一个数字，一种表示方法，而非一个精准有效的值，因此NaN不能参与计算，也无法与自身比较</span>
 
 ## 什么情况下产生NaN
 当Number提供的类型转换方法在解析一个值却无法返回数字时

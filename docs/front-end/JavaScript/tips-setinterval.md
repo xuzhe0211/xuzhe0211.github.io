@@ -3,7 +3,7 @@ autoGroup-16: Tips/方法实现
 title: 关于setInterval不准确问题
 ---
 
-在js中如果打算使用setInterval进行倒数，计时等功能有可能是不准确的，因为setInterval的回调函数并不是到时后立即执行，而是等系统计算空闲下来后才会执行。而下一次触发时间则是在setInterval回调函数执行完毕之后才开始计时
+在js中如果打算使用setInterval进行倒数，计时等功能有可能是不准确的，<span style="color: red">因为setInterval的回调函数并不是到时后立即执行，而是等系统计算空闲下来后才会执行。而下一次触发时间则是在setInterval回调函数执行完毕之后才开始计时</span>
 
 所以如果setInterval内执行的计算过于耗时，或者有其他耗时任务在执行，setInterval的计时会越来越不准，延时很厉害
 

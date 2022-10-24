@@ -65,3 +65,33 @@ console.log(f.c)
 ```
 
 [new操作符](/front-end/interview/dachang2.html#简单)
+
+## JS中new函数后带括号和不带括号的区别
+我们都知道，js中可以使用new来创建实例。通常，new实例化的时候后面需要加括号。但是有些情况下后面带不带括号是一样的
+```js
+function Parent() {
+    this.num = 1;
+}
+console.log(new Parent()); // 输出Parent对象: {num: 1}
+console.log(new Parent); // 输出Parent对象: {num: 1}
+```
+但是，有时就出现问题
+```js
+function Parent() {
+    this.num = 1;
+}
+console.log(new Parent().num); // 1;
+console.log(new Parent.num); // 报错
+```
+结果分析
+
+<span style="color: red">从报错信息来看，new Parent.num执行顺序是这样的：**先执行Parent.num, 此时返回的结果是undefined;后执行new，因为new后面必须跟着构造函数，所以new undefined会报错**</span>
+
+> new Parent().num 相当于(new Parent()).num，所以结果返回1
+
+> 从结果来看，new Parent.num代码相当于new (Parent.num); new Parent().num相当于(new Parent()).num
+
+<span style="color: red">**由此看来 new的构造函数后跟着括号优先级会提升**</span>
+
+
+[JS中new函数后带括号和不带括号的区别](https://www.jianshu.com/p/f84989f0bc39)

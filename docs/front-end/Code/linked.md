@@ -96,7 +96,23 @@ Array.prototype.myInterator = function() {
 var jiao = arr.myIterator();
 console.log(jiao.next());
 ```
-
+## 数据结构
+[数据结构--参考！！](/front-end/Code/concept-xsummary.html#数据结构)
+```js
+const linkList = {
+    val: 'a',
+    next: {
+        val: 'b',
+        next: {
+            val: 'c',
+            next: {
+                val: 'd',
+                next = null
+            }
+        }
+    }
+}
+```
 ## 判断单链表是否带环
 
 ```javascript
@@ -141,6 +157,44 @@ var hasCycle = function(head) {
     return false;
 };
 ```
+- 链表中环的入口节点
+    [剑指 Offer II 022. 链表中环的入口节点](https://leetcode.cn/problems/c32eOV/description/)
+
+    ```js
+    // 哈希表 -- 时间复杂度O(N) 空间复杂度O(N)
+    var detectCycle = head => {
+        let set = new Set();
+        let cur = head;
+        while(cur) {
+            if(set.has(cur)) return cur;
+            set.add(cur);
+            cur = cur.next;
+        }
+        return null;
+    }
+    // 快慢指针 时间复杂度O(n) 空间复杂度O(1)
+    var detectCycle = head => {
+        if(!head) return null;
+        let slow = head, fast = head;
+        while(fast) {
+            slow = slow.next;
+            if(fast.next) {
+                fast = fast.next.next;
+            } else {
+                return null;
+            }
+            if(fast === slow) {
+                let ptr = head;
+                while(ptr !== slow) {
+                    ptr = ptr.next;
+                    slow = slow.next;
+                }
+                return ptr;
+            }
+        }
+        return null;
+    }
+    ```
 ## 删除链表中重复的元素
 
 ```javascript

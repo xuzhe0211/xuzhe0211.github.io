@@ -7,7 +7,7 @@ title: 判断一个节点是否包含另一个节点
 
 + 第一种方法
 
-```
+```js
 function isChildOf(child, parent) {
     var parentNode;
     if (child && parent) {
@@ -25,13 +25,13 @@ function isChildOf(child, parent) {
 
 + 直接调用js的contains
 
-```
+```js
 parent.contains(child); // true | false
 ```
 
 ### 例子
 
-```
+```js
 watch: {
     visibleVideo: {
         handler: 'handlerVisible',

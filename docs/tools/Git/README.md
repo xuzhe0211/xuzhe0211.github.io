@@ -3,6 +3,15 @@ title: Git相关
 --- 
 
 ![git](./images/1.jpg)
+
+## 查看cofig
+```js
+git config -l | git config --list
+
+git config --local --list
+git config --global --list
+git config --system --list
+```
 ## 本地项目关联远程仓库
 ```js
 git remote add origin git@xxx.gitlab.com:zhiliao/web-client/zhiliao-site.git
@@ -26,9 +35,9 @@ origin 远程库的名字
 
 HEAD是一个特别的指针，它是一个指向你正在工作的本地分之的指针，可以把它当做本地分之的别名，git这样就可以知道你工作在哪个分之
 
-refs/for意义在于我们提交代码到服务器之后是需要code review之后才能进行merge的
+<span style="color: red">refs/for意义在于我们提交代码到服务器之后是需要code review之后才能进行merge的</span>
 
-refs/heads 不需要
+<span style="color: red">refs/heads 不需要</span>
 
 ```
 //撤销
@@ -40,12 +49,12 @@ git reset --hard <commit_id>
 git branch -r // 查看所有远程分支
 // 拉取远程分支并创建本地分支
 // 方法一
-git checkout -b 本地分支名x origin/远程分支名：x
+git checkout -b 本地分支名x origin/远程分支名
 
-git checkout -b mobile_1.0.0 origin/mobile_1.0.0 // 例子
+git checkout -b mobile_1.0.0 origin/mobile_1.0.0 // 例子 自动切换到分支 存在映射关系
  
 // 方法二
-git fetch origin 远程分支名x:本地分支名x
+git fetch origin 远程分支名x:本地分支名x // 不会建立映射关系
 ```
 [git拉去远程分支并创建本地分支](https://blog.csdn.net/tterminator/article/details/52225720)
 ## fetch VS pull

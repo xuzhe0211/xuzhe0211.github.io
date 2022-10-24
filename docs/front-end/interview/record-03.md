@@ -135,14 +135,14 @@ title: 现在面试都问什么「字节、蚂蚁、美团、滴滴面试小记�
     const n = 3;
     // 输出
     [10, 7, 8,9,4,5,6,1,2,3]
-    // 解法--双指针
+    // 解法--单指针
     const fn = (arr, n) => {
         let newArr = [];
         let left = 0;
-        let right = arr.length;
-        while(left < right) {
+        let len = arr.length;
+        while(left < len) {
             let temp;
-            if(left + 3 > right) temp = arr.slice(left)
+            if(left + 3 > len) temp = arr.slice(left)
             temp = arr.slice(left, left + 3);
             newArr.push(temp.reverse());
             left += 3;

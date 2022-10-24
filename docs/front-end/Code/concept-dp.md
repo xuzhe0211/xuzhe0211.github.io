@@ -237,5 +237,68 @@ const longestCommonSubsequence = (str1, str2) => {
     return dp[n][m]
 }
 ```
+## 礼物的最大价值
+```
+在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？
+
+输入: 
+[
+  [1,3,1],
+  [1,5,1],
+  [4,2,1]
+]
+输出: 12
+解释: 路径 1→3→5→2→1 可以拿到最多价值的礼物
+```
+```js
+const maxValue = grid => {
+    let n = grid.length;
+    let m = grid[0].length;
+    let dp = Array.from(Array(n), (_, i) => Array(m).fill(0));
+    dp[0][0] = grid[0][0]
+    for(let i = 0; i < n; i++) {
+        for(let j = 0; j < m; j++) {
+            if(i === 0 && j == 0) continue;
+            if(i == 0) dp[i][j] = dp[i][j - 1] + grid[i][j];
+            if(j == 0) dp[i][j] = dp[i - 1][j] + grid[i][j]
+            if(i !== 0 && j !== 0) dp[i][j] = Math.max(dp[i - 1][j] + grid[i][j], dp[i][j - 1] + grid[i][j])
+        }
+    }
+    return dp[n - 1][m - 1]
+}
+```
+## 规划兼职工作
+```js
+输入：startTime = [1,2,3,3], endTime = [3,4,5,6], profit = [50,10,40,70]
+输出：120
+解释：
+我们选出第 1 份和第 4 份工作， 
+时间范围是 [1-3]+[3-6]，共获得报酬 120 = 50 + 70。
+```
+```js
+const jobScheduling = (startTime, endTime, profit) => {
+    const n = startTime.length;
+    const jobs = new Array(n).fill(0).map((_, i) => [startTime[i], endTime[i], profit[i]]);
+    const dp = new Array(n + 1).fill(0);
+    for (let i = 1; i <= n; i++) {
+        const k = binarySearch(jobs, i - 1, jobs[i - 1][0]);
+        dp[i] = Math.max(dp[i - 1], dp[k] + jobs[i - 1][2]);
+    }
+    return dp[n];
+}
+const binarySearch = (jobs, right, target) => {
+    let left = 0;
+    while (left < right) {
+        const mid = left + Math.floor((right - left) / 2);
+        if (jobs[mid][1] > target) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return left;
+}
+```
+[规划兼职工作](https://leetcode.cn/problems/maximum-profit-in-job-scheduling/solutions/1910416/gui-hua-jian-zhi-gong-zuo-by-leetcode-so-gu0e/)
 
 [leetcode](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)

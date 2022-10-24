@@ -86,7 +86,15 @@ var  args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, argumen
 ```
 :::
 
-如果调用的参数多余正式声明的参数，则可以使用arguments对象。这种技术对于可以传递可变变量的参数的函数很有用。使用arguments.length来确定传递给函数参数的个数，然后使用arguments对象处理每个参数。要确定函数签名中(输入)参数的数量，请使用Function.length属性
+```js
+function fn(a, b, c) {
+    // console.log(Array.prototype.slice.call(arguments), Array.apply(null, arguments))
+    console.log(arguments.length, fn.length) //6 3
+}
+fn(1,3, 4, 5,6,6)
+// console.log(fn.arguments)
+```
+<mark>如果调用的参数多于正式声明的参数，则可以使用arguments对象。这种技术对于可以传递可变变量的参数的函数很有用。使用arguments.length来确定传递给函数参数的个数，然后使用arguments对象处理每个参数。要确定函数签名中(输入)参数的数量，请使用Function.length属性</mark>
 
 #### 对参数使用typeof
 
@@ -154,7 +162,7 @@ function f(a, b) {
     var normalArray = Array.prototype.slice.call(arguments)// or
     var normalArray = [].slice.call(arguments);
     // or
-    var normalArray = Array.for(arguments);
+    var normalArray = Array.from(arguments);
 
     var first = normalArray.shift(); // ok
     var first = arguments.shift(); // Error

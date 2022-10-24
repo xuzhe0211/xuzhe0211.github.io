@@ -5,7 +5,7 @@ title: Videojs
 
 ## videojs的一些监听事件汇总
 
-```
+```js
 // my-player---页面video标签的id
 // options --- 播放器配置参数
 
@@ -96,7 +96,7 @@ seekabel
 
 
 ## vue截取video视频中的某一帧
-```
+```html
 <template>
 <div>
     <video src="../assets/video.mp4" controls style="width: 300px"></video>
@@ -122,7 +122,7 @@ export default {
         cutPicture() {
             const v = document.querySelector('video');
             const canvas = document.getElementById('mycanvas');
-            cosnt ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d');
             ctx.drawImage(v, 0, 0, 343, 200);
             const oGrayImg = canvas.toDataURL('image/jpeg');
             this.imgSrc = oGrayImg;

@@ -3,7 +3,7 @@ title: 工作中问题简单记录
 ---
 
 ## markdown 锚点设置
-```
+```html
 [类型](#control-statements)
 <p>1</p>
 <p>1</p>
@@ -47,7 +47,7 @@ title: 工作中问题简单记录
 ```
 
 ## 如何在Markdown中打出上标、下标和特殊字符
-```
+```html
 <sup>xxx</sup> // 上标
 <sub>xxx</sub> // 下标
 ```
@@ -55,7 +55,7 @@ title: 工作中问题简单记录
 
 n的平方呢等于n+1，写法如下
 
-```
+```html
 n<sup>2</sup> = n + 1
 ```
 
@@ -103,7 +103,7 @@ function 符号：&fnof;可以轻松得打出函数式：&fnof;(x)=x+1
 
 ## 正则
 
-```
+```js
 /^(?!string).*/.test('string/0.0.1') //非string开头得字符串
 ```
 
@@ -126,7 +126,7 @@ Firefox1.06:offsettop和offsetLeft都是相对body元素
 
 obj.currentStyle.borderLeftWidth obj.currentStyle.borderTopWidth
 
-```bash
+```js
 function getPoint(obj) { // 获取某元素以浏览器左上角为原点得坐标
 	var t = obj.offsetTop; // 获取该坐标对应芙蓉起得上边距
     var l = obj.offsetLeft; // 对应父容器得左边距
@@ -139,6 +139,7 @@ function getPoint(obj) { // 获取某元素以浏览器左上角为原点得坐�
 }
 
 ```
+[深入理解定位父级offsetParent及偏移大小](https://www.cnblogs.com/xiaohuochai/p/5828369.html)
 
 ## ts项目中Cannot find module ‘XXX‘ its corresponding type declarations
 
@@ -165,7 +166,7 @@ Cannot find module '@/utils/request' or its corresponding type declarations.Vetu
 
 ### 十进制转换为二进制
 
-```
+```js
 var num = 100;
 console.log(num.toString(2));
 ```
@@ -174,14 +175,14 @@ toString()方法可把一个Number对象转换为一个字符串，并放回结�
 
 ### 二进制转十进制
 
-```
+```js
 var num = 1100100;
 console.log(parseInt(num, 2))
 ```
 
 ### 其他转换
 
-```
+```js
 parseInt(num,8);   //八进制转十进制
 parseInt(num,16);   //十六进制转十进制
 parseInt(num).toString(8)  //十进制转八进制
@@ -196,12 +197,14 @@ parseInt(num,16).toString(8)  //十六进制转八进制
 
 ## js获取指定时区的时间
 
-```
+```js
 const timezone = 8; // 目标时区时间，东八区  东时区正数 西时区负数
 const offset_GMT = new Date().getTimezoneOffset(); // 本地时间和格林威治的时间差，单位为分钟
 const nowDate = new Date().getTime(); // 本地时间距1970年1月1日午夜之间的毫秒数
 const targetDate = new Date(nowDate + offset_GMT * 60 * 1000 + timezone * 60 * 60 * 1000);
 console.log('东8区现在是：' + targetDate);
+
+// offset_GMT * 60 * 1000 + timezone * 60 * 60 * 1000 === 0
 ```
 
 ## css3的循环滚动
@@ -210,8 +213,9 @@ console.log('东8区现在是：' + targetDate);
 
 每次循环滚动最后的list为下一次滚动的首个元素
 
-```js
+```html
 // css
+<style>
 @keyframes fadeOutUp {
     0% {
         transform: translate3d(0, 0, 0);
@@ -235,8 +239,10 @@ console.log('东8区现在是：' + targetDate);
 }
 
 animation: fadeOutUp 6s ease-out;
+<style>
 
 // js
+<script>
 this.$refs.animation.addEventListener('animationend', this.handlerAnimationEnd.bind(this), false);
 
 //默认获取前三个  animationVisible 给dom添加动画class
@@ -258,7 +264,7 @@ handlerAnimationEnd() {
         this.animationVisible = true;
     }, 500);
 },
-
+<script>
 ```
 
 ## 视频播放不出现loading黑屏调研
@@ -294,7 +300,7 @@ video.js
 <span style="color:red">在低设备刷新率fps下是无法解决的，调高设备刷新率</span>
 
 使用到动画的样式设置如下样式，可解决
-```
+```css
 -webkit-backface-visibility: hidden;（设置进行转换的元素的背面在面对用户时是否可见：隐藏）
 // 如果有3d加上下面句 ，没有可省略
 -webkit-transform-style: preserve-3d; （设置内嵌的元素在 3D 空间如何呈现：保留 3D ）

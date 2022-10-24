@@ -3,7 +3,11 @@ autoGroup-0: 概念
 title: 总结-JS 数据结构与常用的算法
 ---
 ## 基本概念
+<span style="color: red">**数据结构是计算机的基础，算法是计算机科学**</span>
+
 常听到算法的时候,就会有人说到**时间复杂度，空间复杂度**。那么这两个是什么意思呢？
+
+![学习大纲](./images/WechatIMG8595.png)
 
 ### 时间复杂度
 其实就是一个函数，用大O表示，比如O(1)、O(n)...
@@ -48,7 +52,7 @@ title: 总结-JS 数据结构与常用的算法
 ### 空间复杂度
 和时间复杂度一样，空间复杂度也是用大O表示，比如O(1)、O(n)...
 
-<span style="color: blue">它用来定义描述算法运行过程中临时占用的存储空间大小</span>
+<span style="color: red">**它用来定义描述算法运行过程中临时占用的存储空间大小**</span>
 
 > 占用越少，代码写的就越好
 
@@ -198,6 +202,63 @@ const end = queue.shift();
         }
         // 返回最近的请求次数
         return this.q.length;
+    }
+    ```
+- 滑动窗口最大值
+
+    ```js
+    // 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+
+    // 返回 滑动窗口中的最大值 。
+    // 输入：nums = [1,3,-1,-3,5,3,6,7], k = 3
+    // 输出：[3,3,5,5,6,7]
+    // 解释：
+    // 滑动窗口的位置                最大值
+    // ---------------               -----
+    // [1  3  -1] -3  5  3  6  7       3
+    // 1 [3  -1  -3] 5  3  6  7       3
+    // 1  3 [-1  -3  5] 3  6  7       5
+    // 1  3  -1 [-3  5  3] 6  7       5
+    // 1  3  -1  -3 [5  3  6] 7       6
+    // 1  3  -1  -3  5 [3  6  7]      7
+    const maxSlidingWindow = (nums,k) => {
+        // const n = nums.length;
+        // const q = [];
+        // for (let i = 0; i < k; i++) {
+        //     while (q.length && nums[i] >= nums[q[q.length - 1]]) {
+        //         q.pop();
+        //     }
+        //     q.push(i);
+        // }
+        // const ans = [nums[q[0]]];
+        // for (let i = k; i < n; i++) {
+        //     while (q.length && nums[i] >= nums[q[q.length - 1]]) {
+        //         q.pop();
+        //     }
+        //     q.push(i);
+        //     while (q[0] <= i - k) {
+        //         q.shift();
+        //     }
+        //     ans.push(nums[q[0]]);
+        // }
+        // return ans;
+        let queue = [], result = [];
+        for(let i = 0; i < nums.length; i++) {
+            // 如果队列不为空，且要入队的元素大于队尾元素，队尾元素出队 ---这种方式替代Math.max.apply(null, arr)
+            while(queue.length > 0 && nums[i] > nums[queue[queue.length - 1]]) {
+                queue.pop();
+            }
+            queue.push(i);
+            // j是把i作为滑动窗口最后一个值时滑动窗口第一个值的索引
+            const j = i - k + 1;
+            // j >= 0 说明滑动窗口已构建完毕
+            if(j >= 0) {
+                // 当队首元素不属于当前滑动窗口时出队
+                if(queue[0] < j) queue.shift();
+                result.push(nums[queue[0]]);
+            }
+        }
+        return result;
     }
     ```
 ### 3.链表
@@ -359,11 +420,362 @@ const set3 = new Set([...set].filter(item => set.has(item)));
     }
     ```
 ### 5. 字典
+<span style="color: red">与集合类似，一个存储唯一值的结构，以键值对的形式存储</span>
+
+> js中有字典数据结构,就是Map类型
+- 两数之和
+
+    ```js
+    // nums = [2, 7, 11, 15] target = 9
+
+    // 时间复杂度O(n) n为nums的length
+    // 空间复杂度O(n)
+    const twoSum = function(nums, target) {
+        // 建立一个字典数据结构来保存需要的值
+        const map = new Map();
+        for(let i = 0; i < nums.length; i++) {
+            // 获取当前的值，和需要的值
+            let n = nums[i];
+            let n2 = target - n;
+            // 如果字典中有需要的值，则匹配成功
+            if(map.has(n2)) {
+                return [map.get(n), i];
+            } else {
+                map.set(n, i);
+            }
+        }
+    }
+    ```
+- 两个数组的交集
+
+    ```js
+    // nums1 = [1,2,2,1], nums2 = [2,2];
+    //输出[2];
+
+    // 时间复杂度 O(m + n) m为nums1长度， n 为nums2的长度
+    // 空间复杂度O(m) m为交集的数组长度
+    const intersection = (nums1, nums2) => {
+        let map = new Map();
+        nums1.forEach(n => map.set(n, true));
+
+        // 创建一个新数组
+        let res = [];
+        nums2.forEach(n => {
+            if(map.has(n)) {
+                res.push(n);
+                map.delete(n);
+            }
+        })
+        return res;
+    }
+    ```
+- 字符的有效的括号
+    ```js
+    // 用字典优化
+    // 时间复杂度O(n) n为s的字符长度
+    // 空间复杂度 O(n)
+    const isValid = s => {
+        // 如果长度不等于2的倍数肯定不是一个有效的括号
+        if(s.length % 2 !=== 0) return false;
+        // 创建一个字典
+        const map = new Map();
+        map.set('(', ')');
+        map.set('[', ']');
+        map.set('{', '}');
+
+        // 创建一个栈
+        const stack = [];
+
+        // 遍历字符串
+        for(let i = 0; i < s.length; i++) {
+            // 取出字符
+            const c = s[i];
+            // 如果是左括号就入栈
+            if(map.has(c)) {
+                stack.push(c);
+            } else {
+                // 取出栈顶
+                const t = stack[stack.length - 1];
+
+                // 如果字典中有这个值 就出栈
+                if(map.get(t) === c) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        return stack.length === 0;
+    }
+    ```
+- 最小覆盖子串
+
+    ```js
+    // 输入：s = "ADOBECODEBANC", t = "ABC"
+    // 输出："BANC"
+
+    // 时间复杂度 O(m + n) m是t的长度 n是s的长度
+    // 空间复杂度 O(k) k是字符串中不重复字符的个数
+    const minWindow = (s, t) => {
+        // 定义双指针维护一个滑动窗口
+        let l = 0;
+        let r = 0;
+        // 建立一个字典
+        const need = new Map();
+
+        // 遍历t
+        for (const c of t) {
+            need.set(c, need.has(c) ? need.get(c) + 1 : 1)
+        }
+
+        let needType = need.size;
+
+        // 记录最小子串
+        let res = ''
+        // 移动右指针
+        while(r < s.length) {
+            // 获取当前字符
+            const c = s[r];
+            // 如果字典里有这个字符
+            if(need.has(c)) {
+                // 减少字典里面的次数
+                need.set(c, need.get(c) - 1);
+                // 减少需要的值
+                if(need.get(c) === 0) needType -= 1;
+            }
+            // 如果字典里所有所有的值都为0了,就说明找到了一个最小子串
+            while(needType === 0) {
+                // 取出当前符合的子串
+                const newRes = s.substring(l, r + 1);
+
+                // 如果当前子串是小于上次的子串就进行覆盖
+                if(!res || newRes.length < res.length) res = newRes;
+                // 获取左指针的字符
+                const c2 = s[l];
+                // 如果字典里有这个字符
+                if(need.has(c2)) {
+                    // 增加字典里的次数
+                    need.set(c2, need.get(c2) + 1);
+                    // 增加需要的值
+                    if(need.get(c2) === 1) needType += 1;
+                }
+                l += 1;
+            }
+            r += 1;
+        }
+        return res;
+    }
+    ```
 
 ### 5. 树
+<span style="color: red">一种分层数据的抽象模型，比如DOM树、树形控件</span>
+> js中没有树，但是可以用Object和Array构件数
+
+#### 普通树
+    ```js
+    // 这就是一个常见的普通树形结构
+    const tree = {
+        val: "a",
+        children: [
+            {
+            val: "b",
+            children: [
+                {
+                val: "d",
+                children: [],
+                },
+                {
+                val: "e",
+                children: [],
+                }
+            ],
+            },
+            {
+            val: "c",
+            children: [
+                {
+                val: "f",
+                children: [],
+                },
+                {
+                val: "g",
+                children: [],
+                }
+            ],
+            }
+        ],
+    }
+    ```
+- 深度优先遍历
+
+    - 尽可能深的搜索树的分支，就比如遇到一个节点就会直接去遍历他的子节点，不会立刻去遍历他的兄弟节点
+    - 口诀：访问根节点，对根节点的childrend挨个进行深度优先遍历
+    ```js
+    // 深度优先遍历
+    const dfs = tree => {
+        tree.children.forEach(dfs);
+    }
+    ```
+- 广度优先遍历
+    - 先访问离根节点最近的节点, 如果有兄弟节点就会先遍历兄弟节点，再去遍历自己的子节点
+    - 口诀：新建一个队列 并把根节点入队；把对头出队并访问；把队头的childrend挨个入队；重复第二、三步，直到队列为空
+    ```js
+    // 广度优先遍历
+    const bfs = tree => {
+        const q = [tree];
+        while(q.length) {
+            const n = q.shift();
+            console.log(n.val);
+            n.children.forEach(c => q.push(c))
+        }
+    }
+    ```
+#### 二叉树
+<span style="color: red">树中每个节点 最多只能有两个子节点</span>
+
+![二叉树](./images/94d53c7e76e24d14a7d2d4c922f7798f_tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.png)
+
+```js
+const bt = {
+    val: 1,
+    left: {
+        val: 2,
+        left: null,
+        right: null;
+    },
+    right: {
+        val: 3,
+        left: {
+            val: 4,
+            left: null,
+            right: null
+        },
+        right: {
+            val: 5,
+            left: null,
+            right: null
+        }
+    }
+}
+```
+- 二叉树的先序遍历
+
+    ```js
+    // 先序遍历，递归
+    const preOrder = tree => {
+        if(!tree) return;
+        console.log(tree.val);
+        preOrder(tree.left);
+        preOrder(tree.right);
+    }
+    // 非递归 循环的形式
+    const preOrder2 = tree => {
+        if(!tree) return;
+        const stack = [tree];
+        while(stack.length) {
+            const n = stack.pop();
+            console.log(n.val);
+            if(n.right) stack.push(n.right);
+            if(n.left) stack.push(n.left);
+        }
+    }
+    ```
+- 二叉树的中序遍历
+
+    ```js
+    // 中序遍历 递归
+    const inOrder = tree => {
+        if(!tree) return;
+        inorder(tree.left);
+        console.log(tree.val);
+        inorder(tree.right);
+    }
+    // 循环形式
+    const inorder2 = tree => {
+        if(!tree) return;
+        const stack = [];
+        // 先遍历所有的左节点
+        let p = tree;
+        while(stack.length || p) {
+            while(p) {
+                stack.push(p);
+                p = p.left;
+            }
+            const n = stack.pop();
+            console.log(n.val);
+            p = n.right;
+        }
+    }
+    ```
+- 二叉树的后序遍历
+
+    ```js
+    // 后序遍历 递归
+    const postOrder = tree => {
+        if(!tree) return;
+        postOrder(tree.left)
+        postOrder(tree.right)
+        console.log(tree.val)
+    }
+    // 循环
+    const postOrder2 = tree => {
+        if(!tree) return;
+        const stack = [tree];
+        const outputStack = [];
+        while(stack.length) {
+            const n = stack.pop();
+            outputStack.push(n)
+            if(n.left) stack.push(n.left);
+            if(n.right) stack.push(n.right);
+        }
+        while(outputStack.length) {
+             const n = outputStack.pop();
+             console.log(n.val)
+        }
+    }
+    ```
+- 二叉树的最大深度
+    ```js
+    // 给一个二叉树，需要你找出其最大的深度，从根节点到叶子节点的距离
+
+    // 时间复杂度 O(n) n为树的节点数
+    // 空间复杂度 有一个递归调用的栈 所以为 O(n) n也是为二叉树的最大深度
+    const maxDepth = function(root) {
+        let res = 0;
+        const dfs = (n, l) => {
+            if(!n) return;
+            if(!n.left && !n.right) {
+                // 没有叶子节点就把深度数量更新
+                res = Math.max(res, l);
+            }
+            dfs(n.left, l + 1);
+            dfs(n.right, l + 1)
+        }
+        dfs(root, 1)
+        return res;
+    }
+    ```
+- 二叉树的最小深度
+
+    ```js
+    // 给一个二叉树，需要你找出其最小的深度， 从根节点到叶子节点的距离
+    // 时间复杂度O(n) n是树的节点数量
+    // 空间复杂度O(n) n是树的节点数量
+    const minDepth = root => {
+        if(!root) return 0;
+        let stack = [[root, 1]];
+        while(stack.length) {
+            const [n, l] = stack.shift();
+            if(!n.left && !n.right) return l;
+            n.left && stack.push([n.left, l + 1]);
+            n.right && stack.push([n.right, l + 1]);
+        }
+    }
+    ```
+    [二叉树的最大深度](/front-end/Code/tree.html#二叉树的最大深度)
 
 ### 7.图
-图是网络结构的抽象模型，是一组由边连接的节点
+<span style="color: red">图是网络结构的抽象模型，是一组由边连接的节点</span>
 
 > js中可以利用Object和Array构建图
 ```js
@@ -413,6 +825,47 @@ const graph = {
     }
 }
 ```
+- 有效数字-
+
+    ```js
+    // 生成数字关系图 只有状态为 3 5 6 的时候才为一个数字
+    const graph = {
+        0: { 'blank': 0, 'sign': 1, ".": 2, "digit": 6 },
+        1: { "digit": 6, ".": 2 },
+        2: { "digit": 3 },
+        3: { "digit": 3, "e": 4 },
+        4: { "digit": 5, "sign": 7 },
+        5: { "digit": 5 },
+        6: { "digit": 6, ".": 3, "e": 4 },
+        7: { "digit": 5 },
+    }
+    // 时间复杂度 O(n) n是字符串长度
+    // 空间复杂度 O(1) 
+    const isNumber = s => {
+        // 记录状态
+        let state = 0;
+        // 遍历字符串
+        for(c of s.strim()) {
+            // 把字符进行转换
+            if(c >= '0' && c <= '9') {
+                c = 'digit';
+            } else if(c === ' ') {
+                c = 'blank';
+            } else if(c === '+' || c === '-') {
+                c = 'sign';
+            } else if(c === 'E' || c === 'e') {
+                c = 'e';
+            }
+            // 开始寻找图
+            state = graph[state][c];
+            // 如果最后是undefined就是错误
+            if（state === 'undefined'）return false;
+        }
+        // 判断最后的结果是不是合法的数字
+        if(state === 3 || state === 5 || state == 6) return true;
+        return false;
+    }
+    ```
 
 ### 8.堆
 <span style="color: blue">一种特殊的完全二叉树，所有的节点都大于等于最大堆，或者小于等于最小堆的子节点</span>
@@ -787,9 +1240,9 @@ Array.prototype.quickSort = function() {
 ### 搜索
 <span style="color: red">找出数组中某个元素的下标，js中通常使用indexOf方法进行搜索</span>
 
-1. 顺序搜索
+#### 顺序搜索
     - 就比如indexOf方法，从头开头搜索数组中的某个方法
-2. 二分搜索
+#### 二分搜索
     - 从数组中的中间位置开始搜索，如果中间元素正好是目标值，则搜索结束
     - 如果目标值大于或小于中间元素，则大于或小于中间元素的那一半数组中搜索
     - 数组必须是有序的，如不是则需要先进行排序
@@ -873,7 +1326,10 @@ Array.prototype.quickSort = function() {
             if(low > high) return;
             // 获取中间元素
             const mid = (low + high) >> 1;
-            // 判断是否猜对
+            // 这个方法是 leetcode 中的方法
+            // 如果返回值为-1 就是小了
+            // 如果返回值为1  就是大了
+            // 如果返回值为0  就是找到了 
             const res = guess(mid);
             // 猜对
             if(res === 0) {
@@ -887,6 +1343,50 @@ Array.prototype.quickSort = function() {
             }
         }
         return rec(1, n);
+    }
+    ```
+- 分而治之思想:翻转二叉树
+
+    ```js
+    // 时间复杂度O(n) n为树的节点数量
+    // 空间复杂度O(n) h为树的高度
+    const invertTree = root => {
+        if(!root) return null;
+        return {
+            val: root.val,
+            left: invertTree(root.right),
+            right: invertTree(root.left)
+        }
+    }
+    ```
+- 分而治之思想:相同的树
+
+    ```js
+    // 时间复杂度 o(n) n为树的节点数量
+    // 空间复杂度 o(h) h为树的节点数
+    const isSameTree = (p, q) => {
+        if(!p && !q) return true;
+        if(p && q && p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right)) {
+            return true;
+        }
+        return false;
+    }
+    ```
+- 分而治之思想:对称二叉树
+
+    ```js
+    // 时间复杂度 O(n)
+    // 空间复杂度 O(n) 
+    const isSymmetric = root => {
+        if(!root) return true;
+        const isMirror = (l, r) => {
+            if(!l && !r) return true;
+            if(l && r && l.val === r.val && isMirror(l.left, r.right) && isMirror(l.right, r.right)) {
+                return true;
+            }
+            return false;
+        }
+        return isMirror(root.left, root.right)
     }
     ```
 
@@ -1006,7 +1506,65 @@ Array.prototype.quickSort = function() {
 [贪心算法---迪杰斯拉特算法](/front-end/Code/concept-dijkstra.html)
 
 ### 回溯算法
+<span style="color: red">回溯算法是算法设计中的一种思想，一种渐进式寻找并构建问题解决方法的策略，会先从一个可能的动作开始解决问题，如不行，就回溯选择另外一个动画，直到找到一个解</span>
 
+- 全排列
+
+    ```js
+    // 输入 [1, 2, 3]
+    // 输出 [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+
+
+    // 时间复杂度 O(n!) n! = 1 * 2 * 3 * ··· * (n-1) * n;
+    // 空间复杂度 O(n)
+    const permute = nums => {
+        // 存放结果
+        const res = [];
+        const backTrack = path => {
+            // 递归结束条件
+            if(path.length === nums.length) {
+                res.push(path);
+                return;
+            }
+            // 遍历传入数组
+            nums.forEach(n => {
+                //如果子数组中有这个元素就是思路，需要回溯回去走其他路
+                if(path.includes(n)) return;
+                // 加入到子数组里
+                backTrack(path.concat(n))
+            })
+        }
+        backTrack([]);
+        return res;
+    }
+    ```
+- 子集
+
+    ```js
+    // 输入 [1,2,3]
+    // 输出 [ [3], [1], [2], [1,2,3], [1,3], [2,3], [1,2], [] ]
+
+    // 时间复杂度 O(2 ^ N) 每个元素都有两种可能
+    // 空间复杂度 O(N)
+    const subsets = nums => {
+        // 存放结果数组
+        const res = [];
+        const backTrack = (path, l, start) => {
+            if(path.length === l) {
+                res.push(path);
+                return;
+            }
+            for(let i = start; i < nums.length; i++) {
+                backTrack(path.concat(nums[i], l, i+ 1);
+            }
+        }
+        // 遍历输入数组长度
+        for(let i = 0; i < nums.length; i++) {
+            backTrack([], i, 0)
+        }
+        return res;
+    }
+    ```
 
 
 ## 资料

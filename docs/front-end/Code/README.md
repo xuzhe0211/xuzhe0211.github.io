@@ -466,6 +466,64 @@ var search = function(nums, target) {
     }
     return -1;
 }
+
+// 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+// 请必须使用时间复杂度为 O(log n) 的算法
+//  nums = [1,3,5,6], target = 5 输出: 2
+//  nums = [1,3,5,6], target = 7 输出5
+const searchInsert = (nums, target) => {
+    let n = nums.lenght;
+    let left = 0, right = n - 1;
+    let ans = n;
+    while(left <= right) {
+        let mid = (left + right) >> 1;
+        if(target <= nums[mid]) {
+            ans = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return ans;
+}
+```
+第三种
+
+```js
+// 整数数组 nums 按升序排列，数组中的值 互不相同 。
+
+// 在传递给函数之前，nums 在预先未知的某个下标 k（0 <= k < nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 在下标 3 处经旋转后可能变为 [4,5,6,7,0,1,2] 。
+
+// 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+
+// 输入：nums = [4,5,6,7,0,1,2], target = 0
+// 输出：4
+var search = function(nums, target) {
+    // return nums.indexOf(target)
+    let left = 0;
+    let right = nums.length - 1;
+    while(left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        if(nums[mid] === target) {
+            return mid;
+        }
+        if(nums[left] <= nums[mid]) {
+            if(nums[left] <= target && target <= nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        } else {
+            if(nums[mid] <= target && target <= nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid -1
+            }
+        }
+    }
+    return -1;
+};
+console.log(search([4,5,6,7,0,1,2], 0))
 ```
 
 ## 扑克牌问题
@@ -523,16 +581,15 @@ console.log(formatArr([1,2,3,4,5]))
       return newobj;
   }
   // 数组对象
-    function deepClone(obj, initobj) {
-        let newobj = initobj || {};
-            for(let key in obj) {
-                if(typeof obj[key] === 'object') {
-                    newobj[key] = obj[key].constructor === Array ? [] : {}
-                    deepClone(obj[key], newobj[key])
-                } else {
-                    newobj[key] = obj[key];
-                }
+    const deepClone = obj => {
+        let newobj = obj.constructor  === Array ? [] : {};
+        for(let key in obj) {
+            if(typeof obj[key] === 'object') {
+                newobj[key] = deepClone(obj[key]);
+            } else {
+                newobj[key] = obj[key];
             }
+        }
         return newobj;
     }
     console.log(deepClone({a: 1, b: 2, c:[2, 3, 4, [4, 5, 6, { a: 1, b: 2 }]]}))
@@ -549,6 +606,8 @@ console.log(formatArr([1,2,3,4,5]))
   var clone1 = await structuralClone(obj1)
   ```
 [深拷贝的实现，如果遇到function怎么办-3](/front-end/interview/record-02.html)
+
+[对象循环引用问题](/front-end/JavaScript/object-constructor-zdeepclone.html)
 
 [对象copy](/source-vue/source-vue-function.html#对象判断)
 ## 盛水最多的容器---双指针法
@@ -644,6 +703,28 @@ var addstring = function(num1, num2) {
     }
     return res;
 }
+```
+类似算法题
+
+[交替合并字符串](https://leetcode.cn/problems/merge-strings-alternately/solutions/1913930/jiao-ti-he-bing-zi-fu-chuan-by-leetcode-ac4ih/)
+```js
+var mergeAlternately = function(word1, word2) {
+    const m = word1.length, n = word2.length;
+    let i = 0, j = 0;
+
+    const ans = [];
+    while (i < m || j < n) {
+        if (i < m) {
+            ans.push(word1[i]);
+            ++i;
+        }
+        if (j < n) {
+            ans.push(word2[j]);
+            ++j;
+        }
+    }
+    return ans.join('');
+};
 ```
 
 ## sqrt---平方根
@@ -1083,6 +1164,25 @@ function summaryRanges(nums) {
 }
 ```
 [汇总区间](https://leetcode.cn/problems/summary-ranges/)
+
+## [数组]缺失区间
+```js
+const lackOfInterval = (nums, lower, upper) => {
+    const res = [];
+    nums.push(upper + 1);
+    nums.unshift(lower - 1);
+    for(let num of nums) {
+        if(num === lower + 2) {
+            res.push(`${lower + 1}`)
+        } else if(num > lower + 2) {
+            res.push(`${lower + 1}->${num - 1}`)
+        }
+        lower = num;
+    }
+    return res;
+}
+console.log(lackOfInterval([0, 1,3,50, 74], 0 , 99)) // [2, '4->49', '51->73', '74-> 99']
+```
 ## [数组]除自身以外的数组的乘积
 ```
 输入: nums = [1,2,3,4]
@@ -2022,6 +2122,8 @@ LRUCache.prototype.put = function(key, value) {
 
 ```
 [力扣](https://leetcode-cn.com/problems/lru-cache/)
+
+[LRUCatch空间复杂度](https://leetcode.cn/problems/lru-cache/solutions/1700492/by-1105389168-tgjv/?languageTags=javascript)
 
 扩展
 ```

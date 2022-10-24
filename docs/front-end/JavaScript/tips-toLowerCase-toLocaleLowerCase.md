@@ -13,4 +13,4 @@ alert(stringValue.toUpperCase());          //"HELLO WORLD"
 alert(stringValue.toLocaleLowerCase());    //"hello world"
 alert(stringValue.toLowerCase());          //"hello world"
 ```
-以上代码调用的toLocaleUpperCase()和toUpperCase()都返回了“HELLO WORLD”，就像调用toLocaleLowerCase()和toLowerCase()都返回“hello world”一样。一般来说，在不知道自己的代码将在那种语言环境中运行的情况下，还是使用针对地区的方法更稳妥一些。
+以上代码调用的toLocaleUpperCase()和toUpperCase()都返回了“HELLO WORLD”，就像调用toLocaleLowerCase()和toLowerCase()都返回“hello world”一样。<span style="color: red">**一般来说，在不知道自己的代码将在那种语言环境中运行的情况下，还是使用针对地区的方法更稳妥一些**</span>。

@@ -3,12 +3,73 @@ title: canvas绘图、Webgl、SVG
 ---
 
 ## canvas
-canvas是HTML5中新增的一个HTML5标签与操作canvas的javascript API，它可以实现在网页中完成动态2D和3D图像技术。canvas标记和SVG以及VML之间一个重要的不同是，canvas有一个基于Jvascript绘制的API，而SVG和VML使用XML文档来描述绘图。SVG绘图很容易编辑与生产，但是功能明显弱一些。
+canvas是HTML5中新增的一个HTML5标签与操作canvas的javascript API，它可以实现在网页中完成动态2D和3D图像技术。<span style="color: red">**canvas标记和SVG以及VML之间一个重要的不同是，canvas有一个基于Jvascript绘制的API，而SVG和VML使用XML文档来描述绘图**</span>。SVG绘图很容易编辑与生产，但是功能明显弱一些。
 
 canvas可以完成动画、游戏、图表、图像处理等原来需要flash完成的一些功能
 
+浏览器支持情况如下:
+![canvas](./images/7fd6e52aa4cd4f32b084b4a8c6f6c9d4_tplv-k3u1fbpfcp-zoom-in-crop-mark_1304_0_0_0.png)
+
+### 1.1创建canvas元素
+&lt;canvas id="can" width="800" height="600"&gt;不支持Canvas&lt;/canvas&gt;
+
+以上代码创建了一个宽度为800像素，高度为600像素的canvas。不建议使用css样式指定宽度和高度。
+
+canvas标签中间的内容为替代显示内容，当浏览器不支持canvas标签时会显示出来
+
+创建canvas元素后，要在canvas元素上面绘制图像，首先必须获取canvas环境上下文：
+
+<span style="color: blue">canvas.getContext(画布上绘制的类型)</span>
+- <span style="color: blue">2d 表示2维</span>
+- <span style="color: blue">experimental-webgl:表示实验版3维</span>
+- <span style="color: blue">webgl:表示3维</span>
+
+hello world示例
+```html
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>canvas绘图1</title>
+    </head>
+    <body>
+        <canvas id="canvas1" width="800" height="600"></canvas>
+        <script type="text/javascript">
+            // 获得画布元素
+            var canvas1 = document.getElementById("canvas1");
+            // 获得2维绘图的上下文
+            var ctx = canvas1.getContext('webgl');
+            // 设置线宽
+            ctx.lineWidth = 10;
+            // 设置线的颜色
+            ctx.strokeStyle = 'blue';
+
+            // 将画笔移动到00点
+            ctx.moveTo(0, 0);
+            // 画线到800， 600的坐标
+            ctx.lineTo(800, 600);
+            // 执行画线
+            ctx.stroke();
+        </script>
+    </body>
+</html>
+```
+![canvas-lineto](./images/63651-20161121155811596-2070137278.png)
+
+在页面上就显示了一条直线，另存为就是一张背景透明的png图片
+
+<span style="color: red">练习:画一个100x100的正方形在画布正中央</span>
+
+### 1.2 画线
+- context.moveTo(x, y); --- 把画笔移动到x,y坐标，建立新的子路径
+
+- context.lineTo(x, y); ---- 建立上一个点到x,y 坐标的直线，如果没有上一个点，则等同于moveTo(x, y),把(x, y)添加到子路径
+
+- context.stroke()---描绘子路径
+
+
+
 ## WebGl
-WebGl(全称Web Graphices Library)是一种3d绘图标准，这种绘图技术标准允许把Javascript和Opengl ES2.0结合在一起，通过增加OpenGL ES2.0的一个Javascript绑定。WebGL可以为HTML5 Canvas提供硬件3d加速渲染，这样web开发人员就可以借助系统显卡来在浏览器里更流畅展示3D场景和模型了，还能创建复杂的导航和数据视觉化。显然，WebGL技术标准免去了开发网页专用渲染插件的麻烦，可被用于渲染具有复杂3D结构的网站页面，甚至可以用来设计3D网页游戏等等
+WebGl(全称Web Graphices Library)是一种3d绘图标准，这种绘图技术标准允许把Javascript和Opengl ES2.0结合在一起，通过增加OpenGL ES2.0的一个Javascript绑定。<span style="color: red">**WebGL可以为HTML5 Canvas提供硬件3d加速渲染，这样web开发人员就可以借助系统显卡来在浏览器里更流畅展示3D场景和模型了，还能创建复杂的导航和数据视觉化**</span>。显然，WebGL技术标准免去了开发网页专用渲染插件的麻烦，可被用于渲染具有复杂3D结构的网站页面，甚至可以用来设计3D网页游戏等等
 
 WebGL完美解决了现有Web技术交互式三维动画的两个问题
 

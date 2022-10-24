@@ -43,14 +43,14 @@ title: 6种算法思想
 输入:DOM树根节点document，我们要寻找的id='d-cal'
 
 输出：返回满足id='sisteram'的子节点
-```
+```js
 function getElementById(node, id)()
 ```
 #### 寻找递归结束条件
 从document开始往下找，对所有节点递归查找他们的子节点，一层一层的往下查找
 - 如果当前节点的id符合查找条件，则返回当前节点
 - 如果已经到了叶子节点了还没有找到，则返回null
-```
+```js
 function getElementById(node, id) {
     // 当前节点不存在，已经到了叶子节点了还没有找到返回null
     if (!node) return null;
@@ -60,7 +60,7 @@ function getElementById(node, id) {
 ```
 #### 明确递归关系
 当前终点的id不符合查找条件，递归查找它的每一个子节点
-```
+```js
 function getElementById(node, id) {
     if(!node) return null;
     if (node.id === id) return node;
@@ -73,7 +73,7 @@ function getElementById(node, id) {
 }
 ```
 就这样，我们的一个document.getElementById功能已经实现了
-```
+```js
 function getElementById(node, id) {
     if (!node) return null;
     if (node.id === id) return node;
@@ -88,7 +88,7 @@ getElementById(documet, 'd-cal')
 
 使用递归的有点是代码简单易懂，缺点是效率比不上非递归的实现。Chrome浏览器是使用非递归实现的，非递归要怎么实现呢？
 
-```
+```js
 function getElementById(node, id) {
     // 遍历所有node
     while(node) {
@@ -99,7 +99,7 @@ function getElementById(node, id) {
 }
 ```
 还是依次遍历所有的DOM节点，只是这一次改成一个while循环，函数nextElement负责找到下一个节点，所以关键在于这个nextElement如何实现非递归找到节点功能
-```
+```js
 // 深度遍历
 function nextElement(node) {
     // 先判断是否有子节点
@@ -158,7 +158,7 @@ function nextElement(node) {
 #### 第一步分解
 每次猜拳都把上一次的结果分出大的一组和小的一组，两组相互独立
 - 选择数组中的中间数
-    ```
+    ```js
     function binarySearch(items, item) {
         // low、mid、high将数组分成两组
         var low = 0, 
@@ -173,7 +173,7 @@ function nextElement(node) {
 - 比中间数低，则去中间数左边的子数组中寻找
 - 比中间数搞，则去中间数右边的子数组中寻找
 - 想等则返回查找成功
-```
+```js
 while(low < high) {
     if (elem < item) {
         low = mid + 1;
@@ -185,7 +185,7 @@ while(low < high) {
 }
 ```
 #### 合并
-```
+```js
 function binarySearch(items, item) {
     let low = 0,
         hight = items.length - 1,
@@ -205,7 +205,7 @@ function binarySearch(items, item) {
 }
 ```
 最后，二分法只能应用于数组有序的情况，如果数组无序，二分查找就不起作用了
-```
+```js
 function binarySearch(items, item) {
     // 快排
     quickSort(items);
@@ -315,7 +315,7 @@ binarySearch(arr, 5);
 - 全排列
 等等，深度优先搜索我在图哪一张已经介绍过，这里以正则表达式陪陪为例介绍
 
-```
+```js
 var string = "abbc"
 
 var regex = /ab{1,3}c/
@@ -359,7 +359,7 @@ console.log( string.match(regex) )
 如果用dp[n]表示n级台阶的方案数，并且由题知:最后一步可能迈2个台阶，也可能迈1个台，即第n级台阶的方案等于第n-1级台阶方案加上第n-2台阶的方案
 
 #### 第二步实现需要反复执行解决的子子问题部分
-```
+```js
 dp[n] = dp[n - 1] + dp[n -2]
 ```
 #### 第三步识别并求出边界条件
@@ -385,7 +385,7 @@ let climbStarir = function(n) {
 - 空间复杂度O(n)
 
 #### 优化空间复杂度
-```
+```js
 let climStairs = function(n) {
     let res = 1, n1 = 1, n2 = 1;
     for (let i = 2; i <= n; i++) {
@@ -458,7 +458,7 @@ let climStairs = function(n) {
 
 #### 第二步:实现需要反复执行解决的子子问题部分
 所以踏上第i级台阶的最小花费为
-```
+```js
 dp[i] = min(dp[i - 2], dp[i - 1] + cost[i])
 ```
 #### 识别并求解出边界条件
@@ -472,7 +472,7 @@ dp[1] = min(cost[0] + cost[1], cost[1]) = cost[1]
 ```
 
 #### 最后一步，把尾码翻译成代码，处理一些边界情况
-```
+```js
 let minCostClimbingStairs = function(cost) {
     cost.push(0)
     let dp = [], n = cost.length
@@ -487,7 +487,7 @@ let minCostClimbingStairs = function(cost) {
 复杂度分析
 - 时间复杂度O(n)
 - 空间复杂度O(n)
-```
+```js
 // 优化
 let minCostClimbingStairs = function(cost) {
     let n = cost.legth,
@@ -507,7 +507,7 @@ let minCostClimbingStairs = function(cost) {
 ### 最大序数和
 给定一个整数数组nums，找到一个具有最大和的连续子数组(子数组最少包含一个元素)，返回其最大和。
 
-```
+```js
 输入: [-2,1,-3,4,-1,2,1,-5,4]
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
@@ -518,7 +518,7 @@ let minCostClimbingStairs = function(cost) {
 动态规划是将整个数组归纳考虑，假设我们已经知道了以第 i-1 个数结尾的连续子数组的最大和 dp[i-1]，显然以第i个数结尾的连续子数组的最大和的可能取值要么为 dp[i-1]+nums[i]，要么就是 nums[i] 单独成一组，也就是 nums[i] ，在这两个数中我们取最大值
 
 #### 第二步：实现需要反复执行解决的子子问题部分
-```
+```js
 dp[n] = Math.max(dp[n−1]+nums[n], nums[n])
 ```
 #### 第三步：识别并求解出边界条件
@@ -528,7 +528,7 @@ dp[0]=nums[0]
 ```
 #### 最后一步：把尾码翻译成代码，处理一些边界情况
 因为我们在计算 dp[i] 的时候，只关心 dp[i-1] 与 nums[i]，因此不用把整个 dp 数组保存下来，只需设置一个 pre 保存 dp[i-1] 就好了。
-```
+```js
 let maxSubArray = function(nums) {
     let max = nums[0], pre = 0;
     for(const num of nums) {

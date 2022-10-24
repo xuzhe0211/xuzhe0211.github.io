@@ -3,7 +3,7 @@ autoGroup-16: Tips/方法实现
 title: js一维数组转换成二维数组
 ---
 
-```
+```js
 function arrTrans(num, arr) { // 一维数组转换成二维数组
     const iconsArr = []; // 声明数组
     arr.forEach((item, index) => {
