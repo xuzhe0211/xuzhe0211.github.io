@@ -162,7 +162,7 @@ preload/prefetch 可控制HTTP优先级，从而达到关键请求更快响应�
 2. 节流:控制流量，单位时间内事件只能触发一次，与服务器端的限流(Rate Limit)类似。代码实现重在开锁关锁timer=timerout;timer= null.节流可以比做红绿灯，每等一个红灯时间就可以过一批
 
 无论是防抖还是节流都可以大幅度减少渲染次数，在React中还是可以使用use-debounce之类的hooks避免重新渲染
-```
+```js
 import React, { useState } from 'react';
 import { useDebounce } from 'use-debounce';
 

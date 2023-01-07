@@ -4,6 +4,15 @@ title: ES6---扩展运算符
 ---
 扩展运算符，即...运算符是ES6新增的一个语法，<span style="color: red">其主要作用是将数组或对象进行展开(这种说话也许不太准确)</span>，希望通过下面的总结让你明白下面用法
 
+:::danger
+扩展运算符对于数量太大的数据进行展开时，会导致堆栈溢出问题
+```js
+const list = query(id);
+console.log(list.lenght) // 130000+
+const currentList = [...list]; // 报错
+```
+:::
+
 ## 1. 替代apply方法，一般在函数调用时候处理参数
 假设我们的参数刚好是一个数组
 ```javascript

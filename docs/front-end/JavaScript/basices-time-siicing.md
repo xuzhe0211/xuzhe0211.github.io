@@ -179,9 +179,20 @@ window.requestIdleCallback;
     包括可选的配置参数。具有如下属性：
     - timeout： 如果指定了 timeout，并且有一个正值，而回调在 timeout 毫秒过后还没有被调用，那么回调任务将放入事件循环中排队，即使这样做有可能对性能产生负面影响。
 
-
 :::
-
+requestIdleCallback上面有一个timeRemaining()方法，能够获取当前浏览器的剩余空闲时间，单位ms，有一个属性didTimeout 表示是否超时
+```js
+function work(deadline) {
+    console.log(`当前帧剩余时间:${deadline.timeRemaining()}`); 
+    if(deadline.timeRemaining() > 1 || deadline.didTimeout) {
+        // 走到这里说明时间还有剩余，我们就可以在这里写自己的代码逻辑
+    }
+    // 走到这里，说明时间不够了，就让出控制权给主线程，下次空闲时继续调用
+  requestIdleCallback(work);
+}
+requestIdleCallback(work, {timeout: 1000})
+```
+[来深入了解下 requestIdleCallback 呗 ？](https://juejin.cn/post/7033959714794766372)
 
 ## 资料
 [原文](https://blog.csdn.net/weixin_37615279/article/details/104687024)

@@ -1,6 +1,6 @@
 ---
 autoGroup-16: Tips/方法实现
-title: 创建一个对象过程
+title: JavaScript基础：创建一个对象过程
 ---
 
 ## new 一个对象

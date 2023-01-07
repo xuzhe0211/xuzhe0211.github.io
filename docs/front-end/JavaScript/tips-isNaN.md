@@ -1,6 +1,6 @@
 ---
 autoGroup-16: Tips/方法实现
-title: isNaN与Number.isNaN的区别
+title: JavaScript基础：isNaN与Number.isNaN的区别
 ---
 ## NaN是什么？
 NaN全称是Not-A-Number(不是一个数字)，我们可以通过Number.NaN来获得一个NaN,在类型转换失败的时候,我们常常会得到一个NaN,需要注意的是，<span style="color: red">**NaN是Js中唯一一个自身不相等的存在**</span>

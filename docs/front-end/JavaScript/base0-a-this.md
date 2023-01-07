@@ -3,7 +3,7 @@ autoGroup-0: 基础知识
 title: JS中的this详解
 ---
 ## 简介
-在绝大多数情况下，函数的调用方式决定了this值。this不能在执行期间被赋值，并且在每次函数被调用时候this的值也可能会不同。
+在绝大数情况下，函数的调用方式决定了this值。this不能在执行期间被复制，并且在每次函数被调用时this的值也可能会不同。
 
 - <span style="color: blue">this的值表示当前执行环境对象，而与声明环境无关,所以this代表的对象要等函数运行。类似定义函数时的参数列表，只有在函数调用时才传入真正的对象。</span>
 - <span style="color: blue">this 关键字虽然会根据环境变化，**但它始终代表的是调用当前函数的对象**</span>
@@ -17,7 +17,7 @@ console.log(this === window); // true
 <span style="color: red">**在函数内部， this的值取决于函数被调用的方式**</span>
 
 ### 函数环境中的this
-在非严格模式下, this 的值不少由该调用设置的， 所以this 的值默认指向全局对象
+在非严格模式下, this 的值不是由该调用设置的， 所以this 的值默认指向全局对象
 ```js
 function fn() {
     return this;
@@ -58,7 +58,7 @@ function bar() {
 bar.call(7); // [object Number]
 ```
 ### bind方法
-ES5引入了 Function.prototype.bind。调用f.bind(someObject)会创建一个与f 具有相同函数体和作用域的函数，但是在这个新函数中，this将永久的被绑定到了bind的第一个参数，无论这个函数是如何被调用的
+ES5引入了 Function.prototype.bind。<span style="color: red">**调用f.bind(someObject)会创建一个与f 具有相同函数体和作用域的函数，但是在这个新函数中，this将永久的被绑定到了bind的第一个参数**，无论这个函数是如何被调用的</span>
 ```js
 function f() {
     return this.a;
@@ -77,7 +77,7 @@ console.log(o.f(), o.g(), o.h()); // 37, azerty, azerty
 ### 剪头函数
 在剪头函数中，this与普通函数的指向不同，它与封闭词法环境的this保持一致。<span style="color: blue">在剪头函数中，this指向创建时所在的环境，这同样适用于在其他函数内所创建的剪头函数；**在普通函数中，this指向执行时的环境**</span>
 
-剪头函数被调用的时候，不会自动绑定一个this对象。剪头函数没有自己的this，它的this都是捕获其所在上下文的thi值
+剪头函数被调用的时候，不会自动绑定一个this对象。剪头函数没有自己的this，它的this都是捕获其所在上下文的this值
 
 举例子
 ```js

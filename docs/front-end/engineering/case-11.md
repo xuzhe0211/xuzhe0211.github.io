@@ -2,7 +2,21 @@
 autoGroup-12: 工程化知识卡片
 title: require.context()的用法详解
 ---
+## 带表达式的require语句
+> 如果你的require参数含有表达式(expressions),会创建一个上下文(context),因为在编译时(compile time)并不清楚具体是哪一个模块被导入
 
+```js
+require('./template/' + name + '.ejs');
+```
+<span style="color: red">webpack解析require()的调用，提取出来如下这些信息:</span>
+
+```js
+Directory: ./template
+Regular expression: /^.*\.ejs$/
+```
+则会返回template目录下的所有后缀为.ejs模块的引用，包含子目录
+
+## require.context;
 require.context(directory, useSubdirectories, regExp);
 
 1. directory:表示检索的目录
@@ -45,3 +59,8 @@ require.context(directory, useSubdirectories, regExp);
         Vue.component(reqComName, reqCom.default || reqCom)
     })
     ```
+
+[TypeError: require.context is not a function](https://github.com/storybookjs/storybook/issues/2487)
+
+[require.context
+](https://juejin.cn/post/6844903583113019405)

@@ -17,4 +17,6 @@ docker-compose --version
 ## 解决 docker-compose command not found
 https://blog.csdn.net/qq_30718137/article/details/108408360
 
+## 名词--挂载资料卷
+
 ## 资料

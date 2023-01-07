@@ -67,6 +67,12 @@ list.display()
 console.log('----------')
 list.remove('node4')
 list.display()
+
+// Node {
+//   element: 'header',
+//   next: Node { element: 'node1', next: null, previous: null },
+//   previous: null
+// }
 ```
 [使用JavaScript浅谈链表](https://www.cnblogs.com/jsydb/p/12507580.html)
 ## 单向链表
@@ -107,7 +113,7 @@ const linkList = {
             val: 'c',
             next: {
                 val: 'd',
-                next = null
+                next:null
             }
         }
     }
@@ -131,20 +137,31 @@ function judge(list) {
     return false;
 }
 //快慢指针，设定快指针fast,慢指针slow,每次循环快指针fast移动两个位置，慢指针移动一个位置
-function judge(list) {
+// 若是环形链表快指针总会和慢指针相遇
+function judge(head) {
 	//创建快慢指针
-    var fast = list.next.next,
-    	slow = list.next;
-    while(list) {
-    	if (fast === slow) {
-        	console.log('存在环')；
-            console.log('fast:', fast);
-            console.log('slow:', slow);
-            return true;
-        }
-        fast = fast.next.next;
-        slow = slow.next;
+    if(head === null) return false
+    let slow = head, fast = head.next
+    while(fast && fast.next) {
+        if (slow === fast) return true
+        slow = slow.next
+        fast = fast.next.next
     }
+    return false
+
+    // 最好用这种--因为下面用到
+    // if(!head) return false;
+    // let slow = head, fast = head;
+    // while(fast) {
+    //     slow = slow.next;
+    //     if(fast.next) {
+    //         fast = fast.next.next;
+    //     } else {
+    //         return false;
+    //     }
+    //     if(slow === fast) return true;
+    // }
+    // return false;
 }
 // 最靠谱吧？
 var hasCycle = function(head) {
@@ -215,6 +232,22 @@ var deleteDuplicates = function(head) {
 };
 ```
 [leetcode](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+## 链表的中间结点
+```js
+// 输入：[1,2,3,4,5]
+// 输出：此列表中的结点 3 (序列化形式：[3,4,5])
+// 返回的结点值为 3 。 (测评系统对该结点序列化表述是 [3,4,5])。
+// 注意，我们返回了一个 ListNode 类型的对象 ans，这样：
+// ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.
+const middleNode = head => {
+    let slow = head, fast = head;
+    while(fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    return slow;
+}
+```
 ## 删除链表的倒数第 N 个结点
 ```js
 var removeNthFromEnd = function(head, n) {
@@ -609,7 +642,102 @@ const sortList = head => {
 ```
 [leetcode](https://leetcode-cn.com/problems/sort-list/)
 
+## 合并k个已排序的链表
+```js
+function mergeKLists( lists ) {
+    // write code here
+    let res = new ListNode(0)
+    let curr = res
+    while(true){
+        let idx = -1
+        for(index in lists){
+            if(lists[index] == null) continue
+            else if(idx == -1) idx = index
+            else if(lists[index].val < lists[idx].val){
+                idx = index
+            }
+        }
+        if(idx == -1) break
+        curr = curr.next = lists[idx]
+        lists[idx] = lists[idx].next
+    }
+    return res.next
+}
+// 第二种---自顶而下归并 先分在合
+const mergeKLists = lists => {
+    // 当是空数组的情况下
+    if(!lists.length) return null;
+    // 合并两个排序链表
+    const merge = (head1, head2) => {
+        let dummy = new ListNode(0);
+        let cur = dummy;
+        while(head1 && head2) {
+            if(head1.val < head2.val) {
+                cur.next = head1;
+                head1 = head1.next;
+            } else {
+                cur.next = head2;
+                head2 = head2.next;
+            }
+            cur = cur.next;
+        }
+        // 如果后面还有剩余的就把剩余的接上
+        cur.next = head1 ? head1 : head2;
+        return dummy.next;
+    }
+    // const mergeLists = (lists, start, end) => {
+    //     if(start + 1 === end) return lists[start];
+    //     // 输入的k个排序链表，可以分成两部分，前K/2个链表和后K/2链表
+    //     // 如果将这前k/2个链表和后K/2链表分别合并成两个排序的链表，再将两个排序的链表合并，那么所有链表都合并了
+    //     let mid = (start + end) >> 1;
+    //     let head1 = mergeLists(lists, start, mid);
+    //     let head2 = mergeLists(lists, mid, end);
+    //     return merge(head1, head2)
+    // }
+    // return mergeLists(lists, 0, lists.length);
+    const mergeLists = lists => {
+        let len = lists.length;
+        if(len <= 1) return lists[0];
+        let mid = len >> 1;
+        let head1 = mergeLists(lists.slice(0, mid))
+        let head2 = mergeLists(lists.slice(mid, len))
+        lists = merge(head1, head2)
+        return lists;
+    }
+    return mergeLists(lists)
+}
 
+// 第三种--自低向上合并
+var mergeKLists = function (lists) {
+    if (lists.length <= 1) return lists[0] || null;//当归并的节点只有一个时 返回这个节点
+    const newLists = [];
+    //自底而上归并，第一次归并大小为2的链表，第二次归并大小4的链表...
+    for (let i = 0; i < lists.length; i += 2) {
+        newLists.push(merge(lists[i], lists[i + 1] || null));
+    }
+    return mergeKLists(newLists);
+};
+
+const merge = (list_1, list_2) => {//合并两个有序链表
+    const dummyNode = new ListNode(0);
+    let p = dummyNode;
+
+    while (list_1 && list_2) {
+        if (list_1.val < list_2.val) {//先将小的节点加入
+            p.next = list_1;
+            list_1 = list_1.next;
+        } else {
+            p.next = list_2;
+            list_2 = list_2.next;
+        }
+        p = p.next;
+    }
+
+    p.next = list_1 ? list_1 : list_2;//遍历完成还有节点剩余
+    return dummyNode.next;
+};
+```
+[合并k个已排序的链表](https://leetcode.cn/problems/merge-k-sorted-lists/solutions/1509851/dai-ma-jian-ji-yi-chong-huan-bu-cuo-de-j-e5re/?languageTags=typescript%2Cjavascript)
 ## 两两交换链表中的节点
 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
 ```md

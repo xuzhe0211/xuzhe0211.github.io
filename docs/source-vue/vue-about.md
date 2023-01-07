@@ -177,7 +177,7 @@ computed: {
 ```
 当模板中不使用updateMessage,即使message发生改变之后，也不会走computed.
 
-在这里，就需要我们注意一下，不是说我们更改了getter中使用的变量(即依赖的属性)，就会触发computed的更新，他有一个前提是computed里的值必须要在模板中使用才可以，但是会触发声明周期的updated();
+<span style="color: red">**在这里，就需要我们注意一下，不是说我们更改了getter中使用的变量(即依赖的属性)，就会触发computed的更新，他有一个前提是computed里的值必须要在模板中使用才可以，但是会触发声明周期的updated();**</span>
 
 ### computed中的setter函数
 
@@ -303,7 +303,7 @@ methods: {
 这样就实现了子组件调取reload方法就实现了刷新vue组件的功能，个人认为它实现了组件跨越组件传递数据的方法。
 
 下面的一个栗子祖组件的数据，祖孙元素调取
-```js
+```html
 <template>
     <div id="app">
     </div>
@@ -357,9 +357,13 @@ methods: {
 
 实际上，你可以把依赖注入看做一部分"大范围有效的prop"，除了祖先组件不需要知道哪些后代组件使用它提供的属性，后代组件不需要知道被注入的属性来自哪里
 
-**提示：provide和inject绑定并不是可响应的。这是刻意为之的。然而，如果你传入了一个可以监听的对象，那么其对象的属性还是可响应的**
+<span style="color: red">**提示：provide和inject绑定并不是可响应的。这是刻意为之的。然而，如果你传入了一个可以监听的对象，那么其对象的属性还是可响应的**</span>
 
+- provide/inject的缺点还是非常明显
+    - 当多个后代组件同时依赖同一个父组件提供数据时，只要任一组件对数据进行了修改，所有依赖的组件都会收到影响，实际上是增加了耦合度
+    - 任意层访问使数据追踪变得比较困难，你不能准确的定位到了是哪一个层级对数据进行了改变，当数据出现问题时，尤其是多人协作时，可能会大大增加问题定位的损耗
 
+[Vue组件通信—provide/inject](https://zhuanlan.zhihu.com/p/147798646?ivk_sa=1024320u)
 ## vuex遍历modules文件夹里文件
 ```js
 import Vue from 'vue';
@@ -751,7 +755,7 @@ window.addEventListener('popstate', matchAndUpdate);
   ```js
   //name对应的是组件名字
   <router-view class="view one"></router-view>
-  <router-view class="view two" class="a"></router-view>
+  <router-view class="view two" name="a"></router-view>
   <router-view class="view three" name="b"></router-view>
   ```
   一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用components配置:
@@ -872,7 +876,7 @@ router.beforeEach((to, form, next) => {
  - next('/')或者next({path: '/'}):跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。你可以向next传递任意位置对象，且允许设置诸如replace:true、name:'home'之类的选项以及任何用在router-link的to prop或router.push中的选项。
  - next(error):(2.4.0+)如果传入next的参数是一个Error实例，则导航会被终止切该错误会被传递给router.onError注册过的回调
 :::
-**确保要调用next方法，否则钩子就不会被resolved；
+**确保要调用next方法，否则钩子就不会被resolved；**
 
 举个栗子
 ```js
@@ -970,7 +974,8 @@ router.beforeEach((to, from, next) => {
 ```
 **全局解析守卫(router.beforeResolve)**
 
-你可以用router.beforeResolve注册一个全局守卫。这和router.beforeEach类似，区别是在导航被确认之前，同时在所有组件内守卫和异步路由组件被解析之后，解析守卫就被调用
+<span style="color: red">在 2.5.0+ 你可以用 router.beforeResolve 注册一个全局守卫。这和 router.beforeEach 类似，**区别是在导航被确认之前，同时在所有组件内守卫和异步路由组件被解析之后，解析守卫就被调用**</span>
+
 ```
 [beforeEach]：在路由跳转前触发，参数包括to,from,next（参数会单独介绍）三个，这个钩子作用主要是用于登录验证，也就是路由还没跳转提前告知，以免跳转了再通知就为时已晚。
 
@@ -1094,6 +1099,29 @@ beforeRouteLeave(to, from, next) {
   使用watch选项允许我们执行异步操作(访问一个API)，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的
 
 3. v-for遍历避免同时使用v-if
+
+    :::danger
+    当v-if与v-for一起使用时，v-if具有比v-for更高的优先级
+    ```html
+    <template>
+        <div class="hello">
+            <div  v-for="(item,index) in list" v-if="index === 9" :key="item" ></div>
+        </div>
+    </template>
+    ​
+    <script>
+    export default {
+        data(){
+            return {
+            list:[1,2,3,4,5,6,7,8,9,10]   //需要遍历的数据
+            }
+        }
+    };
+    </script>
+    <style scoped>
+    </style>
+    ```
+    :::
 
   v-for比v-if优先级高，如果每一次都需要遍历整个数组，将会影响速度，尤其当需要渲染很小的一部分的时候，必要情况下应该替换成computed属性
 
@@ -1326,210 +1354,211 @@ preload提供了一种声明式的命令，让浏览器提前加载指定资源(
 
 ### webpack层面的优化
 
-1. webpack对图片的压缩
+1. <span style="color: red">webpack对图片的压缩</span>
 
-  在Vue项目中，除了可以在webpack.base.conf.js中url-loader中设置limit大小来对图片处理，对小于limit的图片转化为base64格式，其余不做。
+    在Vue项目中，除了可以在webpack.base.conf.js中url-loader中设置limit大小来对图片处理，对小于limit的图片转化为base64格式，其余不做。
 
-  所以对有些比较大的图片资源，在请求资源的时候，加载会很慢，可以使用webpack-loader来压缩图片
+    所以对有些比较大的图片资源，在请求资源的时候，加载会很慢，可以使用webpack-loader来压缩图片
 
-  首先，安装image-webpack-loader
-  ```
-  npm install image-webpack-loader --save-dev
-  ```
-  然后，在webpack.base.conf.js配置
-  ```
-  {
-      test:/\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      use: [
-          {
-              loader: 'url-loader',
-              options:{
-                  limit:1000,
-                  name:utils.assetsPath('img/[name].[hash:7].[ext]')
-              }
-          },
-          {
-              loader:'image-webpack-looader',
-              options:{
-                  bypassOnDebug: true
-              }
-          }
-      ]
-  }
-  ```
-2. 减少es6转为ES5的冗余代码
+    首先，安装image-webpack-loader
+    ```js
+    npm install image-webpack-loader --save-dev
+    ```
+    然后，在webpack.base.conf.js配置
+    ```js
+    {
+        test:/\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        use: [
+            {
+                loader: 'url-loader',
+                options:{
+                    limit:1000,
+                    name:utils.assetsPath('img/[name].[hash:7].[ext]')
+                }
+            },
+            {
+                loader:'image-webpack-looader',
+                options:{
+                    bypassOnDebug: true
+                }
+            }
+        ]
+    }
+    ```
+2. <span style="color: red">减少es6转为ES5的冗余代码</span>
 
-  Bable插件会将ES6代码转换成ES5代码时注入一些辅助函数，例如下面的ES6代码
-  ```
-  class HelloWebpack extends Components{...}
-  ```
-  这段代码再被转换成能正常运行的ES5代码需要以下两个辅助函数
-  ```
-  babel-runtime/helpers/createClass;//用于实现class语法
-  babel-runtime/helpers/inherits;//用于实现extends语法
-  ```
-  在默认情况下，Babel会在每个输出文件中内嵌这些依赖的辅助函数代码，如果多个源代码文件都依赖这些辅助函数，那么这些辅助函数的代码将会出现很多次，造成代码冗余。
+    Bable插件会将ES6代码转换成ES5代码时注入一些辅助函数，例如下面的ES6代码
+    ```
+    class HelloWebpack extends Components{...}
+    ```
+    这段代码再被转换成能正常运行的ES5代码需要以下两个辅助函数
+    ```
+    babel-runtime/helpers/createClass;//用于实现class语法
+    babel-runtime/helpers/inherits;//用于实现extends语法
+    ```
+    在默认情况下，Babel会在每个输出文件中内嵌这些依赖的辅助函数代码，如果多个源代码文件都依赖这些辅助函数，那么这些辅助函数的代码将会出现很多次，造成代码冗余。
 
-  为了不让这些辅助函数的代码重复出现，可以在依赖它们时通过require('babel-runtime/helpers/createClass')的方式引入，这样就能做到只让它们出现一次。
+    为了不让这些辅助函数的代码重复出现，可以在依赖它们时通过require('babel-runtime/helpers/createClass')的方式引入，这样就能做到只让它们出现一次。
 
-  babel-plugin-transform-runtime插件就是用来实现这个作用的，将相关辅助函数进行替换成导入语句，从而减少babel编译处理来的代码的文件大小。
+    babel-plugin-transform-runtime插件就是用来实现这个作用的，将相关辅助函数进行替换成导入语句，从而减少babel编译处理来的代码的文件大小。
 
-  首先，安装babel-plugin-transform-runtime
-  ```js
-  npm install babel-plugin-transform-runtime --save-dev
-  ```
-  然后，修改.babelrc配置文件
-  ```js
-  "plugins":[
-      "transform-runtime"
-  ]
-  ```
-  如果要看插件的更多详细内容，查看插件的详细简介
+    首先，安装babel-plugin-transform-runtime
+    ```js
+    npm install babel-plugin-transform-runtime --save-dev
+    ```
+    然后，修改.babelrc配置文件
+    ```js
+    "plugins":[
+        "transform-runtime"
+    ]
+    ```
+    如果要看插件的更多详细内容，查看插件的详细简介
 
-3. 提取公共代码
+3. <span style="color: red">提取公共代码</span>
 
-  如果项目中没有去将每个页面的第三方库和公共模板提取出来，则项目存在以下问题：
+    如果项目中没有去将每个页面的第三方库和公共模板提取出来，则项目存在以下问题：
 
-  相同的资源被重复加载，浪费用户的浏览和服务器的成本
+    相同的资源被重复加载，浪费用户的浏览和服务器的成本
 
-  每个页面加载的资源太大，导致页面首屏加载缓慢，影响用户体验。
+    每个页面加载的资源太大，导致页面首屏加载缓慢，影响用户体验。
 
-  所以需要将多个页面的公共代码抽离成单独的文件，优化以上问题
+    所以需要将多个页面的公共代码抽离成单独的文件，优化以上问题
 
-  Webpack内置了专门用于提取多个Chunk中的公共部分的插件CommonsChunkPlugin，我们在项目中配置如下
-  ```
-  //所有在package.json里面依赖的包，都会被打包进vendor.js这个文件中
-  new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks:function(module, count) {
-          return (
-              module.resource && /
-              .js$/.test(module.resource) && module.resource.indexof(
-                  path.join(__dirname, '../node_module')
-              ) === 0
-          );
-      }
-  })
-  //抽取出代码模块的映射关系
-  new webpack.optimize.CommonsChunkPlugin({
-      name:'manifest',
-      chunks: ['vendor']
-  })
-  ```
+    Webpack内置了专门用于提取多个Chunk中的公共部分的插件CommonsChunkPlugin，我们在项目中配置如下
+    ```
+    //所有在package.json里面依赖的包，都会被打包进vendor.js这个文件中
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks:function(module, count) {
+            return (
+                module.resource && /
+                .js$/.test(module.resource) && module.resource.indexof(
+                    path.join(__dirname, '../node_module')
+                ) === 0
+            );
+        }
+    })
+    //抽取出代码模块的映射关系
+    new webpack.optimize.CommonsChunkPlugin({
+        name:'manifest',
+        chunks: ['vendor']
+    })
+    ```
 
-4. 模板预编译
+4. <span style="color: red">模板预编译</span>
 
-  当使用DOM内模板或JavaScript内的字符串模板时，模板会在运行时被编译为渲染函数。
+    当使用DOM内模板或JavaScript内的字符串模板时，模板会在运行时被编译为渲染函数。
 
-  通常情况下这个过程已经足够快了，但是对性能敏感的应用还是最好避免这种用法。
+    通常情况下这个过程已经足够快了，但是对性能敏感的应用还是最好避免这种用法。
 
-  预编译模板最简单的方式就是使用单文件组件---相关构建设置会自动把预编译处理好，所以构建好的代码已经包含了编译出来的渲染函数而不是原始的模板字符串。
+    预编译模板最简单的方式就是使用单文件组件---相关构建设置会自动把预编译处理好，所以构建好的代码已经包含了编译出来的渲染函数而不是原始的模板字符串。
 
-  如果你使用webpack,并且喜欢分离JavaScript和模板文件，你可以使用Vue-template-loader，它也额可以在构建中把模板文件转换成Javascript渲染函数
+    如果你使用webpack,并且喜欢分离JavaScript和模板文件，你可以使用Vue-template-loader，它也额可以在构建中把模板文件转换成Javascript渲染函数
 
-5. 提取公共的css
+    [预编译资源模块](https://tsejx.github.io/webpack-guidebook/best-practice/optimization/precompile/)
 
-  当使用单文件组件时，组件内的css会以style标签的方式通过javascript动态注入
+5. <span style="color: red">提取公共的css</span>
 
-  这有一些小小的运行时开销，如果你使用服务端渲染，这会导致一段"无样式内容闪烁(fouc)"
+    当使用单文件组件时，组件内的css会以style标签的方式通过javascript动态注入
 
-  将所有组件的CSS提取到同一个文件可以避免这个问题，也会让css更好的进行压缩和缓存。
+    这有一些小小的运行时开销，如果你使用服务端渲染，这会导致一段"无样式内容闪烁(fouc)"
 
-  构建工具
+    将所有组件的CSS提取到同一个文件可以避免这个问题，也会让css更好的进行压缩和缓存。
 
-  wepack+Vue-loader(vue-clii的webpack模板已经预先配置好)
+    构建工具
 
-  Browserify+vueify
+    wepack+Vue-loader(vue-clii的webpack模板已经预先配置好)
 
-  Rollup+rollup-plugin-vue
+    Browserify+vueify
 
-6. 优化SourceMap
+    Rollup+rollup-plugin-vue
 
-  我们在项目进行打包后，会将开发中的多个文件打包到一个文件中，并且经过压缩、去掉多余的款哦哦哦你哥哥、babel编译化后，最终将编译得到的代码会用于线上环境，那么这样处理后的代码会和源代码有很大的差别
+6. <span style="color: red">优化SourceMap</span>
 
-  当由于bug的时候，我们只能定位到压缩处理后的代码位置，无法定位到开发环境中的代码，对于开发来说不好调式定位问题，因此sourceMap出现了，它就是为了解决不好调试代码的问题的。
+    我们在项目进行打包后，会将开发中的多个文件打包到一个文件中，并且经过压缩、去掉多余的代码、babel编译化后，最终将编译得到的代码会用于线上环境，那么这样处理后的代码会和源代码有很大的差别
 
-  sourceMap的可选值如下(+号越多，代表速度越快，-号越多代表速度越慢，0代表中等速度)
+    当由于bug的时候，我们只能定位到压缩处理后的代码位置，无法定位到开发环境中的代码，对于开发来说不好调式定位问题，因此sourceMap出现了，它就是为了解决不好调试代码的问题的。
 
-  ![sourceMap](./images/1.jpg)
+    sourceMap的可选值如下(+号越多，代表速度越快，-号越多代表速度越慢，0代表中等速度)
+
+    ![sourceMap](./images/1.jpg)
 
 
-  开发环境推荐：cheap-module-eval-source-map
+    开发环境推荐：cheap-module-eval-source-map
 
-  生产环境推荐：cheap-module-source-map
-  原因如下：
+    生产环境推荐：cheap-module-source-map
+    原因如下：
 
-  cheap：源代码中的列信息是没有任何作用，因此我们打包后的文件不希望包含列相关信息，只有行信息能建立打包前后的依赖关系。
+    cheap：源代码中的列信息是没有任何作用，因此我们打包后的文件不希望包含列相关信息，只有行信息能建立打包前后的依赖关系。
 
-  因此不管是开发环境或生产环境，我们都希望添加 cheap 的基本类型来忽略打包前后的列信息；
+    因此不管是开发环境或生产环境，我们都希望添加 cheap 的基本类型来忽略打包前后的列信息；
 
-  module ：不管是开发环境还是正式环境，我们都希望能定位到bug的源代码具体的位置，
+    module ：不管是开发环境还是正式环境，我们都希望能定位到bug的源代码具体的位置，
 
-  比如说某个 Vue 文件报错了，我们希望能定位到具体的 Vue 文件，因此我们也需要 module 配置；
+    比如说某个 Vue 文件报错了，我们希望能定位到具体的 Vue 文件，因此我们也需要 module 配置；
 
-  soure-map ：source-map 会为每一个打包后的模块生成独立的 soucemap 文件 ，因此我们需要增加source-map 属性；
+    soure-map ：source-map 会为每一个打包后的模块生成独立的 soucemap 文件 ，因此我们需要增加source-map 属性；
 
-  eval-source-map：eval 打包代码的速度非常快，因为它不生成 map 文件，但是可以对 eval 组合使用 eval-source-map 使用会将 map 文件以 DataURL 的形式存在打包后的 js 文件中。
+    eval-source-map：eval 打包代码的速度非常快，因为它不生成 map 文件，但是可以对 eval 组合使用 eval-source-map 使用会将 map 文件以 DataURL 的形式存在打包后的 js 文件中。
 
-  在正式环境中不要使用 eval-source-map, 因为它会增加文件的大小，但是在开发环境中，可以试用下，因为他们打包的速度很快。
+    在正式环境中不要使用 eval-source-map, 因为它会增加文件的大小，但是在开发环境中，可以试用下，因为他们打包的速度很快。
 
-7. 构建结果输出分析
+7. <span style="color: red">构建结果输出分析</span>
 
-Webpack输出的代码可读性非常差且文件非常大，为了更简单、直观地分析输出结果，社区中出现了许多可视化分析工具。这些工具以图形的方式将结果更直观的展示出来，让我们快速了解问题所在。例如：webpack-bundle-analyzer.
+    Webpack输出的代码可读性非常差且文件非常大，为了更简单、直观地分析输出结果，社区中出现了许多可视化分析工具。这些工具以图形的方式将结果更直观的展示出来，让我们快速了解问题所在。例如：webpack-bundle-analyzer.
 
-我们在项目中webpack.prod.conf.js进行配置
-```
-if(config.build.bundleAnalyzerRepoort){
-	var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-    webpackConfig.plugins.push(new BundleAnalyzerPlugin());
-}
-```
+    我们在项目中webpack.prod.conf.js进行配置
+    ```
+    if(config.build.bundleAnalyzerRepoort){
+        var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+        webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+    }
+    ```
 
-执行npm run build \--report后生成分析报告
+    执行npm run build \--report后生成分析报告
 
 ### 基础的Web技术优化
+1. <span style="color: red">开启gzip压缩</span>
 
-1. 开启gzip压缩
+    gzip是GNUzip的缩写，最早用于Unix系统的文件压缩。
 
-gzip是GNUzip的缩写，最早用于Unix系统的文件压缩。
+    HTTP协议上的gzip编码是一种用来改进web应用程序性能的技术，web服务器和客户端(浏览器)必须同时支持gzip
 
-HTTP协议上的gzip编码是一种用来改进web应用程序性能的技术，web服务器和客户端(浏览器)必须同时支持gzip
+    目前主流的浏览器 chrom,firefox IE都支持改协议，常见的服务器如Apache,Nginx，IIS同样支持，gzip压缩效率非常高，哦通常可以达到70%的压缩率。
 
-目前主流的浏览器 chrom,firefox IE都支持改协议，常见的服务器如Apache,Nginx，IIS同样支持，gzip压缩效率非常高，哦通常可以达到70%的压缩率。
+    安装
+    ```
+    npm install compression --save
+    ```
+    添加逻辑代码
+    ```
+    const compression = require('compression');
+    var app = express();
+    app.use(coompression())
+    ```
 
-安装
-```
-npm install compression --save
-```
-添加逻辑代码
-```
-const compression = require('compression');
-var app = express();
-app.use(coompression())
-```
+2. <span style="color: red">浏览器缓存</span>
 
-2. 浏览器缓存
-
-为了提高用户加载页面的速度，对静态资源进行缓存是必要的，根据是否需要重新向服务器发起请求来分析，将HTTP缓存规则氛围两大类(强缓存、对比缓存(协商缓存))
+    为了提高用户加载页面的速度，对静态资源进行缓存是必要的，根据是否需要重新向服务器发起请求来分析，将HTTP缓存规则氛围两大类(强缓存、对比缓存(协商缓存))
 
 
-3. CDN的使用
+3. <span style="color: red">CDN的使用</span>
 
-浏览器从服务器上下载css/js和图片等文件时都要和服务器连接，而大部分服务器的带宽有限，网页就半天反应不过来
+    浏览器从服务器上下载css/js和图片等文件时都要和服务器连接，而大部分服务器的带宽有限，网页就半天反应不过来
 
-而CDN可以通过不同的dns节点来加载文件，从而使下载文件的并发连接数打打增加，且CDN具有更好的可用性，更低的网络延时和丢包率
+    而CDN可以通过不同的dns节点来加载文件，从而使下载文件的并发连接数打打增加，且CDN具有更好的可用性，更低的网络延时和丢包率
 
-4. 使用Chrom Performance查找性能瓶颈
+4. <span style="color: red">使用Chrom Performance查找性能瓶颈</span>
 
-Chrome的Performance面板可以录制一段时间内的js执行细节及时间。
+    Chrome的Performance面板可以录制一段时间内的js执行细节及时间。
 
-使用Chrome开发者工具分析页面性能的步骤如下：
+    使用Chrome开发者工具分析页面性能的步骤如下：
 
-打开Chrome开发者工具，切换到Perrformance面板
+    打开Chrome开发者工具，切换到Perrformance面板
 
-点击Record开始录制
+    点击Record开始录制
 
-刷新页面或展开某个节点
+    刷新页面或展开某个节点
 
-点击stop停止录制
+    点击stop停止录制
 

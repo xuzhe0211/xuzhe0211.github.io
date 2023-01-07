@@ -1,9 +1,8 @@
 ---
-autoGroup-7: Shell
 title: /usr/bin/expect 的使用
 ---
 ## 举个栗子
-```
+```sh
 # expect超过超时时间没有检测到要找的字符串，则不执行
 set timeout 30
 
@@ -33,7 +32,7 @@ interact
 ## sh脚本调用expect
 expect只能用来代替人向终端输入指令。有时候在这之前还需要运行一些shell脚本的命令。所以就需要实用sh脚本来调用expect。
 
-```
+```sh
 #!/bin/sh
 # 登录信息
 host="这里是主机地址"
@@ -53,7 +52,7 @@ expect login.sh $host $code $passwd
 
 
 ## 安装
-```
+```sh
 brew install expect
 
 // QA

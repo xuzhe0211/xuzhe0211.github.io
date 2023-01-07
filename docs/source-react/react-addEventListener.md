@@ -82,7 +82,7 @@ class App extends React.Component {
 
 等等场景时,不得不使用原生事件来进行业务逻辑处理。
 
-**由于原生事件需要绑定在真实DOM上，所以一般是在componentDidMount阶段/ref的函数执行阶段进行绑定操作，在componentWillUnmount阶段进行解绑操作以避免内存泄露**
+<span style="color: red">**由于原生事件需要绑定在真实DOM上，所以一般是在componentDidMount阶段/ref的函数执行阶段进行绑定操作，在componentWillUnmount阶段进行解绑操作以避免内存泄露**</span>
 
 ```js
 class Demo extends React.PureComponent {

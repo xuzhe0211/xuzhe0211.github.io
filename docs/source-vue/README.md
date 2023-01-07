@@ -22,6 +22,9 @@ title: Object.defineProperty vs proxy
 + Object.defineProperty也不能对ES6新产生的Map,Set这些数组解构做出监听。
 + Object.defineProperty也不能监听新增和删除操作，通过Vue.set()和Vue.delete来实现响应式的。
 
+[Object.defineProperty 属性描述符](/front-end/JavaScript/object-constructor-methods-property.html#object-defineproperty)
+- <span style="color: red">数据描述符</span>
+- <span style="color: red">存储描述符</span>
 ## used
 
 object.defineprotpery用于监听对象的数据变化

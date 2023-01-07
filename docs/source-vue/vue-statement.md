@@ -2,7 +2,7 @@
 title: vue生命周期/数据/资源/组合/其他
 ---
 
-![vue生命周期](./images/1055392-20180412170517734-471949020.png)
+![vue生命周期](./images/915b9f85e4264142a3e1935135c10204.png)
 
 自己测试一下
 ```js
@@ -55,10 +55,10 @@ methods: {
 2. created实例创建完毕后被调用，此时data和属性已经有了，但是还没有挂载到页面上，$el还为undefined
 3. beforeMount在挂载之前被调用，$el还为undefined
 4. mounted挂载完毕，el被新创建的vm.$el替换，页面上渲染元素成功
-5. <span style="color: blue">beforeUpdate数据更新时候调用，虚拟dom打补丁之前，数据是更新后的数据</span>
+5. <span style="color: red">beforeUpdate数据更新时候调用，虚拟dom打补丁之前，数据是更新后的数据</span>
 6. updated数据更改导致虚拟dom重新渲染和打补丁，在这之后调用该方法
-7. beforeDestory实例销毁前调用，data数据和上面的方法依旧存在，$el还能或得到dom元素
-8. destoryed实例销毁后，data数据和上面的方法依旧存在，$el已经被删除
+7. <span style="color: red">beforeDestory实例销毁前调用，data数据和上面的方法依旧存在，$el还能或得到dom元素</span>
+8. <span style="color: red">destoryed实例销毁后，data数据和上面的方法依旧存在，$el已经被删除</span>
 
 ### 数据
 data Vue实例数据对象。Vue将会递归将data的属性转为getter/setter，从而让data的属性能够响应数据变化
@@ -156,3 +156,6 @@ mixins 用于给实例混入一些属性
 - 销毁过程
 
     父beforeDestroy->子beforeDestroy->子destroyed->父destroyed
+
+
+[vue生命周期详细全过程（含图解）](https://blog.csdn.net/m0_70477767/article/details/124684195)

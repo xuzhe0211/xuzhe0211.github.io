@@ -15,7 +15,7 @@ cluster可以多核监听同一个端口。实现多进程共享端口，这个�
 ```javascript
 var cluster = require('cluster'); // cluster库
 var os = require('os'); // 获取cpu的数量
-var numCPUs = os.cups().length;
+var numCPUs = os.cpus().length;
 var process = require('process'); // 管理进程用的
 
 console.log('numCPUs:', numCPUs); // 打印cpu数量 ①
@@ -29,14 +29,19 @@ if (cluster.isMaster) { // 这里是进入主进程，第一次启动的时候�
     })
     // 初始开启与CPU数量相同的工作进程， 多核利用③
     for(var i = 0; i < numCPUs; i++) {
-        var worker = cluster.worker(); // 复制进程，有多少个核，复制多少个子进程，复制的过程会重新运行一遍该文件(因为是复制进程，代码也会复制在子进程运行)
+        var worker = cluster.fork(); // 复制进程，有多少个核，复制多少个子进程，复制的过程会重新运行一遍该文件(因为是复制进程，代码也会复制在子进程运行)
         workers[worker.pid] = worker;
     }
 } else { // 这里是子进程开启的时候，就是主进程folk之后，会走到这里。所以这里会启动与cpu相同数量的子进程服务
     // 子进程启动服务器，多进程共享3000端口 ④
-    var app = require('./app');
+    var koa = require('koa');
+    var app = new koa()
+    // app.use(require('koa-static')(__dirname + '/'))
+    app.use(ctx => {
+        ctx.body = 'hello docker';
+    })
     app.use(async (ctx, next) => {
-        console.log('worker' + cluster.workder.id + ',PID:'+ process.pid);
+        console.log('worker' + cluster.worker.id + ',PID:'+ process.pid);
         next();
     })
     app.listen(3000);

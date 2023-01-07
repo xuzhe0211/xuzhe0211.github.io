@@ -26,7 +26,7 @@ title: Vue2.x知识点总结
 
 **区别**
 
-整体看来,MVVM比MVC精简很多，不仅简化了业务与界面的依赖，还解决了数据频繁更新的问题，不用在用选择器操作DOM元素。因为MVVM中，View不知道Model的曾在，Model和ViewModel也观察不到View，这种低耦合模式提高代码的可重用性
+整体看来,MVVM比MVC精简很多，不仅简化了业务与界面的依赖，还解决了数据频繁更新的问题，不用在用选择器操作DOM元素。因为MVVM中，View不知道Model的存在，Model和ViewModel也观察不到View，这种低耦合模式提高代码的可重用性
 
 vue是不是MVVM框架
 

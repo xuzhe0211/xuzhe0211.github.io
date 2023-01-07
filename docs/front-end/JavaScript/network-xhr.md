@@ -7,7 +7,7 @@ title: ajax/axios/fetch区别
 
 浏览器通过XMLHttpRequest对象进行http通信
 
-传统Ajax指的是XMLHttpRequest(XHR),最早出现的向后端发送请求技术，隶属于原始js中，核心使用XMLHttpRequest对象，多个请求指甲如果有先后关系的话，就会出现回调地狱
+传统Ajax指的是XMLHttpRequest(XHR),最早出现的向后端发送请求技术，隶属于原始js中，核心使用XMLHttpRequest对象，多个请求如果有先后关系的话，就会出现回调地狱
 
 一个简单http请求
 ```js
@@ -89,7 +89,7 @@ $.ajax({
 
 缺点：
 1. 针对MVC的变成，不符合前端MVVM的浪潮
-2. 基于原生XHR开发，而XHR本身的架构不清晰
+2. <span style="color: red">基于原生XHR开发，而XHR本身的架构不清晰</span>
 3. Jquery整个项目太大，单纯使用Ajax却要引入整个jquery，非常不合理
 4. 不符合关注分离的原则
 5. 配置和调用方便非常婚礼，而且基于事件的异步模型不友好

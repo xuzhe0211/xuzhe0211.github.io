@@ -47,10 +47,10 @@ none: none关键字的计算值为:0 0 auto
 
 #### 说明
 **复合属性。设置或检索弹性盒模型对象的子元素如何分配空间**
-+ 如果缩写[flex:1], 则其计算职位[1 1 0%];
-+ 如果缩写[flex:auto],则其计算值为[1 1 auto];
-+ 如果[flex:none],则计算值为[0 0 auto]
-+ 如果[flex: 0 auto]或[flex:initial],则其计算值为[0 1 auto], 即[flex]初始值
++ <span style="color: red">如果缩写[flex:1], 则其计算职位[1 1 0%];</span>
++ <span style="color: red">如果缩写[flex:auto],则其计算值为[1 1 auto];</span>
++ <span style="color: red">如果[flex:none],则计算值为[0 0 auto]</span>
++ <span style="color: red">如果[flex: 0 auto]或[flex:initial],则其计算值为[0 1 auto], 即[flex]初始值</span>
 + 实例：如下情况每个元素的计算宽为多少
 
 ```css

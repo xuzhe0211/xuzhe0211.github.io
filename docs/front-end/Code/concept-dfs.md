@@ -56,6 +56,19 @@ title: 递归
     const sum = add(1, 0)
     console.log(sum)
     ```
+- 优化实现
+
+    ```js
+    function add(n) {
+        add.m = add.m || Object.create(null);
+        if(add.m[n]) return add.m[n];
+        if(n === 1) {
+            return 1;
+        } else {
+            return add.m[n] = add(n - 1) + n
+        }
+    }
+    ```
 [参考](/front-end/Code/complexity-01.html#思考题解答)
 
 ## 乘积

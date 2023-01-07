@@ -63,9 +63,9 @@ git fetch origin 远程分支名x:本地分支名x // 不会建立映射关系
 
 ![git fetch和 git pull 概念](http://kmknkk.oss-cn-beijing.aliyuncs.com/image/git.jpg)
 
-git fetch是将远程主机的最新内容拉到本地，用户在检查了以后决定是否合并到工作本机分支中。
+<span style="color: red">git fetch是将远程主机的最新内容拉到本地，用户在检查了以后决定是否合并到工作本机分支中。</span>
 
-而git pull则是将远程主机的最新内容拉下来后直接合并，即git pull = git fetch + git merge,这样可能会产生冲突，需要手动解决。
+<span style="color: red">而git pull则是将远程主机的最新内容拉下来后直接合并，即git pull = git fetch + git merge,这样可能会产生冲突，需要手动解决。</span>
 
 2. 分支的概念
 
@@ -109,13 +109,14 @@ git push origin:<branchname> //删除后推送至服务器
 git branch -m <oldbranch> <newbranch> //重命名本地分支
 
 //git中的一些选项解释
+
 -d 
 --delete：删除
 
 -D
 --delete --force的快捷键(强制)
 
--d 
+-f
 --force 强制
 
 -m
@@ -137,7 +138,7 @@ git fetch命令
 
 ```js
 // 重要
-git fetch <远程主机> //这个命令是将某个远程主机的更新全部去回到本地
+git fetch <远程主机> //这个命令是将某个远程主机的更新全部取回到本地
 ```
 
 <span style="color: red">**如果只想取回特定分支的更新，可以指定分支名**</span>

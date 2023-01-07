@@ -94,9 +94,14 @@ title: 大厂面试
         rturn r;
     }
     ```
-    [leetcode爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/solution/pa-lou-ti-by-leetcode-solution/)
+    [leetcode爬楼梯](/front-end/Code/concept-dp.html#爬楼梯)
 7. [使用最小花费爬楼梯](https://leetcode-cn.com/problems/min-cost-climbing-stairs/solution/shi-yong-zui-xiao-hua-fei-pa-lou-ti-by-l-ncf8/)
     ```js
+    // 输入：cost = [10,15,20]
+    // 输出：15
+    // 解释：你将从下标为 1 的台阶开始。
+    // - 支付 15 ，向上爬两个台阶，到达楼梯顶部。
+    // 总花费为 15 。
     var minCostClimbingStairs = function(cost) {
         const n = cost.length;
         const dp = new Array(n + 1);

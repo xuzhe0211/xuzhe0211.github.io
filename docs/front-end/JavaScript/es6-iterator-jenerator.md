@@ -30,7 +30,7 @@ console.log(arr); // [1, 2,3,4, 8 , 9]
 
 那么关于他们两的区别，[深入理解枚举属性与for-in和for-of](https://www.cnblogs.com/wangzirui98/p/11227853.html)
 
-<span style="color: red">值得一提的是for-in是可以遍历数组的，但是不推荐用for-in遍历数组，为什么呢？因为for-in返回的可枚举属性是字符类型，不是数字类型，如果'0', '1'这样的属性和1，2数组发生相加，很可能不是直接相加，二十字符串的叠加</span>。例如：
+<span style="color: red">值得一提的是for-in是可以遍历数组的，但是不推荐用for-in遍历数组，为什么呢？**因为for-in返回的可枚举属性是字符类型，不是数字类型**，如果'0', '1'这样的属性和1，2数组发生相加，很可能不是直接相加，二十字符串的叠加</span>。例如：
 
 ```js
 const items = [1,2, 3,4];
@@ -170,7 +170,7 @@ gen.next(); // 获取到score
 
 另外还有一些小的特性
 
-*可以添加到任意位置，都不会影响genterator。下面的下发都是可以的
+<span style="color: red">*可以添加到任意位置，都不会影响genterator</span>。下面的下发都是可以的
 
 ```js
 function * foo(x, y) {...}

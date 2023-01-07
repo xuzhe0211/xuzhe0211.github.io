@@ -34,7 +34,7 @@ title: Plugin扩展插件-splitChunks
 ![vue Cli3 splitchunks](./images/v2-a4c7a7e24bf896332b51e426e0318562_720w.jpg)
 
 整理后默认配置如下
-```
+```js
 module.exports = {
     configureWebpack: config => {
         return {

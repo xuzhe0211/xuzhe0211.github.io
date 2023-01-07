@@ -30,6 +30,8 @@ title: Http长连接 队头阻塞 性能优化
 1. <span style="color: red">使用keepalive_timeout指令，设置长连接的超时时间，如果在一段时间内连接上没有任何数据收发就主动断开连接，避免空闲了解占用系统资源</span>
 2. <span style="color: red">使用keepalive_requests指令，设置长连接可发送的最大请求次数。比如设置为1000，那么当Nginx在这个连接上处理了1000个请求后，也会主动断开连接</span>
 
+[长链接--WebSocket](/front-end/JavaScript/network-websocket.html#短轮询)
+
 ## 队头阻塞
 
 队头阻塞与短连接和长连接无关，而是由HTTP基本的请求-应答模型所导致的。因为HTTP规定报文必须一发一收，这就像星星了一个先进先出的队列

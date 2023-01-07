@@ -14,7 +14,7 @@ title: babel之配置文件.babelrc入门详解
 ## Babel编译器
 在.babelrc配置文件中,主要是对预设(presets)和插件(plugins)进行配置，因此不同的转移器作用不同的配置项，大致可分为以下三项
 
-1. <span style="color: blue">**语法转义器**。主要对javascript最新的语法糖进行编译，并不负责转义javascript新增的api和全局对象</span>。例如let/const就可以被编译，而includes/Object.assign等并不能被编译。常用到的转译器包有，babel-preset-env、babel-preset-es2015、babel-preset-es2016、babel-preset-es2017、babel-preset-latest等。在实际开发中可以只选用babel-preset-env来代替余下的，但是还需要配上javascript的制作规范一起使用，同事也是官方推荐的。
+1. <span style="color: blue">**语法转义器**。主要对javascript最新的语法糖进行编译，并不负责转义javascript新增的api和全局对象</span>。例如let/const就可以被编译，而includes/Object.assign等并不能被编译。常用到的转译器包有，babel-preset-env、babel-preset-es2015、babel-preset-es2016、babel-preset-es2017、babel-preset-latest等。在实际开发中可以只选用babel-preset-env来代替余下的，但是还需要配上javascript的制作规范一起使用，同时也是官方推荐的。
 
     ```js
     {

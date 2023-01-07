@@ -21,6 +21,27 @@ setup() {
 
 <span style="color: red">注意，在&lt;template&gt;内不需要通过.value而是直接使用num</span>
 
+### ref对象
+使用ref创建对象，里面任意深度的属性与视图都是响应式的，如在vue2中创建的data
+```js
+data() {
+    return {
+        a: {
+            b: 1
+        }
+    }
+}
+```
+使用ref则为
+```js
+const data = ref({
+    a: {
+        b: 1
+    }
+})
+```
+<span style="color: red">当修改b属性的值时，视图会更新</span>
+
 ## shallowRef
 只处理value的响应式，不进行对象的reactive处理，也就是说如果传给shallowRef一个对象，这个对象的任何一层属性都不是响应式的
 
@@ -58,6 +79,68 @@ testShallowRef.value += '周五'
 ![testShallowRef](./images/317975d25ffe434fba0425fe4b1c5c66_tplv-k3u1fbpfcp-zoom-in-crop-mark_1304_0_0_0.png)
 
 说明确实拦截到了对 testShallowRef 的查询和修改操作，那么就可以继续做一些更新渲染页面的功能。
+
+### shallowRef --对象
+与ref不同，shallowRef修改深层属性时，并不会更新视图
+```html
+<template>
+    <div>
+        <p>{{data.foo}}</p>
+        <button @click="update">update</button>
+        <button @click="log">log</button>
+    </div>
+</template>
+<script>
+    setup() {
+        const data = shallowRef({foo: '1'});
+        function update() {
+            data.value.foo = '2';
+        }
+        function log() {
+            console.log(data.value.foo)
+        }
+        return {
+            data,
+        }
+    }
+</script>
+```
+上面点击update，视图并不会更新，但是点击log按钮时，打印出foo的值为2
+
+<span style="color: red">想要更新视图，必须给value赋值，直接替换这个对象</span>
+
+```js
+function update() {
+    data.value = { foo: 200 }
+}
+```
+再次点击update按钮，视图更新。
+
+shallow即浅的意思，shallowRef只有整个数据变更时才刷新视图
+
+<span style="color:red">或者在修改数据之后，调用triggerRef方法，主动触发视图刷新</span>
+
+```js
+function update() {
+    data.value.foo = '300';
+    triggerRef(data); // 触发视图刷新
+}
+```
+> 需要注意如果组件中有ref/reactive的数据更新引起组件更新，会把shallowRef更新后的数据更新到视图
+
+### 为什么使用shallowRef
+因为ref方法会递归遍历对象的所有属性，使所有属性都具备响应性，所以，当对象很复杂且庞大时，过多的监听会导致性能上的损耗。如假设有一个文章列表数组：
+
+像这种做展示用的数据，并不需要每个属性都做响应性，此时使用shallowRef就很合适。
+> 其实可以放在外面不做响应式或者Object.freeze()
+
+## shallReactive
+只处理对象最外面一层的响应时数据(浅响应时)
+```js
+const obj = shallowReactive({name: 'Mr.long', son: {name: 'Mr.liu'}})
+// vue不会做son.name响应式
+```
+
 
 [ref与shallowRef区别](https://blog.csdn.net/LiuMH2011/article/details/123716933)
 

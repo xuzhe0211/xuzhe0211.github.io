@@ -31,7 +31,7 @@ defineProperty 方法会直接再一个对象上定义一个新的属性，或�
 
 | 属性描述符   | 描述                                                         |           |
 | ------------ | ------------------------------------------------------------ | --------- |
-| configurable | 当且仅当该属性值为 true 时，该属性描述符才能被改变，同时该属性也能从对应的对象上被删除。 | false     |
+| configurable | 当且仅当该属性值为 true 时，该属性描述符才能被改变，同时该属性也能从对应的对象上被删除(delete obj['name'])。 | false     |
 | enumerable   | 当且仅当该属性值为 true 时，该属性才能出现再对象的枚举属性中。 | false     |
 | value        | 该属性对应的值。                                             | undefined |
 | writable     | 当且仅当该属性值为 true 时，value 才可以被赋值运算符改变。   | false     |
@@ -128,7 +128,27 @@ defineProperty 方法会直接再一个对象上定义一个新的属性，或�
   b.x; // 1
   ```
 
+    ```js
+    var object = {}
 
+    // 数据描述符
+    Object.defineProperty(object, 'foo', {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    value: 1,
+    })
+
+    // 存取描述符
+    Object.defineProperty(object, 'bar', {
+    configurable: true,
+    enumerable: true,
+    get() {},
+    set() {},
+    })
+    ```
+
+[JavaScript 属性描述符](https://blog.csdn.net/Don_GW/article/details/109066852)
 
 ## Object.defineProperties
 
@@ -161,6 +181,7 @@ Object.defineProperties(obj, props)
 
 
 [js中的Object.defineProperty()和defineProperties()详解 ](https://www.cnblogs.com/xlys/p/8520676.html)
+
 
 
 ## Object.getOwnPropertyDescriptor
@@ -215,8 +236,6 @@ Object.getOwnPropertyDescriptor(obj, prop)
   //   writable: true
   // }
   ```
-
-
 
 ## Object.getOwnPropertyDescriptors
 

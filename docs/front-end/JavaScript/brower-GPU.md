@@ -69,10 +69,10 @@ raster 线程：和合成线程共同作用 用于同层分块的 提高渲染�
 
 了解了重排和重绘，那么GPU加速又是什么呢？其实就是GPU为该元素单独绘制一个复合层，当修改样式时不影响其他复合层。以下样式将开启GPU加速
 
-- transform动画
-- opacity动画
-- 设置translateZ()、translate3D();
-- 设置will-change等
+- <span style="color: red">transform动画</span>
+- <span style="color: red">opacity动画</span>
+- <span style="color: red">设置translateZ()、translate3D();</span>
+- <span style="color: red">设置will-change等</span>
 
 下面我们看下浏览器GPU加速具体是怎么表现的
 ```html

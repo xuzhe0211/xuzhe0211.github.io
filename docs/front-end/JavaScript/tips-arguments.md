@@ -176,7 +176,7 @@ function f(...args) {
 
 ### 结构剩余参数
 
-剩余参数可以被结构，这意味着他们的数据可以被姐报道不同的变量中,[结构赋值](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+剩余参数可以被结构，这意味着他们的数据可以被解包到不同的变量中,[结构赋值](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
 ```js
 function f(...[a, b, c]) {
@@ -212,7 +212,7 @@ var arr = multiply(2, 1, 2, ,3);
 console.log(arr); // [2,4,6]
 ```
 
-下面例子演示了你可以在剩余参数上使用任意的数组防范，而arguments对象不可以
+下面例子演示了你可以在剩余参数上使用任意的数组方法，而arguments对象不可以
 
 ```js
 function sortRestArgs(...theArgs) {

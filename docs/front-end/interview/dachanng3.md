@@ -34,6 +34,24 @@ function sayHi() {
 }
 var inp = document.getElementById('inp');
 inp.addEventListener('click', debounce(sayHi));
+
+
+// vue使用
+methods: {
+    debounce(func, delay) {
+        let timer = null;
+        return function() {
+            console.log(timer)
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                func.apply(this, arguments);
+            }, delay);
+        }
+    },
+    changeValue:this.debounce(function() {
+        this.request();
+    }, 2000),
+}
 ```
 ### 节流
 > 高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率
@@ -868,7 +886,7 @@ sayHi
 ```
 在函数中，我们首先使用val关键字声明了name变量。这意味着变量在创建阶段会被提升(javascript会在创建阶段为其分配内存空间),默认值为undefined,直到我们实际执行到该变量的行，我们还没为name变量赋值，所以它仍保持undeined的值
 
-<span style="color: red">使用let关键(const)申明的变量也会存在变量提升，但是与val不同，初始化没有提升。在我们声明(初始化)他们之前，他们不可以访问，这就成为暂时死去，当我们在声明变量之前尝试访问变量，javascript会抛出一个referenceError；</span>
+<span style="color: red">使用let关键(const)申明的变量也会存在变量提升，但是与val不同，初始化没有提升。在我们声明(初始化)他们之前，他们不可以访问，这就成为暂时死区，当我们在声明变量之前尝试访问变量，javascript会抛出一个referenceError；</span>
 
 关于let的是否存在变量提升，我们何以用下面的例子来验证：
 ```js

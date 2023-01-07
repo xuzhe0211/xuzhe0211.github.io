@@ -47,6 +47,7 @@ const mergeArr = (arr1, arr2) => {
     } else {
         return res.concat(arr2.slice(j))
     }
+    // return i < len1 ? res.concat(arr1.slice(i)) : res.concat(arr2.slice(j))
 }
 
 var arr = [[1,2,4], [2,3,7], [3,5,7], [4,5,8]];
@@ -766,6 +767,26 @@ console.log(flatten(treeData))
 
 ## 相邻且相等，则消除
 ```js
+// 栈实现
+const removeDupLicates1 = nums => {
+    let stack = [];
+    let i = 0; 
+    while(i < nums.length) {
+        let top = stack[stack.length - 1];
+        let cur = nums[i];
+        if(top === cur) {
+            stack.pop();
+            while(nums[i] === top) i += 1;
+        } else {
+            stack.push(cur);
+            i++
+        }
+    }
+    return stack;
+}
+console.log(removeDupLicates1([1,6,6,6,7,7], 3))
+
+// 面试中写的 虽然好使有点不靠谱
 const fromatArray = nums => {
     let len = nums.length;
     let left = 1;
@@ -800,6 +821,7 @@ const removeDuplicates = nums => {
 }
 console.log(removeDuplicates([0,0,1,1,1,2,2,3,3,4]))
 ```
+[删除字符串中所有相邻的重复项](/front-end/interview/coding4.html#栈)
 ## 一行图片 宽度一定 等比例
 ```js
 // function alignImages(imgs, width) {...}
@@ -832,4 +854,45 @@ const alignImages = (nums, width) => {
     return matrix;
 }
 console.log(alignImages([[2, 4], [2, 2], [2, 4]], 4))
+```
+## 删除有序数组中的重复项
+```js
+// 输入：nums = [1,1,1,2,2,3]
+// 输出：5, nums = [1,1,2,2,3]
+// 解释：函数应返回新长度 length = 5, 并且原数组的前五个元素被修改为 1, 1, 2, 2, 3 。 不需要考虑数组中超出新长度后面的元素。
+const removeDuplicates = nums => {
+    let n = nums.length;
+    if(n <= 2) return n;
+    let slow = 2, fast = 2;
+    while(fast < n) {
+        if(nums[slow - 2] !== nums[fast]) {
+            nums[slow] = nums[fast];
+            ++slow;
+        }
+        ++fast;
+    }
+    return slow;
+}
+```
+[删除有序数组中的重复项](https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/?languageTags=javascript)
+
+## 统计同构字符串的数目
+```js
+// 输入：s = "abbcccaa"
+// 输出：13
+// 解释：同构子字符串如下所列：
+// "a"   出现 3 次。
+// "aa"  出现 1 次。
+// "b"   出现 2 次。
+// "bb"  出现 1 次。
+// "c"   出现 3 次。
+// "cc"  出现 2 次。
+// "ccc" 出现 1 次。
+// 3 + 1 + 2 + 1 + 3 + 2 + 1 = 13
+const countHomogenous = s => {
+    return s.match(/([a-z])\1*/g).reduce((acc, cur) => {
+        return (acc + cur.length * (cur.length + 1) / 2) % (1e9 + 7)
+    }, 0)
+}
+console.log(countHomogenous('abbcccaa'))
 ```

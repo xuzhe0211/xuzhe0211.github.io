@@ -68,7 +68,7 @@ Reflect一共有13个静态方法
 
 它可以一部分是原来在Object上的方法，将它转移到Reflect上，并做了小改动，让方法更合理。
 
-- <span style="color: blue">Reflect.defineProperty(target, name, desc)与Object.defineProperty(target, name, desc)类似，当对象无法定义时,Object.defineProperty会报错，而Reflect.defineProperty不会，它会返回false,成功时返回true,如果不是对象还是会报错</span>
+- <span style="color: red">Reflect.defineProperty(target, name, desc)与Object.defineProperty(target, name, desc)类似，当对象无法定义时,Object.defineProperty会报错，而Reflect.defineProperty不会，它会返回false,成功时返回true,如果不是对象还是会报错</span>
 - <span style="color: blue">Reflect.getPrototypeOf(target)与Object.getPrototypeOf，返回指定的对象的原型</span>
 - <span style="color: blue">Reflect.setPrototypeOf(target, prototype) 和 Object.setPrototypeOf(target, prototype)一样，它将指定对象原型设置为另一个对象</span>
 - <span style="color: blue">Reflect.getOwnPropertyDescriptor(target,name)和 Object.getOwnPropertyDescriptor(target,name) 一样，如果在对象中存在，则返回给定的属性的属性描述符</span>

@@ -77,13 +77,13 @@ function getElementById(node, id) {
 function getElementById(node, id) {
     if (!node) return null;
     if (node.id === id) return node;
-    for(var i = 0; i < node.childNodes; i++) {
+    for(var i = 0; i < node.childNodes.length; i++) {
         var found = getElementById(node.childNodes[i], id);
-        return found;
+        if(found) return found;
     }
     return null;
 }
-getElementById(documet, 'd-cal')
+getElementById(document, 'app')
 ```
 
 使用递归的有点是代码简单易懂，缺点是效率比不上非递归的实现。Chrome浏览器是使用非递归实现的，非递归要怎么实现呢？
@@ -777,7 +777,7 @@ var minPathSum = function(grid) {
 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
      随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
 ```
-**贪心算法**
+<span style="color: red">**贪心算法**</span>
 
 <span style="color: blue">贪心算法，顾名思义，总是做出当前的最优选择，即期望通过局部的最优选择获得争气的最优选择</span>
 
@@ -814,7 +814,8 @@ let maxProfit = prices => {
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 ```
-贪心算法
+<span style="color: red">**贪心算法**</span>
+
 ```javascript
 const findContentChildren = (g, s) => {
     if (!g.length || !s.length) return 0;
@@ -841,7 +842,8 @@ const findContentChildren = (g, s) => {
 1, 2, 3
 3, 4, 5
 ```
-贪心算法
+<span style="color: red">**贪心算法**</span>
+
 ```javascript
 const isPossible = nums => {
     let max = nums[nums.length - 1];
@@ -891,7 +893,8 @@ const isPossible = nums => {
   [3,2,1]
 ]
 ```
-解法：回溯算法
+<span style="color: red">**解法：回溯算法**</span>
+
 ```javascript
 let permute = function(nums) {
     // 使用一个数组保存所有可能的全排列
@@ -956,7 +959,7 @@ const combine = (nums) => {
        "()()()"
      ]
 ```
-**解答：回溯算法(深度优先遍历)**
+<span style="color: red">**解答：回溯算法(深度优先遍历)**</span>
 
 算法策略:回溯算法是一种搜索法，试探法，它会在每一部做出选择
 ```javascript

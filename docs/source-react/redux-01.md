@@ -79,7 +79,7 @@ console.log('state is:' + store.getState()); // state is: 读书，写作
         }
     };
     ```
-## 关于actionAreator
+## 关于actionCreator
 看到xxCreator总能让人联想到工厂模式，没错，在redux里，actionAreator其实就是action的工厂方法，可以参考下面例子
 
 > actionCreator(args) => action

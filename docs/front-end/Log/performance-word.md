@@ -51,7 +51,8 @@ function getFPTime(){
 }
 ```
 MutationObserver 理解及使用补充:
-- https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver
+- MutationObserver 接口提供了监视对 DOM 树所做更改的能力。它被设计为旧的 Mutation Events 功能的替代品，该功能是 DOM3 Events 规范的一部分。
+- [https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver)
 - https://javascript.ruanyifeng.com/dom/mutationobserver.html
 
 :::tip

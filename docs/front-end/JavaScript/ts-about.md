@@ -8,7 +8,6 @@ title: TS开发相关问题
 {
     "compilerOptions": {
         "outDir": "./dist/out-tsc",//输出目录
-        "baseUrl": "src",
         "removeComments": true,//编译 js 的时候，删除掉注释
         "target": "esnext", // 编译的目标是什么版本的
         "module": "esnext", // 指定生成哪个模块系统代码

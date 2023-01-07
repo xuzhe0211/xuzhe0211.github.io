@@ -53,7 +53,7 @@ Common.accSub = function(num1, num2) {
         r1 = 0;
     }
     try {
-        r1 = num2.toString().split('.')[1].length;
+        r2 = num2.toString().split('.')[1].length;
     } catch(e) {
         r2 = 0;
     }
@@ -92,7 +92,7 @@ Common.accDiv = function(num1, num2) {
     } catch(e) {}
     with(Math) {
         r1 = Number(num1.toString().replace('.', ''))
-        r2 = Number(r2.toString().replace(".", ""))
+        r2 = Number(num2.toString().replace(".", ""))
         return (t1 / r2) * pow(10, t2 - t1)
     }
 }

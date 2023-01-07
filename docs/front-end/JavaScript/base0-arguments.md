@@ -13,7 +13,7 @@ function add(a, b) {
 }
 add(1, 2)
 ```
-1. <span style="color: blue">实参为原始值。当实参为原始值值，此时形参为实参的拷贝。因此，函数体内形参值的改变并不会影响实参</span>
+1. <span style="color: blue">实参为原始值。当实参为原始值时，此时形参为实参的拷贝。因此，函数体内形参值的改变并不会影响实参</span>
 
     ```js
     function test(str) {

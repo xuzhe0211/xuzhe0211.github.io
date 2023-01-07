@@ -1,5 +1,5 @@
 ---
-autoGroup-5: JS名词理解
+autoGroup-13: ES6
 title: 深入的理解数组和对象的解构赋值。
 ---
 es6提供了非常好的特性，即变量的解构赋值。从而我们可以方便的从数组和对象中提取数据并将他们赋值给变量。这是非常必要的。先来看在这个新特性发布之前我们如何从数组中提取数据的。
@@ -223,9 +223,9 @@ let {name: userName, age: userAge} = profiles;
 console.log(userName); // April
 console.log(userAge); // 27
 ```
-<span style="color: red">由此可知，对象的结构赋值其实就是let {name:name, age: age} = {name: 'April', age: '27'}代码的简写。也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后在赋给对应的变量。真正被赋值的是后者，而不是前者。</span>
+<span style="color: red">**由此可知，对象的结构赋值其实就是let {name:name, age: age} = {name: 'April', age: '27'}代码的简写。也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后在赋给对应的变量。真正被赋值的是后者，而不是前者。**</span>
 
-<span style="color: blue">上面的代码中，name是匹配模式，userName才是变量。真正被赋值的是变量userName，而不是模式name</span>
+<span style="color: blue">**上面的代码中，name是匹配模式，userName才是变量。真正被赋值的是变量userName，而不是模式name**</span>
 
 ### 使用默认值
 对象的解构赋值可以给变量设置默认值，以防止万一从对象中获取的值是undefined(防止解构失败的情况)需要注意的是：默认值生效的条件是，对象的属性值严格等于undefined。

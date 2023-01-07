@@ -867,7 +867,7 @@ const graph = {
     }
     ```
 
-### 8.堆
+## 8.堆--重要
 <span style="color: blue">一种特殊的完全二叉树，所有的节点都大于等于最大堆，或者小于等于最小堆的子节点</span>
 > js通常使用数组来表示堆
 - <span style="color: blue">左侧子节点的位置是2*index + 1</span>
@@ -924,7 +924,7 @@ class MinHeap {
         // 获取父节点
         const parentIndex = this.getParentIndex(index);
         // 如果父节点的值大于当前节点的值，就需要进行交换
-        if(this.heap[parentIndex] > this.heap[index]) {
+        if(this.heap[parentIndex] > this.heap[index]) { // 如果是大顶堆 this.heap[parentIndex] < this.heap[index]
             this.swap(parentIndex, index); 
             //然后继续上移
             this.shiftUp(parentIndex);
@@ -936,14 +936,14 @@ class MinHeap {
         const leftIndex = this.getLeftIndex(index);
         const rightIndex = this.getRightIndex(index);
         // 如果左子节点小于当前的值
-        if(this.heap[leftIndex] < this.heap[index]) {
+        if(this.heap[leftIndex] < this.heap[index]) { // 如果是大顶堆 this.heap[leftIndex] > this.heap[index]
             // 进行节点交换
             this.swap(leftIndex, index);
             // 继续进行下移
             this.shiftDown(leftIndex)
         }
         // 如果右侧节点小于当前值
-        if(this.heap[rightIndex] < this.heap[index]) {
+        if(this.heap[rightIndex] < this.heap[index]) { // 如果是大顶堆 this.heap[rightIndex] < this.heap[index]
             this.swap(rightIndex, index);
             this.shiftDown(rightIndex)
         }

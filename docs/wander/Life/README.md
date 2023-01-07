@@ -16,6 +16,7 @@ chrome支持翻译成中文 浏览器栏最右侧点击翻译
 <span style="color: red">如何计算16*16点阵的一个汉字需要几个字节数</span>
 >每个象素一个 bit，一个字节 8 bit,TotalBytes = Width * Height / 8,所以，对于 16 * 16 的来讲，16 * 16 / 8 = 32，要 32 个字节
 
+> 0.1 + 0.2 两次精度丢失 0.1 二进制表示是无限循环 +之后也会造成一次精度丢失
 ```javascript
 function numbersequal(a,b){
    return Math.abs(a-b)<Number.EPSILON;

@@ -31,6 +31,9 @@ const _permute = string => {
 }
 console.log(_permute('abc')) // [ 'abc', 'acb', 'bac', 'bca', 'cab', 'cba' ]
 ```
+[6种算法思想](/front-end/Code/stady-01-1.html#资料)
+
+[抖音电商面试](/front-end/interview/record-zijie01.html#二面)
 ### instanceof
 - 如果target为基本数据类型直接返回false
 - 判断Fn.prototype 是否在target的隐式原型链上
@@ -114,7 +117,7 @@ Object.prototype._create = function(proto) {
     return new Fn();
 }
 function A() {};
-const obj = Object.create(a);
+const obj = Object.create(A);
 const obj2 = Object._create(A);
 console.log(obj.__proto__ === A); // true
 console.log(obj2.__proto__ === A); // true;
@@ -272,7 +275,7 @@ class EventEmitter {
     }
     on(name, callback) {
         if(!this.events[name]) {
-            this.events[name] = [];
+            this.events[name] = [callback];
         } else {
             this.events[name].push(callback);
         }
@@ -370,9 +373,9 @@ onceF(4); // 3
 const once = fn => {
     let res, isFirst = true;
     return function(...args) {
-        if(!isFirst) return false;
+        if(!isFirst) return res;
         res = fn.call(this, ...args);
-        isFirst = res;
+        isFirst = false;
         return res;;
     }
 }

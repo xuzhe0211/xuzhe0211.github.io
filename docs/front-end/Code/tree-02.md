@@ -252,5 +252,36 @@ function flatten(tree, arr = []) {
 }
 ```
 
+## demo
+```js
+// 非顺序型
+const input = [
+    {id: 1, name: '河北', pid: 0},
+    {id: 2, name: '郑州', pid: 8},
+    {id: 3, name: '洛阳', pid: 8},
+    {id: 5, name: '保定', pid: 1},
+    {id: 6, name: '石家庄', pid: 1},
+    {id: 7, name: '郑东新区', pid: 2},
+    {id: 8, name: '河南', pid: 0},
+];
+// 数组-tree
+const arrayTotree = nums => {
+    let ret = [];
+    const dfs = (nums, ret, id) => {
+        for(let i = 0; i < nums.length; i++) {
+            const item = nums[i];
+            if(item.pid === id) {
+                const newItem = {...item, children: []}
+                ret.push(newItem);
+                dfs(nums, newItem.children, item.id);
+            }
+        }
+    }
+    dfs(nums, ret, 0)
+    return ret;
+}
+console.log(arrayTotree(input))
+```
+
 ## 资料
 [面试了十几个高级前端，竟然连（扁平数据结构转Tree）都写不出来](https://juejin.cn/post/6983904373508145189)

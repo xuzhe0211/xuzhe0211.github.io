@@ -118,7 +118,7 @@ export default class App extends Vue{
 
 #### (1)Data
 直接在Class定义即可(实际上就是Class的新语法，与在Class的constructor中定义相同)
-```
+```js
 import {Vue, Component, Prop} from 'vue-property-decorator';
 @Component
 export default class YourComponent extends Vue {
@@ -127,13 +127,13 @@ export default class YourComponent extends Vue {
 ```
 #### (2)计算属性
 计算属性采取使用getter的形式定义，在Class内部可以使用get和set关键字,设置某个属性的存指函数和取值函数。
-```
+```js
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class YourComponent extends Vue {
 	num: number = 1;
-    get: value: string() {
+    get value: string() {
     	return this.num + 1;
     }
 }
@@ -142,7 +142,7 @@ export default class YourComponent extends Vue {
 
 #### (3)Prop
 @Prop接受的参数就是原来在Vue中props中传入的参数
-```
+```js
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
@@ -155,7 +155,7 @@ export default class YourComponent extends Vue {
 
 #### (4)PropSync
 @PropSync与Prop类似，不同之后在于@PropSync会自动生成一个计算属性，计算属性的getter返回传入的Prop，计算属性的setter中会执行Vue中提倡的更新Prop的emit:updatePropName
-```
+```js
 import { Vue, Component, PropSync } from 'vue-property-decorator'
 
 @Component
@@ -181,7 +181,7 @@ export default {
   }
 ```
 使用时需要配合.sync修饰符使用(即在组件上定义对应的更新方法)
-```
+```js
 <hello-sync :my-prop.sync = "syncValue"/>
 <!--- 相当于 ---> 
 <hello-sync :my-prop="syncValue" @update:name="(name) => syncValue = name"/>
@@ -189,7 +189,7 @@ export default {
 #### （5）定义方法
 
 定义方法与Data类型，直接在Class中定义方法即可
-```
+```js
 @Component
 export default class HelloChild extends Vue{
 	sayHi(): string{
@@ -200,7 +200,7 @@ export default class HelloChild extends Vue{
 #### (6)@Watch
 
 使用@Watch定义侦听器，被装饰的函数就是侦听器执行方法
-```
+```js
 @Component
 export default class HelloChild extends Vue {
 	@Watch('msg', {immediate: true, deep: true })
@@ -213,7 +213,7 @@ export default class HelloChild extends Vue {
 
 想要触发父组件中定义在组件实例上的方法，需要使用@Emit装饰符。@Emit接受一个参数，是要触发的事件名，如果要触发的事件名和被装饰的方法同名，那么这个参数可以省略。@Emit返回值就是传递给事件的参数。
 
-```
+```js
 @Component
 export default class HelloChild extends Vue{
 	@Emit()
@@ -240,7 +240,7 @@ export default{
 一般用来在自定义的组件上使用v-model，自定义组件中包含可交互元素(例如input或者checkbox),当组可交互元素绑定的值发生变化(oninput、onchange)时，会传递到父组件绑定的v-model属性上。
 
 关于自定义组件v-model的介绍可以参考[官方文档](https://cn.vuejs.org/v2/guide/components-custom-events.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84-v-model)
-```
+```html
 <template>
 	<el-checkbox :checked="checked" @change="changeHandler"
 </template>
@@ -260,7 +260,7 @@ export default class HelloVModel extends Vue {
 </script>
 ```
 使用的时候
-```
+```html
 <hello-v-model v-model="componentVModel"/>
 ```
 自定义组件利用了@Model，定义了checked属性，并且利用了@change事件，当checkbox发生了change事件后，父组件中的componentVModel就会随之发生变化。
@@ -270,12 +270,12 @@ export default class HelloVModel extends Vue {
 #### (9)Ref
 
 当使用ref属性标记一个子组件或者HTML元素的时候，需要使用@Ref修饰符来找到标记的组件或者元素。例如：
-```
+```html
 <div ref="someRef"></div>
 <hello-ref ref="hello"/>
 ```
 如果我们需要获取ref引用时
-```
+```js
 import { Component, Vue, Watch, Ref } from 'vue-property-decorator';
 
 @Component({
@@ -295,21 +295,21 @@ export default class HelloVue extends Vue {
 
 如果在HelloRef中定义了一个notify方法，我们就可以按照如下调用
 
-```
+```js
 this.hello.notify();
 ```
 但是现在应该是Vue-Cli内置的Vue类型系统优一个Bug,始终会报如下的错误：
-```
+```js
 Error:(141, 16) TS2551: Property 'notify' does not exist on type 'Vue'. Did you mean '$notify'?
 ```
 我的处理办法是，在为hello定义类型时，手写类型，传入我们需要的方法类型就ok了
-```
+```js
 @Ref() readonly hello!: { notify: (from?: string) => {}};
 ```
 #### (10)Mixins
 
 vue-property-decorator的Mixins方法完全来源于vue-class-component,使用方法如下。首先创建一个Mixin：
-```
+```js
 //visible-control-mixins
 import Vue from 'vue';
 import Component from 'vue-class-component';
@@ -326,7 +326,7 @@ export default class MyMixin extends Vue {
 }
 ```
 然后在组件中引入，这时候我们就不再需要组件继承自Vue了，而是继承子Mixin后的组件，MiXins方法可以接受个参数，作为混入的Mixin；
-```
+```js
 import { Component, Mixins } from 'vue-property-decorator';
 import VisibleControlMixin from '@/mixins/visible-control-mixin';
 
@@ -341,7 +341,7 @@ provide和inject主要的目的就是透传属性，从一个根节点provide一
 
 在根组件中使用@Provide提供数据
 
-```
+```js
 import { Component, Vue, Provide } from 'vue-property-decorarot';
 
 import Child from '@/views/baseKnowLedge/inject-provide/@components/Child.vue';
@@ -361,7 +361,7 @@ export default class InjectProvide extends Vue {
 }
 ```
 在子组件中使用@Inject获取数据
-```
+```js
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
 @Component
@@ -383,7 +383,7 @@ export default class InjectProvideChild extends Vue {
 
 使用vue-class-component提供的Component.registerHooks方法来提前注册，要注意，注册需要在引入理由之前完成。
 
-```
+```js
 // ./src/components/class-component-hooks.ts
 
 // 在此注册其他插件提供的钩子函数，用来在Vue Class组件中使用
@@ -396,7 +396,7 @@ import Component from 'Vue-class-component'；
 Compoent.registerHooks(['beforeRouteEnter', 'beforeRouteLeave'， 'beforeRouteUpdate']);
 ```
 在main.js中引入
-```
+```js
 import '@/component/class-component-hooks';
 import router form './router';
 ```
@@ -407,7 +407,7 @@ Vuex与TypeScript配合会复杂一些，并且体验不算太好，需要安全
 ### 1.使用vue-class-component
 
 第一种方案是使用vue-class-component配合以前常常使用mapState等帮助方法。
-```
+```js
 import { Component, Vue } from 'vue-property-decorator';
 import { mapState, mapMutations } from 'vuex';
 
@@ -428,7 +428,7 @@ export default class App extends Vue {
 ### 2.使用vuex-class
 
 第二种方案是vuex-class, 它与上一种方案相同，并没有对Vuex的Store中的代码进行改造，而是在组件消费Store中的数据、方法时，提供了一些遍历的API，简化使用方法
-```
+```js
 import { Component, Vue } from 'vue-property-decorator';
 import {
 	State,
@@ -476,7 +476,7 @@ export class MyComp extends Vue {
 如果想要实现获得完全类型安全的Vuex,那么就需要使用vuex-module-decorators,它对Vuex的store也进行了Class化的改造，引入了VuexModule和@Mutation等修饰符，让我们能够使用Class形式来编写Store
 
 使用的时候，按照下面的形式来改写Store
-```
+```js
 import { Module, Mutation, Action, VuexModule } from 'vuex-module-decorators';
 
 import store from '@/store';
@@ -508,7 +508,7 @@ export default class TestStore extends VuexModule {
 要注意，改写的Module在@Module中传入了几个属性，传入namesapced和name来使用Module成为命名空间下的模块，此外还需要传入dynamic，让这个模块成为动态注册的模块，同时还需要将完全空白的store传入给这个模块
 
 完成改造之后，在使用的时候就可以使用他提供的getModule方法获得类型安全了，使用方法：
-```
+```js
 import { getModule } from 'vuex-module-decorators';
 import TestStore from '@/store/modules/testStore';
 
@@ -541,7 +541,7 @@ Vue-CLI使用的TypeScript插件是@vue/cli-plugin-typeScript，它将ts-loader�
 
 在vue.config.js中，使用chainWebpack属性，对其进行配置，将saync设置为false
 
-```
+```js
 module.export = {
 	chainWebpack: config => {
     	//配置TypeScript检查配置

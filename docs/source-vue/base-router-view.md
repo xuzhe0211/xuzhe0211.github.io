@@ -41,3 +41,7 @@ export default {
   从/page/1 => /page/2，由于这两个路由的$route.fullPath并不一样，所以组件被强制不复用，相关钩子加载顺序为：beforeRouteUpdate => created => mounted
 
   从/page?id=1 => /page?id=2，由于这两个路由的$route.fullPath并不一样，所以组件被强制不复用，相关钩子加载顺序为:beforeRouteUpdate => created => mounted
+
+[vue-router](https://router.vuejs.org/)
+
+[vue官网](https://cn.vuejs.org/api/sfc-script-setup.html#using-components)

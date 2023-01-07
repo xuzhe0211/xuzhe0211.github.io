@@ -99,6 +99,9 @@ win: "Alt+shift+t"
 mac": "cmd+shift+t"
 ```
 > 英文驼峰命名 --- 感觉更好用一些
+
+## github结合vscode
+在项目界面点击」.「
 ## 资料
 
 [vscode 摸鱼](https://mp.weixin.qq.com/s/1lS9GWPkVZvVLIJjjXU4iw)

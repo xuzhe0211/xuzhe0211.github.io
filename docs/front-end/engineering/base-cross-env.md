@@ -28,5 +28,36 @@ NODE_ENV环境变量讲由cross-env设置
 
 打印process.env.NODE_ENV === 'production'
 
+## 使用
+package.json
+```js
+{
+    ...
+    "scripts": {
+        "serve:dev": "cross-env API_ENV=dev vue-cli-service serve"
+        ...
+    },
+    "dependencies": {
+      ...
+      "cross-env": "^7.0.2",
+      ...
+    },
+    ...
+}
+```
+.env 
+```js
+VUE_APP_API_ENV=${API_ENV}
+```
+项目中取用
+```js
+console.log(process.env.VUE_APP_API_ENV)
+```
+## 源码解析
+vue cli3中[环境变量和模式](https://cli.vuejs.org/zh/guide/mode-and-env.html)写到它可以通过获取.env、.env.local、
+
 ## 资料
 [cross-env使用](https://www.jianshu.com/p/e8ba0caa6247)
+
+
+[VUE CLI3 结合 cross-env 配置环境变量（含环境变量源码解析）](https://juejin.cn/post/6844904109951156238)

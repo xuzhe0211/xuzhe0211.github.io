@@ -38,6 +38,7 @@ vue事件分为两类，一个是原生dom事件，一个是组件自定义事�
 <my-component v-on[eventName]="doSomething"></my-component>
 <my-component @[eventName]="doSomething"></my-component>
 ```
+<span style="color: red">**.native--主要是给自定义的组件添加原生事件，可以理解为该修饰符的作用就是把一个vue组件转化为一个普通的HTML标签，并且该修饰符对普通的HTML是没有任何作用的**</span>
 
 ```html
 <!DOCTYPE html>
@@ -77,7 +78,23 @@ vue事件分为两类，一个是原生dom事件，一个是组件自定义事�
 </body>
 </html>
 ```
-.native--主要是给自定义的组件添加原生事件，可以理解为该修饰符的作用就是吧一个vue组件转化为一个普通的HTML标签，并且该修饰符对普通的HTML是没有任何作用的
+
+
+```html
+// 自定义事件demo
+this.$emit('changeEditCancal', this.step.current === 5 && this.edit !== 0)
+
+
+<div :class="'space-dialog__mc space-active__' + toLocaleLower(tabIndex)">
+        <keep-alive>
+          <component
+            :is="`Setting${tabIndex}`"
+            @handleClose="handleClose"
+            @changeEditCancal="changeEditCancal"
+          ></component>
+        </keep-alive>
+      </div>
+```
 
 ## 资料
 [Vue 中的事件处理机制详解](https://blog.csdn.net/weixin_41275295/article/details/100549145)

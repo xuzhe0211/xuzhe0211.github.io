@@ -12,7 +12,9 @@ AST语法树概念
 
 虚拟DOM概念
 :::tip
-Virtual DOM(虚拟DOM)，是由**普通的JS对象来描述DOM对象**，因为不是真实的DOM对象，所以叫Virtual DOM
+<span style="color: red">Virtual DOM(虚拟DOM)，是由**普通的JS对象来描述DOM对象**，因为不是真实的DOM对象，所以叫Virtual DOM</span>
+
+>它通过 JS 的Object对象模拟DOM中的节点，然后再通过特定的render方法将其渲染成真实的DOM节点
 :::
 
 通过概念可以总结:AST是对原生语法结构的描述，虚拟DOM是对于DOM节点的描述，两者共同点都是使用对象来进行描述

@@ -158,6 +158,9 @@ job可以任意依赖，也就是每个job可以有多个节点或者父节点�
         if (!list[node]) list[node] = [];
     });
 
+   // console.log(list, indegree)  
+   // list: { node1: [ 'node3', 'node4' ], node3: [ 'node4' ], node4: [] } 
+   // indegree: { node3: 1, node4: 2, node1: 0 }
     function addEdge(source, target) {
         if (!list[source]) list[source] = [];
         if (!indegree[target]) indegree[target] = 0;

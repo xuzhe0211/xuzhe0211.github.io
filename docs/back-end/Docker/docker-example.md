@@ -8,9 +8,10 @@ title: docker 记录
 大的编排？
 
 - 容器构建
-- 添加对应数据卷 不希望数据存在镜像中
-volumes:  // 数据映射到xxx
-    - ./data/db:/data/db 
+- <span style="color:red">添加对应数据卷 不希望数据存在镜像中</span>
+
+    volumes:  // 数据映射到xxx
+        - ./data/db:/data/db 
 
 
 docker build .

@@ -527,26 +527,28 @@ console.log(search([4,5,6,7,0,1,2], 0))
 ```
 
 ## 扑克牌问题
+魔术师手中有一堆扑克牌，观众不知道它的顺序，接下来魔术师：
 
-  有一堆扑克牌，将牌第一张放到桌子上，在将接下来牌的第一张放到牌底，如此往复；最后桌子上的牌顺序为:(牌底)1，2，3，4，5，6，6，7，8，9，10，11，12，13(牌顶)；<br/>
-  问：原来牌的顺序，用函数实现
-  ```javascript
-  let arr = [1,2,3,4,5,6,7,8,9,10,11,12,13];
-  let _arr = [];
-  function sortPoke() {
-      while(arr.length > 0) {
-          //选择抽取哪张牌
-          if(arr.length % 2 === 1) {
-              _arr.push(arr.pop());
-          } else {
-              _arr.push(arr.shift());
-          }
-      }
-      return _arr;
-  }
-  console.log(sortPoke())
-  //[13, 1, 12, 2, 11, 3, 10, 4, 9, 5, 8, 6, 7]
-  ```
+从牌顶拿出一张牌， 放到桌子上
+再从牌顶拿一张牌， 放在手上牌的底部
+如此往复（不断重复以上两步），直到魔术师手上的牌全部都放到了桌子上。
+
+此时，桌子上的牌顺序为： (牌顶) 1,2,3,4,5,6,7,8,9,10,11,12,13 (牌底)。
+
+问：原来魔术师手上牌的顺序，用函数实现。
+
+```javascript
+function getOrigin(nums = []) {
+    let result = [];
+    while (nums.length) {
+        if (result.length > 1) result.unshift(result.pop());
+        result.unshift(nums.shift());
+    }
+    return result;
+}
+// [13, 2, 12, 6, 11, 3,10, 5,  9, 1,  8, 4,7]
+```
+[扑克牌问题](https://github.com/sisterAn/JavaScript-Algorithms/issues/80)
 ### 有A、B两个数组
 A: [1,2,3,4,5]
 
@@ -607,6 +609,8 @@ console.log(formatArr([1,2,3,4,5]))
   ```
 [深拷贝的实现，如果遇到function怎么办-3](/front-end/interview/record-02.html)
 
+[对象循环引用问题](/front-end/interview/coding3.html#基础手写)
+
 [对象循环引用问题](/front-end/JavaScript/object-constructor-zdeepclone.html)
 
 [对象copy](/source-vue/source-vue-function.html#对象判断)
@@ -660,7 +664,7 @@ var trap = function(height) {
 // 单调栈
 let trap = function(height) {
     let ans = 0;
-    const starck = [];
+    const stack = [];
     const n = height.length;
     for(let i = 0; i < n; i++) {
         while(stack.length && height[i] > height[stack[stack.length - 1]]) {
@@ -677,7 +681,7 @@ let trap = function(height) {
 }
 ```
 [leetcode](https://leetcode-cn.com/problems/trapping-rain-water/solution/jie-yu-shui-by-leetcode-solution-tuvc/)
-## 大数相加
+## 大数相加--双指针
 
   思路遍历两个字符串从个位数算起开始相加，定义temp接受两个数之和，除以10取余拼接上结果，最后判断temp是否大于0，如果大于9则进位temp=1
 
@@ -708,6 +712,12 @@ var addstring = function(num1, num2) {
 
 [交替合并字符串](https://leetcode.cn/problems/merge-strings-alternately/solutions/1913930/jiao-ti-he-bing-zi-fu-chuan-by-leetcode-ac4ih/)
 ```js
+// 输入：word1 = "abc", word2 = "pqr"
+// 输出："apbqcr"
+// 解释：字符串合并情况如下所示：
+// word1：  a   b   c
+// word2：    p   q   r
+// 合并后：  a p b q c r
 var mergeAlternately = function(word1, word2) {
     const m = word1.length, n = word2.length;
     let i = 0, j = 0;
@@ -865,6 +875,8 @@ console.log(rv);
 
   ```
   [参考](https://blog.csdn.net/u010003835/article/details/79042135)
+
+  [多个数组交集](/front-end/interview/coding4.html#编写一个函数计算多个数组的交集)
 ## 统计字符串出现最多的字符
 
 ```javascript
@@ -1026,6 +1038,32 @@ const findMedianSortedArrays = (nums1, nums2) => {
 ```
 [leetcode](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
 
+## [数组]JS获取数组的所有子集---重要
+```js
+// 使用js获取一个数组的所有子集,如：[1,2,3]所有子集[[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]
+
+// 思路:假设res是一个二维空数组[[]]，遍历原数组arr,给当前结果res中的每一个子数组append arr[i],得到tempRes[[1]],在把得到的结果加入到res当中，res变成[[], [1]]，一次类推
+function allSubsets(arr) {
+    let res = [[]];
+    for(let i = 0; i < arr.length; i++) {
+        const tempRes = res.map(item => {
+            const one = item.concat([]);
+            one.push(arr[i]);
+            return one;
+        })
+        res = res.concat(tempRes);
+    }
+    return res;
+}
+// 第二种
+function allSubsets(nums) {
+    return nums.reduce((acc, cur) => {
+        return acc.concat(acc.map(v => [cur, ...v]))
+    }, [[]])
+}
+allSubsets([1,2,3]); // [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+```
+[获取数组的子集数组](https://www.cnblogs.com/hjj2ldq/p/13068111.html)
 ## [数组]对角线遍历
 ![对角线遍历](./images/diag1-grid.jpeg)
 ```js
@@ -1067,7 +1105,7 @@ const findDiagonaOrder = mat => {
 解答
 ```js
 const findDiagonaOrder = nums => {
-    if (nums.length === 1) return [];
+    if (nums.length === 0) return [];
     let arrays = [], result = [];
     // 根据下标和聚类
     for(let i = 0; i < nums.length; i++) {
@@ -1267,11 +1305,13 @@ var findKthLargest = function(nums, k) {
   }
 }
 ```
-[总结-JS数据结构与常用算法](/front-end/Code/concept-xsummary.html#常见算法及算法思想)
+[总结-JS数据结构与常用算法](/front-end/Code/concept-xsummary.html#_8-堆-重要)
 
 [力扣官方](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/shu-zu-zhong-de-di-kge-zui-da-yuan-su-by-leetcode-/)
 
 [数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/xie-gei-qian-duan-tong-xue-de-ti-jie-yi-kt5p2/)
+
+[coding-堆](/front-end/interview/coding4.html#堆)
 
 ## [数组]最大序数和/连续子数组的最大值
 
@@ -1345,6 +1385,46 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 [leetcode](https://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/xing-dai-lu-hua-dong-chuang-kou-suan-fa-8sei6/)
+
+[和至少为 K 的最短子数组](https://leetcode.cn/problems/shortest-subarray-with-sum-at-least-k/solutions/1923445/he-zhi-shao-wei-k-de-zui-duan-zi-shu-zu-57ffq/?languageTags=javascript)
+```js
+// 方法一：前缀和 + 单调双端队列 时间复杂度：O(n)
+var shortesSubarray = function(nums, k) {
+    const n = nums.length;
+    const preSumArr = new Array(n + 1).fill(0);
+    for(let i = 0; i < n; i++) {
+        preSumArr[i + 1] = preSumArr[i] + nums[i]; 
+    }
+    let res = n + 1;
+    const queue = [];
+    for(let i = 0; i <= n; i++) {
+        const curSum = preSumArr[i];
+        while(queue.length !== 0 && curSum - preSumArr[queue[0]] >= k) {
+            res = Math.min(res, i - queue.shift());
+        }
+        while(queue.length !== 0 && preSumArr[queue[queue.length - 1]] >= curSum) {
+            queue.pop();
+        }
+        queue.push(i);
+    }
+    return res < n + 1 ? res : -1;
+}
+// 自写---超时 O(n^2)
+var shortestSubarray = function(nums, k) {
+    const n = nums.length;
+    let min = Infinity;
+    for(let i = 0; i < n; i ++) {
+        let sum = 0;
+        for(let j = i; j < n; j ++) {
+            sum += nums[j];
+            if(sum >= k) {
+                min = Math.min(min, j - i + 1);
+            }
+        }
+    }
+    return min === Infinity ? -1 : min
+};
+```
 ## [数组]分割数组最大值
 
 **定一个非负整数数组 nums 和一个整数 m ，你需要将这个数组分成 m 个非空的连续子数组。**
@@ -1423,46 +1503,147 @@ const splitArray = (nums, m) => {
 ```
 [leetcode](https://leetcode-cn.com/problems/split-array-largest-sum/solution/javscriptdong-tai-gui-hua-ji-lu-numswei-zhi-ji-fen/)
 ## [数组]长度为k的最大子数组
+- 长度为k的最大子数组的和
+    给定一组大小为n的整数数组，计算长度为k的子数组和的最大值
 
-给定一组大小为n的整数数组，计算长度为k的子数组和的最大值
+    ```javascript
+    // 方式一
+    const add = (array, k) => {
+        let index = 0, maxSum = 0;
+        for (let i = 0; i < k; i++) {
+            maxSum += array[i]
+        }
+        for (let i = 0; i <= array.length - k; i++) {
+            let curSum = 0;
+            for (let j = 0; j < k; j++) {
+                curSum += array[i + j];
+            }
+            if (curSum > maxSum) {
+                maxSum = curSum;
+                index = i;
+            }
+        }
+        return maxSum;
+    }
+    // 方式二
+    const add = (array, k) => {
+        let index = 0, maxSum = 0;
+        for (let i = 0; i < k; i++) {
+            maxSum += array[i];
+        }
+        let curWindowSum = maxSum;
+        for (let i = 1; i <= array.length - k; i++) {
+            curWindowSum = curWindowSum - array[i - 1] + array[k + i - 1];
+            if (curWindowSum > maxSum) {
+                maxSum = curWindowSum;
+                index = i;
+            }
+        }
+        return maxSum;
+    }
+    console.log(add([1,4,4], 2))
+    ```
+- 滑动窗口最大值    
+    ![滑动窗口最大值](./images/1668003106540.jpg)
+    ```js
+    // 题目：给定一个数组 nums，有一个大小为 k 的滑动窗口，从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口中的k个数字。滑动窗口每次只向右移动一位，求返回滑动窗口最大值
+    // 输入：nums: [1,3,-1,-3,5,3,6,7]；k: 3
+    // 输出：[3, 3, 5, 5, 6, 7]
+    const maxSlidingWindow = (nums, k) => {
+        // window存储当前窗口中数据的小标
+        const window = [];
+        // result存储窗口中最大值
+        const result = [];
+        for(let i = 0; i < nums.length; i++) {
+            if(i - window[0] > k - 1) {
+                // 剔除窗口长度超出范围时左侧的最大值
+                window.shift();
+            }
+            for(let j = window.length -1; j >= 0; j--) {
+                // 当前窗口的值依次和要插入的值做比较，如果小于要插入的值，剔除掉该值，知道window为空位置
+                if(nums[window[j]] <= nums[i]) {
+                    window.pop();
+                }
+            }
+            // 添加右侧新加入的值，插入新值时有两种情况：
+            // 1、新值为最大值时，则window此时为空；
+            // 2、新值不为最大值时，window已剔除掉比新值小的值
+            window.push(i);
+            if(i >= k - 1) {
+            // 窗口是从0开始移动，当移动的距离大于等于目标范围后，以后再往后移动一次，就要写入当前窗口的最大值
+                result.push(nums[window[0]])
+            }
+        }
+        return result;
+    }
 
-```javascript
-// 方式一
-const add = (array, k) => {
-    let index = 0, maxSum = 0;
-    for (let i = 0; i < k; i++) {
-        maxSum += array[i]
-    }
-    for (let i = 0; i <= array.length - k; i++) {
-        let curSum = 0;
-        for (let j = 0; j < k; j++) {
-            curSum += array[i + j];
+    // 第二种
+    function maxSlidingWindow() {
+        let result = [];
+        for(let i = 0; i < nums.length - k + 1; i++) {
+            result.push(Math.max.apply(null, nums.slice(i, i + k)))
         }
-        if (curSum > maxSum) {
-            maxSum = curSum;
-            index = i;
+        return result;
+    }
+    ```
+    
+- 将x减到0的最小操作数
+
+    给你一个整数数组 nums 和一个整数 x 。每一次操作时，你应当移除数组 nums 最左边或最右边的元素，然后从 x 中减去该元素的值。请注意，需要 修改 数组以供接下来的操作使用。
+
+    如果可以将 x 恰好 减到 0 ，返回 最小操作数 ；否则，返回 -1 。
+    ```js
+    // 输入：nums = [3,2,20,1,1,3], x = 10
+    // 输出：5
+    // 解释：最佳解决方案是移除后三个元素和前两个元素（总共 5 次操作），将 x 减到 0 。
+
+    const minOperations = function(nums, x) {
+        let len = nums.length;
+        let total = nums.reduce((prev, cur) => prev + cur, 0);
+        if(total < x) return -1;
+        let ret = Infinity;
+        let sum = 0;
+        let l = r = 0;
+        while(r < len) {
+            sum += nums[r];
+            while(total - sum < x) {
+                // 外面的值已经小于x了，所以需要收缩窗口
+                sum -= nums[l];
+                l++;
+            }
+            if(total - sum === x) {
+                // 符合要求
+                ret = Math.min(ret, len - (r - l + 1));
+            }
+            r++;
         }
+        return ret === Infinity ? -1 : ret;
+
+        // let n = nums.length;
+        // let sum = _.sum(nums);
+        // if(sum < x) {
+        //     return -1;
+        // }
+        // let right = 0;
+        // let lsum = 0;
+        // let rsum = sum;
+        // let ans = n + 1;
+        // for(let left = -1; left < n; left++) {
+        //     if(left != -1) {
+        //         lsum += nums[left];
+        //     }
+        //     while(right < n && lsum + rsum > x) {
+        //         rsum -= nums[right];
+        //         ++right;
+        //     }
+        //     if(lsum + rsum === x) {
+        //         ans = Math.min(ans, (left + 1) + (n - right));
+        //     }
+        // }
+        // return ans > n ? -1 : ans;
     }
-    return maxSum;
-}
-// 方式二
-const add = (array, k) => {
-    let index = 0, maxSum = 0;
-    for (let i = 0; i < k; i++) {
-        maxSum += array[i];
-    }
-    let curWindowSum = maxSum;
-    for (let i = 1; i <= array.length - k; i++) {
-        curWindowSum = curWindowSum - array[i - 1] + array[k + i - 1];
-        if (curWindowSum > maxSum) {
-            maxSum = curWindowSum;
-            index = i;
-        }
-    }
-    return maxSum;
-}
-console.log(add([1,4,4], 2))
-```
+    ```
+    [将x减到0的最小操作数](https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/description/?languageTags=javascript)
 ## [数组]找到和最大的 长度为 K 的子序列
 给你一个整数数组 nums 和一个整数 k 。你需要找到 nums 中长度为 k 的 子序列 ，且这个子序列的 和最大 。
 
@@ -1591,7 +1772,7 @@ const combine = function(n, k) {
     return dfs(1, n, k, res, could);
 }
 ```
-[数组组合](https://leetcode-cn.com/problems/combination-sum/solution/)
+[数组组合](/front-end/Code/stady-01-1.html#刷题)
 
 ## [数组-组合]下一个排列
 整数数组的一个 排列  就是将其所有成员以序列或线性顺序排列。
@@ -1612,9 +1793,9 @@ const combine = function(n, k) {
 
 ```js
 const nextPermutation = nums => {
-    for(let i = nums.length; i >= 0; i--) {
+    for(let i = nums.length - 1; i >= 0; i--) {
         if(nums[i] < nums[i + 1]) {
-            let large = nextLarge(i);
+            const large = nextLarge(i);
             swap(i, large);
             reverse(i + 1);
             return nums;
@@ -1634,7 +1815,7 @@ const nextPermutation = nums => {
         }
     }
     function nextLarge(idx) {
-        for(let i = idx; i < nums.length; i++) {
+        for(let i = nums.length - 1; i > idx; i--) {
             if(nums[i] > nums[idx]) return i;
         }
     }
@@ -1679,32 +1860,71 @@ var longestConsecutive = function(nums) {
 };
 ```
 ## [动态规划]最长递增子序列
-给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+- 最长递增序列个数
+    给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
 
-子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+    子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
 
-```
-输入：nums = [10,9,2,5,3,7,101,18]
-输出：4
-解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。
-```
-答案
-```javascript
-var lengthOfLIS = function(nums) {
-    const dp = new Array(nums.length).fill(1);
-    for (let i = 0; i < nums.length; i++) {
-        // i与i签名的元素比较
-        for(let j = 0; j < i;j++) {
-            // 找到比i小的元素，找到一个，就让当前的序列的最长序列长度加你
-            if(nums[i] > nums[j]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1);
+    ```
+    输入：nums = [10,9,2,5,3,7,101,18]
+    输出：4
+    解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。
+    ```
+    答案
+    ```javascript
+    var lengthOfLIS = function(nums) {
+        const dp = new Array(nums.length).fill(1);
+        for (let i = 0; i < nums.length; i++) {
+            // i与i签名的元素比较
+            for(let j = 0; j < i;j++) {
+                // 找到比i小的元素，找到一个，就让当前的序列的最长序列长度加你
+                if(nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
             }
         }
+        return Math.max(...dp)
     }
-    return Math.max(...dp)
-}
-```
-[leetcode](https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-he-er-fen-cha-zhao-lian-x7dh/)
+    ```
+    [leetcode](https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-he-er-fen-cha-zhao-lian-x7dh/)
+- 最长递增序列的值
+
+    ```js
+    // 题目，一个整数数组的nums, 找出其中一组最长递增子序列的值
+    // 输入：[3,5,7,1,2,8]
+    // 输出: [3,5,7, 8]
+    function lengthOfLIS(nums) {
+        if(!nums.length) return 0;
+        // 创建一个和原数组等长的数组dp，用来存储每一项的最长递增子序列
+        // 比如[1,2,2]，表示第二项和第三项的最长递增子序列都是2
+        let dp = new Array(nums.length).fill(1);
+        // 双层for循环，每一项都和之前的所有项一一进行比较，计算出该项的最长递增子序列个数，存储到dp中
+        for(let i = 0; i < nums.length; i++) {
+            for(let j = 0; j < i; j++) {
+               if (nums[j] < nums[i]) {
+                    // 比较当前项已有的最大值和之前项最大值，比如当比较到第三项[1,2,2]时，如第三项比第二项大，所以第三项的计算结果为[1,2,3]
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        // 取出一组最长递增子序列的具体值(注意:最长递增子序列有可能有都组值，这里只取出其中一组值)
+        let max = Math.max(...dp);
+        let result = [];
+        for(let i = max; i>= 1; i--) {
+            // 倒序遍历，根据长度获取对应的值
+            findArrNode(dp, i, result, nums);
+        }
+        return result;
+    }
+    function findArrNode(dp, value, result, arr){
+        // 找到符合条件最后一项的下标，这样才能保证数组的顺序是正确的
+        let index = dp.lastIndexOf(value);
+        // 存储对应的值
+        result.push(arr[index]);
+        // 对dp进行截取，保证只取到最大项之前的数据
+        dp.length = index + 1;
+    }
+    ```
 ## [动态规划]最长递增序列的个数
 给定一个未排序的整数数组 nums ， 返回最长递增子序列的个数 。
 
@@ -1752,7 +1972,7 @@ const findNumberOfFIS = nums => {
 var isValid = function(s) {
     const stack = [];
     for (let val of s) {
-        console.log(stack)
+        if('()[]{}'.indexOf(v) < 0) continue
         if (val === '(') stack.push(')');
         else if (val === '[') stack.push(']');
         else if (val === '{') stack.push('}');
@@ -1795,6 +2015,7 @@ var longestValidParentheses = function(S) {
 ```
 [leetcode](https://leetcode-cn.com/problems/longest-valid-parentheses/solution/shou-hua-tu-jie-zhan-de-xiang-xi-si-lu-by-hyj8/)
 
+[真题](/front-end/interview/coding3.html#算法案例)
 ## 括号的分数
 ```js
 // 输入： "()()"
@@ -1818,6 +2039,33 @@ const scoreOfParentheses = s => {
 }
 ```
 [括号的分数](https://leetcode.cn/problems/score-of-parentheses/solution/gua-hao-de-fen-shu-by-leetcode-solution-we6b/)
+
+## 使括号有效的最少添加(贪心)
+```js
+// 时间复杂度：O(n)O(n)，其中 nn 是字符串的长度。遍历字符串一次。
+// 空间复杂度：O(1)O(1)。只需要维护常量的额外空间。
+const minAddToMakeValid = s => {
+    let ans = 0;
+    let leftCount = 0;
+    let length = s.length;
+    for(let i = 0; i < length; i++) {
+        let c = s[i];
+        if(c === '(') {
+            leftCount++;
+        } else {
+            if(leftCount > 0) {
+                leftCount--;
+            } else {
+                ans++;
+            }
+        }
+    }
+    ans += leftCount;
+    return ans;
+}
+console.log(minAddToMakeValid('())'))
+```
+[使括号有效的最少添加](https://leetcode.cn/problems/minimum-add-to-make-parentheses-valid/solution/shi-gua-hao-you-xiao-de-zui-shao-tian-ji-gcxu/)
 ## 会议室问题
 1. 会议室①
   给定一个会议时间安排的数组intervals，每个会议时间都会包括开始和结束时间intervals[i] = [starti, endi],请你判断一个人是否能够参加里面的全部会议
@@ -2081,6 +2329,8 @@ var spiralOrder = function(matrix) {
 
 ```
 [螺旋数组](https://leetcode-cn.com/problems/spiral-matrix/solution/shou-hui-tu-jie-liang-chong-bian-li-de-ce-lue-kan-/)
+
+[螺旋矩阵](/front-end/interview/coding4.html#图)
 
 ## LRU 缓存机制
 问题
@@ -2916,7 +3166,11 @@ const calculate = s => {
 
 
 ## 赛马
-25匹马求出前三名 最少赛马几次
+25匹马，5个赛道，求选出速度最快的3匹马最少需要多少次比赛？
+
+7次由于场地只有5个赛道，每次最多5匹马比赛，将25匹马分为5组（A、B、C、D、E），每组5匹（编号1、2、3、4、5）。 首先，进行5场比赛，每场比赛给每组排名。 假设名次与编号一致，选出每组前三名。
+
+[25匹马，5个跑道，每个跑道最多能有1匹马进行比赛，最少比多少次能比出前3名？前5名？](https://www.nowcoder.com/questionTerminal/ea2cf19557d546819d7fde300daeabb1)
 
 ## 9个球问题
 9个一样的球 有一个和其他不同
@@ -3109,3 +3363,5 @@ fn();
 [算法面试题汇总](https://leetcode-cn.com/leetbook/read/top-interview-questions/xmlwi1/)
 
 [算法学习](https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18/61963bcdc1553b002e57bf13)
+
+[常见算法题](https://mp.weixin.qq.com/s/twkTZHInUk6MvmzObzWuHA)

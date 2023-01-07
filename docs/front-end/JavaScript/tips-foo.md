@@ -108,7 +108,7 @@ getName = function() {console.log(4)}; // 这里
     ```
     执行这个代码之后，getName被重新赋值为function() {console.log(1)},然后返回this;
 
-    <span style="color: red">这个this指的是谁？？Foo函数调用，没有使用new，所以这个this指的是全局this</span>
+    <span style="color: red">**这个this指的是谁？？Foo函数调用，没有使用new，所以这个this指的是全局this**</span>
 
     所以现在这个代码变成了全局的getName()的调用，就是赋值的那个getName的函数的调用 所以输出1
 

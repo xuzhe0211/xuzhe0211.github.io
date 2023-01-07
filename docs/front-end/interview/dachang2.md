@@ -132,6 +132,21 @@ aaa.c(); // 3
 
 ### 事件循环相关题目--必考(一般是代码输出顺序判断)
 ```js
+// demo
+Promise.resolve().then(() => {
+    console.log('promise1');
+    setTimeout(() => {
+        console.log('setTimeout1')
+    },10)
+})
+setTimeout(() => {
+    console.log('setTimeout2')
+    Promise.resolve().then(() => {
+        console.log('promise2')
+    })
+})
+// promise1 setTimeout2 promise2 setTimeout1
+// demo
 setTimeout(function() {
     console.log(1)
 }, 0);
@@ -160,6 +175,7 @@ new Promise(function(reoslve) {
     console.log('8')
 })
 // 2 4 7 5 3 6 async2的结果 Promise {<pending>} 1
+
 ```
 输出结果： 2，4，7，5，3，6， async2的结果 1
 > <span style="color:red">注意！我在最后一个 Promise 埋了个坑 我没有调用 resolve 方法 这个是在面试美团的时候遇到了 当时自己没看清楚 以为都是一样的套路 最后面试官说不对 找了半天才发现是这个坑 哈哈----**promise默认返回一个promise2**</span>

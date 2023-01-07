@@ -110,7 +110,10 @@ function fib(num){
     return fib.m[num] = fib(num-1) + fib(num-2);
 }
 ```
+## 其他
+[扁平数组和树形结构转换](/front-end/Code/tree-02.html#转换算法)
 
+[JavaScript 如何查找对象中某个 value 并返回路径上所有的 key值？](/front-end/interview/coding.html#javascript-如何查找对象中某个-value-并返回路径上所有的-key值)
 ## 资料
 [fly163学习](https://www.fly63.com/)
 

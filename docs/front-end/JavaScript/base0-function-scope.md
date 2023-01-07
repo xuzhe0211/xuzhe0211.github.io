@@ -8,6 +8,23 @@ for(var i = 0; i < 10; i++) {
     console.log(i);
   })
 }
+
+// demo2
+var fn = null;
+var foo = function() {
+    var a = 1;
+    function innerfoo() {
+        console.log(a); // 1
+        console.log(b); // ReferenceError: b is not defined
+    }
+    fn = innerfoo;
+}
+var bar = function() {
+    var b = 2;
+    fn();
+}
+foo();
+bar(); 
 ```
 ## 概念
 - <span style="color: blue">闭包函数： 声明在一个函数中的函数，叫做闭包函数</span>
@@ -182,6 +199,31 @@ var t = new timer()
 setTimeout(() => console.log(t.s1), 3100); // 3
 setTimeout(() => console.log(t.s2), 3100); // 0
 ```
+4. 问题四
+    ```js
+    const fn1 = {
+        name: '1',
+        foo: function() {
+            return this.name;
+        }
+    }
+    const fn2 = {
+        name: '2',
+        foo: function() {
+            return fn1.foo();
+        }
+    }
+    const fn3 = {
+        name: '2',
+        foo: function() {
+            let fn = fn1.foo;
+            return fn()
+        }
+    }
+    console.log(fn1.foo()) // 1
+    console.log(fn2.foo()) // 1
+    console.log(fn3.foo()) // 1
+    ```
 [参考](/front-end/interview/demo4.html#第九题1)
 ## 块作用域和私有变量
 ### 块作用域
@@ -254,3 +296,5 @@ console.log(p1.getName())
 [class 严格模式](/front-end/JavaScript/es6-strict.html#严格模式)
 
 [一道算法题](/front-end/JavaScript/tips-foo.html#简介)
+
+[一道js闭包面试题的学习](/front-end/interview/demo3-2.html)

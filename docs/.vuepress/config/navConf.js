@@ -11,6 +11,7 @@ module.exports = [
             { text: 'Css', link: '/front-end/Css/' },
             { text: 'JavaScript', link: '/front-end/JavaScript/' },
             { text: 'Flutter', link: '/front-end/Flutter/' },
+            { text: 'Electron', link: '/front-end/Electron/' },
             { text: '算法', link: '/front-end/Code/' },
             { text: '工程化', link: '/front-end/Engineering/' },
             { text: '前端面试题', link: '/front-end/Interview/' },
@@ -27,6 +28,7 @@ module.exports = [
             { text: 'Docker', link: '/back-end/Docker/' },
             { text: 'Nginx', link: '/back-end/Nginx/' },
             { text: 'Mysql', link: '/back-end/Mysql/' },
+            { text: 'shell', link: '/back-end/Shell/' },
         ]
     },
     {

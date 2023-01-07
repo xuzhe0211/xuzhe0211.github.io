@@ -9,9 +9,9 @@ title: Vue3中ref、toRef、toRefs的区别
 setup会比options API的生命周期晚于beforeCreate钩子，而遭遇created钩子被调用
 
 ## ref的使用
-ref是vue3中使用<span style="color: red">值类型</span>变成响应式的方法
+ref是vue3中使用<span style="color: red">值类型变成响应式的方法</span>
 
-使用ref.value = xxx进行改变值
+<span style="color: red">**使用ref.value = xxx进行改变值**</span>
 
 例如，下面的简单的例子
 
@@ -43,9 +43,9 @@ export default {
 </script>
 ```
 ## reactive的用法
-好了，说完<span style="color: red">值类型</span>变成响应式的方法
+好了，说完值类型变成响应式的方法
 
-对应的，有用引用类型变成响应式的方法
+对应的，有用<span style="color: red">引用类型变成响应式的方法</span>
 
 就是使用reactive
 
@@ -79,7 +79,7 @@ export default {
 </script>
 ```
 ## toRef的使用
-<span style="color: blue">toRef是对定义的响应对象的某个属性进行引用</span>
+<span style="color: red">**toRef是对定义的响应对象的某个属性进行引用**</span>
 
 例如:第二个例子中
 ```js
@@ -104,7 +104,7 @@ const nameRef = toRef(person, 'name')
 先看目录
 ![目录](./images/8c763f39ad5141d6b897baa958347b48_tplv-k3u1fbpfcp-zoom-in-crop-mark_1304_0_0_0.jpg)
 
-```html
+```js
 // data.js
 import { reactive } from 'vue';
 export default function() {
@@ -113,7 +113,8 @@ export default function() {
         age: 50
     })
 }
-
+```
+```html
 // App.vue中的代码
 <template>
     <div>
