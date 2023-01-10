@@ -165,39 +165,41 @@ class Vue {
     }
     // 模板编译
     compile(dom, vm) {
-        // 元素节点，匹配v-model 如input,textArea元素等
-        if(child.nodeType === 1) {
-            Array.from(child.attributes).forEach(attr => {
-                // 判断元素是否设置v-model属性
-                if(attr.name.includes('v-model')) {
-                    Dep.target = child;
-                    child.value = vm.$data[attr.value];
-                    Dep.target = null;
-                    // 重点：给input绑定原生input事件
-                    child.addEventListener('input', e => {
-                        // 当input输入内容发生变化时，动态设置vm.$data[attr.value]的值
-                        vm.$data[attr.value] = e.target.value;
-                    })
-                }
-            })
-        }
-        if(child.nodeType === 3 && /\{\{(.*)\}\}/.test(child.textContent)) {
-            let key = RegExp.$1.trim();
-            let keyList = key.split('.');
-            let value = vm.$data;
-            Dep.target = child;
+        Array.from(dom.childNodes).forEach(child => {
+            // 元素节点，匹配v-model 如input,textArea元素等
+            if(child.nodeType === 1) {
+                Array.from(child.attributes).forEach(attr => {
+                    // 判断元素是否设置v-model属性
+                    if(attr.name.includes('v-model')) {
+                        Dep.target = child;
+                        child.value = vm.$data[attr.value];
+                        Dep.target = null;
+                        // 重点：给input绑定原生input事件
+                        child.addEventListener('input', e => {
+                            // 当input输入内容发生变化时，动态设置vm.$data[attr.value]的值
+                            vm.$data[attr.value] = e.target.value;
+                        })
+                    }
+                })
+            }
+            if (child.nodeType === 3 && /\{\{(.*)\}\}/.test(child.textContent)) {
+                let key = RegExp.$1.trim()
+                let keyList = key.split('.')
+                let value = vm.$data
+                Dep.target = child
 
-            // 循环遍历，找到info.person.name对应的name值
-            keyList.forEach(item => {
-                value = value[item];
-            })
-            Dep.target = null;
-            child.textContent = child.textContent.replace(`{{${key}}}`, value);
-            if(child.childNodes.length > 0) {
+                // 循环遍历，找到info.person.name对应的name值
+                keyList.forEach(item => {
+                    value = value[item]
+                })
+                Dep.target = null
+                child.textContent = child.textContent.replace(`{{${key}}}`, value)
+            }
+            if (child.childNodes.length > 0) {
                 // 递归模板编译
                 this.compile(child, vm)
             }
-        }
+        })
     }
     // this 代理this.$data;
     // vm.info.person.name 相当于 vm.$data.info.person.name

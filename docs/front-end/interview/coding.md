@@ -822,6 +822,27 @@ const removeDuplicates = nums => {
 console.log(removeDuplicates([0,0,1,1,1,2,2,3,3,4]))
 ```
 [删除字符串中所有相邻的重复项](/front-end/interview/coding4.html#栈)
+
+## 删除有序数组中的重复项
+```js
+// 输入：nums = [1,1,1,2,2,3]
+// 输出：5, nums = [1,1,2,2,3]
+// 解释：函数应返回新长度 length = 5, 并且原数组的前五个元素被修改为 1, 1, 2, 2, 3 。 不需要考虑数组中超出新长度后面的元素。
+const removeDuplicates = nums => {
+    let n = nums.length;
+    if(n <= 2) return n;
+    let slow = 2, fast = 2;
+    while(fast < n) {
+        if(nums[slow - 2] !== nums[fast]) {
+            nums[slow] = nums[fast];
+            ++slow;
+        }
+        ++fast;
+    }
+    return slow;
+}
+```
+[删除有序数组中的重复项](https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/?languageTags=javascript)
 ## 一行图片 宽度一定 等比例
 ```js
 // function alignImages(imgs, width) {...}
@@ -855,27 +876,6 @@ const alignImages = (nums, width) => {
 }
 console.log(alignImages([[2, 4], [2, 2], [2, 4]], 4))
 ```
-## 删除有序数组中的重复项
-```js
-// 输入：nums = [1,1,1,2,2,3]
-// 输出：5, nums = [1,1,2,2,3]
-// 解释：函数应返回新长度 length = 5, 并且原数组的前五个元素被修改为 1, 1, 2, 2, 3 。 不需要考虑数组中超出新长度后面的元素。
-const removeDuplicates = nums => {
-    let n = nums.length;
-    if(n <= 2) return n;
-    let slow = 2, fast = 2;
-    while(fast < n) {
-        if(nums[slow - 2] !== nums[fast]) {
-            nums[slow] = nums[fast];
-            ++slow;
-        }
-        ++fast;
-    }
-    return slow;
-}
-```
-[删除有序数组中的重复项](https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/?languageTags=javascript)
-
 ## 统计同构字符串的数目
 ```js
 // 输入：s = "abbcccaa"
