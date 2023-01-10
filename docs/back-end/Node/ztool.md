@@ -160,7 +160,7 @@ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ### 使用
 ```
 //查看本地安装的所有版本 可选参数available 显示所有可下载的版本
-nvm list [available]
+nvm list available
 
 //安装
 nvm install 11.13.0
