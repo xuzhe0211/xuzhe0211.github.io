@@ -1129,10 +1129,180 @@ app.get('/', (req, res) => {
 ### mongoDb和mySQL的区别
 - mongoDb是非关系型数据库，mySQL是关系型数据库
 
+    mongoDb里存储的是json格式的数据,键值对形式，该数据结构非常符合前端的需求。
+
+    关系型数据天然就是表格式的，就是后端常说的"表",数据存储在数据表的行和列中。数据表可以彼此关联协作存储，也很容易提取数据
+
 - 对事务性的支持不同
 
+    mongoDb不支持事务，mySQL支持事务
+
+    事务的好处便于回滚，如第一个账户划出款项必须保证正确的存入第二个账户，如果第二个环节没有完成，整个的过程都应该取消，否则就会发生丢失款的问题。这时就需要回滚，恢复到初始的状态
+
+    [mongodb与mysql区别(超详细)](https://www.cnblogs.com/1488boss/p/10754290.html)
+
+### 高并发的如何正确修改库存
+- 场景
+
+    抽象或秒杀活动，同时一千个请求过来，但奖品库存只有一个，期望的结果是只有一个人中奖，剩下999个人没有中奖。
+
+    但是压测时，遇到的情况却是1000个都中奖了，并且库存还是一个
+
+    原因就是高并发时，一千个请求同时读到库存都是一个，都中奖后，库存同时减一，最后导致库存没有减对
+
+    <span style="color: red">解决此类问题，就是要给**数据库加锁**的概念，保证库存一个一个减、串行的减，解决方式就是使用mongoDB中的update方法减库存</span>
+
+- mongoDb中,有三种方法可以实现更新数据
+
+    1. save方法，如db.collection.save(obj),save是在客户端代码中生成的对象，需要从客户端回写到服务端
+    2. findOneAndUpdate方法，如db.findOneAndUpdaet(&lt;filter&gt;,{obj}),和save类似也需要从客户端回写到服务端
+    3. update方法,如db.update(&lt;filter&gt;{obj}),update是服务端处理的，速度最快；实测当并发超过1000次每秒时，update的速度是其他的2倍
+
+### Redis
+- Redis特点
+
+    1. Redis也是一种数据库，Redis中的数据是<span style="color: red">放到内存中的，Redis查询速度极快</span>。一些常用的数据，可以存到Redis中，缩短从数据库查询数据的时间。
+    2. Redis可以设置过期时间，可以将一些需要定期过期的信息放到Redis中，有点类似cookie
+
+- 运用场景
+
+    1. 将经常查询的信息存储到redis中，如抽奖活动的配置信息，这些信息查询的频率最高，放到Redis中可以提高查询速度，还可以存储用户的个人信息(权限、基础信息等)
+    2. 需要设置过期时长的信息，如微信授权，每2个小时过期一次，将对应的授权code存进去，到时删除
+
+- 优点
+    1. 支持多重数据类型
+    2. 持久化存储
+
+        作为一个内存数据库，最担心的，就是万一机器死机宕机，数据就会消失掉。redis使用RDB和AOF做数据的持久化存储。主从数据同时，生成rdb文件，并利用缓冲区添加新的数据更新操作做对应的同步。
+    3. 性能很好
+- 缺点
+
+    1. 由于是内存数据库，所以单台机器存储的数据量跟机器本身的内存有关
+    2. 如果进行完成重同步，需要生成rdb文件，并进行传输，会占用主机的CPU，并会小号现网的带宽。
+    3. 修改配置文件，进行重启，将硬盘中的数据加载进内存，时间比较久，在这个过程中，redis不能提供服务
+
+
+[Redis的优缺点](https://blog.csdn.net/wgw_dream/article/details/83780503)
+
+### node创建子进程
+当项目中需要大量计算的操作的时候，就要考虑开启多进程来完成了，类似于[web worker](https://juejin.cn/post/7137728629986820126),否则会阻塞主线程的执行
+
+<span style="color: red">Node提供了 child_process 模块来创建子进程</span>
+
+<span style="color: red">进程间通信:使用fork方法创建的子进程，可通过send、on(message)方法来发送和接收进程间的数据</span>
+
+```js
+// parent.js
+const cp = require('child_process');
+// 通过child_process中的fork方法来生成子进程
+let child = cp.fork('child.js');
+child.send({ message: 'from_parent'}); // send方法发送数据
+child.on('message', res => console.log(res)); // on 方法接收数据
+
+// child.js
+process.on('message', res => console.log(res));
+process.send({ message: 'from_child' });
+```
+[Nodejs进阶:如何玩转子进程(child_process)](https://www.cnblogs.com/chyingp/p/node-learning-guide-child_process.html)
+
+## PM2
+PM2可以根据cpu核数,开启多个进程，充分利用cpu的多核性能
+
+如pm2 start app.js -i 8 该命令可以开启8个进程
+
+- 主要作用
+
+    1. 内建负载均衡(使用 Node Cluster 集群模块)
+    2. 线程守护，keep alive
+    3. 0秒停机重载，维护升级的时候不需要停机
+    4. 停止不稳定的进程(避免无限循环)
+
+- 负载均衡cluster的原理
+
+    1. Node.js给我们提供了 cluster模块，它可以生成多个工作线程来共享同一个TCP连接
+    2. 首先,Cluster会创建一个master,然后根据你指定的数量复制出多个 server app(也被称为工作线程)
+    3. 它通过IPC通道与工作线程之间进行通信，并使用内置的负载均衡来更好的处理线程之间的压力，该负载均衡使用了Round-robin算法(也被称为循环算法)
+
+[使用PM2将Node.js的集群变得更加容易](https://www.cnblogs.com/jaxu/p/5193643.html)
+
+[PM2入门指南](https://www.cnblogs.com/jaxu/p/5193643.html)
 
 ## 计算机网络与安全
+![计算机网络与安全](./images/2952cccf0f414e3bae38e939016b04ab_tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.png)
+
+### 从输入URL到页面加载发生了什么？
+1. 浏览器查找当前URL是否存在缓存，并比较缓存是否过期.(先判断HTTP请求浏览器是否已缓存)
+    
+    有缓存
+    - 如为强制缓存，通过Expires或Cache-Control:max-age判断该缓存是否过期，未过期，直接使用该资源；Expires和max-age，如果两者同事存在，则被Cache-Control的max-age覆盖
+    - 如为协商缓存，请求头上带上相关信息 If-none-match(Etag)与If-modified-since(last-modified)，验证缓存是否有效，若有效则返回状态码304,若无效则重新返回资源，状态码为200
+
+2. DNS解析URL对应的IP(DNS解析流程见下文)
+3. 根据IP简历TCP连接(三次握手)（握手过程见下文）
+4. HTTP发起请求
+5. 服务器处理请求，浏览器接收HTTP响应
+6. 渲染页面，构建DOM树
+
+    - HTML解析，生成DOM树
+    - 根据CSS解析生成CSS树
+    - 结合CSS树和DOM树，生成渲染树
+    - 根据渲染树计算每一个节点的信息(layout布局)
+    - 根据计算好的信息绘制页面
+
+    如果遇到script标签，则判断是否含有defer或者async属性，如果有，异步去下载该资源；如果没有设置，暂停dom的解析，去加载script资源，然后执行该js代码(<span style="color: red">**script标签加载和执行会阻塞页面的渲染**</span>)
+
+7. 关系TCP连接(四次挥手)（挥手过程见下文）
+
+[从输入url到页面加载完成发生了什么详解](https://www.cnblogs.com/liutianzeng/p/10456865.html)
+
+[在浏览器输入 URL 回车之后发生了什么（超详细版）](https://juejin.cn/post/6844903922084085773)
+
+### 彻底弄懂cors跨域请求
+cors是解决跨域问题的常见解决方法,关键是服务器要设置Access-Control-Allow-Origin,控制那些域名可以共享资源
+
+origin是cors的重要标识,只要是非同源或者POST请求都会带上Origin字段，接口返回后服务器也可以将Access-Control-Allow-Origin设置为请求的Origin，解决cors如何指定多个域名的问题
+
+**cors将请求分为简单请求和非简单请求**
+
+- 简单请求
+
+    1. 支持持HEAD、get、post请求方式
+    2. 没有自定义的请求头
+    3. Content-Type;只限于三个值 application/x-www-form-urlencoded、multipart/form-data、text/plain
+
+    对于简单请求，浏览器直接发出cors请求。具体来说，就是在头信息之中，增加一个Origin字段。如果浏览器发现这个接口回应的头信息没有包含Access-Control-Allow-Origin字段的话就会报跨域错误
+
+- 非简单请求的跨域处理
+
+    非简单请求,会在正式通信之前，增加一个HTTP查询请求，成为"预检"请求(options)，用来判断当前网页所在的域名是否在服务器的许可名单之中。
+
+    如果在许可名单中，就会发正式请求;如果不在，就会报跨域错误。
+
+> 注:新版chrome浏览器看不到OPTIONS预检请求，可以网上查找对应的查看方法
+
+[跨域资源共享CORS详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
+
+### TCP的三次握手和四次挥手
+
+### WebSocket
+WebSocket是HTML5提供的一种浏览器与服务进行全双工通讯的网络协议，属于应用层协议，WebSocket没有跨域限制。
+
+相比于接口轮训，需要不断的建立http连接，严重浪费了服务器端和客户端的资源
+
+WebSocket基于TCP传输协议，并复用HTTP的握手通道。浏览器和服务器只需要建立一次http连接，两者之间可以创建持久性的连接，并进行双向数据传输
+
+- 缺点
+
+    websocket不稳定，要建立心跳检测机制，如果断开自动连接
+
+[手摸手教你使用WebSocket[其实WebSocket也不难]](https://juejin.cn/post/6844903698498322439)
+
+[socket 及 websocket的握手过程](https://blog.csdn.net/yournevermore/article/details/103067079)
+
+### TCP和UDP的区别
+
+
+
 ## 浏览器原理
 ## 总结
 

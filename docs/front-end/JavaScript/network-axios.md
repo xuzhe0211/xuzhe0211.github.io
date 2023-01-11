@@ -83,7 +83,7 @@ axios.post(`${this.$url}/test/testRequest`, qs.stringify({
 
 	（1）.Access-Control-Allow-Origin：设置允许跨域的配置， 响应头指定了该响应的资源是否被允许与给定的origin共享；
 		特别说明：配置了Access-Control-Allow-Credentials:true则不能把Access-Control-Allow-Origin设置为通配符*；
-	（2）.Access-Control-Allow-Credentials：响应头表示是否可以将对请求的响应暴露给页面（cookie）。返回true则可以，其他值均不可以。
+	（2）.Access-Control-Allow-Credentials:响应头表示是否可以将对请求的响应暴露给页面（cookie）。返回true则可以，其他值均不可以。
 
 5.ajax请求任何时候都不会带上不同源的cookie（Cookie遵循同源策略）；
 
