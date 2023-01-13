@@ -4,6 +4,11 @@ title: Git相关
 
 ![git](./images/1.jpg)
 
+## git clone 指定分支拉代码
+```js
+git clone -b dev_js http://xxxx.git
+```
+命令中多了一个-b dev-jk 这个dev_jk就是分支，htt://xxxx.git就是源码仓库地址
 ## 查看cofig
 ```js
 git config -l | git config --list

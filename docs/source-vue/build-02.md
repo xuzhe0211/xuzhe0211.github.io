@@ -101,7 +101,7 @@ const routes = [
     }
 ]
 ```
-**这样会将views目录下的所有组件进行打包，即使没有在路由中配置。**
+<span style="color: red">**这样会将views目录下的所有组件进行打包，即使没有在路由中配置。**</span>
 
 因此webpackChunkName指定的文件名也会有所改变，上面的About页面组件会打包成about1、about2类似的名称
 
