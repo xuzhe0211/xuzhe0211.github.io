@@ -5,7 +5,7 @@ title: 箭头函数
 
 ## 介绍
 
-箭头函数表达式的语法比函数表达式更简洁，并且没有自己的this、arguments、super和new.target.箭头函数更适合用于本来需要匿名函数的地方，并且他们不能用作构造函数。
+<span style="color: red">箭头函数表达式的语法比函数表达式更简洁，**并且没有自己的this、arguments、super和new.target**.箭头函数更适合用于本来需要匿名函数的地方，并且他们不能用作构造函数。</span>
 
 > 因为箭头函数没有prototype, 所以箭头函数本身没有this.
 
