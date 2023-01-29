@@ -276,7 +276,20 @@ devServer.set('hot', true)
         .plugin('script-ext')
         .use(ScriptExtWebpackPlugin)
     ```
+- demo 
 
+    ```js
+    chainWebpack: (config) => {
+        //...
+        config
+            .plugin('AutoImport')
+            .use(AutoImport({esolvers: [ElementPlusResolver()]}))
+            .end()
+            .plugin('Components')
+            .use(Components({resolvers: [ElementPlusResolver()]}))
+        //...
+    }
+    ```
 
 ## 资料
 [vue.config中configureWebpack 与 chainWebpack区别](https://www.jianshu.com/p/27d82d98a041)

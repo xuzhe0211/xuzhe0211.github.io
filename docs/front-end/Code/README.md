@@ -62,48 +62,62 @@ fun()
 
 // 购物清单
 let line1 = readline()
-const n = parseInt(line1.split(' ')[0]), m = parseInt(line1.split(' ')[1])
+const n = parseInt(line1.split(' ')[0]); // 自己拥有的钱
+const m = parseInt(line1.split(' ')[1]); // 自己可以买多少物品
 const v = [''], w = [''], s = ['']
-let index = 0
+let index = 0 //用于接收输入的数组
 while(index < m) {
     let line = readline().split(' ')
-    v.push(parseInt(line[0]))
-    w.push(parseInt(line[1]))
-    s.push(parseInt(line[2]))
+    v.push(parseInt(line[0]))  //每件物品的价格
+    w.push(parseInt(line[1]))  //每件物品的满意度
+    s.push(parseInt(line[2])) //每件物品是否为主件
     index++
 }
- 
+//构建dp数组
+//构建二维dp数组，横坐标为自己买的物品数目，纵坐标为自己花费的价格，全部初始化为0
 const solve = (n, m, v, w, s) => {
     const dp = new Array(m+1).fill(0).map(() => new Array(n+1).fill(0))
     let res = 0
-    for(let i=1;i<=m;i++) {
-        for(let j=0;j<=n;j++) {
-            if (!s[i]) {
-                if(j >= v[i]){ // 主件
-                    const sub = [] // 收集所有附件
+    for(let i=1;i<=m;i++) { //横坐标逐渐增加的过程，模拟自己的钱越来越多
+        for(let j=0;j<=n;j++) { //纵坐标逐渐增加的过程，模拟自己能买物品的数量越来越多
+            //如果是正常的背包问题现在套用公式即可，但是现在添加的是否为主副件
+            if (!s[i]) { //如果现在是主件
+                if(j >= v[i]){ // 现有金额满足购买
+                    const sub = [] // 收集主件后的附件
                     for (let k=1;k<=s.length;k++) {
-                        if (s[k] == i) sub.push(k)
+                        if (s[k] == i) sub.push(k) // 这个主件有几个附件，就以1，2的形式push进数组
                     }
-                    // 0附件
+                     //在没有附件的情况下就是套用背包公式dp数组
                     dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j - v[i]] + w[i]*v[i])
+                    //之后分类讨论，因为题目说了只有1，2附件就依次写出来
+                    //如果有一个附件，比较是否买
                     if(sub[0] && j>= v[i]+v[sub[0]]) {
+                        //判断是否买不买这件物品，还是基于背包公式的else部分
                         dp[i][j] = Math.max(dp[i][j], dp[i-1][j - v[i] - v[sub[0]]] + w[i]*v[i] + w[sub[0]] * v[sub[0]])
                     }
                     if(sub[1] && j>= v[i]+v[sub[1]]) {
+                          //如果有两个附件，比较是否买（注意是if依次判断）
                         dp[i][j] = Math.max(dp[i][j], dp[i-1][j - v[i] - v[sub[1]]] + w[i]*v[i] + w[sub[1]] * v[sub[1]])
                     }
+                    // 如果还有空余
                     if (sub.length == 2 && j>= v[i]+v[sub[1]]+v[sub[0]]) {
                         dp[i][j] = Math.max(dp[i][j], dp[i-1][j-v[i]-v[sub[0]]-v[sub[1]]] +w[i]*v[i]+w[sub[1]] * v[sub[1]]+w[sub[0]] * v[sub[0]])
                     }
                     res = Math.max(res, dp[i][j])
-                } else dp[i][j] = dp[i-1][j]
-            } else dp[i][j] = dp[i-1][j]
+                } else dp[i][j] = dp[i-1][j]  //不要放进去
+            } else dp[i][j] = dp[i-1][j]  //不要放进去
         }
     }
     return res
 }
 console.log(solve(n,m,v,w,s))
+```
 
+[最长公共子序列](/front-end/Code/concept-dp.html#最长公共子序列)
+
+[购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
+
+```js
 // 尼科彻斯定理 输入：6  输出：31+33+35+37+39+41
 //规律：最后一个数为：num的平方+num-1，第一个数为：num的平方-num-1
     // 1:1-0
@@ -112,18 +126,14 @@ console.log(solve(n,m,v,w,s))
     // 4:16-3
     // 5:25-4
     // 6:36-5
-    // let line = parseInt(readline());
-    // let start = line * (line - 1) + 1;
-    // let res = [];
-    // for(let i = 0; i < line; i++) {
-    //     res.push(start + i * 2)
-    // }
-    // return res.join('+')
+let line = parseInt(readline());
+let start = line * (line - 1) + 1;
+let res = [];
+for(let i = 0; i < line; i++) {
+    res.push(start + i * 2)
+}
+return res.join('+')
 ```
-
-[最长公共子序列](/front-end/Code/concept-dp.html#最长公共子序列)
-
-[购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 ## 正则表达式匹配
 给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
 - '.'匹配任意单个字符
