@@ -7,7 +7,7 @@ title: 前端换肤的N种方案
 :::
 
 ## 覆盖样式实现
-```
+```less
 // light
 // light
 $color-brand1: #ffcd32;
@@ -22,7 +22,7 @@ $dark-color-text: #fff;
 $dark-color-text-1: rgba(255, 255, 255, 0.3);
 $dark-color-text-2: $color-brand1;
 ```
-```
+```html
 // 页面使用
 <style lang="scss">
 @import "./assets/scss/index.scss";
@@ -47,7 +47,7 @@ $dark-color-text-2: $color-brand1;
 
 缺点：样式不易管理，查找样式复杂，开发效率低，拓展性差，维护成本高，多人协作沟通麻烦。
 ## sass变量实现
-```
+```css
 // variable.scss  
 
 // 浅色
@@ -67,7 +67,7 @@ $colors-dark: (
 );
 
 ```
-```
+```css
 // mixin.scss
 // 背景色
 @mixin bg-color($key) {
@@ -84,7 +84,7 @@ $colors-dark: (
   }
 }
 ```
-```
+```html
 // 页面使用
 
 <style lang="scss" rel="stylesheet/scss">
@@ -113,7 +113,7 @@ Maps的含义：Maps可视为键值对的集合，键被用于定位值 在css�
 使用覆盖样式实现与scss变量实现会把很多套皮肤的样式都编译到一个css文件里面，如果有多套皮肤样式，这个文件会非常大。为了解决这个问题,就自然地提出了拆分scss的实现。
 
 实现方案，通过编译工具与构建工具编译处多套皮肤css，通过js动态的link对应的皮肤样式
-```
+```js
 // js动态处理
 var theme = /\bt=((\w+))/.exec(location.search);
 theme = theme ? theme[1] : 'light';
@@ -131,7 +131,7 @@ function changeTheme(theme) {
 }
 ```
 ## css变量实现
-```
+```css
 // variable.scss
 // 默认变量
 :root {
@@ -156,7 +156,7 @@ function changeTheme(theme) {
 }
 ```
 在页面对css变量做引入使用
-```
+```css
 //页面使用
 @import '../../assets/scss/variable.scss';
 
@@ -193,7 +193,7 @@ npm install postcss-custom-properties --save-dev
 npm install postcss-loader --save-dev
 :::
 在根目录新建postcss.config.js增加，配置如下
-```
+```js
 const postcssCustompProperties = require("postcss-custom-properties");
 
 module.exports = {
@@ -215,7 +215,7 @@ postcss会将css自定义变量直接编译为确定值，而不是保留。这�
 
 ### css变量兼容性实现-2
 首先需要建一个存放公共css变量的js文件，将需要定义的css变量存放到该js文件，例如（variable.js）
-```
+```css
 // variable.js 
 // 字体变量
 const baseSize = {
@@ -246,7 +246,7 @@ export const darkTheme = {
 };
 ```
 页面使用css变量如：
-```
+```html
 <style lang="scss">
  .text {
     display: inline-block;
@@ -262,7 +262,7 @@ export const darkTheme = {
 css-vars-ponyfill官方概念：在传统浏览器和现代浏览器中为CSS自定义属性(又名“CSS变量”)提供客户端支持的ponyfill。（具体用法与概念请查阅官方网站：css-vars-ponyfill）
 :::
 封装切换主体的js，在main做初始化调用
-```
+```js
 // theme.js
 import { lightTheme, darkTheme } from "../src/assets/js/variable";
 import cssVars from "css-vars-ponyfill";
@@ -292,7 +292,7 @@ export const initTheme = (theme) => {
 
 ## Less在线编译实现
 根据less可以直接 编译less变量实现的步骤如下：
-```
+```css
 // variable.less 定义less变量
 // 公共字体
 @font-size-large-x: 22px;
@@ -320,8 +320,8 @@ export const initTheme = (theme) => {
 
 ```
 当点击换肤按钮的时候，直接去加载 less.js，具体代码如下:
-```
-template>
+```html
+<template>
   <div class="header">
     <div class="text">小恐龙换肤</div>
     <div role="switch" class="switch" :class="theme === true ? 'is-checked' : ''">
@@ -360,7 +360,7 @@ export default {
 
 ### 图片切换
 项目中还存在很多占位图或者其他图片会随着主题的变化而变化。通过引入所有图片，并用文件名来区分不同主题所对应的图片。在点击切换主题时，切换到主题所对应的文件，就能实现图片切换了。
-```
+```html
 // 页面实现
 <template>
   <div class="header">

@@ -92,9 +92,69 @@ p1.getName(); // 1
 ```
 
 ## 装饰器模式
+- 目标
+
+    增强已有方案
+
+- 应用场景
+
+    ts装饰器、react高级组件
+- 代码示例
+
+    就像高阶组件一样，使用了hoc包裹后我们可以给组件添加一些额外的能力，例如css样式或className，不适用也不影响原组件使用
+    ```js
+    class Decorator {
+        construtor(component) {
+            this.component = component;
+        }
+        upgrade() {
+            this.component.className = 'pro-botton';
+            return this.component;
+        }
+    }
+    new Decorator(new Button()).upgrade();
+    ```
 
 [参考地址](/front-end/JavaScript/ts-anotation.html)
 
+## 代理模式
+- 目标
+
+    为对象架设拦截，拒绝直接访问
+
+- 应用场景
+
+    proxy、Object.defineProperty、事件代理
+
+- 代码示例
+
+    像王者农药，在没有防沉迷系统之前，玩家是可以直接登录游戏的，上了该系统之后就不允许玩家直接进行登录了，因此需要对游戏类进行下拦截，在符合时放开
+    ```js
+    class Game {
+        start() {
+            console.log('开始游戏')
+        }
+    }
+    class User {
+        constructor(age) {
+            this.age = age;
+        } 
+        login(game) {
+            game.start(this);
+        }
+    }
+    class ProxyGame {
+        start(player) {
+            if(player.age < 14) {
+                console.error('放弃吧，你不配')
+            } else {
+                new Game().start();
+            }
+        }
+    }
+    const su = new User(27);
+    su.login(new ProxyGame());
+    ```
 ## 策略模式
 策略模式指对象有某个行为，但是在不同的场景中，该行为有不同的实现方案 比如选项的合并策略
 ```js

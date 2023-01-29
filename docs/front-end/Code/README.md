@@ -134,6 +134,29 @@ for(let i = 0; i < line; i++) {
 }
 return res.join('+')
 ```
+
+[最长公共子序列](/front-end/Code/concept-dp.html#最长公共子序列)
+
+## 找出数组的最大公约数
+```js
+// 输入：nums = [2,5,6,9,10]
+// 输出：2
+// 解释：
+// nums 中最小的数是 2
+// nums 中最大的数是 10
+// 2 和 10 的最大公约数是 2
+const findGCD = nums => {
+    let min = Math.min(...nums);
+    let max = Math.max(...nums);
+    if(max % min === 0) return min;
+    for(let i = min; i>= 0; i--) {
+        if(min % i === 0 && max % i === 0) return i;
+    }
+}
+```
+[序列中不同最大公约数的数目](https://leetcode.cn/problems/number-of-different-subsequences-gcds/)
+
+[购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 ## 正则表达式匹配
 给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
 - '.'匹配任意单个字符
@@ -3417,6 +3440,67 @@ fn();
 [LeetCode刷题16-最小传输时延](https://www.cnblogs.com/chch213/p/16558839.html)
 
 [华为OD机试真题（JavaScript）](https://blog.csdn.net/weixin_40767375/article/details/125276961)
+
+
+## 句子相似性
+```js
+// 输入：sentence1 = "My name is Haley", sentence2 = "My Haley"
+// 输出：true
+// 解释：可以往 sentence2 中 "My" 和 "Haley" 之间插入 "name is" ，得到 sentence1 。
+const areSentencesSimilar = (sentence1, sentence2) => {
+    let words1 = sentence1.split(' ');
+    let words2 = sentence2.split(' ');
+
+    if(words1.length === words.length) return sentence1 === sentence2;
+    while(words1.length && words2.length && words1[words1.length - 1] === words2[words2.length - 1]) {
+        words1.pop();
+        words2.pop();
+    }
+    while(words1.length && words2.length && words1[0] === words2[0]) {
+        words1.shift();
+        words2.shift();
+    }
+    if(words1.length === 0 || words2.length === 0) return true;
+    return false;
+}
+```
+[句子相似性](https://leetcode.cn/problems/sentence-similarity-iii/description/?languageTags=javascript)
+
+## 统计一个数组中好对子的数目
+给你一个数组 nums ，数组中只包含非负整数。定义 rev(x) 的值为将整数 x 各个数字位反转得到的结果。比方说 rev(123) = 321 ， rev(120) = 21 。我们称满足下面条件的下标对 (i, j) 是 好的 ：
+
+0 <= i < j < nums.length
+nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])
+请你返回好下标对的数目。由于结果可能会很大，请将结果对 109 + 7 取余 后返回。
+```js
+// 输入：nums = [42,11,1,97]
+// 输出：2
+// 解释：两个坐标对为：
+//  - (0,3)：42 + rev(97) = 42 + 79 = 121, 97 + rev(42) = 97 + 24 = 121 。
+//  - (1,2)：11 + rev(1) = 11 + 1 = 12, 1 + rev(11) = 1 + 11 = 12 。
+const countNicePairs = nums => {
+    const MOD = 1e9 + 7;
+    // 求rev翻转结果
+    function rev(num) {
+        let v = 0;
+        while(num) {
+            v = v * 10 + (num % 10);
+            num = Math.floor(num / 10);
+        }
+        return v;
+    }
+    nums = nums.map(item => item - rev(item));
+    // 公式转换nums[i] - rev(nums[i]) === nums[j] - rev(nums[j]);
+    // 转换成求numsz中i< j 且nums[i] === nums[j];
+    let ans = 0, map = new Map();
+    for(let i = 0; i < nums.length; i++) {
+        ans += (map.get(nums[i]) || 0) % MOD;
+        ans = ans % MOD;
+        map.set(nums[i], (map.get(nums[i]) || 0) + 1)
+    }
+    return ans;
+}
+```
 ## 其他
 [算法面试题汇总](https://leetcode-cn.com/leetbook/read/top-interview-questions/xmlwi1/)
 
