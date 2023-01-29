@@ -156,7 +156,6 @@ const findGCD = nums => {
 ```
 [序列中不同最大公约数的数目](https://leetcode.cn/problems/number-of-different-subsequences-gcds/)
 
-[购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 ## 正则表达式匹配
 给你一个字符串s和一个字符规律p，请你来实现一个支持'.'和'*'的正则表达式匹配
 - '.'匹配任意单个字符
