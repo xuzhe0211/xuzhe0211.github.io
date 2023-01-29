@@ -76,6 +76,47 @@ console.log(res, 'res'); // [0, 2,4, 5, 4,6];
 9. 如果找到了更短的路径，则更新最短路径的值
 10. 处理完所有顶点后，返回源顶点(src)到图中其他顶点最短路径的结果
 
+
+- 实例
+```js
+const graph = {
+    ndoes: [1,2,3,4,5,6],
+    edges: [[1,2], [2,3], [3,5], [5,6], [2,4],[2,6]]
+}
+const findPath = (graph, start, end) => {
+    let path = [];
+    let res = [];
+    let map = new Map();
+    let min = Infinity
+    const dfs = (graph, start, end, path, map, res) => {
+        if(path.length && path[path.length - 1][1] === end) {
+            res.push([...path]);
+            return;
+        }
+        for(let i = 0; i < graph.edges.length; i++) {
+            let item = graph.edges[i];
+            if(!map[item]) {
+                if(item[0] === start || (path.length && path[path.length - 1][1] === item[0])) {
+                    map[item] = true;
+                    path.push(item);
+                    dfs(graph, start, end, path, map, res);
+                    path.pop();
+                    map[item] = false;
+                }
+            }
+        }
+    }
+    dfs(graph, start, end, path, map, res) 
+    let result = []
+    for(let i = 0; i < res.length; i++) {
+        if(res[i].length < min) {
+            result = res[i];
+        }
+    }
+    return result.length > 0 ? result : null;
+}
+console.log(findPath(graph, 1, 6))
+```
 ## 资料
 [js 版迪杰斯特拉算法(Dijkstra)代码实现](https://www.jianshu.com/p/bfe0cc07175f)
 
