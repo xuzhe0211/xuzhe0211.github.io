@@ -1300,7 +1300,23 @@ WebSocket基于TCP传输协议，并复用HTTP的握手通道。浏览器和服�
 [socket 及 websocket的握手过程](https://blog.csdn.net/yournevermore/article/details/103067079)
 
 ### TCP和UDP的区别
+相同点:UDP协议和TCP协议都是传输层协议
 
+不同点：
+1. TCP面向有连接；UDP：面向无连接
+2. TCP是要提供可靠、面向连接的传输服务。TCP在建立通信钱，必须建立一个TCP连接,之后才能传输数据。TCP建立一个连接需要3次握手，断开连接需要4次挥手，并且提供超时重发，丢弃重复数据，校验数据，流量控制等功能，保证数据从一端传到另一端
+3. UDP不可靠性，只是把应用程序传给IP层的数据报发送出去，但是不能保证他们能达到目的地
+4. 应用场景
+
+    TCP效率要求相对低，但是对准确性要求相对高的场景。如常见的接口调用、文件传输、远程登录等
+
+    UDP效率要求相对高，对准确性要求相对低的场景，如在线视频、网络语音电话等
+
+[面试题：UDP&TCP的区别](https://blog.csdn.net/sifanchao/article/details/82285018)
+
+[TCP和UDP的区别及应用场景](https://www.cnblogs.com/liangyc/p/11628208.html)
+
+### keep-alive 持久连接
 
 
 ## 浏览器原理
