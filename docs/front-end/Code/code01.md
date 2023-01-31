@@ -133,3 +133,30 @@ const waysToMakeFair = nums => {
 }
 ```
 [生成平衡数组的方案数](https://leetcode.cn/problems/ways-to-make-a-fair-array/description/?languageTags=javascript)
+
+## 统计星号--简单
+```js
+// 输入：s = "l|*e*et|c**o|*de|"
+// 输出：2
+// 解释：不在竖线对之间的字符加粗加斜体后，得到字符串："l|*e*et|c**o|*de|" 。
+// 第一和第二条竖线 '|' 之间的字符不计入答案。
+// 同时，第三条和第四条竖线 '|' 之间的字符也不计入答案。
+// 不在竖线对之间总共有 2 个星号，所以我们返回 2 。
+var countAsterisks = s => {
+    return s.replace(/\|[\w\*]*\|/g, '').replace(/\w+/g, '').length;
+}
+// 模拟
+var countAsterisks = s => {
+    let valid = true;
+    let res = 0;
+    for(let i = 0; i < s.length; i++) {
+        let c = s[i];
+        if(c === '|') {
+            valid = !valid;
+        } else if(c === '*' && valid) {
+            res++;
+        }
+    }
+    return res;
+}
+```

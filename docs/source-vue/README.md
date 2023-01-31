@@ -1,7 +1,14 @@
 ---
 title: Object.defineProperty vs proxy
 ---
+[web前端面试 - 面试官系列](https://vue3js.cn/interview/)
+## 问题
+1. eventbug -> mitt
+2. this.$refs.xxx -> getCurrentInstance().proxy.$refs
 
+https://juejin.cn/post/6844904066103902215
+
+https://www.cnblogs.com/yinyuxing/p/14510803.html
 ## 对比
 
 ### Proxy优势

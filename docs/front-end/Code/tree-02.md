@@ -281,6 +281,43 @@ const arrayTotree = nums => {
     return ret;
 }
 console.log(arrayTotree(input))
+
+// demo2
+const data = [
+    { id: 1, next: 2 },
+    { id: 3, next: 4 },
+    { id: 4, next: 5 },
+    { id: 5, next: 6 },
+    { id: 6, next: 7 },
+    { id: 7, next: 8 },
+    { id: 8, next: 9 },
+    { id: 2, next: 10 },
+    { id: 20, next: 30 },
+    { id: 30, next: 40 },
+    { id: 100, next: 78 }
+]
+const fn = nums => {
+    let res = [];
+    let map = {};
+    let nextAll = [];
+    for(let item of nums) {
+        map[item.id] = [{...item}]
+        nextAll.push(item.next);
+    }
+    for(let item of nums) {
+        let id = item.id;
+        let next = item.next;
+        const curItem = map[next];
+        if(map[next]) {
+            map[id] = map[id].concat(curItem)
+        } 
+        if(!nextAll.includes(id)) {
+            res.push(map[id])
+        }
+    }
+    return res;
+}
+console.log(fn(data))
 ```
 
 ## 资料

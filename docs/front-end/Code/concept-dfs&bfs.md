@@ -41,7 +41,7 @@ let currentLocation = {
     y: 2
 }
 let used = []; // 用来标记地图上哪些点是走过的
-let reached = true; // 是否能够达到目标位置
+let reached = false; //是否能到达目标位置
 // 表示灰色区域的格子
 const illegalLocation = [
     { x: 0, y: 2 }, // 序号1的坐标
@@ -62,26 +62,29 @@ function isLegalLocation({x, y}, illegalLocation) {
     }
     return flag;
 }
-// 向左移动
+//向左移动
 function toLeft({ x, y }) {
-    return { x: x - 1, y};
+    return { x: x - 1, y };
 }
-// 向上移动
+
+//向上移动
 function toTop({ x, y }) {
-    return { x, y: y + 1}
+    return { x, y: y + 1 };
 }
-// 向右移动
-function toRight({x, y}) {
-    return {x: x + 1, y};
+
+//向右移动
+function toRight({ x, y }) {
+    return { x: x + 1, y };
 }
-// 向下移动
+
+//向下移动
 function toBottom({ x, y }) {
-    return { x, y: y - 1}
+    return { x, y: y - 1 };
 }
 
 function dfs(target, location, illegalLocation, used) {
     // 如果当前位置与目标坐标相同表示可以达到
-    if(Object.entries(target).toString === Object.entries(location).toString()) {
+    if(Object.entries(target).toString() === Object.entries(location).toString()) {
         return (reached = true);
     }
     let current = location;
