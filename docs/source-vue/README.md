@@ -9,6 +9,8 @@ title: Object.defineProperty vs proxy
 https://juejin.cn/post/6844904066103902215
 
 https://www.cnblogs.com/yinyuxing/p/14510803.html
+
+https://www.cnblogs.com/goloving/p/15514672.html
 ## 对比
 
 ### Proxy优势
