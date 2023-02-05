@@ -167,12 +167,32 @@ export default {
 ### TS支持
 <span style="color: red">vue2比较令人诟病的地方还是对ts的支持，对ts支持不好是vue2不适合大型项目的一个重要原因。其根本原因是Vue依赖单个this上下文来公开属性，并且vue中this比在普通的javascript更具魔力(如methods对象下的单个method中this并不指向methos，二三指向vue实例)</span>。换句话说，尤大大在设计Options API时并没有考虑对ts引用的支持。那么vue2中是怎么做到对ts的支持。
 
-```js
+```html
+<script lang="ts">
+    import { Vue, Component, Prop } from 'vue-property-decorator';
 
+    @Component
+    export default class YourComponent extends Vue {
+        @Prop(Number) readonly propA: number | undefined
+        @Prop({ default: 'default value' }) readonly propB!: string
+        @Prop([String, Boolean]) readonly propC: string | boolean | undefined;
+    }
+</script>
 ```
+vue2对ts的支持主要是通过vue class component,还需引入vue-property-decorator包，该库完全依赖于vue-class-component包，咋一看，这不是支持了吗？下面聊聊这种缺点
+1. <span style="color: red">vue class component与js的vue组件差异太大，另外需要引入额外的库，学习成本大幅度增高。</span>
+2. <span style="color: red">依赖于装饰器语法。而目前装饰器目前还处于stage2阶段，在实现细节上还存在许多不确定性，这使其成为一个相当危险的基础</span>
+3. <span style="color: red">复杂性增高。采用Vue class component且需要使用额外的库，相比于姜丹的js vue组件，显然复杂化。</span>
 
-
+这些原因让人望而却步，vue2的ts项目数量不多也是可以让人理解的。相比与vue2，vue3对ts的支持则好得多：
+1. vue3中是在setup中进行编程，setup不依赖this，大部分API大多使用普通的变量和函数，他们天然类型友好
+2. 用Composition API编写的代码可以享受完整的类型推断，几乎不需要手动类型提示。这也意味着用提议的API编写的代码在TypeScript和普通Javascript中看起来几乎相同
+3. 这些接口已获得更好的IDE支持，即使非TypeScript用户也可以从键入中受益。
 ## 接口一栏
+Compositon API是一些列接口的总称，下文将逐一介绍Composition API的各个接口。[学习代码](https://github.com/PerryHuan9/vue3-test)
+
+### setup
+
 
 ## 总结
 
