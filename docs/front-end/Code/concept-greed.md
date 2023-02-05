@@ -226,3 +226,30 @@ const findMinMoves = function(machines) {
 
 
 [贪心套路](https://github.com/sisterAn/JavaScript-Algorithms/issues/171)
+
+## 你能构造出连续值的最大数目
+给你一个长度为 n 的整数数组 coins ，它代表你拥有的 n 个硬币。第 i 个硬币的值为 coins[i] 。如果你从这些硬币中选出一部分硬币，它们的和为 x ，那么称，你可以 构造 出 x 。
+
+请返回从 0 开始（包括 0 ），你最多能 构造 出多少个连续整数。
+
+你可能有多个相同值的硬币。
+```js
+// 输入：coins = [1,3]
+// 输出：2
+// 解释：你可以得到以下这些值：
+// - 0：什么都不取 []
+// - 1：取 [1]
+// 从 0 开始，你可以构造出 2 个连续整数。
+const getMaximumConsecutive = coins => {
+    let res = 1;
+    coins.sort((a,b) => a - b);
+    for(let i of coins) {
+        if(i > res) {
+            break;
+        }
+        res += i;
+    }
+    return res;
+}
+```
+
