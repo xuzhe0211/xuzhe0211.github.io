@@ -57,7 +57,7 @@ isNaN('听风适逢'); // true
 Number.isNaN('听风适逢'); // false
 ```
 :::tip
-[Object.is](/front-end/JavaScript/object-constructor-methods.html#object-is)的行为方式与三等号相同，但是对于NaN、-0和+0进行特殊处理，所以最后两个不相同，而Object.is(NaN, NaN)将为true
+<span style="color: red">**[Object.is](/front-end/JavaScript/object-constructor-methods.html#object-is)的行为方式与三等号相同，但是对于NaN、-0和+0进行特殊处理，所以最后两个不相同，而Object.is(NaN, NaN)将为true**</span>
 :::
 
 ## 在Javascript数组中查找NaN的索引
