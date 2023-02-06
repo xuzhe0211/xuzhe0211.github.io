@@ -192,6 +192,73 @@ vue2对ts的支持主要是通过vue class component,还需引入vue-property-de
 Compositon API是一些列接口的总称，下文将逐一介绍Composition API的各个接口。[学习代码](https://github.com/PerryHuan9/vue3-test)
 
 ### setup
+<span style="color: blue">setup是vue新增的一个选项，它是组件内使用Composition API的入口。setup中没有this上下问题的(js函数都有this，但是setup的this更vue2的this不是一个东西，已经完全没用了，固为没有)。</span>
+
+- 执行时机
+
+    <span style="color: red">setup是在创建vue组件实例并完成props的初始化之后执行的，也是在beforeCreate钩子之前执行s，这意味着setup中无法使用其他option(如data)中的变量，而其他option可以使用setup中返回的变量</span>
+
+    [vue组件中方法执行顺序是怎么样的？](/source-vue/source-sequee.html)
+
+- 与模板结合使用
+
+    如果setup返回一个对象，这个对象的所有属性会合并到template的渲染上下文中，**也就是说可以在template中使用setup返回的对象的属性**
+
+    ```html
+    <template>
+        <div>{{ count }} {{ object.foo }}</div>
+    </template>
+    <script>
+    import { ref, reactive } from 'vue';
+    export default {
+        setup() {
+            const count = ref(0);
+            const object = reactive({foo: 'bar'});
+            return {
+                count, 
+                object
+            }
+        }
+    }
+    </script>
+    ```
+- 与Render Function/jsx结合使用
+
+    setup也可以返回render function,这个时候则与vue的render方法类似，次数不需要teplate
+    ```js
+    import { h, ref, reactive } from 'vue';
+    export default {
+        setup() {
+            const count = ref(0);
+            const object = reactive({ foo: 'bar' });
+            return () => h('div', [
+                count.value,
+                object.foo
+            ])
+        }
+    }
+    ```
+- setup的参数
+
+    setup有两个参数，第一个参数为props,是组件的所有参数，与vue2中一样，参数是响应式的，改变会触发更新；第二个参数是setup context，包含emit等属性。下面是其函数签名
+    ```js
+    interface Data {
+        [key: string]: unknown
+    }
+    interface SetupContext {
+        attrs: Data,
+        slots: Slots,
+        parent: ComonentInstance | null,
+        root: ComponentInstance,
+        emit:((event: string, ...args:unkown[]) => void)
+    }
+    function setup(
+        props: Data,
+        context: SetupContext
+    ): data
+    ```
+### reactive
+
 
 
 ## 总结

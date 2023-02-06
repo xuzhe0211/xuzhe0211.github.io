@@ -160,3 +160,26 @@ var countAsterisks = s => {
     return res;
 }
 ```
+
+## 计算布尔二叉树的值
+![](./images/1675697680969.jpg)
+```js
+// 输入：root = [2,1,3,null,null,0,1]
+// 输出：true
+// 解释：上图展示了计算过程。
+// AND 与运算节点的值为 False AND True = False 。
+// OR 运算节点的值为 True OR False = True 。
+// 根节点的值为 True ，所以我们返回 true 。
+var evaluateTree = root => {
+    if(!root.left) {
+        return root.val == 1
+    }
+    if(root.val === 2) {
+        return evaluateTree(root.left) || evaluateTree(root.right);
+    } else {
+        return evaluateTree(root.left) && evaluateTree(root.right);
+    }
+}
+```
+
+[计算布尔二叉树的值](https://leetcode.cn/problems/evaluate-boolean-binary-tree/description/?languageTags=javascript)
