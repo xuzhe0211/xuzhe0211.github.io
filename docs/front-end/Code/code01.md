@@ -181,5 +181,33 @@ var evaluateTree = root => {
     }
 }
 ```
+## 删除子文件夹---排序
+你是一位系统管理员，手里有一份文件夹列表folder,你的任务是要删除该列表中的所有子文件夹，并以任意顺序返回剩下的文件夹。
+
+如果文件夹 folder[i] 位于另一个文件夹 folder[j] 下，那么 folder[i] 就是 folder[j] 的 子文件夹 。
+
+文件夹的「路径」是由一个或多个按以下格式串联形成的字符串：'/' 后跟一个或者多个小写英文字母。
+
+例如，"/leetcode" 和 "/leetcode/problems" 都是有效的路径，而空字符串和 "/" 不是。
+```js
+// 输入：folder = ["/a","/a/b","/c/d","/c/d/e","/c/f"]
+// 输出：["/a","/c/d","/c/f"]
+// 解释："/a/b" 是 "/a" 的子文件夹，而 "/c/d/e" 是 "/c/d" 的子文件夹。
+
+// 输入: folder = ["/a/b/c","/a/b/ca","/a/b/d"]
+// 输出: ["/a/b/c","/a/b/ca","/a/b/d"]
+var removeSubfolders = function(folder) {
+    folder.sort();
+    const ans = [folder[0]];
+    for(let i = 1; i < folder.length; i++) {
+        const prev = ans[ans.length -1].length;
+        if(!(prev < folder[i].length && ans[ans.length - 1] === (folder[i].substring(0, prev)) && folder[i].charAt(prev) === '/')) {
+            ans.push(folder[i]);
+        }
+    }
+    return ans;
+}
+```
+
 
 [计算布尔二叉树的值](https://leetcode.cn/problems/evaluate-boolean-binary-tree/description/?languageTags=javascript)

@@ -231,7 +231,6 @@ const sumSubarrayMins = arr => {
 }
 ```
 [子数组的最小值之和](https://leetcode.cn/problems/sum-of-subarray-minimums/solutions/1929461/zi-shu-zu-de-zui-xiao-zhi-zhi-he-by-leet-bp3k/?languageTags=javascript)
-
 ## 资料
 [数据结构--重要](/front-end/Code/concept-xsummary.html#数据结构)
 

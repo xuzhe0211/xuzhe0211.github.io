@@ -258,6 +258,270 @@ Compositon API是一些列接口的总称，下文将逐一介绍Composition API
     ): data
     ```
 ### reactive
+reactive函数接收一个对象，并返回一个对这个对象的响应式代理。它与vue2中Vue.obserable()是等价的，为了避免与RxJs中的observable重名，故改名为reactive.
+```html
+<template>
+    <div>
+        <input type="text" v-model="state.input">
+        <p>input: {{state.input}}</p>
+        <p>computedInput: {{ state.computedInput }}</p>
+    </div>
+</template>
+<script>
+    import { reactive, computed, watch } from 'vue';
+    export default {
+        setup(props) {
+            const state = reactive({
+                input: '',
+                computedInput: computed(() => '? ' + state.input + ' ?');
+            })
+            return { state }
+        }
+    }
+</script>
+```
+必须注意的是，reactive使用者必须始终保持对返回的对象的引用，以保持反应性。该对象不能被破坏或散布，所有setup和组合函数中不能返回reactive的解构。
+```html
+<template>
+    <div>
+        {{input}}
+        <button @click="onClick">change</button>
+    </div>
+</template>
+<script>
+    import { reactive, computed, watch, toRefs } from 'vue';
+    export default {
+        setup(props) {
+            const state = reactive({ input: '' });
+
+            const onClick = () => {
+                state.input = '我已经改变了'
+            }
+            // return state 模板上下文丢失引用
+            // return {...state, onClick} 模板上下文丢失引用
+            return {...toRef(state), onClick}; // 正确的
+        }
+    }
+</script>
+```
+如上组件如果不适用toRefs,在点击change按钮时，组件并不会重新渲染，也就是说模板中的input还是之前的值。出现这种情况的根本原因是js中是值传递，并不是引用传递。解决方案是使用toRefs，至于ref是什么，请看下文
+
+### ref
+ref函数接收一个用于初始化的值并返回一个响应式的和可修改的ref对象。该ref对象存在一个value属性，value保存着ref对象的值。
+```html
+<template>
+    <div class="tf">
+        <!-- 在模板中使用时不需要使用count.value，会自动解包 -->
+        <p>{{count}}</p>
+        <button @click="onClick(true)">+</button>
+        <button @click="onClick(false)">-</button>
+    </div>
+</template>
+<script>
+    import {ref, reactive} from 'vue';
+
+    export default {
+        setup() {
+            const count = ref(0);
+            // 在reactive中使用也不需要count.value,也会解包
+            const state = reactive({count});
+            const onClick = isAdd => {
+                isAdd ? count.value++ : count.value--;
+            }
+            return {count, onClick}
+        }
+    }
+</script>
+```
+> 注意:在reactive和template中使用的时候，不需要使用.value，他们会自动解包
+
+### isRef
+isRef用于判断变量是否为ref对象
+```js
+const unwrapped = isRef(foo) ? foo.value : foo;
+```
+### toRefs
+toRefs用于将一个reactive对象转化为属性全部为ref对象的普通对象
+```js
+const state = reactive({
+    foo: 1,
+    bar: 2
+})
+const stateRefs = toRefs(state); 
+/*
+Type of stateAsRefs:
+{
+  foo: Ref<number>,
+  bar: Ref<number>
+}
+*/
+```
+toRefs在setup或者Composition Function的返回值特别有用
+```js
+import { reactive, toRefs } from 'vue';
+function useFeatureX() {
+    const state = reactive({
+        foo: 1,
+        bar: 2
+    })
+    return state;
+}
+function useFeature2() {
+    const state = reactive({
+        a: 1,
+        b: 2
+    })
+    return toRefs(state);
+}
+export default {
+    setup() {
+        // 使用解构之后foo和bar都是丧失响应式
+        const { foo, bar } = useFeatureX();
+        // 即使使用了结构也不会丧失响应式
+        const { a, b } = useFeature2();
+        return  {
+            foo, 
+            bar
+        }
+    }
+}
+```
+### computed
+computed函数与vue2中computed功能一致，它接收一个函数并返回一个value为getter返回值的不可改变的响应式ref对象
+```js
+const count = ref(1);
+const plusOne = computed(() => count.value + 1);
+console.log(plusOne.value); // 2;
+plusOne.value++; // 错误，computed不可改变
+
+// 同样支持set和get属性
+const count = ref(1);
+const plusOne = computed({
+    get: () => count.value + 1,
+    set: val => { count.value = val - 1}
+})
+plusOne.value = 1;
+console.log(count.value); // 0
+```
+### readonly
+readonly函数接收一个对象(普通函数或者reactive对象)或者ref并返回一个只读的参数对象代理，在参数对象改变时，返回的代理对象也会相应改变。如果传入的是reactive或者ref响应对象，那么返回的对象也是响应的
+```html
+<template>
+    <!--vue3中允许template下有多个根元素-->
+    <input type="text" v-model="state.count">
+    <button @click="onClick">change</button>
+</template>
+<script>
+    import { reactive, readonly, watch } from 'vue';
+    
+    export default {
+        setup() {
+            const state = reactive({count: 12});
+            const rnState = readonly(state);
+            watch(() => {
+                // state改变也会触发rnState的watch
+                console.log(rnState.count)
+            })
+
+            const planObj = {count: 12};
+            const rnPlanObj = readonly(planObj)
+            const onClick = () => {
+                planObj.count = 888;
+                console.log(rnPlanObj.count); // 888;
+            }
+            return {state, onClick}
+        }
+    }
+</script>
+```
+### watch
+相比于vue2的watch，Composition API的watch不仅仅是将其逻辑抽取出来，其功能也得到了极大的丰富。下面看其类型定义
+```js
+type StopHandle = () => void;
+
+type WatcherSource<T> = Ref<T> | (() => T)
+
+type MapSources<T> = {
+  [K in keyof T]: T[K] extends WatcherSource<infer V> ? V : never
+}
+
+type InvalidationRegister = (invalidate: () => void) => void
+
+interface DebuggerEvent {
+    effect: ReactiveEffect
+    target: any
+    type: OperationTypes
+    key: string | symbol | undefined
+}
+
+interface WatchOptions {
+    lazy?: boolean
+    flush?: 'pre' | 'post' | 'sync'
+    deep?: boolean
+    onTrack?: (event: DebuggerEvent) => void
+    onTrigger?: (event: DebuggerEvent) => void
+}
+
+// basic usage
+function watch(
+    effect: (onInvalidate: InvalidationRegister) => void,
+    options?: WatchOptions
+): StopHandle
+
+// wacthing single source
+function watch<T>(
+    source: WatcherSource<T>,
+    effect: (
+        value: T,
+        oldValue: T,
+        onInvalidate: InvalidationRegister
+    ) => void,
+    options?: WatchOptions
+): StopHandle
+
+// watching multiple sources
+function watch<T extends WatcherSource<unknown>[]>(
+    sources: T
+    effect: (
+        values: MapSources<T>,
+        oldValues: MapSources<T>,
+        onInvalidate: InvalidationRegister
+    ) => void,
+    options? : WatchOptions
+): StopHandle
+```
+- 基础用法
+
+    ```html
+    <template>
+        <div>
+            <input type="text" v-model="state.count">{{state.count}}
+            <input type="text" v-model="inputRef">{{inputRef}}
+        </div>
+    </template>
+    <script>
+        import { watch, reactive, ref } from 'vue';
+
+        export default {
+            setup() {
+                const state = reactive({ count: 0 });
+                const inputRef = ref('');
+                // state.count 与inputRef中任意一个源改变都会触发watch
+                watch(() => {
+                    console.log('state', state.count);
+                    console.log('ref', inputRef.value);
+                })
+                return { state, inputRef }
+            }
+        }
+    </script>
+    ```
+- 指定依赖源
+
+    在基础用法中：
+    - 当依赖了多个reactive或者ref是无法直接看到的，需要在回调中寻找
+    - 在回调中我虽然使用了多个reactive，但我希望只有在某个reactive改变时才触发watch
+    解决上面两个问题可以为watch指定依赖源
 
 
 
