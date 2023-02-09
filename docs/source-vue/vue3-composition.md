@@ -774,8 +774,35 @@ function watch<T extends WatcherSource<unknown>[]>(
     ```
 ### Lifecycle Hooks
 Composition API当然也提供了组件生命周期钩子的回调
+```js
+import { onMounted, onUpdated, onUnmounted } from 'vue';
 
+const MyComponent = {
+    setup() {
+        onMounted(() => {
+            console.log('mounted!')
+        })
+        onUpdated(() => {
+            console.log('updated!')
+        })
+        onUnmounted(() => {
+            console.log('unmounted!')
+        })
+    }
+}
+```
+对比vue2的生命周期钩子
+- <span style="color: red">beforeCreate -> 使用setup()</span>
+- <span style="color: red">created -> 使用setup()</span>
+- <span style="color: red">beforeMount -> onBeforeMount</span>
+- <span style="color: red">mounted -> onMounted</span>
+- <span style="color: red">beforeUpdate -> onBeforeUpdate</span>
+- <span style="color: red">updated -> onUpdated</span>
+- <span style="color: red">beforeDestroy -> onBeforeUnmount</span>
+- <span style="color: red">destroyed -> onUnmounted</span>
+- <span style="color: red">errorCaptured -> onErrorCaptured</span>
 
+### provide & inject
 
 ## 总结
 
