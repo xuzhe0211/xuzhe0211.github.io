@@ -803,9 +803,74 @@ const MyComponent = {
 - <span style="color: red">errorCaptured -> onErrorCaptured</span>
 
 ### provide & inject
+类似于vue2中provide与inject，vue3提供了对应的provide 与inject API
+```js
+import { provide, inject } from 'vue';
+
+const ThemeSymbol = Symbol();
+const Ancestor = {
+    setup() {
+        provide(ThemeSymbol, 'dark');
+    }
+}
+const Descendent = {
+    setup() {
+        const theme = inject(ThemeSybol, 'light');
+        return {
+            theme
+        }
+    }
+}
+```
+### Template Refs
+当时使用前文中的ref时会感到迷惑，模板中也有一个ref用于获取组件实例或dom对象，这样会不会冲突。而实际上在vue3中，ref会用来保存templates的ref
+```html
+<template>
+    <div ref="root">
+        Test Template Refs
+    </div>
+</template>
+<script>
+import { ref, onMounted } from 'vue';
+
+export default {
+    setup() {
+        const root = ref(null);
+
+        onMounted(() => {
+            // 在render初始化后，DOM对象将被赋值为ref
+            console.log(root.value); // div dom对象
+        })
+    }
+}
+</script>
+```
+### defineComponent
+该接口是为了支持ts类型引用
+```js
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+    props: {
+        foo: String
+    },
+    setup(props) {
+        props.foo // type: string
+    }
+})
+```
+当只有setup选项时
+```js
+import { defineComponent } from 'vue';
+
+// provide props typing via argument annotation.
+export default defineComponent((props: {foo: string}) => {
+    props.foo;
+})
+```
 
 ## 总结
-
+总的来说，vue3的Composition API为开发者提供了更大的灵活，但更大的灵活需要更大的规则，对编程者的代码素质有一定要求，一定程度上增加了vue的入门程度，另外为了持有原来类型的引用引入了ref，引入了复杂度，但相比Composition API所产生的效益，这些微不足道。
 
 
 ## 资料
