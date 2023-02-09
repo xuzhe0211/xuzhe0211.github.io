@@ -522,6 +522,258 @@ function watch<T extends WatcherSource<unknown>[]>(
     - 当依赖了多个reactive或者ref是无法直接看到的，需要在回调中寻找
     - 在回调中我虽然使用了多个reactive，但我希望只有在某个reactive改变时才触发watch
     解决上面两个问题可以为watch指定依赖源
+    ```html
+    <template>
+        <div>
+            state2.count: <input type="text" v-model="state2.count"/>
+            {{state2.count}}<br/>
+            ref2: <input type="text" v-model="ref2">{{ref2}}<br/>
+        </div>
+    </template>
+    <script>
+        import { watch, reactive, ref } from 'vue';
+
+        export default {
+            setup() {
+                const state2 = reactive({count: ''});
+                const ref2 = ref('');
+                // 通过函数参数指定reactive依赖源
+                // 只有在state2.count改变时才出发watch
+                watch(
+                    () => state2.count,
+                    () => {
+                        console.log('state2.count', state2.count);
+                        console.log('ref2.value', ref2.value);
+                    }
+                )
+                // 直接指定ref已来院
+                watch(ref2, () => {
+                    console.log('state2.count', state2.count);
+                    console.log('ref2.value', ref2.value);
+                })
+                return { state, inputRef, state2, ref2 }
+            }
+        }
+    </script>
+    ```
+- watch多个数据源
+
+    ```html
+    <template>
+        <div>
+            <p>
+                <input type="text" v-model="state.a"><br/>
+                <input type="text" v-model="state.b"><br/>
+            </p>
+            <p>
+                <input type="text" v-model="ref1"><br/>
+                <input type="text" v-model="ref2"><br/>
+            </p>
+        </div>
+    </template>
+    <script>
+        import { reactive, ref, watch } from 'vue';
+
+        export default {
+            setup() {
+                const state = reactive({a: 'a', b: 'b'});
+                // state.a 和 state.b任意一个改变都会触发watch的回调
+                watch(() => [state.a, state.b], 
+                    // 回调的第二个参数是对应上一个状态的值
+                    ([a, b], [preA, preB]) => {
+                        console.log('callback params:', a, b, preA, preB);
+                        console.log('state.a', state.a);
+                        console.log('state.b', state.b);
+                        console.log('*********')
+                    }
+                )
+                const ref1 = ref(1);
+                const ref2 = ref(2);
+                watch([ref1, ref2], ([val1, val2], [preVal1, preVal2]) => {
+                    console.log('callback params:', val1, val2, preVal1, preVal2)
+                    console.log('ref1.value:',ref1.value)
+                    console.log('ref2.value:',ref2.value)
+                    console.log('##############')
+                })
+                return { state, ref1, ref2 }
+            }
+        }
+    </script>
+    ```
+- 取消watch
+
+    <span style="color: red;font-weight:bold">watch接口会返回一个函数，该函数用以取消watch</span>
+    ```html
+    <template>
+        <div>
+            <input type="text" v-model="inputRef">
+            <button @click="onClick">stop</button>
+        </div>
+    </template>
+    <script>
+        import { watch, ref } from 'vue';
+
+        export default {
+            setup() {
+                const inputRef = ref('');
+                const stop = watch(() => {
+                    console.log('watch', inputRef.value);
+                })
+                const onClick = () => {
+                    // 取消watch， 取消之后对应的watch不会在执行
+                    stop()；
+                }
+                return {inputRef, onClick}
+            }
+        }
+    </script>
+    ```
+- 清除副作用
+
+    为什么需要清除副作用？有这样一种场景,在watch中执行异步操作时，在异步操作还没有执行完成，此时第二次watch被处罚，这时候需要清除上一次异步操作
+    ```html
+    <template>
+        <div>
+            <h3>Cleanup</h3>
+            <input type="text" v-model="inputRef">
+            <input type="text" v-model="inputRef2">
+        </div>
+    </template>
+    <script>
+        import {ref, watch} from 'vue';
+
+        export default {
+            setup() {
+                const inputRef = ref('');
+                const getData = value => {
+                    const handler = setTimeout(() => {
+                        console.log('已获得数据', value);
+                    }, 5000);
+                    return handler;
+                }
+                watch(onCleanup => {
+                    const handler = getData(inputRef.value);
+                    // 清除副作用
+                    onCleanup(() => {
+                        clearTimeout(handler);
+                    })
+                })
+
+                // 另一种获取onCleanup的方式
+                const inputRef2 = ref('');
+                watch(inputRef2, (val, oldVal, onCleanup) => {
+                    // 清除副作用
+                    onCleanup(() => {
+                        clearTimeout(handler);
+                    })
+                })
+                return { inputRef, inputRef2 }
+            }
+        }
+    </script>
+    ```
+    watch提供了一个onCleanup的副作用清除函数,该函数接收一个函数，在该函数中进行副作用清除。那么onCleanup什么时候执行？
+    - <span style="color: red">watch的callback即将被第二次执行时候先执行onCleanup</span>
+    - <span style="color: red">watch被停止时，即组件被卸载之后</span>
+- watch选项-
+
+    watch接口还支持配置一些选项以改变默认行为，配置选项可通过watch的最后一个参数传入
+
+- lazy
+
+    <span style="color: red">vue2中的watch默认在组件挂载之后是不会执行的，但如果希望理解执行，可以设置immediate为true。而vue3中,watch默认会在组件挂载之后执行，如果希望取得与vue2 watch同样的行为，可配置lazy为true</span>
+    ```html
+    <template>
+        <div>
+            <h3>Watch Option</h3>
+            <input type="text" v-model="inputRef">
+        </div>
+    </template>
+    <script>
+        import { watch, ref } from 'vue';
+
+        export default {
+            setup() {
+                const inputRef = ref('');
+                // 配置lazy为true之后，组件挂载不会执行，直到inpurRef改变才执行
+                watch(() => {
+                    console.log(inputRef.value);
+                }, {lazy: true});
+                return {inputRef}
+            }
+        }
+    </script>
+    ```
+- deep
+
+    如vue2的deep参数一般，在设置deep为true之后，深层对象的任意一个属性改变都会出发回调的执行
+    ```html
+    <template>
+        <div>
+            <button @click="onClick">CHANGE</button>
+        </div>
+        </template>
+        <script>
+        import {watch, ref} from 'vue'
+
+        export default {
+            setup() {
+            const objRef = ref({a: {b: 123}, c: 123})
+            watch(objRef,() => {
+                console.log('objRef.value.a.b',objRef.value.a.b)
+            }, {deep: true})
+            const onClick = () => {
+                // 设置了deep之后，深层对象任意属性的改变都会触发watch回调的执行
+                objRef.value.a.b = 780
+            }
+            return {onClick}
+            }
+        }
+        </script>
+    ```
+- flush
+
+    **当同一个tick中发生许多状态突变时，Vue的反应性系统会缓冲观察者回调并异步刷新他们，以避免不必要的重复调用。默认的行为是：当调用观察者回调时，组件状态和DOM状态已经同步**。
+
+    <span style="color: red">这种行为可以通过flush来配置，flush有三个值，分别是post(默认)、pre与sync。sync表示在状态更新时同步调用，pre则表示在组件更新之前调用。</span>
+
+- onTrack 与 onTrigger
+
+    onTrack 与 onTrigger 用于调试
+    - onTrack:在reactive属性或ref被追踪为依赖时调用。
+    - onTrigger：在watcher的回调因依赖改变而触发时调用
+    ```html
+    <template>
+        <div>
+            <h4>test onTrigger & onTrack</h4>
+            <input type="text" v-model="debugRef">
+        </div>
+    </template>
+    <script>
+        import {watch, ref, reactive} from 'vue'
+
+        export default {
+            setup() {
+            const debugRef = ref(0)
+            // 在组件挂载之后只有onTrack被调用
+            // 在debugRef改变之后先调用onTrigger，再调用onTrack
+            watch(() => {
+                console.log('debugRef.value:',debugRef.value)
+            }, {
+                onTrack() {
+                debugger;
+                },
+                onTrigger() {
+                debugger;
+                }
+            })
+            return {inputRef, onClick, debugRef}
+            }
+        }
+    </script>
+    ```
+### Lifecycle Hooks
+Composition API当然也提供了组件生命周期钩子的回调
 
 
 

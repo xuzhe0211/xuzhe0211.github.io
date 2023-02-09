@@ -210,16 +210,244 @@ createApp 是vue3.x的api,只需知道这是创建了vue应用既可，vite利�
 
 - 怎么返回模块内容
 
-    在下一个koa middleware中
+    在下一个koa middleware中,用正则匹配到路径上带有@modules的资源，在通过require('xxxx')拿到包的导出返回给浏览器。
 
+    以往使用webpack之类的打包工具，它们除了将模块组装到一起形成bundle，还可以让使用了不同模块规范的包互相引用，比如
+    :::tip
+    - ES module(esm)导入cjs
+    - CommonJS(cjs)导入esm
+    - dynamic import 导入esm
+    - dynamic import 导入cjs
+    :::
+    关于es module的坑可以看[这篇文章](https://zhuanlan.zhihu.com/p/40733281?spm=taofed.bloginfo.blog.33.b27a5ac8zlLZms)
+
+    起初在vite还只是为了vue3.x设计的时候，对vue esm包是经过特殊处理的，比如：需要@vue/runtime-dom这个包的内容，不能直接通过require('@vue/runtime-dom')得到，而需要通过require('@vue/runtime-dom/dist/runtime-dom.esm-bundler.js')的方式，这样可以使得vite拿到符合esm模块标准的vue包。
+
+    目前社区中大部分模块都没有设置默认导出esm，而是导出了cjs的包，既然vue3.0需要额外处理才能拿到esm的包内容，那么其他日常使用的npm是不是也同样需要支持？答案是肯定的，目前在vite项目里直接使用lodash还是会报错的
+
+    ![vite引入lodash](./images/1590825252411-db5474c0-77df-4fa0-a5a5-ef666002f7c4.png)
+
+    不过vite在最近的更新中，加入了optimize命令，这个命令专门为解决模块引用的坑而开发，例如我们要在vite中使用lodash,只需要在vite.config.js（vite配置文件）,配置 optimizeDeps 对象，在include 数组中添加lodash
+    ```js
+    // vite.config.js
+    module.exports = {
+        optimizeDeps: [
+            include: ['lodash']
+        ]
+    }
+    ```
+    <span style="color: red">这样vite在执行 runOptimize 的时候中会使用rollup对lodash包重新编译，将编译撑符合esm模块规范的新的包放入node_module下的.vite_opt_cache,然后配合resolver对lodash的导入进行处理：使用编译后的包内容代替原来lodash的包内容，这样就解决了vite中不能使用cjs包的问题，这部分代码在 depOptimizer.ts 里。
+
+    不过这里还有个问题，由于 depOptimizer.ts 中，vite只会处理在项目下package.json里的 dependencies 里声明好的包进行处理，所以无法在项目里使用
+    ```js
+    import pick from 'lodash/pick';
+    ```
+    的方式使用pick方法 ，而要使用
+    ```js
+    import lodash from 'lodash';
+    lodash.pick();
+    ```
+    的方式，这可能在生产环境下使用某些包的时候对bundle的体积有影响
+
+    返回模块的内容的代码在： serverPluginModuleResolve.ts 这个plugin中
 ### vite如何编译模块
+最初 vite 为 vue3.x 开发，所以这里的编译指的是编译 vue 单文件组件，其他 es 模块可以直接导入内容。
 
+- SFC
+
+    vue单文件组件(简称SFC)是vue的一个亮点，前端界对SFC褒贬不一，个人看来，SFC是利大于弊，虽然SFC带来了额外的开发工作量，比如为了解析template要写模板解析器，还要在SFC中解析出逻辑和样式，在vscode里要写vscode插件，在webpack里要写vue-loader，单独UI与适用方来说可以在一个文件里同时写template、js、style，省去了个文件互相跳转。
+
+    与vue-loader相似，vite在解析vue文件的时候也要分别处理多次,我们打开浏览器的network，可以看到
+
+    ![vue-loader解析](./images/1589340071165-105baf6d-4d62-4570-8bb0-4c0de5a7960c.png)
+
+    1个请求的query中山门都没有，另2个请求分别通过query里指定了type为style 和template。
+
+    先来看看如何将一个SFC变成多个请求，我们从第一次请求开始分析，简化后的代码如下
+    ```js
+    function vuePlugin({app}) {
+        app.use(async (ctx, next) => {
+            if(!ctx.path.endsWith('.vue') && !ctx.vue) {
+                return next();
+            }
+
+            const query = ctx.query;
+            // 获取文件名称
+            let filetname = resolver.erquestToFile(publicPath);
+
+            // 解析器解析SFC
+            const descriptor = await parseSFC(root, filename, ctx.body);
+            if(!descriptor) {
+                ctx.status = 404;
+                return;
+            }
+            // 第一次请求.vue
+            if(!query.type) {
+                if (descriptor.script && descriptor.script.src) {
+                    filename = await resolveSrcImport(descriptor.script, ctx, resolver)
+                }
+                ctx.type = 'js'
+                // body 返回解析后的代码
+                ctx.body = await compileSFCMain(descriptor, filename, publicPath)
+            }
+            // ...
+        })
+    }
+    ```
+    在 compileSFCMain 中是一段长长的 generate 代码：
+    ```js
+    function compileSFCMain(descriptor, filePath: string, publicPath: string) {
+        let code = ''
+        if (descriptor.script) {
+            let content = descriptor.script.content
+            code += content.replace(`export default`, 'const __script =')
+        } else {
+            code += `const __script = {}`
+        }
+
+        if (descriptor.styles) {
+            code += `\nimport { updateStyle } from "${hmrClientId}"\n`
+            descriptor.styles.forEach((s, i) => {
+            const styleRequest = publicPath + `?type=style&index=${i}`
+            code += `\nupdateStyle("${id}-${i}", ${JSON.stringify(styleRequest)})`
+            })
+            if (hasScoped) {
+            code += `\n__script.__scopeId = "data-v-${id}"`
+            }
+        }
+
+        if (descriptor.template) {
+            code += `\nimport { render as __render } from ${JSON.stringify(
+            publicPath + `?type=template`
+            )}`
+            code += `\n__script.render = __render`
+        }
+        code += `\n__script.__hmrId = ${JSON.stringify(publicPath)}`
+        code += `\n__script.__file = ${JSON.stringify(filePath)}`
+        code += `\nexport default __script`
+        return code
+    }
+    ```
+    直接看 generate 后的代码：
+    ```js
+    import { updateStyle } from "/vite/hmr"
+    updateStyle("c44b8200-0", "/App.vue?type=style&index=0")
+    __script.__scopeId = "data-v-c44b8200"
+    import { render as __render } from "/App.vue?type=template"
+    __script.render = __render
+    __script.__hmrId = "/App.vue"
+    __script.__file = "/Users/muou/work/playground/vite-app/App.vue"
+    export default __script
+    ```
+    出现了 vite/hmr 的导入，vite/hmr 具体内容我们下文再分析，从这段代码中可以看到，对于 style vite 使用 updateStyle 这个方法处理，updateStyle 内容非常简单，这里就不贴代码了，就做了 1 件事：通过创建 style 元素，设置了它的 innerHtml 为 css 内容。
+
+    这两种方式都会使得浏览器发起 http 请求，这样就能被 koa 中间件捕获到了，所以就形成了上文我们看到的：对一个 .vue 文件处理三次的情景。
+
+    这部分代码在：serverPluginVue 这个 plugin 里。
+- css
+
+    如果在 vite 项目里引入一个 sass 文件会怎么样？
+
+    最初 vite 只是为 vue 项目开发，所以并没有对 css 预编译的支持，不过随着后续的几次大更新，在 vite 项目里使用 sass/less 等也可以跟使用 webpack 的时候一样优雅了，只需要安装对应的 css 预处理器即可。
+
+    在 cssPlugin 中，通过正则：/(.+).(less|sass|scss|styl|stylus)$/ 判断路径是否需要 css 预编译，如果命中正则，就借助 cssUtils 里的方法借助 postcss 对要导入的 css 文件编译。
 
 ### vite热更新的实现
+上文中出现了 vite/hmr ，这就是 vite 处理热更新的关键，在 serverPluginHmr plugin 中，对于 path 等于  vite/hmr 做了一次判断：
+```js
+app.use(async (ctx, next) => {
+    if(ctx.path === '/vite/hmr') {
+        ctx.type = 'js';
+        ctx.status = 200;
+        ctx.body = hmrClient;
+    }
+})
+```
+hmrClient是vite热更新的客户端代码，需要在浏览器里执行，这里先来说说通用的热更新实现，热更新一般需要四个部分：
+1. <span style="color: red">首先需要web框架支持的rerender/reload</span>
+2. <span style="color: red">通过watcher监听文件改动</span>
+3. <span style="color: red">通过server端编译资源，并推送新模块内容给client</span>
+4. <span style="color: red">client收到新的模块内容，执行rerender/loader</span>
+
+vite 也不例外同样有这四个部分，其中客户端代码在：client.ts 里，服务端代码在 serverPluginHmr 里，对于 vue 组件的更新，通过 vue3.x 中的 HMRRuntime 处理的。
 
 
+- client 端
 
+    在 client 端， WebSocket 监听了一些更新的类型，然后分别处理，它们是：
 
+    - vue-reload —— vue 组件更新：通过 import 导入新的 vue 组件，然后执行 HMRRuntime.reload
+    - vue-rerender —— vue template 更新：通过 import 导入新的 template ，然后执行 HMRRuntime.rerender
+    - vue-style-update —— vue style 更新：直接插入新的 stylesheet
+    - style-update —— css 更新：document 插入新的 stylesheet
+    - style-remove —— css 移除：document 删除 stylesheet
+    - js-update  —— js 更新：直接执行
+    - full-reload —— 页面 roload：使用 window.reload 刷新页面
+- server 端
+     
+     在 server 端，通过 watcher 监听页面改动，根据文件类型判断是 js Reload 还是 Vue Reload：
+     ```js
+      watcher.on('change', async (file) => {
+    const timestamp = Date.now()
+        if (file.endsWith('.vue')) {
+        handleVueReload(file, timestamp)
+        } else if (
+        file.endsWith('.module.css') ||
+        !(file.endsWith('.css') || cssTransforms.some((t) => t.test(file, {})))
+        ) {
+        // everything except plain .css are considered HMR dependencies.
+        // plain css has its own HMR logic in ./serverPluginCss.ts.
+        handleJSReload(file, timestamp)
+        }
+    })
+     ```
+     在 handleVueReload 方法里，会使用解析器拿到当前文件的 template/script/style ，并且与缓存里的上一次解析的结果进行比较，如果 template 发生改变就执行 vue-rerender，如果 style 发生改变就执行 vue-style-update，简化后的逻辑如下：
+     ```js
+      async function handleVueReload(
+		file
+        timestamp,
+        content
+    ) {
+        // 获取缓存
+        const cacheEntry = vueCache.get(file）
+
+        // 解析 vue 文件                                 
+        const descriptor = await parseSFC(root, file, content)
+        if (!descriptor) {
+        // read failed
+        return
+        }
+            // 拿到上一次解析结果
+        const prevDescriptor = cacheEntry && cacheEntry.descriptor
+        
+        // 设置刷新变量
+        let needReload = false // script 改变标记
+        let needCssModuleReload = false // css 改变标记
+        let needRerender = false // template 改变标记
+
+        // 判断 script 是否相同
+        if (!isEqual(descriptor.script, prevDescriptor.script)) {
+        needReload = true
+        }
+
+        // 判断 template 是否相同
+        if (!isEqual(descriptor.template, prevDescriptor.template)) {
+        needRerender = true
+        }
+        
+        // 通过 send 发送 socket
+        if (needRerender){
+            send({
+            type: 'vue-rerender',
+            path: publicPath,
+            timestamp
+        })	
+        }
+    }
+     ```
+     handleJSReload 方法则是根据文件路径引用，判断被哪个 vue 组件所依赖，如果未找到 vue 组件依赖，则判断页面需要刷新，否则走组件更新逻辑，这里就不贴代码了。
+
+    整体代码在 client.ts 和 serverPluginHmr.ts 里。
 
 ## 总结
 
