@@ -411,7 +411,12 @@ git rest --soft origin/branchname
 
 如果不修改信息
 ```
-git commit --amennd -no-edit
+git commit --amend -no-edit
+
+// 或者有信息的修改的提交
+git add .
+
+git commit --amend
 ```
 ## git diff
 ```js
