@@ -11,6 +11,7 @@ const isInfinity = number => {
     return false;
 }
 // 第二种
+// 这是表示大于Number.MAX_VALUE任何值的特殊数值。此值被表示为“无限大”。此值类似于在其数学的无穷大。
 if(result === Number.POSITIVE_INFINITY || result === Number.NEGATIVE_INFINITY) {
     return true
 }

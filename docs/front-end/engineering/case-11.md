@@ -60,6 +60,30 @@ require.context(directory, useSubdirectories, regExp);
     })
     ```
 
+## vite中使用require.context()
+- import.meta.globEager()
+
+```js
+// webpack 
+const routeFiles = require.context('@/router/main', true, /.ts/);
+// 里面是所有的ts 文件的路径，相对于main的
+// production/goods/goods.ts
+
+routeFiles.keys().forEach((key: string) => {
+    // 拼接出路由使用的路径
+    const route = require('../router/main' + key.split('.')[1]);
+    allRoutes.push(route.default);
+})
+
+// vite
+const routeFiles = import.meta.globEager('@/router/main/**/*.ts')
+console.log(routeFiles)
+for (const path in routeFiles) {
+  allRoutes.push(routeFiles[path].default)
+}
+```
+
+
 [TypeError: require.context is not a function](https://github.com/storybookjs/storybook/issues/2487)
 
 [require.context

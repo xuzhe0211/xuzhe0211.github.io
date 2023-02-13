@@ -76,7 +76,7 @@ addEventLienter可以给同样一个事件注册多个事件处理程序
 对于事件目标上的事件监听器来说，事件会处于目标阶段。这时会触发该元素(即事件目标)上所有监听器，而不在乎这个监听器注册时的useCapture参数是true还是false
 :::
 
-<span style="color: blue">[addEventListennter](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener)方法可以控制listener的触发阶段(捕获、冒泡)。**而其他事件绑定方式均没有捕获阶段**</span>。虽然一般都是将处理程序添加到事件的冒泡阶段(只要不阻止冒泡，且事件类型会冒泡，默认都是在此阶段)，说明冒泡的兼容性好。但是需要灵活控制嵌套元素同一事件的触发顺序这种特殊情况，只有addEventListener()能事件
+<span style="color: red">[addEventListennter](https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener)方法可以控制listener的触发阶段(捕获、冒泡)。**而其他事件绑定方式均没有捕获阶段**。虽然一般都是将处理程序添加到事件的冒泡阶段(**只要不阻止冒泡，且事件类型会冒泡，默认都是在此阶段**)，说明冒泡的兼容性好</span>。但是需要灵活控制嵌套元素同一事件的触发顺序这种特殊情况，只有addEventListener()能事件
 
 语法：target.addEventListener(type, listener, [useCapture])
 

@@ -415,7 +415,15 @@ const lenLongestFibSubseq = arr => {
 ```
 
 ## 堆叠长方体的最大高度
+![堆叠长方体的最大高度](./images/image.jpg)
 ```js
+// 输入：cuboids = [[50,45,20],[95,37,53],[45,23,12]]
+// 输出：190
+// 解释：
+// 第 1 个长方体放在底部，53x37 的一面朝下，高度为 95 。
+// 第 0 个长方体放在中间，45x20 的一面朝下，高度为 50 。
+// 第 2 个长方体放在上面，23x12 的一面朝下，高度为 45 。
+// 总高度是 95 + 50 + 45 = 190 。
 const maxHeight = function(cuboids) {
     let n = cuboids.length;
     for(const v of cuboids) {
@@ -452,7 +460,7 @@ const minPath = grid => {
     }
     for(let i = 1; i < row; i++) {
         for(let j = 1; j < col; j++) {
-            grid[i][j] += Math.min(grid[i - 1][j], grid[i - 1][j]);
+            grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);
         }
     }
     return grid[row - 1][col - 1];
