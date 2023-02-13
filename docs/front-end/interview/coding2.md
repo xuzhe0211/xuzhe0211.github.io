@@ -149,7 +149,7 @@ function multiRequest(urls, maxNum) {
             if(i >= urls.length) {
                 return resolve();
             }
-            const task = request(urls[i++]).finally(() => {
+            const task = request(urls[i++]).then(res => console.log(res)).finally(() => {
                 addTask();
             })
             ret.push(task);
