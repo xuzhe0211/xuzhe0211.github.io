@@ -1853,6 +1853,36 @@ const nextPermutation = nums => {
     }
 }
 ```
+## [数组]检查好数组
+给你一个正整数数组 nums，你需要从中任选一些子集，然后将子集中每一个数乘以一个 任意整数，并求出他们的和。
+
+假如该和结果为 1，那么原数组就是一个「好数组」，则返回 True；否则请返回 False。
+```js
+// 输入：nums = [12,5,7,23]
+// 输出：true
+// 解释：挑选数字 5 和 7。
+// 5*3 + 7*(-2) = 1
+const isGoodArray = function(nums) {
+    let divisor = nums[0];
+    for(let num of nums) {
+        divisor = gcd(divisor, num);
+        if(divisor === 1) {
+            break;
+        }
+    }
+    return divisor === 1;
+}
+const gcd = (num1, num2) => {
+    while(num2 !== 0) {
+        const temp = num1;
+        num1 = num2;
+        num2 = temp % num2;
+    }
+    return num1;
+}
+```
+
+[检查好数组](https://leetcode.cn/problems/check-if-it-is-a-good-array/description/?languageTags=javascript)
 ## 最长连续序列
 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
 
