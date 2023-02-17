@@ -227,6 +227,35 @@ var hammingWeight = function(n) {
 
 接下来，我们把其他类型的哈希表题也介绍了（相同的题型没那么多）
 
+### 数组队形式多少数对
+给你一个下标从 0 开始的整数数组 nums 。在一步操作中，你可以执行以下步骤：
+
+从 nums 选出 两个 相等的 整数
+从 nums 中移除这两个整数，形成一个 数对
+请你在 nums 上多次执行此操作直到无法继续执行。
+
+返回一个下标从 0 开始、长度为 2 的整数数组 answer 作为答案，其中 answer[0] 是形成的数对数目，answer[1] 是对 nums 尽可能执行上述操作后剩下的整数数目。
+```js
+// 输入：nums = [1,3,2,1,3,2,2]
+// 输出：[3,1]
+// 解释：
+// nums[0] 和 nums[3] 形成一个数对，并从 nums 中移除，nums = [3,2,3,2,2] 。
+// nums[0] 和 nums[2] 形成一个数对，并从 nums 中移除，nums = [2,2,2] 。
+// nums[0] 和 nums[1] 形成一个数对，并从 nums 中移除，nums = [2] 。
+// 无法形成更多数对。总共形成 3 个数对，nums 中剩下 1 个数字。
+var numberOfPairs = function(nums) {
+    let map = new Map();
+    let res = 0;
+    for(let num of nums) {
+        map.set(num, !map.get(num) || false);
+        if(!map.get(num)) {
+            res++;
+        }
+    }
+    return [res, nums.length - res * 2];
+}
+```
+[数组能形式多少数对](https://leetcode.cn/problems/maximum-number-of-pairs-in-array/description/?languageTags=javascript)
 ## 哈希表+ 映射功能
 
 哈希表有一个非常常见的功能就是建立映射关系，比如说设计模式里的**策略模式？**，思路是一样，映射表常常见于后端的枚举类型，typeScript也是一样我们举个例子
