@@ -223,7 +223,12 @@ $ docker   # bash: docker: command not found 这个容器没有安装docke
 ### 几个常见场景的命令使用
 - 守护式启动容器
 
-    使用centos以后台模式启动一个容器 docker run -d --name mycentos0903 0d120b6ccaa8, 启动之后  docker ps -a 查看，发现容器并不在运行中，这是因为Docker的运行机制：Docker 容器后台运行，必须有一个前台进程。
+    使用centos以后台模式启动一个容器 docker run -d --name mycentos0903 0d120b6ccaa8, 启动之后  docker ps -a 查看，发现容器并不在运行中，这是因为Docker的运行机制：<span style="color: red">Docker 容器后台运行，必须有一个前台进程。</span>
+
+    容器运行的命令如果不是那些一直挂起的命令，比如top、tail，运行结束会自动退出。所以为了让容器持续在后台运行，那么需要将运行的程序以前台进程的形式运行。
+
+    比如这里在后台运行一个命令，这个命令一直在打印 docker run -d centos /bin/sh -c "while true; do echo hello zzyy; sleep 2; done",ranhou women logs查看以下
+
 
 ## 安装MySQL
 
