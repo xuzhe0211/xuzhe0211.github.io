@@ -227,19 +227,190 @@ $ docker   # bash: docker: command not found 这个容器没有安装docke
 
     容器运行的命令如果不是那些一直挂起的命令，比如top、tail，运行结束会自动退出。所以为了让容器持续在后台运行，那么需要将运行的程序以前台进程的形式运行。
 
-    比如这里在后台运行一个命令，这个命令一直在打印 docker run -d centos /bin/sh -c "while true; do echo hello zzyy; sleep 2; done",ranhou women logs查看以下
+    比如这里在后台运行一个命令，这个命令一直在打印 docker run -d centos /bin/sh -c "while true; do echo hello zzyy; sleep 2; done",ranhou women logs查看一下
 
+    ![logs][./images/6.png]
+
+- 退出容器后对容器操作
+
+    退出容器后可以通过 exec 方法对正在运行的容器进行操作
+
+    ![退出容器之后对容器操作](./images/8.png)
+
+- 在容器中拷贝文件到外部
+
+    拷贝文件使用 cp 命令
+
+    ```shell
+    $ docker cp [容器ID]/[容器Names]:[要拷贝的文件目录] [本地目录] # 容器文件拷贝到本机
+    $ docker cp [本机目录] [容器ID]/[容器Names]:[要拷贝的文件目录] # 本机文件拷贝到容器
+    ```
+    cp 不仅能把容器中的文件/文件夹拷贝到本机，也可以把本机中的文件/文件夹拷贝到容器。
+
+    演示一下，这里先到容器里面创建一个无聊的文件xixi.txt,然后拷贝到本机
+
+    ![cp](./images/9.png)
+
+    使用的时候，我们可以拷贝配置、日志等文件到本地
 
 ## 安装MySQL
+```shell
+# 搜索镜像
+$ docker search mysql
 
+# 下载镜像，实测没配置镜像加速的时候会比较慢，配置了好一些
+$ docker pull mysql
+
+# 查看镜像
+$ docker images
+
+# 创建并运行容器
+$ docker run -d -p 3307:3306 -e MYSQL_ROOT_PASSWORD=888888 -v /Users/sherlocked93/Personal/configs/mysql.d:/etc/mysql/conf.d --name localhost-mysql mysql
+```
+稍微解释以下上面的参数
+1. -p 3307:3306 将本机的3307端口映射到mysql容器的3306端口，根据需要自行更改
+2. -e MYSQL_ROOT_PASSWORD=&lg;string&gt; 设置远程登陆的root用户密码
+3. --name &lt;string&gt; 可选，设置容器别名
+4. -v xxx/mysql.d:/etc/mysql/conf.d 将本机目录下设置文件夹映射到容器的/etc/mysql/conf.d
+5. -v xxx/logs:/lons 将本地指定目录下的logs目录挂载到容器的/logs
+6. -v xxx/data:/var/lib/mysql 将本机指定目录下的data目录挂载到容器的/var/lib/mysql
+
+运行截图
+![mysql运行](./images/10.png)
+然后去Navicat中就可以连接到MYsql了。
+
+这也太爽了!真的是几行命令就装好了啊，比之前真实快乐多了
 ## 安装 Nginx
+Nginx的安装与其他类似，如果你还不想Nginx如何使用，可以参考[Nginx从入门到实践，万字详解](https://mp.weixin.qq.com/s?__biz=Mzg5ODA5MzQ2Mw==&mid=2247484653&idx=1&sn=3d384389337950a9f2391f2464bc4d9c&scene=21#wechat_redirect)这篇文章，看完基本就了解如何使用和配置了。
 
+```shell
+# 搜索/下载镜像
+$ docker search nginx
+$ docker pull nginx
+```
+![nginx](./images/11.png)
+
+然后创建一个临时的容器，目的是把默认配置拷贝到本机，我这里把配置文件放到/mnt 目录下，主要是三个配置文件夹
+1. /etc/nginx 放置Nginx配置文件
+2. /var/log/nginx 放置Nginx日志文件
+3. /usr/share/nginx/html/ 放置Nginx前端静态文件都放在这个文件夹；
+
+分别把这几个目录都拷贝到本机的/mnt文件夹下的nginx、nginx_logs、html文件夹
+
+刚刚创建的临时容器没用了 docker rm -f [临时容器ID] 把临时容器干掉，然后 docker run 重新创建Nginx 容器
+
+```shell
+$ docker run -d --name localhost-nginx -p 8082:80 \
+-v /mnt/nginx:/etc/nginx \
+-v /mnt/nginx_logs:/var/log/nginx \
+-v /mnt/html:/usr/share/nginx/html \
+--privileged=true nginx
+```
+<span style="color: red">--privileged=true 表示容器内部对挂载的目录拥有读写等权限</span>
+
+其他配置刚刚上面已经讲过
+![docker run nginx](./images/12.png)
+
+然后再你自己浏览器上就可以访问了，如果是云服务器，记得开放对应端口
 ## 安装 Easy Mock
+因为Easy Mock依赖Redis和MongoDB,因此本地环境使用docker-compose来搭建Easy Mock应该算是最贱实践了
+
+### 安装docker-compose
+官方文档：https://docs.docker.com/compose/install/
+
+首先你得确定拥有 docker 环境，如果你是 Windows / Mac 用户，那么安装客户端，就会自带 docker-compose 了。
+
+因为本次我们是在云服务器 CentOS7.6 上搭建，所以我们需要自行安装 docker-compose，运行如下命令，下载当前稳定版本的 docker-compose
+```shell
+$ sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+修改文件权限为可执行文件
+```shell
+$ sudo chmod +x /usr/local/bin/docker-compose
+```
+验证是否安装成功
+```shell
+$ docker-compose version
+```
+### 编写docker-compose.yml配置文件
+可以参考官方文件给出的部署文件，也可以参考我下面的配置过程。
+
+首先新建文件 docker-compose.yml 并将下面docker-compose文件内容复制进入 docker-compose.yml,然后将内容中注释位置替换为自己需要的本地地址
+```shell
+version: '3'
+
+services:
+  mongodb:
+    image:mongo:3.4.1
+    volumes:
+      #  /apps/easy-mock/data/db 是数据库文件存放地址，根据需要修改为本地地址
+      -'/apps/easy-mock/data/db:/data/db'
+    networks:
+      -easy-mock
+    restart:always
+
+  redis:
+    image:redis:4.0.6
+    command:redis-server--appendonlyyes
+    volumes:
+      #  /apps/easy-mock/data/redis 是 redis 数据文件存放地址，根据需要修改为本地地址
+      -'/apps/easy-mock/data/redis:/data'
+    networks:
+      -easy-mock
+    restart:always
+
+  web:
+    image:easymock/easymock:1.6.0
+    # easy-mock 官方给出的文件，这里是 npm start，这里修改为 npm run dev
+    command:/bin/bash-c"npm run dev:server"
+    ports:
+      -7300:7300# 改为你自己期望的映射
+    volumes:
+      # 日志地址，根据需要修改为本地地址
+      -'/apps/easy-mock/logs:/home/easy-mock/easy-mock/logs'
+    networks:
+      -easy-mock
+    restart:always
+
+networks:
+  easy-mock:
+```
+### 启动Easy-mock
+在docker-compose文件目录下，运行如下命令
+```shell
+$ docker-compose up -d
+```
+如果遇到easymock docker 实例报文件权限错误
+```shell
+Error: EACCES:permission denied...
+```
+要在项目根目录执行以下命令
+```shell
+$ chmod 777 /yourfile/logs
+```
+然后就可以通过浏览器上的 你的域名.com:7300 访问到 easy-mock 了！
+
+如果你觉得域名后面跟着端口号挺难看的，你可以通过配置 Nginx 的二级域名来访问你部署的 easy-mock，配置二级域名的方法参见 [这篇文章](https://mp.weixin.qq.com/s?__biz=Mzg5ODA5MzQ2Mw==&mid=2247484653&idx=1&sn=3d384389337950a9f2391f2464bc4d9c&scene=21#wechat_redirect)
 
 ## 可视化管理
+关于可视化查询工具,这里就简单推介一个LazyDocker，由于是在终端运行的，而且支持键盘操作和鼠标点击，就挺骚气的，有了这个一些查询语句就可以少打几次了
 
+![LazyDocker](./images/2.jpg)
+
+安装比较简单，运行下面命令
+```shell
+$ docker run --rm -it -v \
+/var/run/docker.sock:/var/run/docker.sock \
+-v ~/.config/lazydocker:/.config/jesseduffield/lazydocker \
+lazyteam/lazydocke
+```
+可以设置一个终端的alias
+```shell
+$ alias lzd='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v ~/.config/lazydocker:/.config/jesseduffield/lazydocker lazyteam/lazydocker'
+```
+然后 你在终端输入 lzd 就可以浏览你的镜像、容器、日志、配置、状态等等内容了
 ## 结语
-
+由于在下目前使用 Docker 的主要场景是 MySQL、Nginx 之类工具的安装，所以本文所介绍的内容也大多属于这个场景。
 
 ## 资料
 [原文](https://mp.weixin.qq.com/s/1YDDCiDUMtxFlGQ94aoItg)
