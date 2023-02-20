@@ -231,3 +231,79 @@ const fillCups = function(amount) {
     return Math.floor((amount[0] + amount[1] + amount[2] + 1) / 2)
 }
 ```
+
+## 最大平均通过率
+```js
+// 输入：classes = [[1,2],[3,5],[2,2]], extraStudents = 2
+// 输出：0.78333
+// 解释：你可以将额外的两个学生都安排到第一个班级，平均通过率为 (3/4 + 3/5 + 2/2) / 3 = 0.78333 。
+
+// 零神大佬的思路 可先看完大佬的题解思路，再看以下总结。 总结：
+// 1. 用每个班级的通过率的增加量构建大顶堆，并记录通过率累和。结点数据结构为：[右边两数的通过率的增加量, num[0], num[1]] 
+// 2. 调整大顶堆extraStudents次，并记录通过率增加量累和，其中将堆顶安排一个人后，便自上而下调整堆。 
+// 3. 最后返回平均通过率。
+const maxAverageRatio = function(classes, extraStudents) {
+    let heapSize = classes.length;
+    // 从最后一个非叶子节点，自底向上，构建大顶堆
+    let maxHeap = new Heap(classes); 
+    for(let i = (heapSize >> 1) - 1; i >= 0; i--) {
+        maxHeap.down(i, heapSize);
+    }
+    console.log(maxHeap.heap);
+    // 调整extraStudents次，并记录
+    while(extraStudents--) {
+        let [d, x, y] = maxHeap.heap[0];
+        maxHeap.sum += d;
+        maxHeap.heap[0] = [diff(x + 1, y + 1), x + 1, y + 1];
+        maxHeap.down(0, heapSize);
+    }
+    // 返回
+    return maxHeap.sum / heapSize;
+}
+// 带cmp的堆模版
+let swap = (arr, i, j) => [arr[i], arr[j]] = [arr[j], arr[i]];
+var defaultCmp = (a, b) =>  a[0] < b[0];
+// 通过率的增加量
+let diff = (x, y) => {return (x + 1)/(y + 1) - x / y;}
+class Heap {
+    constructor(nums, cmp = defaultCmp) { // 大顶堆
+        this.heap = [];
+        this.sum = 0;
+        for(let num of nums) {
+            this.heap.push([diff(num[0], num[1]), num[0], num[1]]);
+            this.sum += num[0] / num[1];
+        }
+        this.cmp = cmp;
+    }
+    // 从位置i自底向上调整堆，此题不用刻删除
+    up (i) {
+        while (i > 0) {
+            const parent = (i - 1) >> 1;
+            if (this.cmp(this.heap[parent], this.heap[i])) {
+                swap(this.heap, parent, i);
+                i = parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // 从位置i自上而下调整堆（大小为heapSize）
+    down (i, heapSize) {
+        while (2 * i + 1 < heapSize) {
+            let child = 2 * i + 1;
+            // 下沉到左右孩子较小的结点
+            if (child + 1 < heapSize && this.cmp(this.heap[child], this.heap[child + 1])) {
+                child++;
+            }
+            if (this.cmp(this.heap[i], this.heap[child])) {
+                swap(this.heap, child, i);
+                i = child;
+            } else {
+                break;
+            }
+        }
+    }
+}
+```
+[最大平均通过率](https://leetcode.cn/problems/maximum-average-pass-ratio/description/?languageTags=javascript)

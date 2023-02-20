@@ -227,7 +227,7 @@ var hammingWeight = function(n) {
 
 接下来，我们把其他类型的哈希表题也介绍了（相同的题型没那么多）
 
-### 数组队形式多少数对
+### 数组形式多少数对
 给你一个下标从 0 开始的整数数组 nums 。在一步操作中，你可以执行以下步骤：
 
 从 nums 选出 两个 相等的 整数
@@ -256,6 +256,46 @@ var numberOfPairs = function(nums) {
 }
 ```
 [数组能形式多少数对](https://leetcode.cn/problems/maximum-number-of-pairs-in-array/description/?languageTags=javascript)
+### 最好的扑克手牌
+给你一个整数数组 ranks 和一个字符数组 suit 。你有 5 张扑克牌，第 i 张牌大小为 ranks[i] ，花色为 suits[i] 。
+
+下述是从好到坏你可能持有的 手牌类型 ：
+
+"Flush"：同花，五张相同花色的扑克牌。
+"Three of a Kind"：三条，有 3 张大小相同的扑克牌。
+"Pair"：对子，两张大小一样的扑克牌。
+"High Card"：高牌，五张大小互不相同的扑克牌。
+请你返回一个字符串，表示给定的 5 张牌中，你能组成的 最好手牌类型 。
+
+注意：返回的字符串 大小写 需与题目描述相同。
+```js
+// 输入：ranks = [13,2,3,1,9], suits = ["a","a","a","a","a"]
+// 输出："Flush"
+// 解释：5 张扑克牌的花色相同，所以返回 "Flush" 。
+const bestHand = function(ranks, suits) {
+    let suitsSet = new Set();
+    for(let suit of suits) {
+        suitSet.add(suit);
+    }
+    if(suitSet.size === 1) {
+        return 'Flush';
+    }
+    let h = new Map();
+    for(let rank of ranks) {
+        h.set(rank, (h.get(rank) || 0) + 1);
+    }
+    if (h.size === 5) {
+        return "High Card";
+    }
+    for (const value of h.values()) {
+        if (value > 2) {
+            return "Three of a Kind";
+        }
+    }
+    return "Pair";
+}
+```
+[最好的扑克手牌](https://leetcode.cn/problems/best-poker-hand/description/?languageTags=javascript)
 ## 哈希表+ 映射功能
 
 哈希表有一个非常常见的功能就是建立映射关系，比如说设计模式里的**策略模式？**，思路是一样，映射表常常见于后端的枚举类型，typeScript也是一样我们举个例子
