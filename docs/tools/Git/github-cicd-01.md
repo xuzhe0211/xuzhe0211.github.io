@@ -113,3 +113,12 @@ jobs: 工作流程运行包括一项或多项作业，作业默认是并行运�
 [GitHub Actions 入门教程](https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html)
 
 [GitHub Actions 自动构建 并发布到 NPM](https://cloud.tencent.com/developer/article/1970752)
+
+
+https://frostming.com/2020/04-26/github-actions-deploy/
+
+
+https://frostming.com/2020/04-26/github-actions-deploy/
+
+
+[demo](https://github.com/khitrenovich/github-actions-expect-test/blob/master/my-script.exp)
