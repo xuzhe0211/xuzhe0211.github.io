@@ -252,4 +252,48 @@ const getMaximumConsecutive = coins => {
     return res;
 }
 ```
+##  灌溉花园的最少水龙头数目
+在x轴上有一个一维的花园。花园长度为n，从点0开始，到点n结束。
 
+花园里总共有n+1个水龙头，分别位于[0, 1, ....,n]
+
+给你一个整数n和一个长度为n+1的证书数组ranges,其中ranges[i](下标从0开始)表示:如果打开点i处的水龙头，可以灌溉的区域为[i - ranges[i], i + ranges[i]].
+
+请你返回可以灌溉整个花园的 最少水龙头数目 。如果花园始终存在无法灌溉到的地方，请你返回 -1 。
+![水龙头](./images/1685_example_1.png)
+```js
+// 输入：n = 5, ranges = [3,4,1,1,0,0]
+// 输出：1
+// 解释：
+// 点 0 处的水龙头可以灌溉区间 [-3,3]
+// 点 1 处的水龙头可以灌溉区间 [-3,5]
+// 点 2 处的水龙头可以灌溉区间 [1,3]
+// 点 3 处的水龙头可以灌溉区间 [2,4]
+// 点 4 处的水龙头可以灌溉区间 [4,4]
+// 点 5 处的水龙头可以灌溉区间 [5,5]
+// 只需要打开点 1 处的水龙头即可灌溉整个花园 [0,5] 。
+const minTaps = function(n, ranges) {
+     const rightMost = new Array(n + 1).fill(0).map((_, i) => i);
+     for(let i = 0; i <= n; i++) {
+        let start = Math.max(0, i - ranges[i]);
+        let end = Math.min(n, i + ranges[i]);
+        rightMost[start] = Math.max(rightMost[start], end);
+     }
+     let last = 0, ret = 0, pre = 0;
+     for(let i = 0; i < n; i++) {
+        last = Math.max(last, rightMost[i]);
+        if(i === last) {
+            return -1;
+        }
+        if(i === pre) {
+            ret++;
+            pre = last;
+        }
+     }
+     return ret;
+}
+```
+
+
+
+[灌溉花园的最少水龙头数目](https://leetcode.cn/problems/minimum-number-of-taps-to-open-to-water-a-garden/description/)

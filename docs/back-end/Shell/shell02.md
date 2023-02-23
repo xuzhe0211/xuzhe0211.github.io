@@ -65,3 +65,22 @@ EOF
     chmod 777 aa.sh 。
 
     然后再执行 上面第二步的操作 就 OK .
+// demo
+```shell
+spawn scp -i $1 -P 2020 dist.tar.gz ec2-user@ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn:/home/ec2-user
+expect {
+    "*yes*" { send "yes\r" }
+}
+
+spawn scp -i $1 -P 2020 dist.tar.gz ec2-user@ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn:/home/ec2-user
+expect {
+    "*yes*" { send "yes\r" }
+}
+
+set timeout 5
+
+spawn ssh -i $1 ec2-user@ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn -p 2020
+expect {
+    "*yes*" { send "yes\r" }
+}
+```

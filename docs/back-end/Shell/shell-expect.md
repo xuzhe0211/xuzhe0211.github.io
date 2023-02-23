@@ -64,3 +64,8 @@ brew install expect
 [判断文件是否存在的shell脚本代码](https://www.jb51.net/article/34330.htm)
 
 [expect](https://www.cnblogs.com/steel-chen/p/10636799.html)
+
+
+http://xstarcd.github.io/wiki/shell/expect_handbook.html
+
+https://www.51cto.com/article/720843.html
