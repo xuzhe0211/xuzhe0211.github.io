@@ -84,3 +84,5 @@ expect {
     "*yes*" { send "yes\r" }
 }
 ```
+
+https://juejin.cn/post/7094865414353584164#heading-3
