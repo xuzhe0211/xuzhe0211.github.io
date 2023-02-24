@@ -227,3 +227,11 @@ git commit -m 'fix: 修复 xxx 功能'
 
 ## 资料
 [husky使用总结](https://zhuanlan.zhihu.com/p/366786798)
+
+
+[concepts-commit-conventions rules](https://commitlint.js.org/#/concepts-commit-conventions)
+
+[commitlint 从0到1 (git commit 校验工具)---看看](https://juejin.cn/post/6979054290526535717)
+
+
+https://www.cnblogs.com/bitbw/p/15931436.html

@@ -110,3 +110,5 @@ vscode开启断点调试->断点->点击运行->浏览器访问3000->回调到�
 
 ## 地址
 [视频地址](https://www.youtube.com/watch?v=Lfef9uQo2pE&list=PL9nxfq1tlKKlhV1UzUmElRkxmjkoO3mtH&index=2)
+
+[node 官方中文文档](http://nodejs.cn/api/)

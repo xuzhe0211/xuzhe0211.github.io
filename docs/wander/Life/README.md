@@ -52,6 +52,7 @@ console.log(numbersequal(a,b)); //true
     激活id: 2005277667335 
 - VideoScribe
 - iterm2 /Warp(开箱即用)
+- [Navicat](/tools/Other/must-tools.html#navicat)
 
 
 ## 书籍
