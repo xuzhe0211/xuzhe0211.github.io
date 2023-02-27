@@ -1,5 +1,5 @@
 ---
-autoGroup-12: 工程化知识卡片
+autoGroup-5: babel
 title: babel之配置文件.babelrc入门详解
 ---
 ## 什么是Babel
