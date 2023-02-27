@@ -42,7 +42,7 @@ handTabClick() {
 
 [Vue项目，通过数组下标更改数组的值不生效，页面没有重新渲染](https://blog.csdn.net/weixin_44370837/article/details/123814474)
 
-[面试题分享，修改数据无法更新UI](https://mp.weixin.qq.com/s/CgyoUGp_FNyXKgRlkyZ4lg)
+[面试题分享，修改数据无法更新UI--重要看看](https://mp.weixin.qq.com/s/CgyoUGp_FNyXKgRlkyZ4lg)
 ```html
 <!DOCTYPE html>
 <html lang="en">
