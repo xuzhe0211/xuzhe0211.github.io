@@ -14,7 +14,7 @@ $ npm init vite@latest
 ```shell
 $ yarn create vite
 ```
-![npm init vite@latest](./image/925e205da2fe4537b4ed929da584b661_tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.jpg)
+![npm init vite@latest](./images/925e205da2fe4537b4ed929da584b661_tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.jpg)
 
 选择vue作为framework
 ![framework](./images/1831ca5b21bf4b08a289447a87426557_tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.jpg)

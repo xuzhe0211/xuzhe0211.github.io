@@ -47,3 +47,26 @@ title: js获取整个屏幕尺寸
    ```
 
 ![js距离相关](./images/20180104085724397.jpg)
+
+
+## 获取滚动条位置兼容
+- <span style="color: red">获取当前页面滚动条纵坐标位置： document.body.scrollTop 与 document.documentElement.scrollTop</span>
+
+- <span style="color: red">获取当前页面滚动条横坐标的位置：document.body.scrollLeft与document.documentElement.scrollLeft</span>
+
+- pageXOffset 和 pageYOffset 属性返回文档在窗口左上角水平和垂直方向滚动的像素
+
+### 获取scrollTop的值
+Window pageXOffset和pageYOffset属性
+
+其定义：pageXOffset 设置或返回当前页面相对于窗口显示区左上角的 X 位置。pageYOffset 设置或返回当前页面相对于窗口显示区左上角的 Y 位置。
+
+### scrollTop兼容性的写法
+```js
+var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+
+// window.scroll(0, 0) // 滚动到顶部
+```
+
+
+[使用scrollTo/scrollTop让页面元素滚动到指定位置, 并设置滚动动画](https://blog.csdn.net/small_white_123/article/details/117792575)

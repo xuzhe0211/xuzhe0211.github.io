@@ -206,12 +206,75 @@ app.listen(3000);
 ## Node多进程使用优化
 现在的计算机一般都搭载了多核的cpu，所以我们在编程的时候可以考虑怎么使用多进程或多线程来尽量利用这些cpu来提高我们的性能。
 
+在此之前，我们要先了解一下进程和线程的概览
+- <span style="color: red">进程: 拥有系统挂载运行程序的单元 拥有一些独立的资源，比如内存空间</span>
+- <span style="color: red">线程: 进行运算调度的单元 进程内的线程共享进程内的资源，一个进程是可以用有多个线程的</span>
 
+在NodeJS中一般启动一个服务会有一个主线程和四个子线程，我们简单理解其概览呢，可以把进程当做一个公司，线程当做公司的职工，职工共享公司的资源来进行工作
 
+<span style="color: blue">在NodeJS中，主线程运行v8与Javascript，主线程相当于公司老板负责主要流程和下发各种工作，通过事件循环机制、Libbuv再由四个子线程工作</span>
 
+因为js是一门单线程的语言，它正常情况下只能使用到一个cpu，不过其子线程在 底层也使用到了其他cpu，但是依然没有完全解放多核的能力，当计算任务过于繁重的时候，我们就可以也在其他的cpu上跑一个javascript的运行环境，那么我么先来看看如何用子进程来调用吧
 ## 进程的使用child_process
+我们创建两个文件，master.js和child.js，并且写入如下代码
+```js
+// master.js
+// 自带的子进程模块
+const cp = require('child_process');
+// fork一个地址就是启动了一个子进程
+const child_process = cp.fork(__dirname + '/child.js');
+// 通过send方法给子进程发送消息
+child_process.send('主进程发这个消息给子进程');
+// 通过 on message 响应接收到子进程消息
+child_process.on('message', str => {
+    console.log('主进程:接收到来自子进程的消息', str)
+})
+
+// child.js
+// 通过 on message 响应父进程传递的消息
+process.on('message', str => {
+    console.log('子进程，收到消息', str);
+    // process是全局变量，通过send发送给父进程
+    process.send('子进程发送主进程消息');
+})
+```
+如上，就是一个使用子进程的简单实现了，看起来和ws很像。每fork一次便可以开启一个子进程，我们可以fork多次，fork多少个合适呢，我们后面再说
+
+### 子线程 worker Threads
+在V10版本之后，NodeJS也提供了子线程的能力，在官方文档中解释到，官方认为自己的事件循环机制已经做的够好足够使用了，就没必要为开发者提供这个接口，并且在文档中写到，它可以对计算有帮助，但是对IO操作是没有任何变化的，有兴趣可以去看看这个模块，除此之外，我们可以有更简单的方式去使用多核的服务，接下来我们聊聊内置模块cluster
 
 ## Cluster模块
+在此之前我们来聊聊NodeJS的部署，熟悉NodeJS的同学应该都使用过PM2，利用其可以进程提高部署的性能，其实现原理就是基于这个模块;如果我们可以在不同的核分别去跑一个http服务，那么是不是类似于我们后端的集群，部署多套服务呢？当客户端发送一个Http请求的时候进入到我们的master node，当我们收到请求的时候，我们把其请求发送给子进程，让子进程自己处理完之后返回给我，由主进程将其发送回去，那么这样我们是不是就可以利用服务器的多核呢？答案是肯定的，同时这些都不需要我们做过多的东西，这个模块就帮我们实现了，然后我们来实现一个这样的服务，我们创建两个文件app.js、cluster.js，第一个文件呢就是我们日常的启动文件，我们来简单的，使用我们最开始的那个服务既可
+```js
+// cluster.js
+const cluster = require('cluster');
+
+// 判断如果是主线程那么就启动三个子线程
+if(cluster.isMaster) {
+    cluster.fork();
+    cluster.fork();
+    cluster.fork();
+} else {
+    // 如果是子进程就去加载启动文件
+    require('./index.js')
+}
+```
+<span style="color: blue">就这样简单的代码就可以让我们的请求分发到不同的子进程里面，这一点类似于负载均衡，非常简单，同时我们在启用多进程和没启动的前后分别压测，可以发现启用后的qps是前者的2.5倍拥有很大的一个提升了，也可以知道进程直接的通信是损耗的，不然应该就是三倍了， 那么我们要开启多少个子进程比较合适呢。我们可以使用内置模块OS,来获取当前计算机的CPU核数的，我们加一点简单的改造</span>
+
+```js
+const cluster = require('cluster');
+const os = require('os');
+
+if(cluster.isMaster) {
+    // 多少个cpu就启动多少个子进程
+    for(let i = 0; i < os.cpus().lengh; i++) cluster.fork();
+} else {
+    // 如果是子进程就去加载启动文件
+    require('./index.js')
+}
+```
+
+
 
 ## NodeJS进程守护与管理
 
