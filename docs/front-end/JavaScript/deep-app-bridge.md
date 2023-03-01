@@ -14,7 +14,7 @@ title: App Bridge原理
 
 #### 1.Java如何调用JavaScript
 在Android中，Java和JavaScript的一切交互都是依托于WebView的，可通过如下方法来完成，其中Function()即为Javascript代码，来实现相应的具体H5功能
-```
+```js
 WebView.loadUrl('Javascript:function()')
 ```
 #### 2、JavaScript如何调用Java
@@ -25,7 +25,7 @@ WebView.loadUrl('Javascript:function()')
 
 #### 4、通信的数据格式
 Java与JavaScript通信需要遵循一定的通信协议，可以仿照HTTPS协议来将此协议定义为jsbridge协议：
-```
+```js
 jsbridge://className:port/methodName?jsonObj
 ```
 当js调用native功能，应当制定native层要完成某个功能调用的类名(className)和方法名(methodName)，以及传递过来的参数(jsonObj)。port值是指当native需要将操作结果返回给js时，在js中定义的一个callback,并将这个callback存储在指定的位置上，这个port就定义了callback的存储位置。
