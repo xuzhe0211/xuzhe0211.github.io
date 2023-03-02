@@ -76,7 +76,7 @@ console.log('普通函数', obj.getName3()); // 普通函数 undefined
 如果答错了，也别灰心，毕竟网络有着35的延迟，影响着你的操作和思考，看完这篇文章，保证你就不会答错了！
 
 ### 箭头函数有什么缺点？
-1. <span style="color: blue">没有arguments,如果要用，可以用rest参数代替。</span>这里我们定义一个箭头函数和一个普通函数还有一个舒勇rest参数的箭头函数
+1. <span style="color: red;font-weight:bold">没有arguments,如果要用，可以用rest参数代替。</span>这里我们定义一个箭头函数和一个普通函数还有一个舒勇rest参数的箭头函数
 
     ```js
     const fn1 = () => {
@@ -96,7 +96,7 @@ console.log('普通函数', obj.getName3()); // 普通函数 undefined
     ```
     ![arguments](./images/15.jpg)
 
-2. <span style="color: blue">无法通过apply、call、bind改变this指向</span>
+2. <span style="color: red;font-weight:bold">无法通过apply、call、bind改变this指向</span>
 
     ```js
     const fn3 = () => {

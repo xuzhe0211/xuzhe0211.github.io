@@ -226,3 +226,10 @@ console.log(o.a);	//logs 38
 [JS中的this详解](https://www.cnblogs.com/bzsheng/p/12080060.html)
 
 [JavaScript this关键字](https://www.runoob.com/js/js-this.html)
+
+
+[class 严格模式](/front-end/JavaScript/es6-strict.html#严格模式)
+
+[一道算法题](/front-end/JavaScript/tips-foo.html#简介)
+
+[一道js闭包面试题的学习](/front-end/interview/demo3-2.html)

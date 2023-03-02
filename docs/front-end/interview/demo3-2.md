@@ -23,7 +23,7 @@ var b = fun(0).fun(1).fun(2).fun(3); // undefined 0 1 2
 // 第三个例子
 var c = fun(0).fun(1); // undefined
 c.fun(2); // 1
-c.fun(3); // 2
+c.fun(3); // 1
 ```
 ## 关于这个函数的执行过程
 先大致说一下这个函数的执行过程

@@ -12,7 +12,7 @@ title: Nodejs中的this详解
     console.log(this.num); // 10
     console.log(global.num); // umdefined
     ```
-    <span style="color: red">**全局中的this默认的是空对象。并且在全剧终this与global对象没有任何的关系，那么全局中的this究竟指向的是谁？(module.export)**</span>
+    <span style="color: red">**全局中的this默认的是空对象。并且在全局中this与global对象没有任何的关系，那么全局中的this究竟指向的是谁？(module.export)**</span>
 - 在函数中的this
 
     ```js

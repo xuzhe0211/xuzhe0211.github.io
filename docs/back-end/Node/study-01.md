@@ -273,12 +273,139 @@ if(cluster.isMaster) {
     require('./index.js')
 }
 ```
+这样我们就可以准确知道计算机有多少个cpu我们最多可以启动多少个子进程了，这时我们进行压测发现qps更多了，<span style="color: red">当然并不是启动的越多就越好，前面我们说到。NodeJS的底层是用到了其他cpu的，所以我们这里一般来说只需要 os.cpus().length /2 的数量最为合适</span>，就这么简单我们就使用到了其他cpu实现了一个类似复杂均衡概念的服务
 
+当然这里有一个疑问，我们手动启动了多次 node app.js为什么不行？很明显会报错端口占用，我们知道，正常情况下计算机的一个端口只能被监听一次，我们这里监听了多次实际就是有NodeJS在其底层完成的，这里的实现就相对复杂需要看源码了，有兴趣的同学可以自己去研究一下。
 
-
+如果你做完这些操作，相信你的服务性能已经提高了很大一截了。接下来我们来聊聊关于其稳定性的安全。
 ## NodeJS进程守护与管理
+基本上各种NodeJS框架都会有全局捕获错误，但是一般自己去编码的过程中没有去做try catch的操作就可能导致你的服务直接因为一个小错误直接挂掉，为了提高其稳定性，我们要去实现一个守护，我们用原生的node来创建一个服务，不做异常处理的情况下，如果是框架可能很多框架已经帮你做过这部分逗你了，所以我们自己来实现看看吧
+```js
+const fs = require('fs');
+const http = require('http');
 
+const app = http.createServer((req, res) => {
+    res.writeHead(200, {'content-type': 'text/html'});
+    console.log(window.xxx)
+    res.end(fs.readFileSync(__dirname + './index.html', 'utf-8'))
+})
+
+app.listen(3000, () => {
+    console.log(`listen in 3000`)
+})
+```
+我们在请求时区打印一个不存在的变量，我们去请求的话就会进行一个报错，同时进程直接退出，而我们如果使用多线程启动的话，也会在我们请求多线程的个数之后，主线程退出，因为主线程发现所有子线程全部挂掉了就会退出，基于这种文件我们不希望发生，我们怎么做可以解决呢？内置了一个 **uncaughtException** 可以用来捕获错误，但是官方建议不要再这里组织退出程序，但是我们可以退出程序钱对其进行错误上报，我们对 cluster.js 进行轻微改造既可，同事我们也可以通过cluster模块监控，如果有的时候发生错误导致线程退出了我们也可以进行重启，改下如下
+```js
+const cluster = require('cluster');
+const os = require('os');
+
+if(cluster.isMaster) {
+    // 多少个cpu启动多少个子进程
+    for(let i = 0; i < os.cpus().length; i++) cluster.fork();
+
+    // 如果有程序退出了，我们就重启一个
+    cluster.on('exit', () => {
+        setTimeout(() => {
+            cluster.fork();
+        }, 5000)
+    })
+} else {
+    // 如果是子进程就去加载启动文件
+    require('./index.js');
+    process.on('uncaughtException', err => {
+        console.error(err);
+        // 进程错误上报
+        process.exit(1);
+    })
+}
+```
+如上我们就可以在异常错误的时候重启线程并异常上报，但是这样会出现一个问题，如果重复销毁创建线程可能会进入死循环，我们不确定这个线程的退出是不是可以挽救的情况，所以我们还需要对齐进行完善，首先我们可以在全局监控中判断其内存使用的情况，如果大于我们设置的限制就让其退出程序。我们做如下改造防止内存泄漏导致的w无限重启
+```js
+else {
+    // 如果是子进程就去加载启动文件
+    require('./index.js');
+    process.on('uncaughtException', err => {
+        console.error(err);
+        // 进程错误上报
+        // 若果进程内存大于xxxx了就让其退出
+        if(process.memoryUsage().rss > 734003200) {
+            console.log('大于700m,退出程序吧');
+            process.exit(1)
+        }
+        // 退出程序
+        process.exit(1)
+    })
+}
+```
+这样呢我们就可以对内存泄漏问题进行处理了，同时我们还得考虑一种情况，如果子线程假死了怎么办，僵尸进程如何处理？
 ## 心跳检测，杀掉僵尸进程
+实现这个的思路并不复杂，和我们日常做ws类似，主进程发心跳包，子进程接收并回应心跳包，我们分别改造两个文件
+```js
+const cluster = require('cluster');
+const os = require('os');
+
+if(cluster.isMaster) {
+    // 多少个cpu启动多少个子进程
+    for(let i = 0; i < os.cpus().length; i++) {
+        let timer = null;
+        // 记录每一个worker
+        const worker = cluster.fork();
+
+        // 记录心跳次数
+        let missedPing = 0;
+        // 每5秒发送一个心跳包，并记录次数加1
+        timer = setInterval(() => {
+            missedPing++;
+            worker.send('ping');
+
+            // 如果大于5次都没有得到响应说明可能挂掉了就退出，并清楚计时器
+            if(missedPing > 5) {
+                process.kill(worker.process.pid);
+                worker.send('ping');
+                clearInterval(timer);
+            }
+        }, 5000)
+
+        // 如果接收到心跳响应就让记录-1回去
+        worker.on('message', msg => {
+            msg === 'pong' && missedPing--;
+        })
+    }
+    // 如果有线程退出了，我们就重启一个
+    cluster.on('exit', () => {
+        cluster.fork();
+    })
+} else {
+    // 如果是子进程就去加载启动文件
+    require('./index.js');
+
+    // 心跳回应
+    process.on('message', msg => {
+        msg === 'ping' && process.send('pong');
+    })
+
+    process.on('uncaughtException', err => {
+        console.error(err);
+        // 进程错误上报
+        // 如果程序内存大于xxxm了就让其退出
+        if(process.memoryUsage().rss > 734003200) {
+            console.log('大于700m了，退出程序吧');
+            process.exit(1);
+        }
+        // 退出程序
+        process.exit(1);
+    })
+}
+```
+介绍一下流程
+
+- 主线程每隔五秒发送一个心跳包ping，同时记录上发送次数+1，时间根据自己而定 这里五秒是测试方便
+- 子线程接收到了ping信号回复一个pong
+- 主线程接收到了子线程响应让计算数-1
+- 如果大于五次都还没响应可能是假死了，那么退出线程并清空定时器，
+
+至此一个健壮的NodeJs服务已经完成了。
+
 
 
 ## 资料
