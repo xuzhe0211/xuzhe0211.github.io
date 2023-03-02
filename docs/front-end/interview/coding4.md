@@ -136,10 +136,30 @@ let triangleNumber = function(nums) {
     - 把得到的所有和按对应的位置累加在一起，就可以得到 num1 * num2的结果
     ```js
     let mutiply = (num1, num2) => {
-        if(num1 === '0' || num2 === '0') return '0'
+        if (num1 === '0' || num2 === '0') return '0'
         // 用于保存计算结果
-        let res = [];
-        // 
+        let res = []
+        // 从个位数开始逐位相乘
+        for (let i = 0; i < num1.length; i++) {
+            // num1尾元素
+            let temp1 = +num1[num1.length - 1 - i]
+            for (let j = 0; j < num2.length; j++) {
+                // num2尾元素
+                let temp2 = +num2[num2.length - 1 - j]
+
+                // 判断结果集索引位置是否有值
+                let pos = res[i + j] ? res[i + j] + temp1 * temp2 : temp1 * temp2
+                // 赋值给当前索引位置
+                res[i + j] = pos % 10
+                // 是否进位 这样简化res去除不必要的'0'
+                pos > 10 &&
+                    (res[i + j + 1] = res[i + j + 1]
+                        ? res[i + j + 1] + Math.floor(pos / 10)
+                        : Math.floor(pos / 10))
+            }
+        }
+        return res.reverse().join('')
+    }
     }
     ```
     时间复杂度：O(m * n)
