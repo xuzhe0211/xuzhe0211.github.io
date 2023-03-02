@@ -15,9 +15,9 @@ title: 手撸低代码平台搭建（三）组件间交互的实现
 3. <span style="color: blue">**API调用**: 这一类主要用于处理组件与服务端的交互，也就是服务端api接口的调用</span>
 
 ### 事件的定义
-**系统动作和api调用的定义相对比较简单，我们可以在vue组件中methods中进行方法的定义，例如我们可以定义一个request方法用于api的调用，reques中调用了我们使用的axios封装好的统一的请求方法，request方法支持传入api的url、method、api参数等信息。这两个事件为全局事件，我们可以将这些方法放到mixins中，然后在各个组件中进行引用**
+<span style="color: red">**系统动作和api调用的定义相对比较简单，我们可以在vue组件中methods中进行方法的定义，例如我们可以定义一个request方法用于api的调用，reques中调用了我们使用的axios封装好的统一的请求方法，request方法支持传入api的url、method、api参数等信息。这两个事件为全局事件，我们可以将这些方法放到mixins中，然后在各个组件中进行引用**</span>
 
-而对于组件方法，我们需要将组件暴露的方法定义在各个组件的methods中，并在组件加载时进行方法的监听
+<span style="color: red">而对于组件方法，我们需要将组件暴露的方法定义在各个组件的methods中，并在组件加载时进行方法的监听</span>
 ```js
 window.vm.$on(`${id}-${methodName}`, params => {
     // TODO
@@ -29,7 +29,7 @@ window.vm.$off(`${id}-${methodName}`)
 ```
 还记得吗，我们在[上一篇文章](https://juejin.cn/post/7015878414083031048)页面设计器设计好页面时,生成的组件元数据项中附加了一个id字段，而这个字段在事件监听中也起到了重要的作用，能够有效的避免页面中相同组件重复的触发事件。
 
-做好事件的监听后，我们就可以使用emit关键字触发事件了
+<span style="color: red">做好事件的监听后，我们就可以使用emit关键字触发事件了</span>
 ```js
 componentMethod(id, methodName, params) {
     window.vm.$emit(`${id}-${methodName}`, params)

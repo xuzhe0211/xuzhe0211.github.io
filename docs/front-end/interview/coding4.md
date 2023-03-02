@@ -75,6 +75,63 @@ let triangleNumber = function(nums) {
 ```
 ## 字符串
 ### 字符串相乘
+- 常规解法
+
+    从右向左遍历乘数，将乘数的每一位与被乘数相乘得到对应结果，再将每次得到的结果累加
+
+    另外,当乘数的每一位与被乘数高位(非最低位)相乘的时候，注意低位补'0'
+    ```js
+    let multiply = function(num1, num2) {
+        if(num1 === '0' || num2 === '0') return '0';
+        // 用于保存计算结果
+        let res = '0';
+        // num2 逐位与num1相乘
+        for(let i = num2.length - 1; i >= 0; i--) {
+            let carry = 0;
+            // 保存num2第i位数字与num1相乘的结果
+            let temp = '';
+            // 补 0
+            for(let j = 0; j < num2.length - 1 - i; j++) {
+                temp += '0';
+            }
+            let n2 = num2.charAt(i) - '0';
+            // num2的第i位数字 n2 与num1相乘
+            for(let j = num1.length - 1; j >= 0 || carry !=0; j--) {
+                let n1 = j < 0 ? 0 : num1.charAt(j) - '0';
+                let product = (n1 * n2 + carry) % 10;
+                temp += product;
+                carry = Math.floor((n1 * n2 + carry) / 10);
+            }
+            // 将当前结果与新结算的结果求和作为新的结果
+            res = addString(res, Array.prototype.slice.call(temp).reverse().join(''));
+        }
+        return res;
+    }
+    let addStrings = function(num1, num2) {
+        let a = num1.length, b = num2.length, result = '', temp = 0;
+        while(a || b) {
+            a ? temp += +num1[--a] : '';
+            b ? temp += +num2[--b] : '';
+
+            result = temp % 10 + result;
+            if(temp > 9) temp = 1;
+            else temp = 0;
+        }
+        if(temp) result = 1 + result;
+        return result;
+    }
+    ```
+    复杂度分析：
+
+    时间复杂度：O(max(m*n , n * n))
+
+    空间复杂度：O(m+n)
+
+- 竖式相乘
+
+    两个数M和N相乘的结果可以由**M乘上N的每一位数的和得到**，如下图
+    ![竖式相乘](./images/687474703a2f2f7265736f757263652e6d757969792e636e2f696d6167652f32303230303930393037353533322e6a7067.jpg)
+
 
 ### 字符串转换整数
 
