@@ -31,14 +31,14 @@ BFF: 服务于前端的后端
 这样的架构前端的代码必须会变的非常臃肿和繁杂，同时过多的请求可能也会导致网络性能瓶颈。所以为了解决这个问题，有人提出了BFF层
 ## BFF层
 
-<span style="color: red">BFF(Backends For Frontends)服务于前端的后端</span>。后端各种微服务、API之间的一层胶水代码。主要的业务场景请求转发、数据组织、接口适配、鉴权和SSR
+<span style="color: red">BFF(Backends For Frontends)服务于前端的后端。后端各种微服务、API之间的一层胶水代码。主要的业务场景请求转发、数据组织、接口适配、鉴权和SSR</span>
 
 BFF是一种逻辑分层，BFF层服务会更多的考虑接口在前端的使用，并且在服务端直接进行业务逻辑的处理，又称为用户体验是撇弃
 
 :::tip
 BFF 可以用任何语言来实现：GO、Java、Php、Node，由于前端都是使用 JavaScript 作为开发语言，从脚手架 -> 组件 -> 编译 -> 包管理 -> CI/CD 都是是使用的 JavaScript，BFF 作为更多考虑前端的一种服务大多数时候是使用 Node 来编写。
 :::
-<span style="color: red">BFF并不是技术，而是一种逻辑的分层。他位于后端微服务于前端之前，最直接的作用就是对接处理前端的请求</span>
+<span style="color: red">**BFF并不是技术，而是一种逻辑的分层。他位于后端微服务与前端之间，最直接的作用就是对接处理前端的请求**</span>
 
 ![BFF](./images/bdac40bd8e7742febbe6fb7f19ff91b4_tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.png)
 

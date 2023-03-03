@@ -468,7 +468,7 @@ title: 真题汇总
         }
         const dp = Array.from(Array(n), (_, i) => Array(n).fill(0));
         let ans = 0;
-        for(let i = 0; i < n; ++) {
+        for(let i = 0; i < n; i++) {
             for(let j = n - 1; j >= 0; j--) {
                 if(arr[j] * 2 <= arr[i]) {
                     break;

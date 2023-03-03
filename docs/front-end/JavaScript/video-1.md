@@ -171,7 +171,10 @@ CCTV-15高清 ',http://ivi.bupt.edu.cn/hls/cctv15.m3u8
 ```
 
 ## 录屏
-1. poputer
+1. puppeteer?
+
+    puppeteer翻译是操纵木偶的人，利用这个工具，我们能做一个操纵页面的人。Puppeteer是一个Node.js的库，支持调用Chrome的API来操作用Web,相比 Selenium 或是PhantomJS,它最大的特点就是它的操作DOM可以完全在内存中进行模拟即在V8引擎中处理而不打开浏览器，而且关键是这个是chrome团队在维护，会拥有更好的兼容性和前景
+
 2. mediaDevices
 3. Recorder
 

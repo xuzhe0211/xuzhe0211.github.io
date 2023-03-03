@@ -876,17 +876,17 @@ const prototype = Object.prototype
 ## 程序阅读题
 ### 下面程序输出什么
 ```js
-funtion sayHi() {
+function sayHi() {
     console.log(name);
     console.log(age);
     var name = 'LYDIA';
     let age = 21;
 }
-sayHi
+sayHi()
 ```
 在函数中，我们首先使用val关键字声明了name变量。这意味着变量在创建阶段会被提升(javascript会在创建阶段为其分配内存空间),默认值为undefined,直到我们实际执行到该变量的行，我们还没为name变量赋值，所以它仍保持undeined的值
 
-<span style="color: red">使用let关键(const)申明的变量也会存在变量提升，但是与val不同，初始化没有提升。在我们声明(初始化)他们之前，他们不可以访问，这就成为暂时死区，当我们在声明变量之前尝试访问变量，javascript会抛出一个referenceError；</span>
+<span style="color: red">使用let关键(const)申明的变量也会存在变量提升，但是与val不同，初始化没有提升。在我们声明(初始化)他们之前，他们不可以访问，**这就成为暂时死区，当我们在声明变量之前尝试访问变量，javascript会抛出一个referenceError**；</span>
 
 关于let的是否存在变量提升，我们何以用下面的例子来验证：
 ```js
@@ -914,16 +914,16 @@ var a = 10;
     console.log(a);
     a = 5;
     console.log(window.a);
-    var a = 20
-    cosnole.log(a)
+    var a = 20 // 主要是因为这句var 定义
+    console.log(a)
 })()
 ``` 
 依次输出：undefined=>10=>20
-```
-在立即执行函数中，var a = 20; 语句定义了一个局部变量 a，由于js的变量声明提升机制，局部变量a的声明会被提升至立即执行函数的函数体最上方，且由于这样的提升并不包括赋值，因此第一条打印语句会打印undefined，最后一条语句会打印20。
+
+<span style="color: red">在立即执行函数中，var a = 20; 语句定义了一个局部变量 a，由于js的变量声明提升机制，局部变量a的声明会被提升至立即执行函数的函数体最上方，且由于这样的提升并不包括赋值，因此第一条打印语句会打印undefined，最后一条语句会打印20。</span>
 
 由于变量声明提升，a = 5; 这条语句执行时，局部的变量a已经声明，因此它产生的效果是对局部的变量a赋值，此时window.a 依旧是最开始赋值的10，
-```
+
 ### 下面的输出结果是什么？
 ```js
 class Chameleon {
@@ -1016,7 +1016,7 @@ set.has(1);
 
 > true true false true
 
-所有对象键（不包括Symbols）都会被存储为字符串，即使你没有给定字符串类型的键。这就是为什么obj.hasOwnProperty（ 1 ）也返回true。
+<span style="color: red">所有对象键（不包括Symbols）都会被存储为字符串，即使你没有给定字符串类型的键。这就是为什么obj.hasOwnProperty（ 1 ）也返回true。</span>
 
 上面的说法不适用于Set。在我们的Set中没有“1”：set.has（ 1 ）返回false。它有数字类型1，set.has（1）返回true。
 
@@ -1066,6 +1066,11 @@ Foo.a = function() {
 Foo.a();
 // 立刻执行了 Foo 上的 a 方法，也就是刚刚定义的，所以
 // # 输出 4
+
+
+
+var foo = new Foo();
+foo.a(); // 2
 ```
 
 
