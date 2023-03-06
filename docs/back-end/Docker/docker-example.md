@@ -13,9 +13,10 @@ title: docker 记录
     volumes:  // 数据映射到xxx
         - ./data/db:/data/db 
 
-
-docker build .
-docker-compose up
+```shell
+$ docker build .
+$ docker-compose up
+```
 
 
 

@@ -50,7 +50,7 @@ whatsThis.apply(obj); // Custom
 ```
 <span style="color: blue">当一个函数在其主体中使用this关键字时，可以使用函数继承自 Function.prototype 的call或apply方法将 this 值绑定到调用中的特定对象。</span>
 
-使用call 和apply 函数的时候，如果传递给 this 的值不是一个对象，JavaScript会尝试使用内部 toObject 操作 将其转换为对象。
+<span style="color: red">使用call 和apply 函数的时候，如果传递给 this 的值不是一个对象，JavaScript会尝试使用内部 toObject 操作 将其转换为对象。</span>
 ```js
 function bar() {
     console.log(Object.prototype.toString.call(this));

@@ -54,6 +54,29 @@ console.log(numbersequal(a,b)); //true
 - iterm2 /Warp(开箱即用)
 - [Navicat](/tools/Other/must-tools.html#navicat)
 
+## 网站
+
+- [This person does not exist]( thispersondoesnotexist.com)
+   
+- [All To All](www.alltoall.net)
+
+- [电影猫](www.mvcat.com)
+
+- [程序员客栈](www.proginn.com)
+
+- [书格](new.shuge.org)
+
+- [地图搜租房](house2048.cn)
+
+- [pix fix](zh.pixfix.com)
+
+- [装逼生成器](c.tianhezulin.com)
+
+- [小霸王游戏机](www.yikm.net)
+
+- [5118数据挖掘](www.5118.com)
+
+
 
 ## 书籍
 [重学前端](https://time.geekbang.org/column/article/77345)
