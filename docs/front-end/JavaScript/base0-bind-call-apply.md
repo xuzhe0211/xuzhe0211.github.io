@@ -117,7 +117,7 @@ altwrite('hello')
 ```
 结果：<span style="color: red">Uncaught TypeError: Illegal invocation</span>
 
-altwrite()函数改变this的指向global或window对象，导致执行时提示非法调用异常，正确防范就是使用bind()方法
+<span style="color: red">**altwrite()函数改变this的指向global或window对象，导致执行时提示非法调用异常，正确防范就是使用bind()方法**</span>
 ```js
 altwrite.bind(document)('hello')
 ```

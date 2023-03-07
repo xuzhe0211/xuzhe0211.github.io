@@ -25,6 +25,40 @@ var bar = function() {
 }
 foo();
 bar(); 
+
+// demo3
+var a = []
+let b
+let c
+for (let i = 0; i < 10; i++) {
+	b = i
+	c = i
+	var n = i
+	let m = i
+	a[i] = function oo() {
+		console.log(i)
+		console.log(c)
+		console.log(n)
+		console.log(m)
+	}
+}
+a[6]()
+// 6 9 9 6
+
+// demo4
+var a = []
+let b
+let c
+for (var i = 0; i < 10; i++) {
+	b = i
+	c = i
+	var n = i
+	let m = i
+	setTimeout(() => {
+		console.log(m)
+	})
+}
+// 0 1 2 3 4 5 6 7 8 9 
 ```
 ## 概念
 - <span style="color: blue">闭包函数： 声明在一个函数中的函数，叫做闭包函数</span>

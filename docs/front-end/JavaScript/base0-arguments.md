@@ -13,7 +13,7 @@ function add(a, b) {
 }
 add(1, 2)
 ```
-1. <span style="color: blue">实参为原始值。当实参为原始值时，此时形参为实参的拷贝。因此，函数体内形参值的改变并不会影响实参</span>
+1. <span style="color: red;font-weight:bold;">实参为原始值。当实参为原始值时，此时形参为实参的拷贝。因此，函数体内形参值的改变并不会影响实参</span>
 
     ```js
     function test(str) {
@@ -25,7 +25,7 @@ add(1, 2)
     console.log(str1); // china;
     console.log(str2); // chinese;
     ```
-2. <span style="color: blue">实参为引用值。当实参为引用值时,此时形参为实参内存地址的拷贝。因此，函数体内形参值的变化在一定情况下会影响实参</span>
+2. <span style="color: red;font-weight:bold;">实参为引用值。当实参为引用值时,此时形参为实参内存地址的拷贝。因此，函数体内形参值的变化在一定情况下会影响实参</span>
 
     ```js
     function test(obj) {
@@ -50,7 +50,7 @@ add(1, 2)
 
 
 ## 拓展
-**arguments对象的length属性显示实参的个数，函数的length属性显示形参的个数**
+<span style="color: red">**arguments对象的length属性显示实参的个数，函数的length属性显示形参的个数**</span>
 
 Javascript定义了arguments对象，用于在函数内部执行，使用argument.length 可以快速获取函数的的实参个数，使用arguments[n]可以获取实参的值
 

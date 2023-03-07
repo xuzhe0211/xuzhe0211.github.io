@@ -107,6 +107,7 @@ let triangleNumber = function(nums) {
         }
         return res;
     }
+    // 字符串、大数相加
     let addStrings = function(num1, num2) {
         let a = num1.length, b = num2.length, result = '', temp = 0;
         while(a || b) {
@@ -199,9 +200,48 @@ console.log(tranStr2Int('32'))
 ```
 ## 栈
 ### 字节&leetcode155：最小栈（包含getMin函数的栈）
+设计一个支持push，pop，top操作，并能在常数时间内检索到最小元素的栈
+- push(x)---将元素x推入栈中
+- pop()---删除栈顶元素
+- top()---获取栈顶元素
+- getMin()--检索栈中的最小元素
+```js
+// MinStack minStack = new MinStack();
+// minStack.push(-2);
+// minStack.push(0);
+// minStack.push(-3);
+// minStack.getMin();   --> 返回 -3.
+// minStack.pop();
+// minStack.top();      --> 返回 0.
+// minStack.getMin();   --> 返回 -2.
+
+class MinStack {
+    constructor() {
+        this.length = 0;
+        this.content = [];
+        this.mins = [];
+    }
+    push(val) {
+        const curMin = this.mins[this.length - 1] != undefined ? this.mins[this.length - 1] : Infinity;
+        this.content[this.length++] = val;
+        this.mins[this.length - 1] = Math.min(curMin, val);
+    }
+    pop() {
+        return this.content[--this.length]
+    }
+    top() {
+        return this.content[this.length - 1];
+    }
+    getMin() {
+        return this.mins[this.length - 1]
+    }
+}
+```
 [字节&leetcode155：最小栈（包含getMin函数的栈）](https://github.com/sisterAn/JavaScript-Algorithms/issues/23)
 ### 图解腾讯&哔哩哔哩&leetcode20：有效的括号
 [有效括号](https://github.com/sisterAn/JavaScript-Algorithms/issues/25)
+
+[字符串有效性检查](/front-end/Code/#字符串有效性检查)
 ### 删除字符串中的所有相邻的重复项--两个重复项
 给出由小写字母组成的字符串 S ，重复项删除操作 会选择两个相邻且相同的字母，并删除它们。
 

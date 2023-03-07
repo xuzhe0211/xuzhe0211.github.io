@@ -74,7 +74,7 @@ new Date() instanceof Date;//true
 js 中万物皆对象的思想
 ```js
 [] instanceof Object // true;
-unction Person(){};
+function Person(){};
 new Person() instanceof Person; // true
 new Person instanceof Object; // true
 
