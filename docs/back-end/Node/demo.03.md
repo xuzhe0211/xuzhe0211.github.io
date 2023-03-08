@@ -215,8 +215,8 @@ module.exports = serverHandle
             // 	msg: '这是获取博客列表的接口',
             // }
             const author = req.query.author || ''
-            const keywords = req.query.keywords || ''
-            const listData = getList(author, keywords)
+            const keyword = req.query.keyword || ''
+            const listData = getList(author, keyword)
             return new SuccessModel(listData)
         }
 
@@ -296,8 +296,8 @@ module.exports = serverHandle
             // 	msg: '这是获取博客列表的接口',
             // }
             const author = req.query.author || ''
-            const keywords = req.query.keywords || ''
-            const listData = getList(author, keywords)
+            const keyword = req.query.keyword || ''
+            const listData = getList(author, keyword)
             return new SuccessModel(listData)
         }
 
@@ -531,8 +531,8 @@ module.exports = serverHandle
             // 	msg: '这是获取博客列表的接口',
             // }
             const author = req.query.author || ''
-            const keywords = req.query.keywords || ''
-            const listData = getList(author, keywords)
+            const keyword = req.query.keyword || ''
+            const listData = getList(author, keyword)
             return new SuccessModel(listData)
         }
 
@@ -595,8 +595,8 @@ module.exports = serverHandle
             // 	msg: '这是获取博客列表的接口',
             // }
             const author = req.query.author || ''
-            const keywords = req.query.keywords || ''
-            const listData = getList(author, keywords)
+            const keyword = req.query.keyword || ''
+            const listData = getList(author, keyword)
             return new SuccessModel(listData)
         }
 
