@@ -1,4 +1,5 @@
 ---
+autoGroup-0: shell
 title: demo-king
 ---
 ```shell

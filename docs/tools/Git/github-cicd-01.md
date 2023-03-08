@@ -122,3 +122,5 @@ https://frostming.com/2020/04-26/github-actions-deploy/
 
 
 [demo](https://github.com/khitrenovich/github-actions-expect-test/blob/master/my-script.exp)
+
+[github](https://docs.github.com/zh/actions/using-workflows/workflow-syntax-for-github-actions)

@@ -1,4 +1,5 @@
 ---
+autoGroup-0: shell
 title: shell简单脚本
 ---
 

@@ -1,4 +1,5 @@
 ---
+autoGroup-1: expect
 title: /usr/bin/expect 的使用
 ---
 ## 举个栗子
