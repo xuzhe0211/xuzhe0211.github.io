@@ -347,3 +347,59 @@ function minimumDeletions(s) {
     return ans;
 }
 ```
+
+## 得到K个黑块的最少涂色次数
+
+给你一个长度为 n 下标从 0 开始的字符串 blocks ，blocks[i] 要么是 'W' 要么是 'B' ，表示第 i 块的颜色。字符 'W' 和 'B' 分别表示白色和黑色。
+
+给你一个整数 k ，表示想要 连续 黑色块的数目。
+
+每一次操作中，你可以选择一个白色块将它 涂成 黑色块。
+
+请你返回至少出现 一次 连续 k 个黑色块的 最少 操作次数。
+
+```js
+// 输入：blocks = "WBBWWBBWBW", k = 7
+// 输出：3
+// 解释：
+// 一种得到 7 个连续黑色块的方法是把第 0 ，3 和 4 个块涂成黑色。
+// 得到 blocks = "BBBBBBBWBW" 。
+// 可以证明无法用少于 3 次操作得到 7 个连续的黑块。
+// 所以我们返回 3 。
+const minimumRecolors = (bloks, k) => {
+    let l = 0, r = 0, cnt = 0;
+    while(r < k) {
+        cnt += blocks[r] === 'W' ? 1 : 0;
+        r++;
+    }
+    let res = cnt;
+    while(r < blocks.length) {
+        cnt += blocks[r] === 'W' ? 1 : 0;
+        cnt -= blocks[l] === 'W' ? 1 : 0;
+        res = Math.min(res, cnt);
+        l++;
+        r++;
+    }
+    return res;
+}
+```
+## 二进制数转字符串
+二进制数转字符串。给定一个介于0和1之间的实数（如0.72），类型为double，打印它的二进制表达式。如果该数字无法精确地用32位以内的二进制表示，则打印“ERROR”。
+```js
+// 输入：0.625
+// 输出："0.101"
+
+//  输入：0.1
+//  输出："ERROR"
+//  提示：0.1无法被二进制准确表示
+const printBin = function(num) {
+    let sb = '0.';
+    while(sb.length <= 32 && num !== 0) {
+        num *= 2;
+        const digit = Math.floor(num);
+        sb += digit;
+        num -= digit;
+    }
+    return sb.length <= 32 ? sb : 'ERROR';
+}
+```
