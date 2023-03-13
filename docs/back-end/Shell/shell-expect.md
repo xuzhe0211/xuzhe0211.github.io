@@ -11,6 +11,7 @@ set timeout 30
 set host [lindex $argv 0]
 set code [lindex $argv 1]
 set passwd [lindex $argv 2]
+set date [exec date "+%Y_%m_%d"]
 
 # 运行ssh连接命令
 spawn ssh $host
@@ -24,6 +25,7 @@ expect {
 # 退出expect返回终端，可以继续输入，否则将一直在expect不能退出到终端
 interact
 ```
+
 ## 用法
 - spawn: expect脚本中用于向机器发出首个linux命令用，该命令将在系统中创建一个进程
 - expect: expect脚本中用于等待和分析机器执行结果用
@@ -59,6 +61,59 @@ brew install expect
 // QA
 脚本首行： #!/usr/bin/expect
 执行时： ./you.sh
+```
+## expect获取当前日期，变量保存
+```shell
+set date [exec date"+%Y_%m_%d_%H_%M_%S"]
+```
+
+## demo
+```shell
+# window下执行的 需要加package require Epect
+package require Expect
+# 需要本地打包执行 
+set key [lindex $argv 0];
+set host [lindex $argv 1];
+set date [exec date "+%Y_%m_%d"]
+
+send "echo $date\r"
+expect "*#"
+
+if {$host == ""} {
+    set host ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn
+    expect "*#"
+}
+
+send "echo $host\r"
+expect "*#"
+
+spawn tar -zcvf dist.tar.gz dist;
+expect "*#"
+
+# 改为自己的秘钥所在的位置
+spawn scp -i $key -P 2020 dist.tar.gz ec2-user@$host:/home/ec2-user
+expect "*#"
+set timeout 5
+spawn ssh -i $key ec2-user@$host -p 2020
+expect "*#"
+
+send "cd /home/ec2-user\r"
+expect "*#"
+
+send "pwd\r "
+expect "*#"
+
+send "tar -zcvf dist.tar.${date}.gz dist\r "
+expect "*#"
+
+send "rm -rf dist\r "
+expect "*#"
+
+send "tar -zxvf dist.tar.gz\r";
+expect "*#"
+
+send "exit\r"
+interact 
 ```
 ## 资料
 

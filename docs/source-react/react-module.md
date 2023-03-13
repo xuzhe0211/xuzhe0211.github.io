@@ -33,9 +33,9 @@ ReactDOM.render(<Welcome name='react' />, document.getElementById('root'));
 
 所有 React 组件都必须是纯函数，并禁止修改其自身 props 。
 
-<span stle="color: blue">React是单项数据流，父组件改变了属性，那么子组件视图会更新。</span>
+<span style="color: red">React是单项数据流，父组件改变了属性，那么子组件视图会更新。</span>
 
-属性 props 是外界传递过来的，状态 state 是组件本身的，状态可以在组件中任意修改
+<span style="color: red">属性 props 是外界传递过来的，状态 state 是组件本身的，状态可以在组件中任意修改</span>
 
 组件的属性和状态改变都会更新视图。
 
@@ -68,7 +68,7 @@ ReactDOM.render(<Welcome name='react' />, document.getElementById('root'));
             setTimeout(this.showMessage, 3000);
         }
         render() {
-            return <button onClick={this.handleChils}>Follow</botton>
+            return <button onClick={this.handleClick}>Follow</botton>
         }
     }
 
