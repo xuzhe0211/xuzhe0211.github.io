@@ -1,88 +1,49 @@
 ---
-title: demo-king
+autoGroup-0: shell
+title: shell脚本实现取当前时间
 ---
-```shell
-#!/bin/sh
+shell实现获取当前实现，并进行格式转换的方法:
+1. 原格式输出
 
-myFile="./output.tar.gz"
+    2018年09月30日 星期日 15:88:15 CST
+    ```shell
+    time1=${date}
+    echo $time1
+    ```
+2. 时间串输出
 
-passwd="M562vaxTKvmsa4Pu"
+    20180930155515
+    ```js
+    #!bin/bash
+    time2=$(date "+%Y%m%d%H%M%S")
+    echo $time2
+    ```
+3. 2018-09-30 15:55:15
 
-set -e
+    ```shell
+    #!bin/bash
+    time3=$(date "+%Y-%m-%d %H:%M:%S")
+    echo $time3
+    ```
+4. 2018.09.30
 
-# if [ ! -d "$myFile" ]; then
-# 	echo '存在产出,准备删除'
-# 	echo '===删除中==='
-# 	rm -rf $myFile
-# 	echo '已删除产出'
-# fi
+    ```shell
+    #!bin/bash
+    time4=$(date "+%Y.%m.%d")
+    echo $time4
+    ```
+## 注意
+1. date后面有个空格，shell对空格要求严格
+2. 变量复制前后不要有空格   
 
-# echo $passwd
-# echo '下载完毕'
+    ![shell注意点](./images/fb04bddab98701632ec07228b3c3f17b.png)
 
-/usr/bin/expect<<-EOF
-# set timeout 5
-spawn scp -p 8888 output.tar.gz root@10.13.5.69:/home/kingsoft/output
-expect {
-    "*password:" { send "$passwd\r" }
-}
-expect "*#"
+3. 解释
 
-spawn ssh root@10.13.5.69
-expect {
-    "*password:" { send "$passwd\r" }
-}
-
-expect "*#"
-send "cd /home/kingsoft/output/\r"
-
-expect "*#"
-send "pwd \r "
-
-expect "*#"
-send "bash front_deploy.sh $1 \r "
-
-expect "*#"
-send "exit\r"
-interact 
-expect eof
-EOF
-```
-
-## Mac运行sh文件，也就是传说中的shell脚本
-1. 写好自己的脚本，比如aa.sh
-2. 打开终端，执行： 
-    - 方法一： 输入命令./aa.sh
-    - 方法二: 直接把aa.sh拖入到终端里面
-
-- 注意事项
-    如没有成功爆出问题：Permission denied,就是没有权限
-
-- 解决方法
-
-    修改该文件aa.sh 的权限 ：使用命令： 
-
-    chmod 777 aa.sh 。
-
-    然后再执行 上面第二步的操作 就 OK .
-// demo
-```shell
-spawn scp -i $1 -P 2020 dist.tar.gz ec2-user@ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn:/home/ec2-user
-expect {
-    "*yes*" { send "yes\r" }
-}
-
-spawn scp -i $1 -P 2020 dist.tar.gz ec2-user@ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn:/home/ec2-user
-expect {
-    "*yes*" { send "yes\r" }
-}
-
-set timeout 5
-
-spawn ssh -i $1 ec2-user@ec2-52-83-95-61.cn-northwest-1.compute.amazonaws.com.cn -p 2020
-expect {
-    "*yes*" { send "yes\r" }
-}
-```
-
-https://juejin.cn/post/7094865414353584164#heading-3
+    ```md
+    1 Y显示4位年份，如：2018；y显示2位年份，如：18。
+    2 m表示月份；M表示分钟。
+    3 d表示天；D则表示当前日期，如：1/18/18(也就是2018.1.18)。
+    4 H表示小时，而h显示月份。
+    5 s显示当前秒钟，单位为毫秒；S显示当前秒钟，单位为秒。
+    ```
