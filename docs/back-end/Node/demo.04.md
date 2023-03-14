@@ -88,6 +88,7 @@ id | title | content | createtime | author
 - 使用sql语句(入门简单，一学就会)
 
 ```sql
+show databases; -- 所有数据库的列表 
 use myblog;
 
 -- show tables;
@@ -138,6 +139,7 @@ select * from blogs where title like '%标题%' order by createtime desc;
 -- 查询版本
 select version()
 ```
+[MySQL 创建数据表](https://www.runoob.com/mysql/mysql-create-tables.html)
 ## 总结
 - 如何建库、如何建表
 - 建表时常用的数据类型(int bigit varchar longtext)
