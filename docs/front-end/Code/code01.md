@@ -348,6 +348,61 @@ function minimumDeletions(s) {
 }
 ```
 
+## 得到K个黑块的最少涂色次数
+
+给你一个长度为 n 下标从 0 开始的字符串 blocks ，blocks[i] 要么是 'W' 要么是 'B' ，表示第 i 块的颜色。字符 'W' 和 'B' 分别表示白色和黑色。
+
+给你一个整数 k ，表示想要 连续 黑色块的数目。
+
+每一次操作中，你可以选择一个白色块将它 涂成 黑色块。
+
+请你返回至少出现 一次 连续 k 个黑色块的 最少 操作次数。
+
+```js
+// 输入：blocks = "WBBWWBBWBW", k = 7
+// 输出：3
+// 解释：
+// 一种得到 7 个连续黑色块的方法是把第 0 ，3 和 4 个块涂成黑色。
+// 得到 blocks = "BBBBBBBWBW" 。
+// 可以证明无法用少于 3 次操作得到 7 个连续的黑块。
+// 所以我们返回 3 。
+const minimumRecolors = (bloks, k) => {
+    let l = 0, r = 0, cnt = 0;
+    while(r < k) {
+        cnt += blocks[r] === 'W' ? 1 : 0;
+        r++;
+    }
+    let res = cnt;
+    while(r < blocks.length) {
+        cnt += blocks[r] === 'W' ? 1 : 0;
+        cnt -= blocks[l] === 'W' ? 1 : 0;
+        res = Math.min(res, cnt);
+        l++;
+        r++;
+    }
+    return res;
+}
+```
+## 二进制数转字符串
+二进制数转字符串。给定一个介于0和1之间的实数（如0.72），类型为double，打印它的二进制表达式。如果该数字无法精确地用32位以内的二进制表示，则打印“ERROR”。
+```js
+// 输入：0.625
+// 输出："0.101"
+
+//  输入：0.1
+//  输出："ERROR"
+//  提示：0.1无法被二进制准确表示
+const printBin = function(num) {
+    let sb = '0.';
+    while(sb.length <= 32 && num !== 0) {
+        num *= 2;
+        const digit = Math.floor(num);
+        sb += digit;
+        num -= digit;
+    }
+    return sb.length <= 32 ? sb : 'ERROR';
+}
+```
 ## 赢的比赛需要的最少训练时长
 
 你正在参加一场比赛，给你两个 正 整数 initialEnergy 和 initialExperience 分别表示你的初始精力和初始经验。
@@ -397,15 +452,75 @@ var minNumberOfHours = function(initialEnergy, initialExperience, energy, experi
 ```
 [2383. 赢得比赛需要的最少训练时长](https://leetcode.cn/problems/minimum-hours-of-training-to-win-a-competition/solution/ying-de-bi-sai-xu-yao-de-zui-shao-xun-li-kujd/)
 
+## 使数组和能被P整除
+给你一个正整数数组 nums，请你移除 最短 子数组（可以为 空），使得剩余元素的 和 能被 p 整除。 不允许 将整个数组都移除。
 
+请你返回你需要移除的最短子数组的长度，如果无法满足题目要求，返回 -1 。
 
+子数组 定义为原数组中连续的一组元素。
+```js
+// 输入：nums = [3,1,4,2], p = 6
+// 输出：1
+// 解释：nums 中元素和为 10，不能被 p 整除。我们可以移除子数组 [4] ，剩余元素的和为 6 。
 
+// 1. 前缀和
+let minSubarray = function(nums, p) {
+    let x = 0;
+    for(let num of nums) {
+        x = (x + num) % p;
+    }
+    if(x === 0) return 0;
+    let index = new Map();
+    let y = 0, res = nums.length;
+    for(let i = 0; i < nums.length; i++) {
+        index.set(y, i); // f[i] mod p = y，因此哈希表记录y对应的下标为I
+        y = (y + nums[i]) % p;
+        if(index.has((y - x + p) % p)) {
+            res = Math.min(res, i - index.get((y - x + p) % p) + 1)
+        }
+    }
+    return res === nums.length ? -1 : res;
+}
+```
+[使数组和能被P整除](https://leetcode.cn/problems/make-sum-divisible-by-p/solutions/2157277/shi-shu-zu-he-neng-bei-p-zheng-chu-by-le-dob9/)
 
+## 给定行和列的和求可行矩阵
+给你两个非负整数数组 rowSum 和 colSum ，其中 rowSum[i] 是二维矩阵中第 i 行元素的和， colSum[j] 是第 j 列元素的和。换言之你不知道矩阵里的每个元素，但是你知道每一行和每一列的和。
 
+请找到大小为 rowSum.length x colSum.length 的任意 非负整数 矩阵，且该矩阵满足 rowSum 和 colSum 的要求。
 
-
-
-
+请你返回任意一个满足题目要求的二维矩阵，题目保证存在 至少一个 可行矩阵。
+```js
+// 输入：rowSum = [3,8], colSum = [4,7]
+// 输出：[[3,0],
+//       [1,7]]
+// 解释：
+// 第 0 行：3 + 0 = 3 == rowSum[0]
+// 第 1 行：1 + 7 = 8 == rowSum[1]
+// 第 0 列：3 + 1 = 4 == colSum[0]
+// 第 1 列：0 + 7 = 7 == colSum[1]
+// 行和列的和都满足题目要求，且所有矩阵元素都是非负的。
+// 另一个可行的矩阵为：[[1,2],
+//                   [3,5]]
+const restoreMatrix = (rowSum, colSum) => {
+    const n = rowSum.length, m = colSum.length;
+    const matrix = new Array(n).fill(0).map(() => new Array(m).fill(0));
+    let i = 0, j = 0;
+    while (i < n && j < m) {
+        const v = Math.min(rowSum[i], colSum[j]);
+        matrix[i][j] = v;
+        rowSum[i] -= v;
+        colSum[j] -= v;
+        if (rowSum[i] === 0) {
+            ++i;
+        }
+        if (colSum[j] === 0) {
+            ++j;
+        }
+    }
+    return matrix;
+}
+```
 
 
 
