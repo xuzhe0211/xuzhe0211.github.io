@@ -185,3 +185,34 @@ const res = await axios.post('/zl/groupMember/linkAdd', data)
 :::danger
 **axios的baseURL后自动加斜杠**
 :::
+## axios的transformRequest和transformResponse的作用
+[原文](https://blog.csdn.net/weixin_43045869/article/details/126961166)
+### transfromRequest 和 transformResponse的作用
+- transformRequest
+
+	允许你在将请求数据发送到服务器之前对其进行修改，这只使用与请求方法put、post和patch,如果值是数组，则数组中最后一个函数必须返回一个字符串或FormData、URLSearchParams、Blob等类型作为xhr.send方法的参数，而且在transform过程中可以修改hearders对象
+- transformResponse
+
+	允许你在把响应数据传递给then或者catch之前对它们进行修改。
+
+	当值为数组的时候，数组的每一个函数都是一个转换函数，数组中的函数就像管道一样依次执行，前者的输出作为后者的输入
+
+```js
+// 例子
+axios({
+	transformRequest: [(function(data) {
+		return qs.stringify(data);
+	}), ...axios.defaults.transformRequest],
+	transformResponse: [axios.defaults.transformResponse, function(data) {
+		if(typeof data === 'object') {
+			data.b = 2;
+		}
+		return data
+	}], 
+	url: '/config/post',
+	method: 'post',
+	data: {
+		a: 1
+	}
+})
+```
