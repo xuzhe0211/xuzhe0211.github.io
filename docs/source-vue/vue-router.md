@@ -171,4 +171,70 @@ window.addEventListener('pushState', function(e) {
 ```
 
 
-[关于H5的pushState、replaceState](https://www.jianshu.com/p/ddb7fcdf5962)
+## VUE中的next({ ...to, replace: true })
+[原文](https://www.cnblogs.com/never404/p/15709693.html)
+
+```js
+beforeEach((to, from, next) => {
+    next('/logon')
+})
+```
+上面这串代码我们可以看成
+```js
+beforeEach((to, from, next) => {
+    beforeEach(('/logon', from, next) => {
+       beforeEach(('/logon', from, next) => {
+            beforeEach(('/logon', from, next) => {
+                beforeEac...  // 一直循环下去...... , 因为我们没有使用 next() 放行
+         }
+      }
+  }
+})
+```
+因为:<span style="color: red;font-weight: bold">其实在路由守卫中，只有next()是放行，其他的诸如:next('/logon')、next(to)或next({ ...to, replace: true}) 都不是放行，而是:中断当前导航，执行新的导航</span>
+
+例如：
+```js
+beforeEach((to, from, next) => {
+    if(to.path === 'home') {
+        next('/logon');
+    } else {
+        // 如果要去的地方不是/home，就放行
+        next();
+    }
+})
+```
+我本来要去/home路由，因此执行了第一次 beforeEach((to, from, next)
+
+但是这个路由守卫中判断了如果要去的地方是'/home'，就执行next('/logon')，
+
+所以想要访问/home可以这么看
+```js
+beforeEach((to, from, next) => {
+   beforeEach(('/logon', from, next) => {
+     next()  // 现在要去的地方不是 /home ， 因此放行
+   }
+}
+```
+> 注意：重点在这，next('/logon')不是说直接去logon路由，而是中断(不是CPU的那个中断，VUE中的中断就是此时不会执行router.afterEach(() => {}))这一次路由守卫的操作，又进入一次路由守卫，就像嵌套一样，一层路由守卫，然后又一层路由守卫，此时路由守卫进入到第二层时，to.path已经不是/home了，这个时候才执行next()放行操作
+
+### addRoutes()
+在addRoutes()之后第一次访问被添加的路由会白屏，这是因为刚刚addRoutes()就立刻访问被添加的路由，然后此时addeRoutes()没有执行结束，因而找不到刚刚被添加的路由导致白屏。因此需要从新访问一次路由才行。
+
+该如何解决这个问题 ?
+
+此时就要使用next({ ...to, replace: true })来确保addRoutes()时动态添加的路由已经被完全加载上去。
+
+<span style="color: red">next({ ...to, replace: true })中的replace: true只是一个设置信息，告诉VUE本次操作后，不能通过浏览器后退按钮，返回前一个路由。</span>
+
+因此next({ ...to, replace: true })可以写成next({ ...to })，不过你应该不希望用户在addRoutes()还没有完成的时候，可以点击浏览器回退按钮搞事情吧。
+
+其实next({ ...to })的执行很简单，它会判断：
+
+<span style="color: red">如果参数to不能找到对应的路由的话，就再执行一次beforeEach((to, from, next)直到其中的next({ ...to})能找到对应的路由为止。</span>
+
+也就是说此时addRoutes()已经完成啦，找到对应的路由之后，接下来将执行前往对应路由的beforeEach((to, from, next) ，因此需要用代码来判断这一次是否就是前往对应路由的beforeEach((to, from, next)，如果是，就执行next()放行。
+
+如果守卫中没有正确的放行出口的话，会一直next({ ...to})进入死循环 !!!
+
+因此你还需要确保在当addRoutes()已经完成时，所执行到的这一次beforeEach((to, from, next)中有一个正确的next()方向出口。
