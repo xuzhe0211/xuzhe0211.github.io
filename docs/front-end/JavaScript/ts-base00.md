@@ -129,8 +129,115 @@ const count: number = 10;
     const pink: Color = Color.PINK;
     console.log(pink); // 粉色
     ```
+- 常量枚举
 
+    使用const关键字修饰的枚举，常量枚举与普通枚举的区别是，整个枚举会在编译阶段被删除，我们可以看下编译之后的效果
+    ```ts
+    const enum Color {
+        RED,
+        PINK,
+        BLUE
+    }
+    const color: Color[]=[Color.RED, Color.PINK, Color.BLUE];
+    console.log(color); // [0, 1,2]
 
+    // 编译之后的js如下：
+    var color = [0 /* RED */, 1 /* PINK */, 2 /* BLUE */];
+    // 可以看到我们的枚举并没有被编译成js代码，只是把color这个数组变量编译出来了
+    ```
+### Array类型
+对数组类型的定义有两种方式
+```ts
+const arr: number[] = [1,2,3];
+const arr2: Array<number> = [1,2,3]
+```
+### 元组(tuple)类型
+上面数组类型的方式，只能定义出内部权威同种类型的数组。对于内部不同类型的数组可以使用元组类型来定义。
+
+元组(Tuple)表示一个已知数量和类型的数组，可以理解为它是一种特殊的数组
+```ts
+const tuple:[number, string] = [1, 'zhangmazi']
+```
+:::tip
+需要注意的是，元组类型只能表示一个已知元素数量和类型的数组，长度已指定，越界访问会提示错误。
+例如一个数组中可能有多种类型，数组和类型都不确定，那就直接any[]
+:::
+### undefined 和 null
+默认情况下null和undefined是所有类型的子类型。也就是说你可以把null 和 undefined赋值给其他类型。
+```ts
+let a: undefined = undefined;
+let b: null = null;
+
+let str: string = 'zhangmazi';
+str = null; // 编译正确
+str = undefined; // 编译正确
+```
+<span style="color: red">如果你在tsconfig.json指定了'strictNullChecks'：true，即开启严格模式后，null和undefined只能给他们自己的类型赋值</span>
+
+```ts
+// 启用--strictNullChecks
+let x: number;
+x = 1; // 编译正确
+x = undefined; // 编译错误
+x = null; // 编译错误
+```
+<span style="color: red">>但是undefined可以给void赋值</span>
+
+```ts
+let c:void = undefined; // 编译正确
+let d:void = null; // 编译错误
+```
+### any类型
+any会跳过类型检查器对值得检查，任何职都可以赋值给any类型
+
+```ts
+let value: any = 1;
+value = 'zhangmazi'; // 编译正确
+value = []; // 编译正确
+value = []; // 编译正确
+```
+### void类型
+void意思就是无效的，一般只用在函数上，告诉别人这个函数没有返回值
+```ts
+function sayHello():void {
+    console.log('hello啊')
+}
+```
+### never 类型
+<span style="color: red">never类型表示的是那些永不存在的值得类型。例如never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型</span>
+
+值会永不存在的两种情况
+1. 如果一个函数执行时抛出了异常，那么这个函数永远不存在返回值(因为抛出异常会直接中断程序运行，这使得程序运行不到返回值那一步，即具有不可达重点，也就永不存在返回了)
+2. 函数中执行无限循环的代码(死循环),使得程序永远无法运行到函数返回值那一步，永不存在返回
+
+```ts
+// 异常
+function error(msg: string): never { // 编译正确
+    throw new Error(msg)
+}
+
+// 死循环
+function loopForever(): never { // 编译正确
+    while(true) {}
+}
+```
+### Unkonwn 类型
+unkonwn与any一样，所有类型都可以分配给unkonwn
+```ts
+let value: unkonwn = 1;
+value = 'zhangmazi'; // 编译正确
+value = false // 编译正确
+```
+:::danger
+unkonwn与any的最大区别是：
+<span sytle="color: red">任何类型的值可以赋值给any，同时any类型的值也可以赋值给任何类型。unknown任何类型的值都可以赋值给它，但它只能赋值给unkonwn 和 any</span>
+
+```ts
+let uncertain: unkonwn = 'hello';
+let noSure: any = uncertain;
+```
+:::
+## 对象类型
 
 
 ## 资料

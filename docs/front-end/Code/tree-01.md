@@ -261,7 +261,7 @@ console.log(result);
 ### 查找多条节点路径
 思路和查找路径类似，不过代码却更加简单
 ```js
-function treeFindPath(tree, func, path = [], result = []) {
+function treeFindPathAll(tree, func, path = [], result = []) {
     for (const data of tree) {
         path.push(data.id);
         func(data) && result.push([...path]);
@@ -270,6 +270,13 @@ function treeFindPath(tree, func, path = [], result = []) {
     }
     return result;
 }
+
+// test
+const res1 = treeFindPathAll(tree, node => {
+    return node.id === '1-2' || node.id === '2-1'
+})
+console.log(res1)
+// 输出 [ [ '1', '1-2' ], [ '2', '2-1' ] ]
 ```
 
 ## 结论
