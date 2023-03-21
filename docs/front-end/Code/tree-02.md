@@ -322,3 +322,5 @@ console.log(fn(data))
 
 ## 资料
 [面试了十几个高级前端，竟然连（扁平数据结构转Tree）都写不出来](https://juejin.cn/post/6983904373508145189)
+
+[列表和树结构相互转换--11](/front-end/Code/tree-01.html#列表和树结构相互转换)

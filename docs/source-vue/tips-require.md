@@ -181,7 +181,7 @@ module.exports = {
 
 例如，url(./image.png) 会被翻译为 require('./image.png')，而：
 
-<img src="./image.png">
+&lt;img src="./image.png"&gt;
 
 将会被编译到：
 h('img', { attrs: { src: require('./image.png') }})
