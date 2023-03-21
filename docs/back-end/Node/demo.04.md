@@ -93,7 +93,7 @@ use myblog;
 
 -- show tables;
 
--- insert into users(username, `password`, realname) values("zhangsan", "123", "张三");
+-- insert into users(username, `password`, realname) values("zhangsan", "123", "张三"); -- password是关键字 需要``
 
 -- insert into users(username, `password`, realname) values("lisi", "123", "李四");
 

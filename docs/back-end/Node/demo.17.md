@@ -10,3 +10,8 @@ title: express开发博客项目
 - 安装插件mysql xss
 - mysql controller resModel 相关代码可以服用
 - 初始化路由
+
+
+## express处理session
+- 使用express-session 和 connect-redis，简单方便
+- req.session保存登录信息，登录校验做成express中间件
