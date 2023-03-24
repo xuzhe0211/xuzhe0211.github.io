@@ -597,3 +597,4 @@ const invertTree = function(root) {
     return root;
 }
 ```
+[二叉树](/source-study/base-02.html#二叉树)
