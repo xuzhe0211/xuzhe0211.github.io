@@ -521,8 +521,29 @@ const restoreMatrix = (rowSum, colSum) => {
     return matrix;
 }
 ```
+## 和相等的子数组
+给你一个小标从0开始的整数数组nums,判断是否存在两个长度为2的子数组且它们的和相等。注意，这两个子数组起始位置的下标必须不相同
 
+如果这样的子数组存在，请返回true,否则返回false。
 
+子数组是一个数组中一段连续非空的元素组成的序列
+```js
+// 输入：nums = [4,2,4]
+// 输出：true
+// 解释：元素为 [4,2] 和 [2,4] 的子数组有相同的和 6 。
+var findSubarrays = function(nums) {
+    const n = nums.length;
+    const seen = new Set();
+    for(let i = 0; i < n - 1; ++i) {
+        let sum = nums[i] + nums[i + 1];
+        if(seen.has(sum)) {
+            return true;
+        }
+        seen.add(sum);
+    }
+    return false;
+}
+```
 
 
 
