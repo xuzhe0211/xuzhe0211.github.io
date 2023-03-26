@@ -265,7 +265,7 @@ function treeFindPathAll(tree, func, path = [], result = []) {
     for (const data of tree) {
         path.push(data.id);
         func(data) && result.push([...path]);
-        data.children && treeFindPath(data.children, func, path, result);
+        data.children && treeFindPathAll(data.children, func, path, result);
         path.pop()
     }
     return result;
