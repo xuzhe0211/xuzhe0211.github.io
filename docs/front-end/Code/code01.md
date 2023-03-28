@@ -544,7 +544,54 @@ var findSubarrays = function(nums) {
     return false;
 }
 ```
+## 统计只差一个字符的子串数目
+给你两个字符串s和t,请你找出s中的非空子串的数目，这些子串满足替换**一个不同字符**以后，是t串的子串。换言之，请你找到s和t串中恰好只有一个字符不同的子字符串对的数目。
 
+比方说， "<s>compute</s>r" and "<s>computa</s>tion" 只有一个字符不同： 'e'/'a' ，所以这一对子字符串会给答案加 1 。
+
+请你放回满足上述条件的不同字符串对树木。
+
+一个字符串是一个字符串中连续的字符
+```js
+// 输入：s = "aba", t = "baba"
+// 输出：6
+// 解释：以下为只相差 1 个字符的 s 和 t 串的子字符串对：
+// ("aba", "baba")
+// ("aba", "baba")
+// ("aba", "baba")
+// ("aba", "baba")
+// ("aba", "baba")
+// ("aba", "baba")
+// 加粗部分分别表示 s 和 t 串选出来的子字符串。
+
+// 动态规划
+var countSubstrings = function(s, t) {
+    let m = s.length, n = t.length;
+    let dpl = new Array(m + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    let dpr = new Array(m + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    for(let i = 0; i < m; i++) {
+        for(let j = 0; j < n; j++) {
+            dpl[i + 1][j + 1] = s[i] === t[j] ? (dpl[i][j] + 1) : 0;
+        }
+    }
+    for (let i = m - 1; i >= 0; i--) {
+        for (let j = n - 1; j >= 0; j--) {
+            dpr[i][j] = s[i] === t[j] ? (dpr[i + 1][j + 1] + 1) : 0;
+        }
+    }
+    let ans = 0;
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (s[i] !== t[j]) {
+                ans += (dpl[i][j] + 1) * (dpr[i + 1][j + 1] + 1);
+            }
+        }
+    }
+    return ans;
+}
+```
+
+[统计只差一个字符的子串数目](https://leetcode.cn/problems/count-substrings-that-differ-by-one-character/solutions/2192088/tong-ji-zhi-chai-yi-ge-zi-fu-de-zi-chuan-z8xi/)
 
 
 
