@@ -111,3 +111,8 @@ git stash apply stash@{0}
 ```
 修复bug时，我们会通过创建新的bug分支来进行修复，然后合并，最后删除;
 当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，在git stash pop，回到工作现场
+
+```shell
+git stash clear # 清空你所有的内容
+git stash drop stash@{0} # 这是删除第一个队列 
+```
