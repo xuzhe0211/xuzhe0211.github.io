@@ -134,7 +134,83 @@ processer();
 
 ```js
 // 实现继承
-// 以下两种方式都可以实现继承，但是闭包方式每次构造器都会被调用且重新赋值一次所以实现记成原型优于闭包
+// 以下两种方式都可以实现继承，但是闭包方式每次构造器都会被调用且重新赋值一次,所以实现继承原型优于闭包
+
+// 闭包
+function MyObject(name, message) {
+    this.name = name.toString();
+    this.message = message.toString();
+    this.getName = function() {
+        return this.name;
+    }
+    this.getMessage = function() {
+        return this.message;
+    }
+}
+// 原型
+function MyObject(name, message) {
+    this.name = name.toString();
+    this.message = message.toString();
+}
+MyObject.prototype.getName = function() {
+    return this.name;
+}
+MyObject.prototype.getMessage = function() {
+    return this.message;
+}
 ```
+对于闭包的概念好像懂了但又好像缺少了啥？我也曾也闭包中迷失，但是看完闭包的生命周期让我重新找回自己
+
+![闭包](./images/32826c4464ff4b8e86d68606a2a6f68b_tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
+
+学完就来一波牛刀小试
+```js
+function test(a, b) {
+    console.log(b);
+    return {
+        test: function(c) {
+            return test(c, a);
+        } 
+    }
+}
+var a = test(100); a.test(101); a.test(102);
+var b = test(200).test(201).test(202);
+var c = test(300).test(301);c.test(302);
+
+// undefined 100, 100;
+// undefined 200 201
+// undefined 300 301
+```
+## 原型和原型链
+有对象的地方就有原型，每个对象都会在其内部初始化一个属性，就是prototype(原型),原型中存储共享的属性和方法。当我们访问一个对象的属性时，js引擎会先看当前对象中是否有这个属性，如果没有的就会查找他的prototype对象是否有这个属性，如此递推下去，一直检索到Object内建对象。这么一个寻找的过程就形成了原型链的概念。
+
+理解原型最关键的是要理清楚__proto__、prototype、constructor三者的关系，我们先看看几个概念。
+
+- <span style="color: red">__proto__属性在所有对象中都存在，指向其构造函数的prototype对象;prototype对象只存在(构造)函数中，用于存储共享属性和方法；constructor属性只存在于(构造)函数的prototype中，指向(构造)函数本身</span>
+- 一个对象或者构造函数中的隐式原型__proto__的属性值指向其其构造函数的显示原型prototype属性值，关系表示为：instance.__proto__ === instance.constructor.protottype;
+- 除Object，所有对象或构造函数的prototype均继承自Object.prototype,原型链的顶层指向null:Object.prototype.__proto__ === null;
+- Object.prototype中也有constructor:Object.prototype.constructor === Object;
+- 构造函数创建的对象(Object、Function、Array、普通函数等)都是Function的实例，它们的__proto__均指向Function.prototype；
+
+看起来是不是有点乱？？别慌！！ 一张图帮你整理他们之间的关系
+
+![理顺](./images/c53c982b06274603a7d99d2b9f49a4e5_tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
+
+相同的配方在来一刀
+```js
+let arr = [1,2,3];
+arr.__proto__ = Array.prototype // true;
+arr.__proto__.__proto__ === Object.prototype; // true
+Array.__proto__ ==== Function.prototype; // true;
+```
+## 3.异步和单线程
+Javascript是单线程语言，意味着只有单独的一个调用栈，同一时间只能处理一个任务或一段代码。队列、堆、栈、事件循环构成了并发模型，事件循环是javascript的执行机制。
+
+<span style="color: red">为什么js是一门单线程语言呢？最初设计JS是用来在浏览器验证表单以及操控DOM元素，为了避免同一时间对同一个DOM元素进行操作从而导致不可预知的问题，Javascript从一诞生就是单线程。</span>
+
+既然单线程也就意味着不存在异步，只能自上而下执行，如果代码阻塞只能一直等下去，这样导致很差的用户体验，所以事件循环的出现让js拥有异步的能力。
+
+![异步和单线程](./images/7bdd4419989d4bec8ac627480572cf84_tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
+
 
 [原文](https://juejin.cn/post/7182571660003213370)

@@ -593,8 +593,38 @@ var countSubstrings = function(s, t) {
 
 [统计只差一个字符的子串数目](https://leetcode.cn/problems/count-substrings-that-differ-by-one-character/solutions/2192088/tong-ji-zhi-chai-yi-ge-zi-fu-de-zi-chuan-z8xi/)
 
+## 删除最短的子数组使剩余数组有序
+给你一个整数数组arr,请你删除一个子数组(可以为空),使得arr中剩下的元素是非递减的。
 
+一个子数组指的是原数组中连续的一个子序列
 
+请你返回满足题目要求的最短子数组的长度
+```js
+// 输入： arr = [1,2,3,10, 4,2,3,5];
+// 输出: 3
+// 解释：我们需要删除的最短子数组是 [10,4,2] ，长度为 3 。剩余元素形成非递减数组 [1,2,3,3,5] 。
+// 另一个正确的解为删除子数组 [3,10,4] 。
+
+// 双指针
+const findLengthOfShortestSubarray = arr => {
+    let n = arr.length, j = n - 1;
+    while(j > 0 && arr[j - 1] <= arr[j]) {
+        j--;
+    }
+    if(j === 0) return 0;
+    let res = j;
+    for(let i = 0; i < n; i++) {
+        while(j < n && arr[j] < arr[i]) {
+            j++;
+        }
+        res = Math.min(res, j - i - 1);
+        if(i + 1 < n && arr[i] > arr[i + 1]) {
+            break;
+        }
+    }
+    return res;
+}
+```
 
 
 
