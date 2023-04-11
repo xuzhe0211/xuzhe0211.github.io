@@ -295,3 +295,5 @@ asdasdsadfsdfsadasdas
 [聊聊JS的二进制家族：Blob、ArrayBuffer和Buffer](https://segmentfault.com/a/1190000040678647)
 
 [JS的二进制家族：Blob、ArrayBuffer和Buffer | 8月更文挑战](https://juejin.cn/post/6992205283732766750)
+
+[拖拽献祭中的黑山羊-DataTransfer对象](https://www.zhangxinxu.com/wordpress/2018/09/drag-drop-datatransfer-js/)
