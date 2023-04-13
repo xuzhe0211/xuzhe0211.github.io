@@ -15,7 +15,7 @@ execa | 开启子进程方便执行命令
 初始化项目yarn init -y
 
 然后配置package.json文件
-```
+```js
 {
   "provate": true, // 私有
   "workspaces": [ // 工作目录
@@ -38,7 +38,7 @@ workspaces规定我们的代码都在packages目录下
 接下来我们要修改reactivity和shared文件夹下的package.json文件
 
 比如reactivity的初始化文件
-```
+```js
 {
   "name": "reactivity",
   "version": "1.0.0",
@@ -49,7 +49,7 @@ workspaces规定我们的代码都在packages目录下
 接下来我们要修改reativity和shared文件夹下的package.json文件
 
 比如reactivity的初始化文件
-```
+```js
 {
   "name": "@vue/reactivity",
   "version": "1.0.0",
@@ -58,7 +58,7 @@ workspaces规定我们的代码都在packages目录下
 }
 ```
 还需要一个入口,main是给commonjs服务端用的(require)。如果我们要用es6(import)，需要增加一个入口module
-```
+```js
 {
   "name": "@vue/reactivity",
   "version": "1.0.0",
@@ -70,7 +70,7 @@ workspaces规定我们的代码都在packages目录下
 入口文件为打包后的dist文件夹下的reactivity.esm-bundler.js文件
 
 继续，我们还需要配置自定义配置属性buildOptions
-```
+```js
 {
   "name": "@vue/reactivity",
   "version": "1.0.0",
@@ -95,7 +95,7 @@ buildOptions中name是为了给打包为全局模块的命名，类似于暴露�
 - global -> 全局
 
 shared模块我们不需要打包为全局，其实这里的name：VueShared没有用到
-```
+```js
 {
   "name": "@vue/shared",
   "version": "1.0.0",
@@ -112,7 +112,7 @@ shared模块我们不需要打包为全局，其实这里的name：VueShared没�
 }
 ```
 安装依赖
-```
+```js
 yarn add typescript rollup rollup-plugin-typescript2 @rollup/plugin-node-resolve @rollup/plugin-json execa
 ```
 ![安装包错](./images/4642829-9b3dcf8e8eec3108.jpg)
@@ -120,18 +120,18 @@ yarn add typescript rollup rollup-plugin-typescript2 @rollup/plugin-node-resolve
 因为项目中有多个package.json文件，如果只给 根安装 需要添加--ignore-workspaces-root-check
 
 重新安装依赖
-```
+```js
 yarn add typescript rollup rollup-plugin-typescript2 @rollup/plugin-node-resolve @rollup/plugin-json execa --ignore-workspace-root-check
 // 或者
 yarn add typescript rollup rollup-plugin-typescript2 @rollup/plugin-node-resolve @rollup/plugin-json execa -W
 ```
 如果安装的时候，报错看一下，yarn源地址，是不是修改过
-```
+```js
 yarn config get registry // 查看当前镜像源
 yarn config set registry https://registry.yarnpkg.com   // yarn  原本的地址
 ```
 安装成功之后。我们去根package.json中配置脚本
-```
+```js
 {
   "private": true,
   "workspaces":[
@@ -154,7 +154,7 @@ yarn build时我们去scripts运行build.js(打包packages下所有模块)
 我们先编写build.js文件
 
 首先获取packages下素有目录，并且过滤只要文件夹
-```
+```js
 const fs = reqire('fs');
 
 // 读取packages文件夹下所有文件，并且过滤
@@ -165,7 +165,7 @@ console.log('target', targets)
 ![读取文件夹](./images/4642829-69d872089ca8a218.jpg)
 
 然后对目标依次进行并行打包
-```
+```js
 / **
 * 对目标进行依次打包，并且是并行打包
 ** /
@@ -180,7 +180,7 @@ function runParallel(targets, iteratorFn) {
 runParallel(targets, build)
 ```
 我们对runParalled进行依次打包返回Promise.在build中console看一下
-```
+```js
 // 打包packages下所有包
 const fs = require('fs');
 
@@ -212,7 +212,7 @@ runParalled(targets, build)
 我们依次拿到了需要的包
 
 然后引入execa包 开启子进程
-```
+```js
 async function build(target) {
   console.log('taget', target);
   // 第一参数 是命令
@@ -229,7 +229,7 @@ async function build(target) {
 由于rollup执行的配置文件为rollup.config.js,所有我们创建一个rollup.config.js来配置rollup执行时候的参数
 
 首先我们需要拿到--environment传入的环境变量，我们先在rollup.config.js中console.log(process.env.TARGET)一下，获取环境变量中的target属性去获取对应模块中的package.json
-```
+```js
 // rollup 配置
 
 import path from 'path'
@@ -258,7 +258,7 @@ const packageOptions = pkg.buildOptions || {}
 const name = packageOptions.filename || path.basename(packageDir)
 ```
 之后我们需要对打包类型做一个映射表，根据package.json中的formats来格式化需要打包的内容
-```
+```js
 // 对打包类型做一个映射表，根据package.json中的formats来格式化需要打包的内容
 const outputConfigs = {
   'esm-bundler': {
@@ -276,7 +276,7 @@ const outputConfigs = {
 }
 ```
 好了， 有了映射表，我们来取package.json中 formats参数
-```
+```js
 // 获取 package.json中 formats
 const defaultFormats = ['esm-bundler', 'cjs'] // 默认formats 配置
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',') // 环境变量中获取fromats配置
@@ -284,7 +284,7 @@ const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',') // �
 const packageFormats = inlineFormats || packageOptions.formats || defaultFormats
 ```
 比如 reactivity中package.json中的 formats
-```
+```js
 formats:[
   "cjs", 
   "esm-bundler", 
@@ -292,7 +292,7 @@ formats:[
 ]
 ```
 然后我们 把formats 循环调用 createConfig函数处理
-```
+```js
 // 循环调用 createConfig 处理 formats (比如： formats=['cjs', 'esm-bundler', 'global'])
 const packageConfigs = packageFormats.map(format => createConfig(format, outputConfigs[format]))
 
@@ -309,7 +309,7 @@ export default packageConfigs
 format比如就是global:那么output就是映射表中的{ file: resolve(`dist/${name}.global.js`), format: `iife` // 立即执行函数 }
 
 处理createConfig函数
-```
+```js
 function createConfig(format, output) {
 
   // 如果是全局模式  需要 配置名字
@@ -340,7 +340,7 @@ function createConfig(format, output) {
 生成tsconfig.json文件后，我们把默认项target和module都改为esnext(最新JavaScript/ECMAScript特性https://esnext.justjavac.com/)
 
 然后回到createConfig函数，修改返回生成rollup配置中的ts()；
-```
+```js
 function createConfig(format, output) {
 
   // 如果是全局模式  需要 配置名字
@@ -385,7 +385,7 @@ esm-bundler.js 会采用es6的方法
 首先我们安装yarn add minimist -D -W 来处理我们运行yarn dev时传递的参数
 
 比如我们运行yarn dev --test=123, 我们在dev.js中就可以获取到{test: 123}
-```
+```js
 // dev.js
 
 const execa = require('execa')// 开启子进程 打包， 最终还是rollup来打包的
@@ -422,7 +422,7 @@ await execa('rollup', ['-cw',
 reactivity 和 shared会生成一个软链接，链接到我们写的packages文件夹下的真实文件;
 
 比如： 如果我们要在reactivit中 用 @vue下的shared文件
-```
+```js
 import {shared} from '@vue/shared'
 
 const Reactivity = {
@@ -439,7 +439,7 @@ export {
 ![pnpm 引入包](./images/4642829-bbbbb55460845dea.jpg)
 
 我们需要tsconfig.json中增加配置
-```
+```js
 // 解析规则为  node 
 "moduleResolution": "node",
 // 做一个映射表  依赖于 baseUrl配置
@@ -458,7 +458,7 @@ export {
 
 ok。下面是 开发文件
 ts.config.js
-```
+```js
 {
   // 其他为默认配置
   "compilerOptions": {                       
@@ -481,7 +481,7 @@ ts.config.js
 }
 ```
 rollup.config.js
-```
+```js
 // rollup 配置
 
 import path from 'path'
@@ -568,7 +568,7 @@ function createConfig(format, output) {
 export default packageConfigs
 ```
 package.json
-```
+```js
 {
   "private": true,
   "workspaces": [
@@ -593,7 +593,7 @@ package.json
 }
 ```
 scripts/build.js 
-```
+```js
 // 打包 packages 下所有包
 
 const fs = require('fs')
@@ -633,7 +633,7 @@ function runParallel(targets, iteratorFn) {
 runParallel(targets, build)
 ```
 scripts/dev.js
-```
+```js
 const execa = require('execa')// 开启子进程 打包， 最终还是rollup来打包的
 
 // 获取 yarn dev --target=xxx 比如 yarn dev --target=reactivity 可以 执行 reactivity打包
@@ -658,7 +658,7 @@ async function build(target) {
 ```
 
 packages/reactivity/package.json
-```
+```js
 {
   "name": "@vue/reactivity",
   "version": "1.0.0",
@@ -676,7 +676,7 @@ packages/reactivity/package.json
 }
 ```
 packages/reactivity/src/index.ts
-```
+```js
 import { Shared } from '@vue/shared'
 
 const Reactivity = {
