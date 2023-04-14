@@ -138,16 +138,23 @@ docker run -d \
     redis --requirepass "redispwd"
 ```
 ## docker基本操作
-```
-// 启动
+
+```shell
+# 启动
 sudo systemctl start docker
 
-// 修改源
+# 修改源
 vim /etc/docker/daemon.json
 sudo systemctl daemon-reload
 
-// 重启
+# 重启
 sudo systemctl restart docker
+
+
+sudo systemctl start docker # 启动
+sudo systemctl daemon-reload # 守护进程重启
+sudo systemctl restart docker # 重启docker 服务
+sudo systemctl stop docker # 关闭 docker
 ```
 ## 移除docker
 如果在之前修改了存储路径，则根据当前情况进行修改
