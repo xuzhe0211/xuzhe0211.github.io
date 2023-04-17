@@ -202,6 +202,52 @@ export const imgTransformBase64 = (url) => {
         };
     });
 };
+// img 转blob--- 新增--- 另一种方法：canvas.toBlob()方法 
+const imgTransformBlob = async (url) => {
+	const blob = await fetch(url).then((res) => res.blob())
+	return blob
+}
+// 另外
+export const imgTransformBlob = (url) => {
+    let b = null;
+    try {
+        const a = axios.create();
+        const result = await a({
+            url,
+            method: 'get',
+            responseType: 'blob'
+        });
+        b = result.data;
+    } catch (error) {
+        console.log(error);
+    }
+    return b;
+
+    // 第二种方法
+    return new Promise((resolve) => {
+		const Img = new Image()
+		let dataURL = ''
+		Img.src = url
+		Img.setAttribute('crossOrigin', 'Anonymous')
+		Img.onload = () => {
+			alert(4)
+			const canvas = document.createElement('canvas')
+			const width = Img.width
+			const height = Img.height
+			canvas.width = width
+			canvas.height = height
+			canvas.getContext('2d').drawImage(Img, 0, 0, width, height)
+			dataURL = canvas.toBlob(
+				(blob) => {
+					console.log(blob, 'blob')
+					resolve(blob)
+				},
+				'image/jpeg',
+				1
+			)
+		}
+	})
+}
 // base64转blob
 export const convertBase64UrlToBlob = (urlData) => {
     // 去掉url的头，并转换为byte

@@ -288,9 +288,9 @@ asdasdsadfsdfsadasdas
 ```
 
 ## 资料
-[流文件下载](/front-end/JavaScript/a-site-blob.html)
-
 [一些方法](/wander/Work/common.html)
+
+[流文件下载](/front-end/JavaScript/a-site-blob.html)
 
 [聊聊JS的二进制家族：Blob、ArrayBuffer和Buffer](https://segmentfault.com/a/1190000040678647)
 
