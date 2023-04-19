@@ -50,3 +50,18 @@ location /img/ {
 ```js
 docker run --name nginx01 -p 8081:80 -v /Users/xuzhe/Desktop/nginx/conf.d/:/etc/nginx/conf.d/ -v /Users/xuzhe/Desktop/nginx/www/:/var/www/html/ -d nginx
 ```
+
+## nginx: [error] open() "/usr/local/var/run/nginx.pid" failed (2: No such file or directory)
+启动Nginx出现这个错误
+```shell
+nginx: [error] open() "/usr/local/var/run/nginx.pid" failed (2: No such file or directory)
+```
+解决办法:找到你的nginx.conf的文件夹目录，然后运行这个
+```shell
+nginx -c /usr/local/etc/nginx.conf
+```
+在运行
+```shell
+nginx -s reload
+```
+就可以了

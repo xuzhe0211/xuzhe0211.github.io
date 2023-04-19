@@ -305,7 +305,7 @@ export default {
 
     如果该表中没有name为zhang san的记录，则会将传入的记录作为一条心的记录插入到表中，同add()行为一致
 
-    <span style="color: red">所以，鉴于add()方法执行时如果已经存在主键一样的数据，就会报错，我们推荐总是使用put操作来新增和更新记录，而尽量不用add()操作<span>
+    <span style="color: red">所以，鉴于add()方法执行时如果已经存在主键一样的数据，就会报错，我们推荐总是使用put操作来新增和更新记录，而尽量不用add()操作</span>
 
 3. 获取表中的记录
 
@@ -581,6 +581,15 @@ db.open().then((db) => {
     ```
 ## API
 ### 表实例的完整API
+API名称|说明
+---|---
+add(item, [key]) | 将对象添加到对象存储(表)。返回一个promise,成功后then方法接收参数为插入对象的主键值
+bulkAdd(items, keys?, options?) | 批量向表中插入记录，返回一个promise，如果options未设置或设置为{allKeys:false}，则then方法接收的是插入的所有插入对象的主键组成的数组， 如果options设置为{allkeys:true}，then方法接收的是插入的所有对象中最后一个对象的主键。
+bulkDelete(keys) | 批量删除表中的记录，传入主键数组，返回一个promise，then方法接收的是undefined
+bulkGet(keys) | 批量获取指定索引或主键的记录，传入主键数组，返回一个promise， then 方法接收结果数组，对于数据库中不存在的那些键， undefined 将在它们的位置返回。
+bulkPut(items, keys?, options?) | 批量向表中插入(更新)记录，传参与返回同bulkAdd()方法，但是如果已经有相同主键的记录，不会报错，而是会覆盖之前的记录
+clear() | 删除表中的所有记录，返回一个promise，then方法接收参数为undefined
+
 
 ### 集合实例的所有API
 
