@@ -12,3 +12,5 @@ title: docker + jenkins部署过程中遇到的问题
 ```js
 docker run -d --name docker-jenkins -p 9000:8080 -p 50000:50000 -v /home/ec2-user/jenkins_workspace:/var/jenkins_home/workspace jenkins/jenkins:lts
 ```
+
+[Jenkins构建时间变量](https://blog.csdn.net/sevel/article/details/123621457)
