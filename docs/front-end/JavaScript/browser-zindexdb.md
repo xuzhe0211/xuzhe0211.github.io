@@ -589,7 +589,27 @@ bulkDelete(keys) | 批量删除表中的记录，传入主键数组，返回一�
 bulkGet(keys) | 批量获取指定索引或主键的记录，传入主键数组，返回一个promise， then 方法接收结果数组，对于数据库中不存在的那些键， undefined 将在它们的位置返回。
 bulkPut(items, keys?, options?) | 批量向表中插入(更新)记录，传参与返回同bulkAdd()方法，但是如果已经有相同主键的记录，不会报错，而是会覆盖之前的记录
 clear() | 删除表中的所有记录，返回一个promise，then方法接收参数为undefined
-
+count() | 统计表中记录的数量，返回一个promise， then方法接收参数为一个代表记录数量的整数
+defineClass(structure) | 定义一个将映射到此对象存储的 javascript 构造函数，返回值就是该构造函数。可以在这个构造函数的基础上，对表中的对象进行扩展，比如添加成员方法等。如果在调用 db.open() 之前调用此方法，Visual Studio 2012+ 和 IntelliJ 等智能 javascript 编辑器将能够根据构造函数的原型和给定的结构对数据库返回的所有对象进行自动完成。【见上文 示例3】
+delete(primaryKey) | 从表中删除记录，传入一个逐渐，返回一个promise, then 方法接收参数为undefined
+each(callback) | 迭代表中的每一条记录，回调方法每次迭代接收的是当前迭代的那条记录对象。
+filter(filterFunction) | 对对象存储中的所有项目应用 javascript 过滤器，返回一个集合实例，该实例将迭代整个对象存储，并在调用集合上的任何执行方法（如toArray（）、each（）、keys（）、uniqueKeys（）和sortBy（））时为每个项调用给定的筛选器函数。
+get(primaryKey || {keyPath1: value1, keyPath2: value2, …} ) | 获取给定主键的对象或满足给定条件 ({keyPath1: value1, keyPath2: value2}) 的对象并返回一个promise, then方法接收的参数是第一个匹配结果，如果没有匹配到，接收undefined
+hook(‘creating’) | 记录创建钩子，无论使用哪种方法，只要将对象添加到数据库中，都会调用此事件。调用Table.add（）时，将始终调用它。但是调用Table.put（）时，只有在操作导致对象创建时才会调用它。如果它将导致替换现有对象，则会触发hook（‘更新’）。
+hook(‘deleting’) | 记录删除钩子，无论使用哪种方法，只要将要从数据库中删除对象，就会调用此事件。 可以删除对象的方法有 Table.delete()、Table.clear()、Collection.delete() 和 Collection.modify()，因为它也可以用于删除对象。
+hook(‘reading’) | 记录读取钩子，每当对象即将从数据库返回到 Table.get() 或任何产生数据库对象的 Collection 方法的调用者时，都会调用此事件，但不是具有过滤或修改目的的方法，例如 Table.filter() 或 Table 。调整（）。 具体来说，hook(‘reading’) 将过滤返回的对象
+hook(‘updating’) | 记录更新钩子，每当将要更新现有数据库对象时（通过以下任何方法：put()、update() 或 modify()，都会调用此事件。调用 put() 只会导致更新事件，以防它导致 替换现有对象，否则，如果 put() 导致对象创建，则将触发创建事件
+limit(N) | 返回限制为 N 个项目的集合，返回的是一个集合实例
+mapToClass(constructor[, structure]) | 将表映射到现有的 javascript 类，以便使表中对象获得该类的成员属性和成员方法。
+name | 获取表的名称
+offset(N) | 返回一个集合实例（按主键排序），其中对象存储中的前 N 个项目被忽略
+orderBy(index) | 返回表中所有项目的集合实例，其中属性设置为按给定索引属性排序的可索引类型。 结果中不包含属性未设置为可索引类型的对象。
+put(item, [key]) | 在对象库中添加新对象或替换现有对象。 返回一个promise，如果成功，then方法接收的参数是该对象的主键值。
+reverse() | 以相反的顺序返回按主键排序的集合实例。
+toArray() | 将查询结果转换为数组，该结果可以是Table表实例，也可以是Collection集合实例
+toCollection() |返回包含存储中所有对象的【未筛选】集合实例，未经过删选的通常是Table实例
+update(key, changes) | 使用给定的更改更新对象存储中的现有对象， 返回一个promise，then方法接收的参数是更新成功的数量
+where(keyPathArray 或 {keyPath1: value1, keyPath2: value2, …}) | 通过创建 WhereClause 实例开始过滤对象存储，通过where子句查询到的结果都是集合。
 
 ### 集合实例的所有API
 
