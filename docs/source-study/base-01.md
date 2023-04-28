@@ -581,7 +581,8 @@ function render(domObj) {
         }
     })
     domObj.children.forEach(child => {
-        child = child instaceof Element ? render(child) : document.createTextNode(child);
+        // child = child instaceof Element ? render(child) : document.createTextNode(child);
+        el.appendChild(render(child))
     })
     return el;
 }
