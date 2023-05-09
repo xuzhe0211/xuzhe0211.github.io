@@ -432,6 +432,10 @@ componentDidMount () {
 ```
 [参考资料](https://www.it1352.com/721302.html)
 
+## Mac vue-cli启用80端口
+1. 需要指定port为80
+2. 需要sudo npm run dev 才可以
+
 ## **开发之前的详细设计评审(接口评审)**
 
 
