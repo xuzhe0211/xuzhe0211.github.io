@@ -99,12 +99,12 @@ Bfc清除浮动
 3. 写版本号排序的代码（及优化），时间复杂度<br/>
 
 ```js
-//第一种
+//第一种 从大到小排序
 var arr = ['0.5.1','0.1.1','2.3.3','0.302.1','4.2','4.3.5','4.3.4.5'];
 arr.sort((a, b) => {
     let i = 0; 
     const arr1 = a.split('.');
-    const arr2 = a.split('.');
+    const arr2 = b.split('.');
     while(true) {
         const s1 = arr1[i];
         const s2 = arr2[i++];
