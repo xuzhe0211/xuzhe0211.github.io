@@ -212,6 +212,8 @@ var coinChange = function(coins, amount) {
 
 };
 ```
+[背包问题](/front-end/Code/concept-dp1.html)
+
 12. 比较vue 和react ， React 代码与Vue 代码互转和复用
 	- vue适合小而精的项目，react则更适合偏大的项目
 	- vue双向绑定 react单向数据流
