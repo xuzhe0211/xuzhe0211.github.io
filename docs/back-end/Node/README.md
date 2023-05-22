@@ -296,8 +296,37 @@ docker-compose主要是可以集合多个服务，一起运行。比如一个项
 
 项目搭建好之后，就需要持续集成了
 
+## 其他
 
+```js
+// 创建一个项目example
+const http = require('http');
+const hostname = '0.0.0.0';
+const port = 3000;
+const server = http.createServer((req, res) => { 
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello World\n');
+}); 
 
+server.listen(port, hostname, () => { 
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+```
+运行并启动项目
+```js
+node ~/example.js &
+```
+运行以下命令，列入系统已在监听的端口信息。
+```js
+netstat -tpln
+```
+删掉进程
+```js
+ps -ax | grep node
+
+kill 11191(进程id)
+```
 ## 参考资料
 
 + [Node.js](https://nodejs.org/dist/latest-v10.x/docs/api/)
