@@ -108,7 +108,58 @@ jobs: 工作流程运行包括一项或多项作业，作业默认是并行运�
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     ```
+##  使用小结
+1. 获取打包的id，用作docker tag
 
+  ```js
+  $GITHUB_RUN_NUMBER
+  ```
+2. 模糊匹配分支名
+
+  ```js
+  branch
+    - feature**
+  ```
+3. 打印相关参数
+
+  ```js
+  echo ${{ toJson(github) }}
+  ```
+4. 条件判断 用于不同股份制进行打包
+
+  ```js
+  if: contains(github.ref, 'master')
+  if: ${{ startsWith(github.ref, 'feature') || endsWith(github.event.head_commit.message, 'build') }}
+  ```
+5. 动态写入环境变量
+
+  ```js
+  echo "BUILD_EVT=test" >> $GITHUB_ENV
+  echo "$( echo ${GITHUB_REF##*/} )" >> $GITHUB_ENV
+  ```
+6. 包含子模块，需要设置token
+
+  ```js
+  - uses: actions/checkout@v2
+    with: 
+      submodules: true
+      token: ${{ secrets.REPO_TOKEN }}
+  ```
+7. 匹配tag
+
+  ```js
+  on:
+    push:
+  tags: 
+    - '*'
+  ```
+8. github参数中有用的信息
+
+  ```js
+  github.ref: #当前分支信息，如果为标签，则为具体标签数字
+  github.event.head_commit: #当前提交信息
+  github.event_name: #当前提交时间，如push, pull_request
+  ```
 ## 资料
 [GitHub Actions 入门教程](https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html)
 
