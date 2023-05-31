@@ -24,7 +24,7 @@ npm install --save-dev hard-source-webpack-plugin
 // 或
 yarn add --dev hard-source-webpack-plugin
 
-const hardSourceWebpackPlugin = require('head-source-webpack-plugin');
+const hardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'developmentent';
 
 module.export = {

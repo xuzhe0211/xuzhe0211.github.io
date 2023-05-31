@@ -129,6 +129,8 @@ console.log(solve(n,m,v,w,s))
 
 [最长公共子序列](/front-end/Code/concept-dp.html#最长公共子序列)
 
+[最长公共子串](/front-end/JavaScript/a-edit.html#资料)
+
 [购物清单](https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
 
 ```js
@@ -149,7 +151,6 @@ for(let i = 0; i < line; i++) {
 return res.join('+')
 ```
 
-[最长公共子序列](/front-end/Code/concept-dp.html#最长公共子序列)
 
 ## 找出数组的最大公约数
 ```js
