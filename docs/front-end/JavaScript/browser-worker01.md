@@ -84,7 +84,40 @@ navigator.serviceWorker.controller.postMessage(mydata)
 ```
 
 ### 2. LocalStorage
+LocalStorage作为前端最常用的本地存储，大家应该已经非常熟悉了；但StorageEvent这个与它相关的时间有些同学可能会比较陌生。
 
+当LocalStorage变化时，会触发storage事件。利用这个特性，我们可以在发送消息时，把消息写入到某个LocalStorage中;然后再各个页面内，通过监听storage事件既可收到通知
+
+```js
+window.addEventListener('storage', function(e) {
+    if(e.key === 'ctc-msg') {
+        const data = JSON.parse(e.newValue);
+        const text = '[receive] ' + data.msg + ' --tab ' + data.from;
+        console.log('[Storage I] receive message:', text);
+    }
+})
+```
+在各个页面添加如上的代码，即可监听到LocalStorage的变化。当某个页面需要发送消息时，只需要使用我们熟悉的setItem方法既可
+```js
+mydata.st = +(new Date);
+window.localStorage.setItem('ctc-msg', JSON.stringify(myData))
+```
+注意，这里有一个细节：我们在mydata上添加了一个取当前毫秒时间戳的.st属性。这是因为，storage事件只有在值真正改变时才会触发。举个例子：
+```js
+window.localStorage.setItem('test', '123');
+window.localStorage.setItem('test', '123');
+```
+由于第二次的值'123'与第一次的值相同，所以以上的代码只会在第一次setItem时触发storage事件。因此我们通过设置st来保证每次调用时一定会触发storage事件。
+### 小憩一下
+上面我们看到了三种实现跨页面通信的方式，不论是建立广播频道的Broadcast Channel，还是使用Service Worker的消息中转站，亦或是些tricky的storage事件，其都是广播模式：一个页面将消息通知给一个中央站，再由这个中央站通知给各个页面
+> 在上面的例子中，这个"中央站"可以是一个BroadCast Channel实例、一个Service Worker或是LocalStorage
+
+<span style="color:red">下面我们会看到另外两种跨页面通信方式，我把它成为"共享存储 + 轮训模式"</span>
+
+### 4. Shared Worker
+Shared Worker 是Worker家族的另一个成员。普通的Worker之间是独立运行、数据互不相通；而多个Tab注册的Shared Worker则可以实现数据共享。
+
+Shared Worker在实现跨页面通信时的问题在于，它无法主动通知所有页面，因此，我们会使用轮训的方式，来拉取最新的数据。思路如下
 
 
 ## 资料
