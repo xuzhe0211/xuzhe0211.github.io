@@ -15,6 +15,14 @@ nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx
 
 # 2. 查看nginx服务欢迎界面的位置
 root@b82175d577fd:/# cat /usr/share/nginx/html/index.html 
+
+
+
+# nginx启动
+sudo service nginx start
+
+
+sudo service nginx restart
 ```
 ## 学习资料
 
