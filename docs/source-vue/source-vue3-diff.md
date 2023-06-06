@@ -40,7 +40,7 @@ title: 深入浅出虚拟 DOM 和 Diff 算法，及 Vue2 与 Vue3 中的区别
 
 在 Vue 中是怎么把 DOM 转成上面这样的虚拟 DOM 的呢，有兴趣的可以关注我另一篇文章详细了解一下 Vue 中的模板编译过程和原理
 
-<span style="color: blue">在Vue 里虚拟DOM的数据更新机制采用的是异步更新队列，就是把变更后的数据装入一个数据更新的异步队列，就是patch,用它来做新老vnode对比</span>
+<span style="color: red">**在Vue 里虚拟DOM的数据更新机制采用的是异步更新队列，就是把变更后的数据装入一个数据更新的异步队列，就是patch,用它来做新老vnode对比**</span>
 
 ## 认识Diff算法
 <span style="color: blue">Diff算法，在Vue 里面就是叫做patch，它的核心就是参考[Snabbdom](https://github.com/snabbdom/snabbdom)，通过新旧虚拟DOM对比(即patch过程)，中出最小变化的地方转为进行DOM操作</span>
@@ -90,7 +90,7 @@ title: 深入浅出虚拟 DOM 和 Diff 算法，及 Vue2 与 Vue3 中的区别
 
 如图的li1和li2不会重新渲染,这个没有争议的。而li3、li4、li5都会重新渲染。
 
-<span style="color: blue">因为在不是用key或列表的index作为key的时候，每个元素对应的位置关系都是index，上图中的结果直接导致我们插入的元素到后面的全部元素，对应的位置关系都发生了变化，所以全部都会执行更新操作，这可不是我们想要的，我们希望的是渲染添加的那一个元素，其他四个元素不做任何变更，也就不要重新渲染。</span>
+<span style="color: red;font-weight:bold;">因为在不是用key或列表的index作为key的时候，每个元素对应的位置关系都是index，上图中的结果直接导致我们插入的元素到后面的全部元素，对应的位置关系都发生了变化，所以全部都会执行更新操作，这可不是我们想要的，我们希望的是渲染添加的那一个元素，其他四个元素不做任何变更，也就不要重新渲染。</span>
 
 而在使用唯一key的情况下，每个元素对应的位置关系就是key，来看一个使用唯一key值的情况下
 
