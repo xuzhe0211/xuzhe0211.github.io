@@ -42,5 +42,11 @@ $ npm pack
 $ npm version patch/minor/major
 ```
 
+## 判断npm 是否登录
+```js
+npm whoami
+```
+
+
 ## 资料
 [npm 发包技巧](https://juejin.cn/post/6988409950104092709)
