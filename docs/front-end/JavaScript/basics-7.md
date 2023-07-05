@@ -24,7 +24,8 @@ console.log(Container.of(3).map(x=>x+1).map(x => 'Result is ' + x))
 ```
 
 ## 函数式编程(FP)思想
-<span style="color: blue">面向对象(OOP)可以理解为是对数据的抽象，比如把一个人抽象成一个Object，关注的是数据。函数式编程是一种过程抽象的思维，就是对当前动作去抽象，关注的是动作</span>
+- <span style="color: red;font-weight: bold;">面向对象(OOP)可以理解为是对数据的抽象，比如把一个人抽象成一个Object，关注的是数据。</span>
+- <span style="color: red;font-weight: bold;">函数式编程是一种过程抽象的思维，就是对当前动作去抽象，关注的是动作</span>
 :::tip
 举个例子: 如果一个数a=1,我们希望执行+3(f函数)，然后在*5(g函数)，最后得到结果result是20
 
@@ -249,8 +250,9 @@ btn.onclick = function() {
 
 很显然，在下面的这例子中，我们每次在需要做节流的时候，我们每次都需要这样重新写一次代码。告诉 程序如何执行。而上面的高阶函数的例子，我们定义好了一个功能函数之后，我们只需要告诉程序，你要做 什么就可以啦。
 
-- <span style="color: blue">命令式:上面例子就是命令式</span>
-- <span style="color: blue">声明式：高阶函数的额例子就是声明式</span>
+- <span style="color: blue;font-weight:bold;">命令式:上面例子就是命令式</span>
+- <span style="color: blue;font-weight:bold;">声明式：高阶函数的额例子就是声明式</span>
+
 那下面大家看看，如果遍历一个数组，打印出每个数组中的元素，如何用两种方法实现呢？
 ```javascript
 // 命令式
@@ -267,10 +269,10 @@ array.forEach(i => console.log(i));
 这里我们可以先停下来从头回顾一下，函数式编程。
 
 - <span style="color: red">函数式编程，更关注的是动作，比如我们定义的节流函数，就是把节流的这个动作抽象出来</span>
-- <span style="color: red">**所以这样的函数必须要输入和输出确定且对外界没有副作用，我们吧这样的函数叫做纯函数**</span>
+- <span style="color: red">**所以这样的函数必须要输入和输出确定且对外界没有副作用，我们把这样的函数叫做纯函数**</span>
 - <span style="color: red">**对于不纯函数的提纯的过程中，用到了柯里化的方法**</span>
 - <span style="color: red">我们柯里化过程中，我们传进去的参数恰恰是一个函数，返回的也是一个函数，这就叫高阶函数</span>
-- <span style="color: red">高阶函数往往能抽象下厨想节流这样的功能函数</span>
+- <span style="color: red">高阶函数往往能抽象写出像节流这样的功能函数</span>
 - **<span style="color: blue">声明式就是在使用这些功能函数</span>**
 
 **问题：现在我们对函数编程有了初步了解，但还没有感受到的它的厉害，还记得我们之前讲的纯函数可以合并吗？下一节 我们就去实现它**

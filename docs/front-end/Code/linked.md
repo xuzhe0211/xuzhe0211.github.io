@@ -753,3 +753,80 @@ var swapPairs = function(head) {
     return v2;
 };
 ```
+## 重排链表
+给定一个单链表 L 的头节点 head ，单链表 L 表示为
+```
+L0 → L1 → … → Ln - 1 → Ln
+```
+请将其重新排列后变为：
+```js
+L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+```
+不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+![重排链表](./images/1626420320-YUiulT-image.png)
+```js
+输入：head = [1,2,3,4,5]
+输出：[1,5,2,4,3]
+```
+
+第一次遍历，构造出双向链表
+
+遍历到最后一个节点之后，反过来拼接，当low和high相遇时，重排结束
+```js
+var reorderList = function(head) {
+    const dummy = new Node(0);
+    dummy.next = head;
+
+    // 构造出双向链表
+    let prev = dummy;
+    let cur = head;
+    while (cur !== null) {
+        cur.prev = prev;
+        prev = cur;
+        cur = cur.next;
+    }
+
+    // 遍历完之后 prev 在最后一个节点上
+    let high = prev;
+    let low = head;
+
+    // 奇数个节点 和 偶数个节点 结束的条件不同
+    while (high !== low && high !== low.next) {
+        const next = low.next;
+        low.next = high;
+        high = high.prev;
+        low.next.next = next;
+        low = next;
+    }
+
+    // 断开环
+    high.next = null;
+
+    return dummy.next;
+
+};
+
+// 第二种方法
+var reorderList = function(head) {
+    if(head === null) { return head }
+    let queue = []
+    let p = head
+    while(p) {
+        queue.push(p)
+        p = p.next
+    }
+    while(queue.length > 2) {
+       let h = queue.shift()
+       let t = queue.pop()
+       t.next = h.next
+       h.next = t 
+    }
+    queue[queue.length - 1].next = null
+    return head
+};
+```
+ 
+
+
+
+[重排链表](https://leetcode.cn/problems/reorder-list/)

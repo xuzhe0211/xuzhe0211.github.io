@@ -3,7 +3,7 @@ title: vue 项目的 env 文件使用
 ---
 ## 文件
 在项目根目录创建
-- .env 无论开发环境还是生成环境都会加载
+- .env 无论开发环境还是生产环境都会加载
 - .env.development开发环境加载这个文件
 - .env.production生产环境加载这个文件
 

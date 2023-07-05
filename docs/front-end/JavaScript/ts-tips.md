@@ -187,7 +187,18 @@ instance.displayValue(); // 输出：The value is: 15
 在此示例中，我们定义了一个名为 InnerNamespace 的嵌套命名空间，在 OuterNamespace 中定义了一个 MyClass 类，并使用完全限定的名称 OuterNamespace.InnerNamespace.MyClass 使用它
 
 ## 4.混入(Mixins)
-
+### 定义混入
+要定义混入类，请创建一个类，该类使用构造函数签名扩展泛型类型参数。这允许混入类与其他类组合
+```ts
+class TimestampMixin<Tbase extends new (...args: any[]) => any>(Base: Tbase) {
+    constructor(...args: any[]) {
+        super(...args);
+    }
+    getTimestamp() {
+        return new Date();
+    }
+}
+```
 
 
 ## 资料

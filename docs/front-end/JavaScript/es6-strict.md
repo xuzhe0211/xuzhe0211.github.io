@@ -27,7 +27,7 @@ js运行有两种模式：一种是普通模式；一种是严格模式
     ```html
     <script>
       console.log(1);
-      'use strict'; // 上面有代码，自动失效
+      'use strict'; // 上面有代码，自动失效---测试结果是ok?
       a = 6;
     </script>
     <script>
