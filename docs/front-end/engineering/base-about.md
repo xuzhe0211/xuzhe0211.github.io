@@ -17,4 +17,15 @@ title: npm安装相关问题
 ```js
 > npm ls webpack
 ```
+
+## 查看报的最新本班
+```js
+npm view webpack versions
+
+// 方式二
+npm info webpack
+``` 
+
+
+
 [npm run](/front-end/engineering/base-script.html#npm-run-的其他问题)

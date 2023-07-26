@@ -360,6 +360,7 @@ export aaa=1 bbb= 2
 node ./test.js
 ```
 可以看到打印了这两环境变量
+
 ![打印demo](./images/44.jpg)
 
 然后我们写个dockerfile,文件名是333.Dockerfile

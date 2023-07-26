@@ -142,17 +142,27 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 ### 项目接入
 Sentry 配置应在应用程序的生命周期中尽早进行。完成此操作后，Sentry 的 JavaScript SDK 会捕获所有未处理的异常和事务
-```
+
+[关闭浏览器捕获的控制台调用--地址](https://www.51cto.com/article/680787.html)
+
+[https://www.cnblogs.com/hacker-linner/p/14265447.html](https://www.cnblogs.com/hacker-linner/p/14265447.html)
+
+https://www.cnblogs.com/hacker-linner/p/14307722.html
+
+```shell
 npm install --save @sentry/vue @sentry/tracing
 
 Sentry.init({
   // Sentry 项目的 dsn，可从项目设置中获取
   dsn: 'https://23d1e539ef6c4cb6b14937fead1bf2ff@sentry-zl.***.cn/2',
   // 初始参数配置内容
-  integrations: [new Integrations.BrowserTracing(
+  integrations: [
+    new Integrations.BrowserTracing(
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
       tracingOrigins: ["localhost", "my-site-url.com", /^\//],
-  )],
+    ),
+    new Sentry.Integrations.Breadcrumbs({ console: false }) // 关闭浏览器捕获的控制台调用：
+  ],
   // 触发异常后发送给 Sentry 的概率
   tracesSampleRate: 1.0,
   // 控制应捕获的面包屑(行为栈)的总量

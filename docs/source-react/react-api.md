@@ -1007,8 +1007,8 @@ useEffect:副作用，你可以理解为是类组件的生命周期，也是我�
     export default Index
     ```
     ![效果](./images/3ca2332ae29e4419978b2a778182f216_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.gif)
-#### useContent
-<span style="color: blue">useContent：上下文，类似于Context,其本意就是设置全局共享数据，使所有组件可跨层级实现共享</span>
+#### useContext
+<span style="color: blue">useContext：上下文，类似于Context,其本意就是设置全局共享数据，使所有组件可跨层级实现共享</span>
 
 useContent的参数一般是由createContext的创建，通过CountContext.Provider包裹的组件，才能通过useContent获取对应的值
 ```js

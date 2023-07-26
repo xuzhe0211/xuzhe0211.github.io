@@ -45,7 +45,7 @@ console.log(path.join(__dirname, 'foo'));
 
 原因是：package.json中设置了type,所有js文件都以ES Module去工作，而ES Module中并没有提供require。
 
-如果我们想要运行CommonJS,需要将文件扩展名改为cjs，此时我们再去执行就能按CommonJS规范来了。
+<span style="color: red; font-weight:bold">如果我们想要运行CommonJS,需要将文件扩展名改为cjs，此时我们再去执行就能按CommonJS规范来了。</span>
 
 ```js
 // common.cjs

@@ -1387,7 +1387,7 @@ class LinkedList {
             if(index === 0) {
                 // 插到表头
                 this.head = node;
-                this.next = current;
+                node.next = current;
             } else {
                 for(let i = 0; i < index - 1; i++) {
                     // 找到要插入位置的前一个元素

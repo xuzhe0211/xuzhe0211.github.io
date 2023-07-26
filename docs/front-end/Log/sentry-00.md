@@ -12,35 +12,35 @@ title: Sentry原理--收集错误、上报
     ```javascript
     Sentry.captureException('captureException');
     Sentry.captureMessage('captureMessage');
-    // 设置用户信息
-    scope.setUser({'email': 'xx@xx.cn'});
-    // 给事件定义标签
-    scope.setTags({'api', 'api/list/get'})
-    // 设置时间的严重性
-    scope.setLevel('error');
-    // 设置附加数据
-    scope.setExtra('data', { request: {a: 1, b: 2}});
+    // 设置用户信息：
+    scope.setUser({ “email”: “xx@xx.cn”})
+    // 给事件定义标签：
+    scope.setTags({ ‘api’, ‘api/ list / get’})
+    // 设置事件的严重性：
+    scope.setLevel(‘error’)
+    // 设置附加数据：
+    scope.setExtra(‘data’, { request: { a: 1, b: 2 })
     // 添加一个面包屑
     Sentry.addBreadcrumb({
-        category: 'auth',
-        message: 'Authenticated user',
-        level: Sentry.Severity.Info
-    })
-    // 添加一个scope标题？？当前事务名称用于对Performance产品中的事务进行分组，并用错误点注释错误事件
-    Sentry.configureScope(scope => scope.setTransactionName('UserListView'));
+        category: "auth",
+        message: "Authenticated user ",
+        level: Sentry.Severity.Info,
+    });
+    // 添加一个scope 标题？？？ 当前事务名称用于对Performance产品中的事务进行分组 ，并用错误点注释错误事件。
+    Sentry.configureScope(scope => scope.setTransactionName("UserListView"));
     // 局部
-    Sentry.widthScope(function (scope) {
-        scope.setTag('my-tag', 'my value');
-        scope.setLevel('warning');
+    Sentry.withScope(function (scope) {
+        scope.setTag("my-tag", "my value");
+        scope.setLevel("warning");
         // will be tagged with my-tag="my value"
-        Sentry.captureException(new Error('my error'));
-    })
+        Sentry.captureException(new Error("my error"));
+    });
     // 设置上下文
-    Sentry.setContext('character', {
-        name: 'Mighty Fighter',
+    Sentry.setContext("character", {
+        name: "Mighty Fighter",
         age: 19,
-        attack_type: 'melee'
-    })
+        attack_type: "melee",
+    });
     ```
     而captureException和captureMessage的实现大概是这样的
     ```javascript
