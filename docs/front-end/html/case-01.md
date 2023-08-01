@@ -70,6 +70,7 @@ input有change事件，当内容改变时会触发change事件
 onblur应该也可以实现？
 :::
 
+[contentEditable 中光标控制](/front-end/JavaScript/tips-contenteditable.html)
 ## Readyonly
 指定输入字段是只读的
 ```

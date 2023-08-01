@@ -75,6 +75,47 @@ app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
 ```
+当客户端接收到流式响应时,它可以逐个的处理数据，而不需要等待整个响应内容到达
+
+客户端获解析数据流
+```js
+const response = await fetch('http://localhost:8000/chatStream', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        Accept: '*,application/json'
+    },
+    body: JSON.stringify({
+        chats,
+    })
+})
+
+// 创建了一个TextDecoder对象，主要用于将二进制数据解码为 UTF-8格式(中文)字符串
+const encode = new TextDecoder('utf-8');
+// 读取响应数据流
+const reader = response.body?.getReader() as any;
+let answer = '';
+const flag = true;
+while(flag) {
+    const {done, value} = await reader.read();
+    console.log(value);
+    if(done) {
+        setCursor(false);
+        break;
+    }
+    // 获取响应流中的数据，并将其解码为字符串
+  const text = encode.decode(value);
+  // 凭借每次获取到的字符串
+  answer += text;
+  console.log(answer);
+  msgs[msgs.length - 1].content = answer;
+  console.log(msgs);
+  setChats(msgs);
+}
+```
+观察接口的返回值
+
+![接口返回值](./images/eed0f8e44879419e94ef99df566ff5e8~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
 
 
 
