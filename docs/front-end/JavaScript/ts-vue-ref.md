@@ -108,7 +108,7 @@ setup() {
 }
 ```
 ## 通过组件的setup函数自动推断
-这样做好像不太好。。。只是提供了一种思路，日常使用的话 用 InstanceType<T> 就好了哈。
+这样做好像不太好。。。只是提供了一种思路，日常使用的话 用 InstanceType&lt;T&gt; 就好了哈。
 
 ```html
 <template>

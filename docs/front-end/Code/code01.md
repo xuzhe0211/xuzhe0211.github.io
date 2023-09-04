@@ -402,6 +402,24 @@ const printBin = function(num) {
     }
     return sb.length <= 32 ? sb : 'ERROR';
 }
+
+// 第二种方法
+let str2 = '1100001' 
+let num10 = parseInt(str2, 2)  // 97
+String.fromCharCode(num10) // a
+
+// 将二进制字符串换成Unicode字符串
+function binaryToStr(str) {
+    let result = [];
+    let list = str.split(' ');
+    for(let i = 0; i < list.length; i++) {
+        let item = list[i];
+        let asciiCode = parseInt(item, 2);
+        let charValue = String.fromCharCode(asciiCode);
+        result.push(charValue);
+    }
+    return result.join('');
+}
 ```
 ## 赢的比赛需要的最少训练时长
 
@@ -711,7 +729,44 @@ var halveArray = function(nums) {
     return res;
 }
 ```
+## 统计参与通信的服务器
+这里有一幅服务器分布图，服务器的位置标识在 m * n 的整数矩阵网格 grid 中，1 表示单元格上有服务器，0 表示没有。
 
+如果两台服务器位于同一行或者同一列，我们就认为它们之间可以进行通信。
+
+请你统计并返回能够与至少一台其他服务器进行通信的服务器的数量。
+
+![服务器](./images/653.png)
+
+```
+输入：grid = [[1,1,0,0],[0,0,1,0],[0,0,1,0],[0,0,0,1]]
+输出：4
+解释：第一行的两台服务器互相通信，第三列的两台服务器互相通信，但右下角的服务器无法与其他服务器通信。
+```
+```js
+const countServers = function(grid) {
+    const m = grid.length, n = grid[0].length;
+    const rows = new Map();
+    const cols = new Map();
+    for(let i = 0; i < m; i++) {
+        for(let j = 0; j < n; j++) {
+            if(grid[i][j] === 1) {
+                rows.set(i, (rows.get(i) || 0) + 1);
+                cols.set(j, (cols.get(j) || 0) + 1);
+            }
+        }
+    }
+    let ans = 0;
+    for(let i = 0; i < m; i++) {
+        for(let j = 0; j < n; j++) {
+            if(grid[i][j] === 1 && ((rows.get(i) || 0) > 1 || (cols.get(j) || 0) > 1)) {
+                ++ans;
+            }
+        }
+    }
+    return ans;
+}
+```
 
 
 

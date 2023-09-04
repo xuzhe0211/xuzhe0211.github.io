@@ -170,6 +170,26 @@ const c = get(object, 'a[100].b.c', 10086); // 10086
 
 console.log(a, b, c)
 ```
+### 使用lodash的throttle函数会出发两次
+<span style="color: red">当使用lodash的throttle函数时会出发两次，分别在最开始和最后</span>
+
+严格来说不算是bug，因为[官方文档](https://www.lodashjs.com/docs/lodash.throttle)写的很清楚。Throttle函数其实有三个参数
+
+- func: 要节流的函数
+- wait: 等待时间
+- options: 选项
+    - options.leading=true (boolean): 指定调用在节流开始前，也就是第一次点击。
+    - options.trailing=true (boolean): 指定调用在节流结束后，也就是最后一次点击。
+
+options的默认值为:{leading: true, trailing: true}
+
+所以其实throttle函数默认就是会调用两次。分别是第一次和最后一次。
+
+如果想要throttle函数只会调用一次，可以设置options.trailing=false。这样函数的表现就像普通的截流函数了。
+```js
+// 点击后就调用renewToken 但5分钟内超过1次
+var throttled = _.throttle(renewToken, 30000, {'trailing': false});
+```
 
 ## 如何实现一个数组的洗牌函数
 [类似问题-怎么在制定数据源里面生成一个长度为n的不重复的随机数组，能有几种方法，时间复杂度多少](/front-end/interview/dachang2.html#简单)
