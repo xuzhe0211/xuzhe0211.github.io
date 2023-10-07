@@ -113,6 +113,8 @@ git stash apply stash@{0}
 当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，在git stash pop，回到工作现场
 
 ```shell
+git stash  # 暂存状态
+git stash list #查看缓存列表
 git stash clear # 清空你所有的内容
 git stash drop stash@{0} # 这是删除第一个队列 
 ```
