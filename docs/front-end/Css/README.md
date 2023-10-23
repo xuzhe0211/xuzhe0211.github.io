@@ -118,6 +118,7 @@ title: Css命名规范
     .box{font-faimily: myFirstFont}
 </style>
 ```
+[真正了解@font face里font-weight的作用](/front-end/Css/css-font-face.html)
 
 ## 资料
 [关于BEM中常见的十个问题以及如何避免](https://www.w3cplus.com/css/battling-bem-extended-edition-common-problems-and-how-to-avoid-them.html)
