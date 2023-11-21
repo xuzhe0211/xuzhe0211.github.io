@@ -146,6 +146,30 @@ const serverHandle = (req, res) => {
 module.exports = serverHandle
 ```
 ## 博客列表路由
+
+<span style="color: red">问题：直接req.query 获取到的是undefined;需要使用url组件</span>
+
+```js
+const http = require('http');
+const url = require('url');
+
+const server = http.createServer((req, res) => {
+  const parsedUrl = url.parse(req.url, true);
+  const query = parsedUrl.query;
+
+  // 获取特定参数的值
+  const name = query.name;
+  const age = query.age;
+
+  // 返回结果
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end(`Name: ${name}, Age: ${age}`);
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
 - 博客列表
     ```js
     // model/resModel
