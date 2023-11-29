@@ -13,6 +13,7 @@ cd docs/.vuepress/dist
 # echo 'www.example.com' > CNAME
 
 git init
+git checkout -b master
 git add -A
 git commit -m 'deploy'
 
@@ -23,6 +24,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
 
 # 把上面的 <USERNAME> 换成你自己的 Github 用户名，<REPO> 换成仓库名，比如我这里就是：
-git push -f git@github.com:xuzhe0211/documents.git master
+git push -f git@github.com:xuzhe0211/xuzhe0211.github.io.git master
 
 cd -
