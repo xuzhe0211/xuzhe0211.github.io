@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue 前端代码风格指南 | 随风</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="description" content="随风随雨又随流">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="google-site-verification" content="Ld_AEWr30siza2LmmZ12csitRGsSj9gqqEAch0UXkTc">
+    
+    <link rel="preload" href="/assets/css/0.styles.35bcedcf.css" as="style"><link rel="preload" href="/assets/js/app.09c86fde.js" as="script"><link rel="preload" href="/assets/js/2.782c1c27.js" as="script"><link rel="preload" href="/assets/js/571.cf0cf7e8.js" as="script"><link rel="prefetch" href="/assets/js/10.d18da882.js"><link rel="prefetch" href="/assets/js/100.642acd12.js"><link rel="prefetch" href="/assets/js/101.0b562fc0.js"><link rel="prefetch" href="/assets/js/102.3a4c66f5.js"><link rel="prefetch" href="/assets/js/103.fcf23ec0.js"><link rel="prefetch" href="/assets/js/104.14233f6a.js"><link rel="prefetch" href="/assets/js/105.fa74a7a1.js"><link rel="prefetch" href="/assets/js/106.9988d70f.js"><link rel="prefetch" href="/assets/js/107.08095936.js"><link rel="prefetch" href="/assets/js/108.b1399c37.js"><link rel="prefetch" href="/assets/js/109.3cdd67ce.js"><link rel="prefetch" href="/assets/js/11.f1200d4b.js"><link rel="prefetch" href="/assets/js/110.86708cf0.js"><link rel="prefetch" href="/assets/js/111.84e670ae.js"><link rel="prefetch" href="/assets/js/112.066a6cbc.js"><link rel="prefetch" href="/assets/js/113.6ef03471.js"><link rel="prefetch" href="/assets/js/114.d5a82fc3.js"><link rel="prefetch" href="/assets/js/115.12b32d77.js"><link rel="prefetch" href="/assets/js/116.5c95424f.js"><link rel="prefetch" href="/assets/js/117.a90ba52f.js"><link rel="prefetch" href="/assets/js/118.62d47f51.js"><link rel="prefetch" href="/assets/js/119.fb2a9299.js"><link rel="prefetch" href="/assets/js/12.4e55ac19.js"><link rel="prefetch" href="/assets/js/120.bd0ca6aa.js"><link rel="prefetch" href="/assets/js/121.0c090250.js"><link rel="prefetch" href="/assets/js/122.e766d085.js"><link rel="prefetch" href="/assets/js/123.f62fa7d7.js"><link rel="prefetch" href="/assets/js/124.8515ca37.js"><link rel="prefetch" href="/assets/js/125.372aa4cb.js"><link rel="prefetch" href="/assets/js/126.2af9789a.js"><link rel="prefetch" href="/assets/js/127.00dca173.js"><link rel="prefetch" href="/assets/js/128.b54a7736.js"><link rel="prefetch" href="/assets/js/129.5aff1b61.js"><link rel="prefetch" href="/assets/js/13.579e4039.js"><link rel="prefetch" href="/assets/js/130.c0baaafe.js"><link rel="prefetch" href="/assets/js/131.4b10c240.js"><link rel="prefetch" href="/assets/js/132.c1563516.js"><link rel="prefetch" href="/assets/js/133.5f97f808.js"><link rel="prefetch" href="/assets/js/134.f84059b2.js"><link rel="prefetch" href="/assets/js/135.88206a59.js"><link rel="prefetch" href="/assets/js/136.19394d21.js"><link rel="prefetch" href="/assets/js/137.7b2cd937.js"><link rel="prefetch" href="/assets/js/138.9bf02d32.js"><link rel="prefetch" href="/assets/js/139.71a4a0dd.js"><link rel="prefetch" href="/assets/js/14.29f8dd71.js"><link rel="prefetch" href="/assets/js/140.be6b46d8.js"><link rel="prefetch" href="/assets/js/141.5eb7c2cf.js"><link rel="prefetch" href="/assets/js/142.cb08ee22.js"><link rel="prefetch" href="/assets/js/143.4743ee48.js"><link rel="prefetch" href="/assets/js/144.c01b7a96.js"><link rel="prefetch" href="/assets/js/145.80ecacb8.js"><link rel="prefetch" href="/assets/js/146.40a1f0f4.js"><link rel="prefetch" href="/assets/js/147.cb853a43.js"><link rel="prefetch" href="/assets/js/148.7b9f60a7.js"><link rel="prefetch" href="/assets/js/149.efab656c.js"><link rel="prefetch" href="/assets/js/15.64e6af75.js"><link rel="prefetch" href="/assets/js/150.9e2542c1.js"><link rel="prefetch" href="/assets/js/151.3b127f2a.js"><link rel="prefetch" href="/assets/js/152.bc1adcca.js"><link rel="prefetch" href="/assets/js/153.a086423a.js"><link rel="prefetch" href="/assets/js/154.5ab7eb8b.js"><link rel="prefetch" href="/assets/js/155.9a961a5b.js"><link rel="prefetch" href="/assets/js/156.d8167d56.js"><link rel="prefetch" href="/assets/js/157.67f40e6b.js"><link rel="prefetch" href="/assets/js/158.94613f5f.js"><link rel="prefetch" href="/assets/js/159.caf81350.js"><link rel="prefetch" href="/assets/js/16.d1cd8ed3.js"><link rel="prefetch" href="/assets/js/160.3ac2a35c.js"><link rel="prefetch" href="/assets/js/161.4f7c33a0.js"><link rel="prefetch" href="/assets/js/162.54abcedf.js"><link rel="prefetch" href="/assets/js/163.d4fe8ab0.js"><link rel="prefetch" href="/assets/js/164.522701fe.js"><link rel="prefetch" href="/assets/js/165.2c62561f.js"><link rel="prefetch" href="/assets/js/166.8ff0c668.js"><link rel="prefetch" href="/assets/js/167.92baf4dc.js"><link rel="prefetch" href="/assets/js/168.e41cbeb0.js"><link rel="prefetch" href="/assets/js/169.2bd42ab8.js"><link rel="prefetch" href="/assets/js/17.bf1bde47.js"><link rel="prefetch" href="/assets/js/170.3dc40e54.js"><link rel="prefetch" href="/assets/js/171.43b47224.js"><link rel="prefetch" href="/assets/js/172.9d29ba8f.js"><link rel="prefetch" href="/assets/js/173.dcd03e7a.js"><link rel="prefetch" href="/assets/js/174.e886228a.js"><link rel="prefetch" href="/assets/js/175.6bf3da89.js"><link rel="prefetch" href="/assets/js/176.36e44321.js"><link rel="prefetch" href="/assets/js/177.7eff970e.js"><link rel="prefetch" href="/assets/js/178.6c2add67.js"><link rel="prefetch" href="/assets/js/179.eebabfc4.js"><link rel="prefetch" href="/assets/js/18.11c4a84e.js"><link rel="prefetch" href="/assets/js/180.e95c1f8c.js"><link rel="prefetch" href="/assets/js/181.8bd79da3.js"><link rel="prefetch" href="/assets/js/182.0f97d5a9.js"><link rel="prefetch" href="/assets/js/183.76ebb9bc.js"><link rel="prefetch" href="/assets/js/184.670c990d.js"><link rel="prefetch" href="/assets/js/185.f20ff8d6.js"><link rel="prefetch" href="/assets/js/186.9f9a2d2a.js"><link rel="prefetch" href="/assets/js/187.6f2a0edc.js"><link rel="prefetch" href="/assets/js/188.9482c439.js"><link rel="prefetch" href="/assets/js/189.e4f28105.js"><link rel="prefetch" href="/assets/js/19.585446a9.js"><link rel="prefetch" href="/assets/js/190.c9875b10.js"><link rel="prefetch" href="/assets/js/191.dba2e3e7.js"><link rel="prefetch" href="/assets/js/192.fc99d4e9.js"><link rel="prefetch" href="/assets/js/193.814f2fbc.js"><link rel="prefetch" href="/assets/js/194.a93cc1bc.js"><link rel="prefetch" href="/assets/js/195.8a7447a1.js"><link rel="prefetch" href="/assets/js/196.bd71dc37.js"><link rel="prefetch" href="/assets/js/197.313eff96.js"><link rel="prefetch" href="/assets/js/198.22aa7bd3.js"><link rel="prefetch" href="/assets/js/199.8e583ad2.js"><link rel="prefetch" href="/assets/js/20.5bae1f75.js"><link rel="prefetch" href="/assets/js/200.7f444cdd.js"><link rel="prefetch" href="/assets/js/201.11de11e8.js"><link rel="prefetch" href="/assets/js/202.9e7d5dde.js"><link rel="prefetch" href="/assets/js/203.4e03ac65.js"><link rel="prefetch" href="/assets/js/204.816aed0d.js"><link rel="prefetch" href="/assets/js/205.1b1fea9c.js"><link rel="prefetch" href="/assets/js/206.6dcc83e2.js"><link rel="prefetch" href="/assets/js/207.ed7fb8b9.js"><link rel="prefetch" href="/assets/js/208.364443b8.js"><link rel="prefetch" href="/assets/js/209.8aa8e9dd.js"><link rel="prefetch" href="/assets/js/21.ebad00c3.js"><link rel="prefetch" href="/assets/js/210.4c9d9b2b.js"><link rel="prefetch" href="/assets/js/211.1201c44d.js"><link rel="prefetch" href="/assets/js/212.95fc86ab.js"><link rel="prefetch" href="/assets/js/213.202304f1.js"><link rel="prefetch" href="/assets/js/214.8e53dcd0.js"><link rel="prefetch" href="/assets/js/215.d293943b.js"><link rel="prefetch" href="/assets/js/216.fc769a52.js"><link rel="prefetch" href="/assets/js/217.b060c7a7.js"><link rel="prefetch" href="/assets/js/218.e9f63c56.js"><link rel="prefetch" href="/assets/js/219.0df13fb9.js"><link rel="prefetch" href="/assets/js/22.7dac484f.js"><link rel="prefetch" href="/assets/js/220.8dd2da41.js"><link rel="prefetch" href="/assets/js/221.b02e835b.js"><link rel="prefetch" href="/assets/js/222.fbfd1100.js"><link rel="prefetch" href="/assets/js/223.c6ec2c0f.js"><link rel="prefetch" href="/assets/js/224.2905233c.js"><link rel="prefetch" href="/assets/js/225.669d8421.js"><link rel="prefetch" href="/assets/js/226.10a85e97.js"><link rel="prefetch" href="/assets/js/227.24108380.js"><link rel="prefetch" href="/assets/js/228.36f263c3.js"><link rel="prefetch" href="/assets/js/229.cc9de3cb.js"><link rel="prefetch" href="/assets/js/23.374fa83d.js"><link rel="prefetch" href="/assets/js/230.ebc96dad.js"><link rel="prefetch" href="/assets/js/231.7e2a5b93.js"><link rel="prefetch" href="/assets/js/232.2b0b063e.js"><link rel="prefetch" href="/assets/js/233.bf30ec39.js"><link rel="prefetch" href="/assets/js/234.8154d4e8.js"><link rel="prefetch" href="/assets/js/235.317d5da3.js"><link rel="prefetch" href="/assets/js/236.0d0b5ebd.js"><link rel="prefetch" href="/assets/js/237.b0f2c806.js"><link rel="prefetch" href="/assets/js/238.882f5f23.js"><link rel="prefetch" href="/assets/js/239.d46fb8a2.js"><link rel="prefetch" href="/assets/js/24.491771e0.js"><link rel="prefetch" href="/assets/js/240.cb4e7782.js"><link rel="prefetch" href="/assets/js/241.b3a71fe7.js"><link rel="prefetch" href="/assets/js/242.90242ad1.js"><link rel="prefetch" href="/assets/js/243.d6d82150.js"><link rel="prefetch" href="/assets/js/244.10d30de4.js"><link rel="prefetch" href="/assets/js/245.7a747e22.js"><link rel="prefetch" href="/assets/js/246.8a814b1f.js"><link rel="prefetch" href="/assets/js/247.4be4beb5.js"><link rel="prefetch" href="/assets/js/248.cc546e1e.js"><link rel="prefetch" href="/assets/js/249.3645e24e.js"><link rel="prefetch" href="/assets/js/25.36964d7d.js"><link rel="prefetch" href="/assets/js/250.4f71f762.js"><link rel="prefetch" href="/assets/js/251.ff8a37cd.js"><link rel="prefetch" href="/assets/js/252.4711cfce.js"><link rel="prefetch" href="/assets/js/253.e40c5563.js"><link rel="prefetch" href="/assets/js/254.12af5584.js"><link rel="prefetch" href="/assets/js/255.bea64310.js"><link rel="prefetch" href="/assets/js/256.56189c1b.js"><link rel="prefetch" href="/assets/js/257.e2675f37.js"><link rel="prefetch" href="/assets/js/258.87bfe3bf.js"><link rel="prefetch" href="/assets/js/259.e73c310d.js"><link rel="prefetch" href="/assets/js/26.096d4c5b.js"><link rel="prefetch" href="/assets/js/260.3f75c8d8.js"><link rel="prefetch" href="/assets/js/261.de186298.js"><link rel="prefetch" href="/assets/js/262.77b5b6f2.js"><link rel="prefetch" href="/assets/js/263.74b72fe4.js"><link rel="prefetch" href="/assets/js/264.901bc52f.js"><link rel="prefetch" href="/assets/js/265.c062328b.js"><link rel="prefetch" href="/assets/js/266.623cc50e.js"><link rel="prefetch" href="/assets/js/267.98761012.js"><link rel="prefetch" href="/assets/js/268.b0c20963.js"><link rel="prefetch" href="/assets/js/269.17b7e593.js"><link rel="prefetch" href="/assets/js/27.c5a60b08.js"><link rel="prefetch" href="/assets/js/270.45b324f9.js"><link rel="prefetch" href="/assets/js/271.1214f303.js"><link rel="prefetch" href="/assets/js/272.21c3865b.js"><link rel="prefetch" href="/assets/js/273.635f4925.js"><link rel="prefetch" href="/assets/js/274.9b56336a.js"><link rel="prefetch" href="/assets/js/275.36de55e3.js"><link rel="prefetch" href="/assets/js/276.f18c4196.js"><link rel="prefetch" href="/assets/js/277.e3e4a8cb.js"><link rel="prefetch" href="/assets/js/278.5e541f6b.js"><link rel="prefetch" href="/assets/js/279.40146ae3.js"><link rel="prefetch" href="/assets/js/28.fd93ed9d.js"><link rel="prefetch" href="/assets/js/280.dadfd9d7.js"><link rel="prefetch" href="/assets/js/281.3275596f.js"><link rel="prefetch" href="/assets/js/282.78998c96.js"><link rel="prefetch" href="/assets/js/283.d4c2c614.js"><link rel="prefetch" href="/assets/js/284.b7ac4966.js"><link rel="prefetch" href="/assets/js/285.2d152524.js"><link rel="prefetch" href="/assets/js/286.89c2aca8.js"><link rel="prefetch" href="/assets/js/287.741eff28.js"><link rel="prefetch" href="/assets/js/288.90b0c639.js"><link rel="prefetch" href="/assets/js/289.7bc0d819.js"><link rel="prefetch" href="/assets/js/29.cbbd244d.js"><link rel="prefetch" href="/assets/js/290.14a8557b.js"><link rel="prefetch" href="/assets/js/291.12f729db.js"><link rel="prefetch" href="/assets/js/292.12b6c6ea.js"><link rel="prefetch" href="/assets/js/293.62aabb22.js"><link rel="prefetch" href="/assets/js/294.34bec2d1.js"><link rel="prefetch" href="/assets/js/295.7ab564f3.js"><link rel="prefetch" href="/assets/js/296.fb9fdf77.js"><link rel="prefetch" href="/assets/js/297.97762d35.js"><link rel="prefetch" href="/assets/js/298.30d15f4c.js"><link rel="prefetch" href="/assets/js/299.944f6b33.js"><link rel="prefetch" href="/assets/js/3.b330fef7.js"><link rel="prefetch" href="/assets/js/30.7d285544.js"><link rel="prefetch" href="/assets/js/300.d580d894.js"><link rel="prefetch" href="/assets/js/301.2f1a3d02.js"><link rel="prefetch" href="/assets/js/302.351ea1d9.js"><link rel="prefetch" href="/assets/js/303.563fc355.js"><link rel="prefetch" href="/assets/js/304.48deccf4.js"><link rel="prefetch" href="/assets/js/305.569b107b.js"><link rel="prefetch" href="/assets/js/306.137a493d.js"><link rel="prefetch" href="/assets/js/307.6925d152.js"><link rel="prefetch" href="/assets/js/308.eaf86cc0.js"><link rel="prefetch" href="/assets/js/309.9e77ec5a.js"><link rel="prefetch" href="/assets/js/31.207db936.js"><link rel="prefetch" href="/assets/js/310.b4c45d94.js"><link rel="prefetch" href="/assets/js/311.8c312398.js"><link rel="prefetch" href="/assets/js/312.7057eb45.js"><link rel="prefetch" href="/assets/js/313.5af3d4d1.js"><link rel="prefetch" href="/assets/js/314.fc397d57.js"><link rel="prefetch" href="/assets/js/315.cfdbf0f7.js"><link rel="prefetch" href="/assets/js/316.0e4135bd.js"><link rel="prefetch" href="/assets/js/317.06b1d608.js"><link rel="prefetch" href="/assets/js/318.102b33d4.js"><link rel="prefetch" href="/assets/js/319.66f1d897.js"><link rel="prefetch" href="/assets/js/32.075616d3.js"><link rel="prefetch" href="/assets/js/320.dbfffa06.js"><link rel="prefetch" href="/assets/js/321.b3d83a63.js"><link rel="prefetch" href="/assets/js/322.e231c056.js"><link rel="prefetch" href="/assets/js/323.8b297989.js"><link rel="prefetch" href="/assets/js/324.e68c0428.js"><link rel="prefetch" href="/assets/js/325.4d8dc46c.js"><link rel="prefetch" href="/assets/js/326.eed981b0.js"><link rel="prefetch" href="/assets/js/327.629986b4.js"><link rel="prefetch" href="/assets/js/328.02002c12.js"><link rel="prefetch" href="/assets/js/329.6e94fbb8.js"><link rel="prefetch" href="/assets/js/33.a1e05886.js"><link rel="prefetch" href="/assets/js/330.a3a935b0.js"><link rel="prefetch" href="/assets/js/331.55436cfc.js"><link rel="prefetch" href="/assets/js/332.9d91d857.js"><link rel="prefetch" href="/assets/js/333.a3475487.js"><link rel="prefetch" href="/assets/js/334.c0752e84.js"><link rel="prefetch" href="/assets/js/335.e82ce4aa.js"><link rel="prefetch" href="/assets/js/336.0048ae30.js"><link rel="prefetch" href="/assets/js/337.e0335fa5.js"><link rel="prefetch" href="/assets/js/338.a3c2f3fe.js"><link rel="prefetch" href="/assets/js/339.4cfb0168.js"><link rel="prefetch" href="/assets/js/34.09fe5406.js"><link rel="prefetch" href="/assets/js/340.73ada4d3.js"><link rel="prefetch" href="/assets/js/341.822c83ef.js"><link rel="prefetch" href="/assets/js/342.ea51456d.js"><link rel="prefetch" href="/assets/js/343.c944e19c.js"><link rel="prefetch" href="/assets/js/344.22adfe68.js"><link rel="prefetch" href="/assets/js/345.c540e1de.js"><link rel="prefetch" href="/assets/js/346.8386d9a1.js"><link rel="prefetch" href="/assets/js/347.27f288a4.js"><link rel="prefetch" href="/assets/js/348.87802356.js"><link rel="prefetch" href="/assets/js/349.3a580342.js"><link rel="prefetch" href="/assets/js/35.ec24e661.js"><link rel="prefetch" href="/assets/js/350.7fa77cc1.js"><link rel="prefetch" href="/assets/js/351.b0d0818b.js"><link rel="prefetch" href="/assets/js/352.0b35fc4d.js"><link rel="prefetch" href="/assets/js/353.4bcd39ec.js"><link rel="prefetch" href="/assets/js/354.e1165d45.js"><link rel="prefetch" href="/assets/js/355.b9d6d79f.js"><link rel="prefetch" href="/assets/js/356.7590073b.js"><link rel="prefetch" href="/assets/js/357.92552812.js"><link rel="prefetch" href="/assets/js/358.8654bb41.js"><link rel="prefetch" href="/assets/js/359.c6f251b0.js"><link rel="prefetch" href="/assets/js/36.fd4fca29.js"><link rel="prefetch" href="/assets/js/360.94164a07.js"><link rel="prefetch" href="/assets/js/361.f75ae007.js"><link rel="prefetch" href="/assets/js/362.8a0d7a82.js"><link rel="prefetch" href="/assets/js/363.9f9171d5.js"><link rel="prefetch" href="/assets/js/364.310e2b00.js"><link rel="prefetch" href="/assets/js/365.03c598cd.js"><link rel="prefetch" href="/assets/js/366.8dcc880f.js"><link rel="prefetch" href="/assets/js/367.6d40880e.js"><link rel="prefetch" href="/assets/js/368.2a4b556d.js"><link rel="prefetch" href="/assets/js/369.df1b7cb5.js"><link rel="prefetch" href="/assets/js/37.8a94b187.js"><link rel="prefetch" href="/assets/js/370.b609281e.js"><link rel="prefetch" href="/assets/js/371.401fc49e.js"><link rel="prefetch" href="/assets/js/372.e78b276a.js"><link rel="prefetch" href="/assets/js/373.2dfb2044.js"><link rel="prefetch" href="/assets/js/374.df81e14f.js"><link rel="prefetch" href="/assets/js/375.7ae6090b.js"><link rel="prefetch" href="/assets/js/376.fabfe736.js"><link rel="prefetch" href="/assets/js/377.451715c0.js"><link rel="prefetch" href="/assets/js/378.3e7c6243.js"><link rel="prefetch" href="/assets/js/379.e6ea70f5.js"><link rel="prefetch" href="/assets/js/38.bae2a3fb.js"><link rel="prefetch" href="/assets/js/380.ddd34afd.js"><link rel="prefetch" href="/assets/js/381.09a3a9a8.js"><link rel="prefetch" href="/assets/js/382.d25fab68.js"><link rel="prefetch" href="/assets/js/383.1519c75e.js"><link rel="prefetch" href="/assets/js/384.a2f6c4f2.js"><link rel="prefetch" href="/assets/js/385.e4d87ddf.js"><link rel="prefetch" href="/assets/js/386.17d4a597.js"><link rel="prefetch" href="/assets/js/387.020f5ac5.js"><link rel="prefetch" href="/assets/js/388.e7ba3c25.js"><link rel="prefetch" href="/assets/js/389.fd55c9f7.js"><link rel="prefetch" href="/assets/js/39.a782dd44.js"><link rel="prefetch" href="/assets/js/390.1f40f427.js"><link rel="prefetch" href="/assets/js/391.7ec34a3e.js"><link rel="prefetch" href="/assets/js/392.08905b20.js"><link rel="prefetch" href="/assets/js/393.65fba1f9.js"><link rel="prefetch" href="/assets/js/394.ac4a6d4a.js"><link rel="prefetch" href="/assets/js/395.26dd84dc.js"><link rel="prefetch" href="/assets/js/396.432da1eb.js"><link rel="prefetch" href="/assets/js/397.5f0603ad.js"><link rel="prefetch" href="/assets/js/398.a1c53488.js"><link rel="prefetch" href="/assets/js/399.d7d8fd7c.js"><link rel="prefetch" href="/assets/js/4.5053ca45.js"><link rel="prefetch" href="/assets/js/40.40a9ce01.js"><link rel="prefetch" href="/assets/js/400.17940001.js"><link rel="prefetch" href="/assets/js/401.ad8d230a.js"><link rel="prefetch" href="/assets/js/402.e248fc0a.js"><link rel="prefetch" href="/assets/js/403.f81ba964.js"><link rel="prefetch" href="/assets/js/404.452f6d62.js"><link rel="prefetch" href="/assets/js/405.2a2bb3f5.js"><link rel="prefetch" href="/assets/js/406.4e66c95c.js"><link rel="prefetch" href="/assets/js/407.7df9f8b5.js"><link rel="prefetch" href="/assets/js/408.0e85c0aa.js"><link rel="prefetch" href="/assets/js/409.055c91bf.js"><link rel="prefetch" href="/assets/js/41.67e90258.js"><link rel="prefetch" href="/assets/js/410.28168da1.js"><link rel="prefetch" href="/assets/js/411.8bca2cba.js"><link rel="prefetch" href="/assets/js/412.2977a65d.js"><link rel="prefetch" href="/assets/js/413.e2de0488.js"><link rel="prefetch" href="/assets/js/414.f14231ae.js"><link rel="prefetch" href="/assets/js/415.bbe02773.js"><link rel="prefetch" href="/assets/js/416.3a640686.js"><link rel="prefetch" href="/assets/js/417.50ade982.js"><link rel="prefetch" href="/assets/js/418.b4287ae4.js"><link rel="prefetch" href="/assets/js/419.d4911cf0.js"><link rel="prefetch" href="/assets/js/42.4201d5cf.js"><link rel="prefetch" href="/assets/js/420.8dfde54b.js"><link rel="prefetch" href="/assets/js/421.6d28aab7.js"><link rel="prefetch" href="/assets/js/422.274057da.js"><link rel="prefetch" href="/assets/js/423.ae9d2c82.js"><link rel="prefetch" href="/assets/js/424.0c928096.js"><link rel="prefetch" href="/assets/js/425.c2951fac.js"><link rel="prefetch" href="/assets/js/426.db0e41cf.js"><link rel="prefetch" href="/assets/js/427.d93979bd.js"><link rel="prefetch" href="/assets/js/428.8c11be95.js"><link rel="prefetch" href="/assets/js/429.9c9b11be.js"><link rel="prefetch" href="/assets/js/43.04a6b557.js"><link rel="prefetch" href="/assets/js/430.eb3fbceb.js"><link rel="prefetch" href="/assets/js/431.0ba4a0ba.js"><link rel="prefetch" href="/assets/js/432.eca56403.js"><link rel="prefetch" href="/assets/js/433.d445298c.js"><link rel="prefetch" href="/assets/js/434.81f6e801.js"><link rel="prefetch" href="/assets/js/435.86984ecd.js"><link rel="prefetch" href="/assets/js/436.40d5527b.js"><link rel="prefetch" href="/assets/js/437.a21ecd7c.js"><link rel="prefetch" href="/assets/js/438.f800be0c.js"><link rel="prefetch" href="/assets/js/439.1c8b5e93.js"><link rel="prefetch" href="/assets/js/44.cb299922.js"><link rel="prefetch" href="/assets/js/440.a321c8f6.js"><link rel="prefetch" href="/assets/js/441.f9404437.js"><link rel="prefetch" href="/assets/js/442.385ebaba.js"><link rel="prefetch" href="/assets/js/443.8dd45fdf.js"><link rel="prefetch" href="/assets/js/444.9cb5f6b8.js"><link rel="prefetch" href="/assets/js/445.ed28a0d0.js"><link rel="prefetch" href="/assets/js/446.5058e9b7.js"><link rel="prefetch" href="/assets/js/447.614d3013.js"><link rel="prefetch" href="/assets/js/448.a55c8c5f.js"><link rel="prefetch" href="/assets/js/449.0bc9c061.js"><link rel="prefetch" href="/assets/js/45.7d31346b.js"><link rel="prefetch" href="/assets/js/450.e1cf3868.js"><link rel="prefetch" href="/assets/js/451.3fa72c25.js"><link rel="prefetch" href="/assets/js/452.0c22a347.js"><link rel="prefetch" href="/assets/js/453.9f1b64e4.js"><link rel="prefetch" href="/assets/js/454.a23636b0.js"><link rel="prefetch" href="/assets/js/455.42d36d54.js"><link rel="prefetch" href="/assets/js/456.ce150b55.js"><link rel="prefetch" href="/assets/js/457.c81481f4.js"><link rel="prefetch" href="/assets/js/458.ba9c03a4.js"><link rel="prefetch" href="/assets/js/459.8e9fe5c2.js"><link rel="prefetch" href="/assets/js/46.a17e4cce.js"><link rel="prefetch" href="/assets/js/460.3f718251.js"><link rel="prefetch" href="/assets/js/461.f260a7c2.js"><link rel="prefetch" href="/assets/js/462.e185dcba.js"><link rel="prefetch" href="/assets/js/463.67def607.js"><link rel="prefetch" href="/assets/js/464.d919d1ef.js"><link rel="prefetch" href="/assets/js/465.781f4ae6.js"><link rel="prefetch" href="/assets/js/466.5f028435.js"><link rel="prefetch" href="/assets/js/467.405495e9.js"><link rel="prefetch" href="/assets/js/468.db67ddad.js"><link rel="prefetch" href="/assets/js/469.cb85ed90.js"><link rel="prefetch" href="/assets/js/47.0b8d6724.js"><link rel="prefetch" href="/assets/js/470.e7a1c954.js"><link rel="prefetch" href="/assets/js/471.dad3463f.js"><link rel="prefetch" href="/assets/js/472.761ed649.js"><link rel="prefetch" href="/assets/js/473.75365bd7.js"><link rel="prefetch" href="/assets/js/474.4d5a2a31.js"><link rel="prefetch" href="/assets/js/475.f2e15128.js"><link rel="prefetch" href="/assets/js/476.3a1ff0c9.js"><link rel="prefetch" href="/assets/js/477.f72eeeee.js"><link rel="prefetch" href="/assets/js/478.cfec57bc.js"><link rel="prefetch" href="/assets/js/479.865cbd97.js"><link rel="prefetch" href="/assets/js/48.6643a3f1.js"><link rel="prefetch" href="/assets/js/480.794aed5a.js"><link rel="prefetch" href="/assets/js/481.6184c319.js"><link rel="prefetch" href="/assets/js/482.3e602fd5.js"><link rel="prefetch" href="/assets/js/483.f81ad164.js"><link rel="prefetch" href="/assets/js/484.65601ef3.js"><link rel="prefetch" href="/assets/js/485.4cdb83a9.js"><link rel="prefetch" href="/assets/js/486.fc9b7ab0.js"><link rel="prefetch" href="/assets/js/487.216f1e84.js"><link rel="prefetch" href="/assets/js/488.8f169fbb.js"><link rel="prefetch" href="/assets/js/489.28bfca69.js"><link rel="prefetch" href="/assets/js/49.5fa37144.js"><link rel="prefetch" href="/assets/js/490.570d368e.js"><link rel="prefetch" href="/assets/js/491.47867ce5.js"><link rel="prefetch" href="/assets/js/492.33712473.js"><link rel="prefetch" href="/assets/js/493.47349063.js"><link rel="prefetch" href="/assets/js/494.cf25e23a.js"><link rel="prefetch" href="/assets/js/495.4631bf9c.js"><link rel="prefetch" href="/assets/js/496.47b6371e.js"><link rel="prefetch" href="/assets/js/497.dab20131.js"><link rel="prefetch" href="/assets/js/498.04c53d8c.js"><link rel="prefetch" href="/assets/js/499.274ec48b.js"><link rel="prefetch" href="/assets/js/5.e87fe3fb.js"><link rel="prefetch" href="/assets/js/50.66f3293b.js"><link rel="prefetch" href="/assets/js/500.b2fa4fc2.js"><link rel="prefetch" href="/assets/js/501.f6fbd46c.js"><link rel="prefetch" href="/assets/js/502.7a8dcafa.js"><link rel="prefetch" href="/assets/js/503.0f8514a4.js"><link rel="prefetch" href="/assets/js/504.63ae0c68.js"><link rel="prefetch" href="/assets/js/505.09b5e68c.js"><link rel="prefetch" href="/assets/js/506.7f748261.js"><link rel="prefetch" href="/assets/js/507.ce28ad2f.js"><link rel="prefetch" href="/assets/js/508.ca6eae17.js"><link rel="prefetch" href="/assets/js/509.12a0bbef.js"><link rel="prefetch" href="/assets/js/51.96560636.js"><link rel="prefetch" href="/assets/js/510.fc3f6e86.js"><link rel="prefetch" href="/assets/js/511.252867c6.js"><link rel="prefetch" href="/assets/js/512.543311ac.js"><link rel="prefetch" href="/assets/js/513.65618b59.js"><link rel="prefetch" href="/assets/js/514.5530895e.js"><link rel="prefetch" href="/assets/js/515.dd3227f8.js"><link rel="prefetch" href="/assets/js/516.5f36b6b8.js"><link rel="prefetch" href="/assets/js/517.1580d9c7.js"><link rel="prefetch" href="/assets/js/518.4cb97c83.js"><link rel="prefetch" href="/assets/js/519.a3971a7b.js"><link rel="prefetch" href="/assets/js/52.06bd67f8.js"><link rel="prefetch" href="/assets/js/520.47950a6a.js"><link rel="prefetch" href="/assets/js/521.aaf4b7c8.js"><link rel="prefetch" href="/assets/js/522.c02d8c5b.js"><link rel="prefetch" href="/assets/js/523.805d360b.js"><link rel="prefetch" href="/assets/js/524.38835853.js"><link rel="prefetch" href="/assets/js/525.b60d8985.js"><link rel="prefetch" href="/assets/js/526.78ec34e4.js"><link rel="prefetch" href="/assets/js/527.22b0ca85.js"><link rel="prefetch" href="/assets/js/528.b2e72a47.js"><link rel="prefetch" href="/assets/js/529.75448826.js"><link rel="prefetch" href="/assets/js/53.29a46ebd.js"><link rel="prefetch" href="/assets/js/530.bab62021.js"><link rel="prefetch" href="/assets/js/531.c32328c3.js"><link rel="prefetch" href="/assets/js/532.638f7f70.js"><link rel="prefetch" href="/assets/js/533.3b426da9.js"><link rel="prefetch" href="/assets/js/534.c7193ce1.js"><link rel="prefetch" href="/assets/js/535.eeee3cfb.js"><link rel="prefetch" href="/assets/js/536.357cf945.js"><link rel="prefetch" href="/assets/js/537.b97162e8.js"><link rel="prefetch" href="/assets/js/538.207b8701.js"><link rel="prefetch" href="/assets/js/539.a6a5406d.js"><link rel="prefetch" href="/assets/js/54.f1a7e221.js"><link rel="prefetch" href="/assets/js/540.d68d358b.js"><link rel="prefetch" href="/assets/js/541.c50eb103.js"><link rel="prefetch" href="/assets/js/542.cebcef74.js"><link rel="prefetch" href="/assets/js/543.a7ae9614.js"><link rel="prefetch" href="/assets/js/544.82726c47.js"><link rel="prefetch" href="/assets/js/545.0fdb7681.js"><link rel="prefetch" href="/assets/js/546.ae643324.js"><link rel="prefetch" href="/assets/js/547.72a6250b.js"><link rel="prefetch" href="/assets/js/548.c9fc4e2f.js"><link rel="prefetch" href="/assets/js/549.c640d336.js"><link rel="prefetch" href="/assets/js/55.9bb00124.js"><link rel="prefetch" href="/assets/js/550.f9c8e2f0.js"><link rel="prefetch" href="/assets/js/551.1491f96d.js"><link rel="prefetch" href="/assets/js/552.6beb0913.js"><link rel="prefetch" href="/assets/js/553.13388d61.js"><link rel="prefetch" href="/assets/js/554.28082612.js"><link rel="prefetch" href="/assets/js/555.8ba28322.js"><link rel="prefetch" href="/assets/js/556.215258cd.js"><link rel="prefetch" href="/assets/js/557.8420cf57.js"><link rel="prefetch" href="/assets/js/558.f197e811.js"><link rel="prefetch" href="/assets/js/559.12455adf.js"><link rel="prefetch" href="/assets/js/56.f52991b1.js"><link rel="prefetch" href="/assets/js/560.f0c9de65.js"><link rel="prefetch" href="/assets/js/561.17be0618.js"><link rel="prefetch" href="/assets/js/562.a09f3731.js"><link rel="prefetch" href="/assets/js/563.5c1a6a26.js"><link rel="prefetch" href="/assets/js/564.8001a8cb.js"><link rel="prefetch" href="/assets/js/565.b36e73a7.js"><link rel="prefetch" href="/assets/js/566.995f3478.js"><link rel="prefetch" href="/assets/js/567.adc328b5.js"><link rel="prefetch" href="/assets/js/568.acbca5f0.js"><link rel="prefetch" href="/assets/js/569.4eb62e8d.js"><link rel="prefetch" href="/assets/js/57.71cea200.js"><link rel="prefetch" href="/assets/js/570.b791b0bd.js"><link rel="prefetch" href="/assets/js/572.331b1092.js"><link rel="prefetch" href="/assets/js/573.8030da18.js"><link rel="prefetch" href="/assets/js/574.8ee0405b.js"><link rel="prefetch" href="/assets/js/575.552d6fa2.js"><link rel="prefetch" href="/assets/js/576.f89aa103.js"><link rel="prefetch" href="/assets/js/577.35881abf.js"><link rel="prefetch" href="/assets/js/578.93e0fd41.js"><link rel="prefetch" href="/assets/js/579.34c8a5a7.js"><link rel="prefetch" href="/assets/js/58.a44d2a1b.js"><link rel="prefetch" href="/assets/js/580.2badcc07.js"><link rel="prefetch" href="/assets/js/581.abae7ce3.js"><link rel="prefetch" href="/assets/js/582.5a598cb8.js"><link rel="prefetch" href="/assets/js/583.63e82388.js"><link rel="prefetch" href="/assets/js/584.b0bc9eff.js"><link rel="prefetch" href="/assets/js/585.13c3ad3f.js"><link rel="prefetch" href="/assets/js/586.ceb15cd3.js"><link rel="prefetch" href="/assets/js/587.aa46a0a3.js"><link rel="prefetch" href="/assets/js/588.d75dce30.js"><link rel="prefetch" href="/assets/js/589.c89bc830.js"><link rel="prefetch" href="/assets/js/59.c4cedb00.js"><link rel="prefetch" href="/assets/js/590.c6e39729.js"><link rel="prefetch" href="/assets/js/591.38e66240.js"><link rel="prefetch" href="/assets/js/592.13a363b1.js"><link rel="prefetch" href="/assets/js/593.94febab7.js"><link rel="prefetch" href="/assets/js/594.0a4692c0.js"><link rel="prefetch" href="/assets/js/595.2bf1700b.js"><link rel="prefetch" href="/assets/js/596.838b57f3.js"><link rel="prefetch" href="/assets/js/597.859e8bb6.js"><link rel="prefetch" href="/assets/js/598.fbc1f835.js"><link rel="prefetch" href="/assets/js/599.e9338ab7.js"><link rel="prefetch" href="/assets/js/6.bfe658fe.js"><link rel="prefetch" href="/assets/js/60.39567a15.js"><link rel="prefetch" href="/assets/js/600.2fb428d6.js"><link rel="prefetch" href="/assets/js/601.19eb7eae.js"><link rel="prefetch" href="/assets/js/602.26cfec85.js"><link rel="prefetch" href="/assets/js/603.c335609e.js"><link rel="prefetch" href="/assets/js/604.641947bd.js"><link rel="prefetch" href="/assets/js/605.9d582393.js"><link rel="prefetch" href="/assets/js/606.200eee5b.js"><link rel="prefetch" href="/assets/js/607.cf8260e6.js"><link rel="prefetch" href="/assets/js/608.b65a6aa5.js"><link rel="prefetch" href="/assets/js/609.96e952e2.js"><link rel="prefetch" href="/assets/js/61.3292ab3a.js"><link rel="prefetch" href="/assets/js/610.caf75316.js"><link rel="prefetch" href="/assets/js/611.1fb314d6.js"><link rel="prefetch" href="/assets/js/612.3ea3a89e.js"><link rel="prefetch" href="/assets/js/613.79e21251.js"><link rel="prefetch" href="/assets/js/614.38b10a05.js"><link rel="prefetch" href="/assets/js/615.5a53a04c.js"><link rel="prefetch" href="/assets/js/616.9d296114.js"><link rel="prefetch" href="/assets/js/617.ac7e6ca3.js"><link rel="prefetch" href="/assets/js/618.96665e92.js"><link rel="prefetch" href="/assets/js/619.93695b62.js"><link rel="prefetch" href="/assets/js/62.50ea82b4.js"><link rel="prefetch" href="/assets/js/620.4f866dec.js"><link rel="prefetch" href="/assets/js/621.213aff9e.js"><link rel="prefetch" href="/assets/js/622.87ee5ab9.js"><link rel="prefetch" href="/assets/js/623.510068e0.js"><link rel="prefetch" href="/assets/js/624.00d08986.js"><link rel="prefetch" href="/assets/js/625.a80aba29.js"><link rel="prefetch" href="/assets/js/626.669180ef.js"><link rel="prefetch" href="/assets/js/627.7c5446ef.js"><link rel="prefetch" href="/assets/js/628.6c674c94.js"><link rel="prefetch" href="/assets/js/629.0f6824db.js"><link rel="prefetch" href="/assets/js/63.185735b2.js"><link rel="prefetch" href="/assets/js/630.6f1225e8.js"><link rel="prefetch" href="/assets/js/631.a74a765a.js"><link rel="prefetch" href="/assets/js/632.0ed42506.js"><link rel="prefetch" href="/assets/js/633.f294f82f.js"><link rel="prefetch" href="/assets/js/634.247d414e.js"><link rel="prefetch" href="/assets/js/635.190341f9.js"><link rel="prefetch" href="/assets/js/636.e17d882e.js"><link rel="prefetch" href="/assets/js/637.3fb9af58.js"><link rel="prefetch" href="/assets/js/638.5ada39e2.js"><link rel="prefetch" href="/assets/js/639.1e6d9080.js"><link rel="prefetch" href="/assets/js/64.5645d6c8.js"><link rel="prefetch" href="/assets/js/640.621ab239.js"><link rel="prefetch" href="/assets/js/641.efa23e55.js"><link rel="prefetch" href="/assets/js/642.6f02095f.js"><link rel="prefetch" href="/assets/js/643.56fb295f.js"><link rel="prefetch" href="/assets/js/644.41732684.js"><link rel="prefetch" href="/assets/js/645.d893798e.js"><link rel="prefetch" href="/assets/js/646.7fa003d5.js"><link rel="prefetch" href="/assets/js/647.bdeccf42.js"><link rel="prefetch" href="/assets/js/648.771f3282.js"><link rel="prefetch" href="/assets/js/649.ff6b5a78.js"><link rel="prefetch" href="/assets/js/65.f9c2b6eb.js"><link rel="prefetch" href="/assets/js/650.f9e53f51.js"><link rel="prefetch" href="/assets/js/651.33ae7640.js"><link rel="prefetch" href="/assets/js/652.d6ad85d3.js"><link rel="prefetch" href="/assets/js/653.b3b07344.js"><link rel="prefetch" href="/assets/js/654.49476d5a.js"><link rel="prefetch" href="/assets/js/655.e3fdca36.js"><link rel="prefetch" href="/assets/js/656.642839bd.js"><link rel="prefetch" href="/assets/js/657.5d1799fd.js"><link rel="prefetch" href="/assets/js/658.3bd72d6b.js"><link rel="prefetch" href="/assets/js/659.fcd9d66a.js"><link rel="prefetch" href="/assets/js/66.83cdb9f5.js"><link rel="prefetch" href="/assets/js/660.19ed6b5e.js"><link rel="prefetch" href="/assets/js/661.70cb572c.js"><link rel="prefetch" href="/assets/js/662.0f579601.js"><link rel="prefetch" href="/assets/js/663.2eb31511.js"><link rel="prefetch" href="/assets/js/664.63d1963b.js"><link rel="prefetch" href="/assets/js/665.480c22f7.js"><link rel="prefetch" href="/assets/js/666.7d5f76ef.js"><link rel="prefetch" href="/assets/js/667.d6a4dc0f.js"><link rel="prefetch" href="/assets/js/668.bc231638.js"><link rel="prefetch" href="/assets/js/669.2e2f1c11.js"><link rel="prefetch" href="/assets/js/67.d350c162.js"><link rel="prefetch" href="/assets/js/670.8080357c.js"><link rel="prefetch" href="/assets/js/671.ac463425.js"><link rel="prefetch" href="/assets/js/672.0fd3aaa8.js"><link rel="prefetch" href="/assets/js/673.78540378.js"><link rel="prefetch" href="/assets/js/674.b47037ba.js"><link rel="prefetch" href="/assets/js/675.3acdb57c.js"><link rel="prefetch" href="/assets/js/676.b062dcd1.js"><link rel="prefetch" href="/assets/js/677.730c2c59.js"><link rel="prefetch" href="/assets/js/678.e74d6000.js"><link rel="prefetch" href="/assets/js/679.6d6cfa0c.js"><link rel="prefetch" href="/assets/js/68.ea82448c.js"><link rel="prefetch" href="/assets/js/680.c15fc97f.js"><link rel="prefetch" href="/assets/js/681.7c1b7d8b.js"><link rel="prefetch" href="/assets/js/682.31a74860.js"><link rel="prefetch" href="/assets/js/683.1f52e5e4.js"><link rel="prefetch" href="/assets/js/684.dd07e491.js"><link rel="prefetch" href="/assets/js/685.424ae815.js"><link rel="prefetch" href="/assets/js/686.69832706.js"><link rel="prefetch" href="/assets/js/687.de89e92a.js"><link rel="prefetch" href="/assets/js/688.a5044ea7.js"><link rel="prefetch" href="/assets/js/689.ecf3db1b.js"><link rel="prefetch" href="/assets/js/69.921735b8.js"><link rel="prefetch" href="/assets/js/690.1e4c1df0.js"><link rel="prefetch" href="/assets/js/691.39a367d2.js"><link rel="prefetch" href="/assets/js/692.b65c5eba.js"><link rel="prefetch" href="/assets/js/693.8d3b777e.js"><link rel="prefetch" href="/assets/js/694.eabe355e.js"><link rel="prefetch" href="/assets/js/695.3ca26c01.js"><link rel="prefetch" href="/assets/js/696.69be06d7.js"><link rel="prefetch" href="/assets/js/697.5aea1a32.js"><link rel="prefetch" href="/assets/js/698.9cbc65d2.js"><link rel="prefetch" href="/assets/js/699.3f19691d.js"><link rel="prefetch" href="/assets/js/7.c3858dd5.js"><link rel="prefetch" href="/assets/js/70.8801bb36.js"><link rel="prefetch" href="/assets/js/700.6ab44b69.js"><link rel="prefetch" href="/assets/js/701.6fbec6fe.js"><link rel="prefetch" href="/assets/js/702.98cc5ead.js"><link rel="prefetch" href="/assets/js/703.b6fba763.js"><link rel="prefetch" href="/assets/js/704.b8741b3f.js"><link rel="prefetch" href="/assets/js/705.99650773.js"><link rel="prefetch" href="/assets/js/706.912b4d5d.js"><link rel="prefetch" href="/assets/js/707.56a4fb86.js"><link rel="prefetch" href="/assets/js/708.7af10a5c.js"><link rel="prefetch" href="/assets/js/709.28c26d76.js"><link rel="prefetch" href="/assets/js/71.0fcd7749.js"><link rel="prefetch" href="/assets/js/710.fcbc1154.js"><link rel="prefetch" href="/assets/js/711.68b7c2c8.js"><link rel="prefetch" href="/assets/js/712.68bc4d30.js"><link rel="prefetch" href="/assets/js/713.5299aaea.js"><link rel="prefetch" href="/assets/js/714.467f722d.js"><link rel="prefetch" href="/assets/js/715.245f0a8e.js"><link rel="prefetch" href="/assets/js/716.4124c2d4.js"><link rel="prefetch" href="/assets/js/717.70bf529b.js"><link rel="prefetch" href="/assets/js/718.92896f36.js"><link rel="prefetch" href="/assets/js/719.368d9217.js"><link rel="prefetch" href="/assets/js/72.9cd2fee9.js"><link rel="prefetch" href="/assets/js/720.879d169b.js"><link rel="prefetch" href="/assets/js/721.df720da6.js"><link rel="prefetch" href="/assets/js/722.0ed6ad8b.js"><link rel="prefetch" href="/assets/js/723.c2d59ca3.js"><link rel="prefetch" href="/assets/js/724.f5a25f9d.js"><link rel="prefetch" href="/assets/js/725.835f85f1.js"><link rel="prefetch" href="/assets/js/726.c252a696.js"><link rel="prefetch" href="/assets/js/727.09908ec5.js"><link rel="prefetch" href="/assets/js/73.e9e20a6b.js"><link rel="prefetch" href="/assets/js/74.a78f6a0b.js"><link rel="prefetch" href="/assets/js/75.77411f28.js"><link rel="prefetch" href="/assets/js/76.f8851a7f.js"><link rel="prefetch" href="/assets/js/77.750a7b0e.js"><link rel="prefetch" href="/assets/js/78.6ebaab87.js"><link rel="prefetch" href="/assets/js/79.d0983032.js"><link rel="prefetch" href="/assets/js/8.d839daae.js"><link rel="prefetch" href="/assets/js/80.f081b570.js"><link rel="prefetch" href="/assets/js/81.200d4383.js"><link rel="prefetch" href="/assets/js/82.fcdf2ae9.js"><link rel="prefetch" href="/assets/js/83.8f389b25.js"><link rel="prefetch" href="/assets/js/84.5aa9127d.js"><link rel="prefetch" href="/assets/js/85.6c8287c3.js"><link rel="prefetch" href="/assets/js/86.56673370.js"><link rel="prefetch" href="/assets/js/87.25064c0c.js"><link rel="prefetch" href="/assets/js/88.3de5edda.js"><link rel="prefetch" href="/assets/js/89.b8923028.js"><link rel="prefetch" href="/assets/js/9.d5737f98.js"><link rel="prefetch" href="/assets/js/90.1e095d81.js"><link rel="prefetch" href="/assets/js/91.c98bcab0.js"><link rel="prefetch" href="/assets/js/92.e915994a.js"><link rel="prefetch" href="/assets/js/93.11287cf2.js"><link rel="prefetch" href="/assets/js/94.57dff9c1.js"><link rel="prefetch" href="/assets/js/95.a0bf6291.js"><link rel="prefetch" href="/assets/js/96.cf169ae8.js"><link rel="prefetch" href="/assets/js/97.4b6033a8.js"><link rel="prefetch" href="/assets/js/98.9e0b5b9c.js"><link rel="prefetch" href="/assets/js/99.f7ba4e29.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.35bcedcf.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">随风</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/source-study/" class="nav-link">
+  课程学习
+</a></div><div class="nav-item"><a href="/source-vue/" class="nav-link">
+  Vue源码
+</a></div><div class="nav-item"><a href="/source-react/" class="nav-link">
+  React
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Front End Menu" class="dropdown-title"><span class="title">Front End</span> <span class="arrow down"></span></button> <button type="button" aria-label="Front End Menu" class="mobile-dropdown-title"><span class="title">Front End</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/front-end/Html/" class="nav-link">
+  HTML-DOM
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Css/" class="nav-link">
+  Css
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/JavaScript/" class="nav-link">
+  JavaScript
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Flutter/" class="nav-link">
+  Flutter
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Electron/" class="nav-link">
+  Electron
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Code/" class="nav-link">
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Engineering/" class="nav-link">
+  工程化
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Interview/" class="nav-link">
+  前端面试题
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Visual/" class="nav-link">
+  可视化
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Security/" class="nav-link">
+  前端安全
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Log/" class="nav-link">
+  前端性能监控
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="back End Menu" class="dropdown-title"><span class="title">后端</span> <span class="arrow down"></span></button> <button type="button" aria-label="back End Menu" class="mobile-dropdown-title"><span class="title">后端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/back-end/Node/" class="nav-link">
+  Node
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Nginx/" class="nav-link">
+  Nginx
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Mysql/" class="nav-link">
+  Mysql
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Shell/" class="nav-link">
+  shell
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="tools End Menu" class="dropdown-title"><span class="title">开发工具</span> <span class="arrow down"></span></button> <button type="button" aria-label="tools End Menu" class="mobile-dropdown-title"><span class="title">开发工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/Git/" class="nav-link">
+  Git
+</a></li><li class="dropdown-item"><!----> <a href="/tools/VScode/" class="nav-link">
+  VScode
+</a></li><li class="dropdown-item"><!----> <a href="/tools/Chrome/" class="nav-link">
+  Chrome
+</a></li><li class="dropdown-item"><!----> <a href="/tools/Other/" class="nav-link">
+  工具
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="wander End Menu" class="dropdown-title"><span class="title">随记</span> <span class="arrow down"></span></button> <button type="button" aria-label="wander End Menu" class="mobile-dropdown-title"><span class="title">随记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/wander/Work/" class="nav-link">
+  工作
+</a></li><li class="dropdown-item"><!----> <a href="/wander/Life/" class="nav-link">
+  生活
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/source-study/" class="nav-link">
+  课程学习
+</a></div><div class="nav-item"><a href="/source-vue/" class="nav-link">
+  Vue源码
+</a></div><div class="nav-item"><a href="/source-react/" class="nav-link">
+  React
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Front End Menu" class="dropdown-title"><span class="title">Front End</span> <span class="arrow down"></span></button> <button type="button" aria-label="Front End Menu" class="mobile-dropdown-title"><span class="title">Front End</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/front-end/Html/" class="nav-link">
+  HTML-DOM
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Css/" class="nav-link">
+  Css
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/JavaScript/" class="nav-link">
+  JavaScript
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Flutter/" class="nav-link">
+  Flutter
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Electron/" class="nav-link">
+  Electron
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Code/" class="nav-link">
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Engineering/" class="nav-link">
+  工程化
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Interview/" class="nav-link">
+  前端面试题
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Visual/" class="nav-link">
+  可视化
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Security/" class="nav-link">
+  前端安全
+</a></li><li class="dropdown-item"><!----> <a href="/front-end/Log/" class="nav-link">
+  前端性能监控
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="back End Menu" class="dropdown-title"><span class="title">后端</span> <span class="arrow down"></span></button> <button type="button" aria-label="back End Menu" class="mobile-dropdown-title"><span class="title">后端</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/back-end/Node/" class="nav-link">
+  Node
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Nginx/" class="nav-link">
+  Nginx
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Mysql/" class="nav-link">
+  Mysql
+</a></li><li class="dropdown-item"><!----> <a href="/back-end/Shell/" class="nav-link">
+  shell
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="tools End Menu" class="dropdown-title"><span class="title">开发工具</span> <span class="arrow down"></span></button> <button type="button" aria-label="tools End Menu" class="mobile-dropdown-title"><span class="title">开发工具</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/tools/Git/" class="nav-link">
+  Git
+</a></li><li class="dropdown-item"><!----> <a href="/tools/VScode/" class="nav-link">
+  VScode
+</a></li><li class="dropdown-item"><!----> <a href="/tools/Chrome/" class="nav-link">
+  Chrome
+</a></li><li class="dropdown-item"><!----> <a href="/tools/Other/" class="nav-link">
+  工具
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="wander End Menu" class="dropdown-title"><span class="title">随记</span> <span class="arrow down"></span></button> <button type="button" aria-label="wander End Menu" class="mobile-dropdown-title"><span class="title">随记</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/wander/Work/" class="nav-link">
+  工作
+</a></li><li class="dropdown-item"><!----> <a href="/wander/Life/" class="nav-link">
+  生活
+</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Engineering</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>基础</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>公开课</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ESLint</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>微前端</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Monorepo</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>babel</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Web Components</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>自动化测试</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>webpack中的小技巧</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>前端工程化最佳实践</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/front-end/engineering/best-husky.html" class="sidebar-link">前端代码规范检查工作流实践方案</a></li><li><a href="/front-end/engineering/best-skin.html" class="sidebar-link">前端换肤的N种方案</a></li><li><a href="/front-end/engineering/best-vue.html" aria-current="page" class="active sidebar-link">Vue 前端代码风格指南</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/front-end/engineering/best-vue.html#命名规范" class="sidebar-link">命名规范</a></li><li class="sidebar-sub-header"><a href="/front-end/engineering/best-vue.html#代码规范" class="sidebar-link">代码规范</a></li><li class="sidebar-sub-header"><a href="/front-end/engineering/best-vue.html#注释规范" class="sidebar-link">注释规范</a></li><li class="sidebar-sub-header"><a href="/front-end/engineering/best-vue.html#其他" class="sidebar-link">其他</a></li><li class="sidebar-sub-header"><a href="/front-end/engineering/best-vue.html#资料" class="sidebar-link">资料</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>工程化知识卡片</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>性能相关</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="命名规范"><a href="#命名规范" class="header-anchor">#</a> 命名规范</h2> <p>市面上常用的命名规范</p> <ul><li>camelCase(小驼峰命名法--首字母小写)</li> <li>PascalCase(大驼峰命名法--首字母大写)</li> <li>kebal-case(短横线连接式)</li> <li>Snake(下划线连接式)</li></ul> <h3 id="_1-1-项目文件命名"><a href="#_1-1-项目文件命名" class="header-anchor">#</a> 1.1 项目文件命名</h3> <h4 id="_1-1-1-项目名"><a href="#_1-1-1-项目名" class="header-anchor">#</a> 1.1.1 项目名</h4> <p>全部采用小写方式，以<strong>短横线</strong>分隔。例：my-project-name</p> <h4 id="_1-1-2-目录名"><a href="#_1-1-2-目录名" class="header-anchor">#</a> 1.1.2 目录名</h4> <p><strong>参考项目命名规则,有复数结构时，要采用复数命名法。</strong> 例：docs、assets、components、directives、mixins、utils、views。</p> <div class="language- extra-class"><pre class="language-text"><code>my-project-name/
+|- BuildScript    // 流水线部署文件目录
+|- docs           // 项目的细化文档目录（可选）
+|- nginx          // 部署在容器上前端项目 nginx 代理文件目录
+|- node_modules   // 下载的依赖包
+|- public         // 静态页面目录
+    |- index.html // 项目入口
+|- src            // 源码目录
+    |- api        // http 请求目录
+    |- assets     // 静态资源目录，这里的资源会被wabpack构建
+        |- icon   // icon 存放目录
+        |- img    // 图片存放目录
+        |- js     // 公共 js 文件目录
+        |- scss   // 公共样式 scss 存放目录
+            |- frame.scss   // 入口文件
+            |- global.scss  // 公共样式
+            |- reset.scss   // 重置样式
+    |- components     // 组件
+    |- plugins        // 插件
+    |- router         // 路由
+    |- routes         // 详细的路由拆分目录（可选）
+        |- index.js
+    |- store          // 全局状态管理
+    |- utils          // 工具存放目录
+        |- request.js // 公共请求工具
+    |- views          // 页面存放目录
+    |- App.vue        // 根组件
+    |- main.js        // 入口文件
+    |- tests          // 测试用例
+    |- .browserslistrc// 浏览器兼容配置文件
+    |- .editorconfig  // 编辑器配置文件
+    |- .eslintignore  // eslint 忽略规则
+    |- .eslintrc.js   // eslint 规则
+    |- .gitignore     // git 忽略规则
+    |- babel.config.js // babel 规则
+    |- Dockerfile // Docker 部署文件
+    |- jest.config.js
+    |- package-lock.json
+    |- package.json // 依赖
+    |- README.md // 项目 README
+    |- vue.config.js // webpack 配置
+</code></pre></div><h4 id="_1-1-3-图像文件名"><a href="#_1-1-3-图像文件名" class="header-anchor">#</a> 1.1.3 图像文件名</h4> <p>全部采用小写方式，优先选择单个单词命名，多个单词命名以<strong>下划线</strong>分隔</p> <div class="language- extra-class"><pre class="language-text"><code>banner_sina.gif
+menu_aboutus.gif
+munutitle_news.gif
+logo_police.gif
+pci_people.jpg
+pic_TV.jpg
+</code></pre></div><h4 id="_1-1-4-html文件名"><a href="#_1-1-4-html文件名" class="header-anchor">#</a> 1.1.4 HTML文件名</h4> <p>全部采用小写方式，优先选择单个单词命名，多个单词命名以<strong>下划线</strong>分隔</p> <div class="language- extra-class"><pre class="language-text"><code>|- error_report.html
+|- success_report.html
+</code></pre></div><h4 id="_1-1-5-css文件名"><a href="#_1-1-5-css文件名" class="header-anchor">#</a> 1.1.5 CSS文件名</h4> <p>全部采用小写方式,优先选择单个单词命名，多个单词命名以<strong>短横线</strong>分隔</p> <div class="language- extra-class"><pre class="language-text"><code>|- normalize.less
+|- base.less
+|- date-picker.scss
+|- input-number.scss
+</code></pre></div><h4 id="_1-1-6-javascript文件名"><a href="#_1-1-6-javascript文件名" class="header-anchor">#</a> 1.1.6 JavaScript文件名</h4> <p>全部采用小写方式,优先选择单个单词命名，多个单词命名以<strong>短横线</strong>分隔</p> <div class="language- extra-class"><pre class="language-text"><code>|- index.js
+|- plugin.js
+|- util.js
+|- date-util.js
+|- account-model.js
+|- collapse-transition.js
+</code></pre></div><div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>上述规则可以快速记忆为&quot;静态文件下划线，编译文件短横线&quot;</p></div> <h3 id="vue组件命名"><a href="#vue组件命名" class="header-anchor">#</a> Vue组件命名</h3> <h4 id="_1-2-1-单文件组件名"><a href="#_1-2-1-单文件组件名" class="header-anchor">#</a> 1.2.1 单文件组件名</h4> <p>文件扩展名为.vue的single-file components(单文件组件)。单文件组件名应该使用是<strong>单词大写开头</strong>(PacalCase)</p> <div class="language- extra-class"><pre class="language-text"><code>components/
+|- MyComponent.vue
+</code></pre></div><h4 id="_1-2-2-单例组件名"><a href="#_1-2-2-单例组件名" class="header-anchor">#</a> 1.2.2 单例组件名</h4> <p><strong>只拥有单个活跃实例的组件应该以The前缀命名，以示其唯一性</strong></p> <p>这不意味着组件只可用于一个单页面，而是每个页面_只使用一次_。这些组件永远不接受任何prop，因为它们是为你的应用定制的。如果你发现有必要添加prop，那就表明这实际上是一个可复用的组件，_只是目前_在这个页面里只使用一次。</p> <p>比如，头部和侧边栏组件几乎在每个页面都会使用，不接受prop，该组件是专门为改应用所定制的。</p> <div class="language- extra-class"><pre class="language-text"><code>components/
+|- TheHeading.vue
+|- TheSidebar.vue
+</code></pre></div><h4 id="_1-2-3-基础组件名"><a href="#_1-2-3-基础组件名" class="header-anchor">#</a> 1.2.3 基础组件名</h4> <div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>基础组件:不包含业务，独立、具体功能的基础组件，比如<strong>日期选择器、模态框</strong>等。这类组件作为项目的基础控件，会被大量使用，因此组件的API进行高强度的抽象，可以通过不同配置实现不同的功能。</p></div> <p>应用特定样式和约定的基础组件(也就是展示类的、无逻辑的或无状态、不掺杂业务逻辑的组件)应该全部以特定的前缀开头---Base。<strong>基础组件在一个页面内可以使用多次，在不同的页面内也可以复用，是高可复用组件</strong></p> <div class="language- extra-class"><pre class="language-text"><code>components/
+|- BaseButton.vue
+|- BaseTable.vue
+|- BaseIcon.vue
+复制代码
+</code></pre></div><h4 id="_1-2-4-业务组件"><a href="#_1-2-4-业务组件" class="header-anchor">#</a> 1.2.4 业务组件</h4> <div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>业务组件:它不像基础组件只包含某个功能，而是在业务中被多个页面复用的(具有可复用性),它与基础组件的区别是，业务组件只在当前项目会会用到，不具有通用性，而且会包包含一些业务，比如数据请求；而基础组件不包含业务，在任何项目中都可以使用，功能单一，比如一个具有数据校验功能的输入框</p></div> <p><strong>掺杂了复杂业务的组件(拥有自身data、prop的相关处理)即业务组件</strong>应该以(Custom)前缀命名。业务组件在一个页面内比如:某个页面内有一个卡片列表，而样式和逻辑跟业务紧密相关的卡片就是业务组件</p> <div class="language- extra-class"><pre class="language-text"><code>components
+|- CustomCard.vue
+</code></pre></div><h4 id="_1-2-5-紧密耦合的组件名"><a href="#_1-2-5-紧密耦合的组件名" class="header-anchor">#</a> 1.2.5 紧密耦合的组件名</h4> <p>**和父组件紧密耦合的子组件应该以父组件名作为前缀命名。**因为编辑器通常会按字母顺序组织文件，所以这样做可以把相关联的文件排在一起。</p> <div class="language- extra-class"><pre class="language-text"><code>components/
+|- TodoList.vue
+|- TodoListItem.vue
+|- TodoListItemButton.vue
+复制代码
+</code></pre></div><h4 id="_1-2-6-组件名中单词顺序"><a href="#_1-2-6-组件名中单词顺序" class="header-anchor">#</a> 1.2.6 组件名中单词顺序</h4> <p>**组件名应该以高级别的 (通常是一般化描述的) 单词开头，以描述性的修饰词结尾。**因为编辑器通常会按字母顺序组织文件，所以现在组件之间的重要关系一目了然。如下组件主要是用于搜和和设置功能</p> <div class="language- extra-class"><pre class="language-text"><code>components/
+|- SearchButtonClear.vue
+|- SearchButtonRun.vue
+|- SearchInputQuery.vue
+|- SearchInputExcludeGlob.vue
+|- SettingsCheckboxTerms.vue
+|- SettingCheckboxLaumchOnStarup.vue
+</code></pre></div><p>还有另一种多级目录的方式，把所有的搜索组件放到&quot;search&quot;目录，把所有的设置组件放到&quot;setting&quot;目录。我们只推荐在非常大型(如有100+个组件)的应用下才考虑这么做，因为在多级目录间找来找去，要比在单个components目录滚动查找要花费更多的精力。</p> <h4 id="_1-2-7-完整单词的组件名"><a href="#_1-2-7-完整单词的组件名" class="header-anchor">#</a> 1.2.7 完整单词的组件名</h4> <p><strong>组件名应该倾向于而不是缩写</strong>。编辑器中的自动补全已经让书写长命名的代码非常之低了，而其带来的明确性确实非常宝贵的。不常用的缩写尤其应该避免</p> <div class="language- extra-class"><pre class="language-text"><code>components/
+|- StudentDashboardSettings.vue
+|- UserProfileOptions.vue
+复制代码
+
+</code></pre></div><h3 id="代码参数命名"><a href="#代码参数命名" class="header-anchor">#</a> 代码参数命名</h3> <h4 id="_1-3-1-name"><a href="#_1-3-1-name" class="header-anchor">#</a> 1.3.1 name</h4> <p><strong>组件名应该始终是多个单词，应该始终是PascalCase的</strong>，根组件App以及&lt;transition&gt;、&lt;components&gt;之类的Vue内置组件除外。这样做可以避免更现有的以及未来的HTML元素相冲突，因为所有的HTML元素名称都是单个单词的。</p> <div class="language- extra-class"><pre class="language-text"><code>export default {
+  name: 'ToDoList'，
+  // ...
+}
+</code></pre></div><h4 id="prop"><a href="#prop" class="header-anchor">#</a> prop</h4> <p><strong>在声明prop的时候，其命名始终使用cameCase，而在模板和JSX中始终使用kebab-case</strong>。我们单纯的遵循每个语言的约定，在Javascript中更自然的是cameCase。而在HTML中则是kebab-case</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;WelcomeMessage greeting-text=&quot;hi&quot;&gt;
+
+export default {
+  name: 'MyComponent',
+  /...
+  props: {
+    greetingText:  {
+      type: String,
+      required: true,
+      validator: function(data) {
+        return ['syncing', 'synced'].indexOf(value) !== -1
+      }
+    }
+  }
+}
+</code></pre></div><h4 id="_1-3-3-router"><a href="#_1-3-3-router" class="header-anchor">#</a> 1.3.3 router</h4> <p><strong>Vue Router Path 命名采用kebal-case格式</strong>。用Snake(如：/user_info)或camelCase(如:/userInfo)的单词会被当成一个单词，搜索隐藏无法区分语义</p> <div class="language- extra-class"><pre class="language-text"><code>/bad
+{
+  path: '/user_info' // user_info当成一个单词
+  name: 'UserInfo',
+  component: UserInfo,
+  meta: {
+    title: '- 用户'，
+    desc: ''
+  }
+},
+// good
+{
+  path: '/user-info', // 能解析成user info
+  name: 'UserInfo',
+  component: UserInfo,
+  meta: {
+    title: '- 用户'，
+    desc: ''
+  }
+}
+</code></pre></div><h4 id="_1-3-4-模板中组件"><a href="#_1-3-4-模板中组件" class="header-anchor">#</a> 1.3.4 模板中组件</h4> <p><strong>对于绝大多数项目来说，在单文件和字符串模板中组件名应该总是PascalCase的，但在DOM模板中总是kebab-case的</strong></p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- 在单文件组件和字符串模板中 --&gt; 
+&lt;MyComponent/&gt;
+
+&lt;!-- 在 DOM 模板中 --&gt; 
+&lt;my-component&gt;&lt;/my-component&gt;
+</code></pre></div><h4 id="_1-3-5-自闭合组件"><a href="#_1-3-5-自闭合组件" class="header-anchor">#</a> 1.3.5 自闭合组件</h4> <p><strong>在单文件组件、字符串模板和JSX中没有内容的组件应该是自闭和的---但在DOM模板中永远不要这样做</strong></p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- 在单文件组件和字符串模板中--&gt;
+&lt;MyComponent/&gt;
+
+&lt;!-- 在所有地方 --&gt;
+&lt;my-component&gt;&lt;/component&gt;
+</code></pre></div><h4 id="_1-3-6-变量"><a href="#_1-3-6-变量" class="header-anchor">#</a> 1.3.6 变量</h4> <ul><li>命名方法：camelCase</li> <li>命名规范：类型+对象描述或属性的方式</li></ul> <div class="language- extra-class"><pre class="language-text"><code>// bad
+var getTitle = &quot;LoginTable&quot;
+
+// good
+let tableTitle = 'LoginTable';
+let mySchool = '我的学校'
+</code></pre></div><h4 id="_1-3-7-常量"><a href="#_1-3-7-常量" class="header-anchor">#</a> 1.3.7 常量</h4> <ul><li>命名方法:全部大写下划线分割</li> <li>命名规范：使用大写字母和下划线来组合命名，下划线用以分割单词</li></ul> <div class="language- extra-class"><pre class="language-text"><code>const MAX_COUNT = 10;
+const URL = 'http://test.host.com'
+</code></pre></div><h4 id="_1-3-8-方法"><a href="#_1-3-8-方法" class="header-anchor">#</a> 1.3.8 方法</h4> <ul><li>命名方法：camelCase</li> <li>命名规范：统一使用动词或者动词 + 名词形式</li></ul> <div class="language- extra-class"><pre class="language-text"><code>// 1. 普通情况下，使用动词 + 名词形式
+// bad
+go、nextPage、show、open、login
+
+// good
+jumpPage、openCarInfoDialog
+
+// 2. 请求数据方法，以data结尾
+// bad
+takeData、confirmData、getList、postForm
+
+// good
+getListData、postFormData
+
+// 3. 单个动词的请求
+init、refresh
+</code></pre></div><table><thead><tr><th>动词</th> <th>含义</th> <th>返回值</th></tr></thead> <tbody><tr><td>can</td> <td>判断是否可执行某个动作(权)</td> <td>函数返回一个布尔值。true:可执行，false：不可执行</td></tr> <tr><td>has</td> <td>判断是否包含某个值</td> <td>函数返回一个布尔值。true:含有此值；false:不含有此值</td></tr> <tr><td>is</td> <td>判断是否为某个值</td> <td>函数返回一个布尔值。true：为某个值；false:不含某个值</td></tr> <tr><td>get</td> <td>获取某个值</td> <td>函数返回一个非布尔值</td></tr> <tr><td>set</td> <td>设置某个值</td> <td>无返回值、返回是否设置成功或者返回链式对象</td></tr></tbody></table> <h4 id="_1-3-9-自定义事件"><a href="#_1-3-9-自定义事件" class="header-anchor">#</a> 1.3.9 自定义事件</h4> <p><strong>自定义事件应始终使用kebab-case的事件名。</strong></p> <p>不同于组件和prop,事件名不存在任何自动化的大小写转换。而是触发的事件名需要完全匹配监听这个事件所用的名称。</p> <div class="language- extra-class"><pre class="language-text"><code>this.$emit('my-event')
+
+&lt;MyComponent @my-event=&quot;handleDoSomething&quot;/&gt;
+</code></pre></div><p>不同于组件和prop,事件名不会被用作一个Jaavscript变量名或property名，所以就没有理由使用camelCase或PascalCase了。并且v-on事件监听器在DOM模板中会被自动转换为全小写(因为HTML是大小写不敏感的)，所以v-on:myEvent将会变成v-on:myevent---导致myEvent不可能被监听到。</p> <p><strong><a href="https://developer.mozilla.org/zh-CN/docs/Web/Events" target="_blank" rel="noopener noreferrer">原生事件参考列表<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></strong></p> <p>由原生事件可以发现其使用方式如下</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;div
+  @blur=&quot;toggleHeaderFocus&quot;
+  @focus=&quot;toggleHeaderFocus&quot;
+  @click=&quot;toggleMenu&quot;
+  @keydown.enter=&quot;handleKeydown&quot;
+  @keydown.up.prevent=&quot;handleKeydown&quot;
+  @keydown.down.prevent=&quot;handleKeydown&quot;
+  @keydown.tab=&quot;handleKeydown&quot;
+  @keydown.delete=&quot;handleKeydown&quot;
+  @mouseenter=&quot;hasMouseHoverHead = true&quot;
+  @mouseleave=&quot;hasMouseHoverHead = false&quot;&gt;
+&lt;/div&gt;
+</code></pre></div><p>而为了区分_原生事件_和_自定义事件_在Vue中的使用，建议除了多单词事件名使用kebab-case的情况下，命名还需要遵守为on+<strong>动词</strong>的形式，如下</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- 父组件 --&gt;
+&lt;div
+  @on-search=&quot;handleSearch&quot;
+  @on-clear=&quot;handleClear&quot;
+  @on-clickoutside=&quot;handleClickOutside&quot;&gt;
+&lt;/div&gt;
+
+// 子组件
+export default {
+  methods: {
+    handleTriggerItem() {
+      this.$emit('on-clear')
+    }
+  }
+}
+</code></pre></div><h4 id="_1-3-10-事件方法"><a href="#_1-3-10-事件方法" class="header-anchor">#</a> 1.3.10 事件方法</h4> <ul><li>命名方法：camelCase</li> <li>命名规范：handle + 名称(可选) + 动词</li></ul> <div class="language- extra-class"><pre class="language-text"><code>&lt;template&gt;
+  &lt;div
+    @click.native.stop=&quot;handleItemClick()&quot;
+    @click.native.stop=&quot;handleItemHover&quot;&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  methods: {
+    handleItemClick() {
+      // ....
+    },
+    handleItemHover() {
+      // ...
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre></div><h2 id="代码规范"><a href="#代码规范" class="header-anchor">#</a> 代码规范</h2> <h3 id="vue"><a href="#vue" class="header-anchor">#</a> Vue</h3> <h4 id="_2-1-1-代码结构"><a href="#_2-1-1-代码结构" class="header-anchor">#</a> 2.1.1 代码结构</h4> <div class="language- extra-class"><pre class="language-text"><code>&lt;template&gt;
+  &lt;div id=&quot;my-component&quot;&gt;
+    &lt;DemoComponent /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import DemoComponent from '../components/DemoComponent'
+
+export default {
+  name: 'MyComponent',
+  components: {
+    DemoComponent
+  },
+  mixins: [],
+  props: {},
+  data () {
+    return {}
+  },
+  computed: {},
+  watch: {}
+  created () {},
+  mounted () {},
+  destroyed () {},
+  methods: {},
+}
+&lt;/script&gt;
+
+&lt;style lang=&quot;scss&quot; scoped&gt;
+#my-component {
+}
+&lt;/style&gt;
+</code></pre></div><h4 id="_2-1-2-data"><a href="#_2-1-2-data" class="header-anchor">#</a> 2.1.2 data</h4> <p>组件的data必须是一个函数</p> <div class="language- extra-class"><pre class="language-text"><code>//In a .vue file
+export default {
+  data() {
+    return {
+      foo: 'bar'
+    }
+  }
+}
+</code></pre></div><h4 id="_2-1-3-prop"><a href="#_2-1-3-prop" class="header-anchor">#</a> 2.1.3 prop</h4> <p><strong>Prop定义应该尽量详细</strong></p> <div class="language- extra-class"><pre class="language-text"><code>export default {
+  props: {
+    status: {
+      type: String,
+      required: true,
+      validator: function(value) {
+        return [
+          'syncing', 
+          'synced',
+          'version-conflict',
+          'error'
+        ].indexOf(value) !== -1
+      }
+    }
+  }
+}
+</code></pre></div><h4 id="_2-1-4-computed"><a href="#_2-1-4-computed" class="header-anchor">#</a> 2.1.4 computed</h4> <p>**应该把复杂计算属性分割为尽可能多的更简单的属性。**小的、专注的计算属性减少了信息使用时的假设性限制，所以需求变更时也用不着那么多重构了</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+computed: {
+  price: function() {
+    var basePrice = this.manufactureCost / (1 - this.profitMargin)
+    return (
+      basePrice - basePrice * (this.discountPercent || 0)
+    )
+  }
+}
+// good
+computed: {
+  basePrice: function() {
+    return this.manufactureCost / (1 - this.profitMargin)
+  },
+  discount: function() {
+    return this.basePrice * (this.discountPercent || 0)
+  },
+  finalPrice: function() {
+    return this.basePrice - this.discount
+  }
+}
+</code></pre></div><h4 id="_2-1-5-为v-for设置键值"><a href="#_2-1-5-为v-for设置键值" class="header-anchor">#</a> 2.1.5 为v-for设置键值</h4> <p><strong>在组件上必须用key搭配v-for</strong>,以便维护内部组件及其子树的状态。甚至在元素上维护可预测的行为，比如动画中的<a href="https://bost.ocks.org/mike/constancy/" target="_blank" rel="noopener noreferrer">对象固化<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language- extra-class"><pre class="language-text"><code>&lt;ul&gt;
+  &lt;li
+    v-for=&quot;todo in todus&quot;
+    :key=&quot;todo.id&quot;&gt;
+      {{ todo.text }}
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre></div><h4 id="_2-1-6-v-if和v-for互斥"><a href="#_2-1-6-v-if和v-for互斥" class="header-anchor">#</a> 2.1.6 v-if和v-for互斥</h4> <p><strong>永远不要把v-if和v-for同时用在同一元素上。</strong></p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- bad:控制台报错 --&gt;
+&lt;ul&gt;
+  &lt;li
+    v-for=&quot;user in users&quot;
+    v-if=&quot;shouldShowUsers&quot;
+    :key=&quot;user.id&quot;&gt;
+      {{ user.name }}
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre></div><p>一般我们在两种常见的情况下会倾向于这样做</p> <ul><li>为了过滤一个列表中的项目(比如 v-for=&quot;user in users&quot; v-if=&quot;use.isActive&quot;).在这种情况下，请将users替换为一个计算属性(比如activeUsers)，让其返回过滤后的列表<div class="language- extra-class"><pre class="language-text"><code>computed: {
+  activeUsers: function() {
+    return this.users.filter(user =&gt; {
+      return user.isActive
+    })
+  }
+}
+
+// template
+&lt;ul&gt;
+  &lt;li
+    v-for=&quot;user in activeUsers&quot;
+    :key=&quot;user.id&quot;&gt;
+    {{ user.name }}  
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre></div></li> <li>为了避免渲染本应该被隐藏的列表(比如 v-for=&quot;user in users&quot; v-if=&quot;shouldShowUsers&quot;).这种情形下，请将v-if移动至容器上的(比如ul, ol)<div class="language- extra-class"><pre class="language-text"><code>&lt;!-- bad --&gt;
+&lt;ul&gt;
+  &lt;li
+    v-for=&quot;user in users&quot;
+    v-if=&quot;shouldShowUsers&quot;
+    :key=&quot;user.id&quot;&gt;
+      {{ user.name }}
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- good --&gt;
+&lt;ul v-if=&quot;shouldShowUsers&quot;&gt;
+  &lt;li
+    v-for=&quot;user in users&quot;
+    :key=&quot;user.id&quot;&gt;
+      {{ user.name }}
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre></div></li></ul> <h4 id="_2-1-7-多个attribute的元素"><a href="#_2-1-7-多个attribute的元素" class="header-anchor">#</a> 2.1.7 多个attribute的元素</h4> <p><strong>多个attribute的元素应该分为多行撰写，每个attribute一行</strong></p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- bad --&gt;
+&lt;img src=&quot;https://vuejs.org/images/logo.png&quot; alt=&quot;Vue Logo&quot;&gt;
+&lt;MyComponent foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot;&gt;
+
+&lt;!-- good --&gt;
+&lt;img 
+  src=&quot;https://vuejs.org/images/logon.png&quot;
+  alt=&quot;Vue Logo&quot;&gt;
+
+&lt;MyComponent
+  foo=&quot;a&quot;
+  bar=&quot;b&quot;
+  baz=&quot;c&quot;/&gt;
+</code></pre></div><h4 id="_2-1-8-模板中简单的表达式"><a href="#_2-1-8-模板中简单的表达式" class="header-anchor">#</a> 2.1.8 模板中简单的表达式</h4> <p><strong>组件模板应该只包含简单的表达式，复杂的表达式则应该重构为计算属性或方法</strong></p> <p>复杂表达式会让你的模板变得不那么声明式。我们应该尽量描述出现的是什么，而非如何计算那个值。而且计算属性和方法使的代码可以重用</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+{{
+  fullName.split(' ').map(word =&gt; {
+    return word[0].toUpperCase() + word.slice(1)
+  }).join(' ')
+}}
+
+// 更好的做法
+{{ normalizedFullName }}
+// 复杂表达式已经移入一个计算属性
+computed: {
+  normalizedFullName: function() {
+    return this.fullName.split(' ').map(function(word) {
+      return word[0].toUpperCase() + word.slice(1)
+    }).jon(' ')
+  }
+}
+</code></pre></div><h4 id="_2-1-9-带引号的attribute值"><a href="#_2-1-9-带引号的attribute值" class="header-anchor">#</a> 2.1.9 带引号的attribute值</h4> <p><strong>非空HTML特性値应该始终带双引号</strong></p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- bad --&gt;
+&lt;input type=text&gt;
+&lt;AppSidebar :style={width:sidebarWidth+'px'}&gt;
+&lt;!-- good --&gt;
+&lt;input type=&quot;text&quot;&gt;
+&lt;AppSidebar :style=&quot;{ width: sidebarWidth + 'px' }&quot;&gt;
+</code></pre></div><h4 id="_2-1-10-指令缩写"><a href="#_2-1-10-指令缩写" class="header-anchor">#</a> 2.1.10 指令缩写</h4> <ul><li>用:表示v-bind</li> <li>用@表示v-on</li> <li>用#表示v-slot</li></ul> <div class="language- extra-class"><pre class="language-text"><code>&lt;input
+  :value=&quot;newTodoText&quot;
+  :placeholder=&quot;newTodoInstructions&quot;&gt;
+
+&lt;input
+  @input=&quot;onInput&quot;
+  @focus=&quot;onFocus&quot;&gt;
+
+&lt;template #header&gt;
+  &lt;h1&gt;Here might be a page title&lt;/h1&gt;
+&lt;/template&gt;
+
+&lt;template #footer&gt;
+  &lt;p&gt;Here's some contact info&lt;/p&gt;
+&lt;/template&gt;
+</code></pre></div><h3 id="_2-2-html"><a href="#_2-2-html" class="header-anchor">#</a> 2.2 HTML</h3> <h4 id="_2-2-1-文件模板"><a href="#_2-2-1-文件模板" class="header-anchor">#</a> 2.2.1 文件模板</h4> <p>HTML5文件模板</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+  &lt;html lang=&quot;zh-CN&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;HTML5标准模版&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p>移动端</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot;
+        content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no&quot;&gt;
+    &lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;
+    &lt;title&gt;移动端HTML模版&lt;/title&gt;
+
+    &lt;!-- S DNS预解析 --&gt;
+    &lt;link rel=&quot;dns-prefetch&quot; href=&quot;&quot;&gt;
+    &lt;!-- E DNS预解析 --&gt;
+
+    &lt;!-- S 线上样式页面片，开发请直接取消注释引用 --&gt;
+    &lt;!-- #include virtual=&quot;&quot; --&gt;
+    &lt;!-- E 线上样式页面片 --&gt;
+
+    &lt;!-- S 本地调试，根据开发模式选择调试方式，请开发删除 --&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/index.css&quot;&gt;
+    &lt;!-- /本地调试方式 --&gt;
+
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;http://srcPath/index.css&quot;&gt;
+    &lt;!-- /开发机调试方式 --&gt;
+    &lt;!-- E 本地调试 --&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p>PC端</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;your keywords&quot;&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;your description&quot;&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;author,email address&quot;&gt;
+    &lt;meta name=&quot;robots&quot; content=&quot;index,follow&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=Edge,chrome=1&quot;&gt;
+    &lt;meta name=&quot;renderer&quot; content=&quot;ie-stand&quot;&gt;
+    &lt;title&gt;PC端HTML模版&lt;/title&gt;
+
+    &lt;!-- S DNS预解析 --&gt;
+    &lt;link rel=&quot;dns-prefetch&quot; href=&quot;&quot;&gt;
+    &lt;!-- E DNS预解析 --&gt;
+
+    &lt;!-- S 线上样式页面片，开发请直接取消注释引用 --&gt;
+    &lt;!-- #include virtual=&quot;&quot; --&gt;
+    &lt;!-- E 线上样式页面片 --&gt;
+
+    &lt;!-- S 本地调试，根据开发模式选择调试方式，请开发删除 --&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/index.css&quot;&gt;
+    &lt;!-- /本地调试方式 --&gt;
+
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;http://srcPath/index.css&quot;&gt;
+    &lt;!-- /开发机调试方式 --&gt;
+    &lt;!-- E 本地调试 --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><h4 id="_2-2-2-元素及标签闭合"><a href="#_2-2-2-元素及标签闭合" class="header-anchor">#</a> 2.2.2 元素及标签闭合</h4> <p>HTML元素共有以下5种</p> <ul><li>空元素: area、base、br、col、command、embed、hr、img、input、keygen、link、meta、param、source、track、wbr</li> <li>原始文本元素:script、style</li> <li>RCDATA元素:textarea、title</li> <li>外来元素：来自 MathML 命名空间和 SVG 命名空间的元素</li> <li>常规元素：其他 HTML 允许的元素都称为常规元素</li></ul> <p>为了能让浏览器更好的解析代码以及能让代码具有更好的可读性，有如下约定：</p> <ul><li>所有具有开始标签和结束标签的元素都要写上起止标签，某些允许省略开始标签或和束标签的元素亦都要写上。</li> <li>空元素标签都不加 “/” 字符。</li></ul> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- good --&gt;
+&lt;div&gt;
+    &lt;h1&gt;我是h1标题&lt;/h1&gt;
+    &lt;p&gt;我是一段文字，我有始有终，浏览器能正确解析&lt;/p&gt;
+&lt;/div&gt;
+ 
+&lt;br data-tomark-pass&gt;
+
+&lt;!-- bad --&gt;
+&lt;div&gt;
+    &lt;h1&gt;我是h1标题&lt;/h1&gt;
+    &lt;p&gt;我是一段文字，我有始无终，浏览器亦能正确解析
+&lt;/div&gt;
+
+&lt;br/&gt;
+</code></pre></div><h4 id="_2-2-3代码嵌套"><a href="#_2-2-3代码嵌套" class="header-anchor">#</a> 2.2.3代码嵌套</h4> <p>元素嵌套规范，每个块状元素独立一行，内联元素可选。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- good --&gt;
+&lt;div&gt;
+    &lt;h1&gt;&lt;/h1&gt;
+    &lt;p&gt;&lt;/p&gt;
+&lt;/div&gt; 
+&lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;!-- bad --&gt;
+&lt;div&gt;
+    &lt;h1&gt;&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;
+&lt;/div&gt; 
+&lt;p&gt; 
+    &lt;span&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;/span&gt;
+&lt;/p&gt;
+</code></pre></div><p>段落元素与标题元素只能嵌套内联元素。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- good --&gt;
+&lt;h1&gt;&lt;span&gt;&lt;/span&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;!-- bad --&gt;
+&lt;h1&gt;&lt;div&gt;&lt;/div&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/p&gt;
+</code></pre></div><h3 id="_2-3-css"><a href="#_2-3-css" class="header-anchor">#</a> 2.3 CSS</h3> <h4 id="_2-3-1-样式文件"><a href="#_2-3-1-样式文件" class="header-anchor">#</a> 2.3.1 样式文件</h4> <p>样式文件必须写上 @charset 规则，并且一定要在样式文件的第一行首个字符位置开始写，编码名用 “UTF-8”。</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>@charset &quot;UTF-8&quot;;
+.jdc {} 
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>/* @charset规则不在文件首行首个字符开始 */
+@charset &quot;UTF-8&quot;;
+.jdc {}
+
+/* @charset规则没有用小写 */
+@CHARSET &quot;UTF-8&quot;;
+.jdc {}
+
+/* 无@charset规则 */
+.jdc {}
+</code></pre></div></li></ul> <h4 id="_2-3-2代码格式化"><a href="#_2-3-2代码格式化" class="header-anchor">#</a> 2.3.2代码格式化</h4> <p>样式书写一般有两种:一种是紧凑格式(Compact)，一种是展开格式(Expanded)</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  display: block;
+  width: 50px;
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc { display: block; width: 50px;}
+</code></pre></div></li></ul> <h4 id="_2-3-3代码大小写"><a href="#_2-3-3代码大小写" class="header-anchor">#</a> 2.3.3代码大小写</h4> <p>样式选择器，属性名，属性值关键字全部使用小写字母书写，属性字符串允许使用大小写</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  display: block;
+} 
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.JDC {
+  DISPLAY: BLOCK;
+}
+</code></pre></div></li></ul> <h4 id="_2-3-4代码易读性"><a href="#_2-3-4代码易读性" class="header-anchor">#</a> 2.3.4代码易读性</h4> <ol><li>左括号与类型之间一个空格，冒号与属性值之间一个空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  width: 100%;
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc{
+  width:100%;
+}
+</code></pre></div></li></ul> <ol start="2"><li>逗号分割的取值，逗号之后一个空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  box-shadow: 1px 1px 1px #333, 2px 2px 2px #ccc
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  box-shadow: 1px 1px 1px #333,2px 2px 2px #ccc;
+}
+</code></pre></div></li></ul> <ol start="3"><li>为单个CSS选择器或声明开启新行</li></ol> <div class="language- extra-class"><pre><code>- 推荐
+  ```
+  .jdc, .jdc_logo, .jdc_hd {
+    color: #ff0;
+  }
+
+  .nav{
+    color: #fff;
+  }
+  ```
+- 不推荐
+  ```
+  .jdc, .jdc_logo, .jdc_hd {
+    color: #ff0;
+  }.nav{
+    color: #fff;
+  }
+  ```
+</code></pre></div><ol start="4"><li>取色值 rbb() rgba() hsl() hsla() rect()中不需要空格，且取色值不要带有不必要的0</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  color: rgba(255,255,255,.5);
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  color: rgba( 255, 255, 255, 0.5 );
+}
+</code></pre></div></li></ul> <ol start="5"><li>属性值十六进制数值能用简写的尽量用简写</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  color: #fff;
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  color: #ffffff;
+}
+</code></pre></div></li></ul> <ol start="6"><li>不要为0指明单位</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  margin: 0 10px;
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  margin: 0px 10px;
+}
+</code></pre></div></li></ul> <h4 id="_2-3-5-属性值引号"><a href="#_2-3-5-属性值引号" class="header-anchor">#</a> 2.3.5 属性值引号</h4> <p>CSS属性值需要用到引号时，统一用单引号</p> <div class="language- extra-class"><pre class="language-text"><code>// 推荐
+.jdc {
+  font-family: 'Hiragino Sans GB';
+}
+// 不推荐
+.jdc {
+  font-family: &quot;Hiragino Sans GB&quot;;
+}
+</code></pre></div><h4 id="_2-3-6-属性书写建议"><a href="#_2-3-6-属性书写建议" class="header-anchor">#</a> 2.3.6 属性书写建议</h4> <p>建议遵循一下顺序</p> <ol><li>布局定位属性：display/postition/float/clear/visibility/overflow</li> <li>自身属性: width/height/margin/padding/border/background</li> <li>文本属性: color/font/text-decoration/text-align/vertical-align/white-space/break-word</li> <li>其他属性(CSS3)：content/cursor/border-radius/box-shadow/text-shadow/background:linear-gradient...</li></ol> <div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  display: block;
+  position: relative;
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin: 0 10px;
+  padding: 20px 0;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #333;
+  background: rgba(0,0,0,.5);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+}
+</code></pre></div><h4 id="_2-3-7-css3浏览器私有前缀"><a href="#_2-3-7-css3浏览器私有前缀" class="header-anchor">#</a> 2.3.7 CSS3浏览器私有前缀</h4> <p>CSS3 浏览器私有前缀在前，标准前缀在后。</p> <div class="language- extra-class"><pre class="language-text"><code>.jdc {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+}
+</code></pre></div><h3 id="_2-4-javascript"><a href="#_2-4-javascript" class="header-anchor">#</a> 2.4 Javascript</h3> <h4 id="_2-4-1单行代码块"><a href="#_2-4-1单行代码块" class="header-anchor">#</a> 2.4.1单行代码块</h4> <p>在单行代码块中使用空格</p> <ul><li>不推荐<div class="language- extra-class"><pre class="language-text"><code>function foo() {return true}
+if (foo) {bar = 0}
+</code></pre></div></li> <li>推荐<div class="language- extra-class"><pre class="language-text"><code>function foo() { return true }
+if (foo) { bar = 0}
+</code></pre></div></li></ul> <h4 id="_2-4-2-大括号风格"><a href="#_2-4-2-大括号风格" class="header-anchor">#</a> 2.4.2 大括号风格</h4> <p>在编程过程中，大括号风格与缩进风格紧密联系，用来描述大括号相对代码块位置的方法有很多。在 JavaScript 中，主要有三种风格，如下：</p> <ul><li>推荐 One True Brace Style<div class="language- extra-class"><pre class="language-text"><code>if (foo) {
+  bar()
+} else {
+  baz()
+}
+</code></pre></div></li> <li>Stroustrup<div class="language- extra-class"><pre class="language-text"><code>if (foo) {
+  bar()
+}
+else {
+  baz()
+}
+</code></pre></div></li> <li>Allman<div class="language- extra-class"><pre class="language-text"><code>if (foo)
+{
+  bar()
+}
+else
+{
+  baz()
+}
+</code></pre></div></li></ul> <h4 id="_2-4-3-代码中的空格"><a href="#_2-4-3-代码中的空格" class="header-anchor">#</a> 2.4.3 代码中的空格</h4> <ol><li>逗号前后的空格可以提高代码的可读性，团队原定在逗号后面使用空格，逗号前面不加空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>var foo, bar = 2
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>var foo = 1,bar = 2
+
+var foo = 1 , bar = 2
+
+var foo = 1 ,bar = 2
+</code></pre></div></li></ul> <ol start="2"><li>对象字面量的键和值之间不能存在空格，且要求对象字面量的冒号和值之间存在一个空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>var obj = { 'foo': 'haha' }
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>var obj = { 'foo' : 'haha' }
+</code></pre></div></li></ul> <ol start="3"><li>代码块前要加空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>if (a) {
+  b()
+}
+
+function a () {}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>if (a){
+  b()
+}
+
+function a (){}
+</code></pre></div></li></ul> <ol start="4"><li>函数声明括号前要加空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>function func (x) {
+  // ...
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>function func(x) {
+  // ...
+}
+</code></pre></div></li></ul> <ol start="5"><li>在函数调用时，禁止使用空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>fn()
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>fn ()
+
+fn
+()
+</code></pre></div></li></ul> <ol start="6"><li>在操作符前后都需要添加空格</li></ol> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>var sum = 1 + 2
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>var sum = 1+2
+</code></pre></div></li></ul> <h2 id="注释规范"><a href="#注释规范" class="header-anchor">#</a> 注释规范</h2> <p>注释的目的</p> <ul><li>提高代码的可读性，从而提高代码的可维护性
+注释的原则</li> <li>如无必要，勿增注释</li> <li>如有必要，尽量详细</li></ul> <h3 id="html文件注释"><a href="#html文件注释" class="header-anchor">#</a> HTML文件注释</h3> <h4 id="_3-1-1-单行注释"><a href="#_3-1-1-单行注释" class="header-anchor">#</a> 3.1.1 单行注释</h4> <p><strong>一般用于简单的描述，如某些状态描述、属性描述</strong></p> <p>注释内容前后个一个空格字符，注释位于要注释代码的上面,单独占一行</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>&lt;!-- Comment Text --&gt;
+&lt;div&gt;...&lt;/div&gt;
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>&lt;div&gt;...&lt;/div&gt;&lt;!-- Comment Text --&gt;
+
+&lt;div&gt;&lt;!-- Comment Text --&gt;
+  ...
+&lt;/div&gt;
+</code></pre></div></li></ul> <h4 id="_3-1-2-模块注释"><a href="#_3-1-2-模块注释" class="header-anchor">#</a> 3.1.2 模块注释</h4> <p><strong>一般用于描述模板的名称以及模板开始与结束的位置</strong></p> <p>注释内容前后个一个空格字符， &lt;!-- S Comment Text --&gt;表示模块开始， &lt;!-- E Comment Text --&gt;表示模块结束，模块与模块之间相隔一行。</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>&lt;!-- S Comment Text A --&gt; 
+&lt;div class=&quot;mod_a&quot;&gt;
+  ...
+&lt;/div&gt;
+&lt;!-- E Comment Text A --&gt;
+
+&lt;!-- S Comment Text B --&gt; 
+&lt;div class=&quot;mod_b&quot;&gt;
+  ...
+&lt;/div&gt;
+&lt;!-- E Comment Text B --&gt;
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>&lt;!-- S Comment Text A --&gt;
+&lt;div class=&quot;mod_a&quot;&gt;
+  ...
+&lt;/div&gt;
+&lt;!-- E Comment Text A --&gt;
+&lt;!-- S Comment Text B --&gt; 
+&lt;div class=&quot;mod_b&quot;&gt;
+  ...
+&lt;/div&gt;
+&lt;!-- E Comment Text B --&gt;
+</code></pre></div></li></ul> <h4 id="_3-1-3嵌套模板注释"><a href="#_3-1-3嵌套模板注释" class="header-anchor">#</a> 3.1.3嵌套模板注释</h4> <p>当模块注释内再出现模块注释的时候，为了突出主要模块，嵌套模块不再使用。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- S Comment Text --&gt;
+&lt;!-- E Comment Text --&gt;
+复制代码
+</code></pre></div><p>而改用</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- /Comment Text --&gt;
+复制代码
+</code></pre></div><p>注释写在模块结尾标签底部，单独一行。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- S Comment Text A --&gt;
+&lt;div class=&quot;mod_a&quot;&gt;
+  
+    &lt;div class=&quot;mod_b&quot;&gt;
+        ...
+    &lt;/div&gt;
+    &lt;!-- /mod_b --&gt;
+     
+    &lt;div class=&quot;mod_c&quot;&gt;
+     ...
+    &lt;/div&gt;
+    &lt;!-- /mod_c --&gt;
+  
+&lt;/div&gt;
+&lt;!-- E Comment Text A --&gt;
+</code></pre></div><h3 id="_3-2-css文件注释"><a href="#_3-2-css文件注释" class="header-anchor">#</a> 3.2  CSS文件注释</h3> <h4 id="_3-2-1-单行注释"><a href="#_3-2-1-单行注释" class="header-anchor">#</a> 3.2.1 单行注释</h4> <p>注释内容第一个字符和最后一个字符都是一个空格字符，单独占一行，行与行之间相隔一行。</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>/* Comment Text */ 
+.jdc {} 
+
+/* Comment Text */ 
+.jdc {}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>/*Comment Text*/
+.jdc {
+  display: block;
+}
+
+.jdc {
+  display: block;/*Comment Text*/
+}
+</code></pre></div></li></ul> <h4 id="_3-2-2-模块注释"><a href="#_3-2-2-模块注释" class="header-anchor">#</a> 3.2.2. 模块注释</h4> <p>注释内容第一个字符和最后一个字符都是一个空格字符，/* 与 模块信息描述占一行，多个横线分隔符 - 与 */ 占一行，行与行之间相隔两行。</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>/* Module A
+---------------------------------------------------------------- */
+.mod_a {}
+
+
+/* Module B
+---------------------------------------------------------------- */
+.mod_b {}
+复制代码
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>/* Module A ---------------------------------------------------- */
+.mod_a {}
+/* Module B ---------------------------------------------------- */
+.mod_b {}
+</code></pre></div></li></ul> <h4 id="_3-2-3-文件注释"><a href="#_3-2-3-文件注释" class="header-anchor">#</a> 3.2.3 文件注释</h4> <p>在样式文件编码声明 @charset 语句下面注明页面名称、作者、创建日期等信息。</p> <div class="language- extra-class"><pre class="language-text"><code>@charset &quot;UTF-8&quot;;
+/**
+ * @desc File Info
+ * @author Author Name
+ * @date 2015-10-10
+ */
+</code></pre></div><h3 id="_3-3-javascript文件注释"><a href="#_3-3-javascript文件注释" class="header-anchor">#</a> 3.3 Javascript文件注释</h3> <h4 id="_3-3-1-单行注释"><a href="#_3-3-1-单行注释" class="header-anchor">#</a> 3.3.1 单行注释</h4> <p>单行注释使用 //，注释应单独一行写在被注释对象的上方，不要追加在某条语句的后面。</p> <div class="language- extra-class"><pre class="language-text"><code>// is current tab
+const active = true
+</code></pre></div><p>注释行的上方需要有一个空行（<strong>除非注释行上方是一个块的顶部</strong>），以增加可读性。</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>function getType () {  
+  console.log('fetching type...')
+  
+  // set the default type to 'no type'
+  const type = this.type || 'no type'
+  return type
+}
+
+// 注释行上面是一个块的顶部时不需要空行
+function getType () {  
+  // set the default type to 'no type'
+  const type = this.type || 'no type'   
+  return type
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>function getType () {  
+  console.log('fetching type...')
+  // set the default type to 'no type'
+  const type = this.type || 'no type'
+  return type
+}
+</code></pre></div></li></ul> <h4 id="_3-3-2-多行注释"><a href="#_3-3-2-多行注释" class="header-anchor">#</a> 3.3.2 多行注释</h4> <p>多行注释使用/*** ....*/,而不是多行的//</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>/**
+* make() returns a new element
+* based on the passed-in tag name
+*/
+function make (tag) {
+  // ...
+
+  return element
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>// make() returns a new element
+// based on the passed in tag name
+function make (tag) {
+  // ...
+
+  return element
+}
+</code></pre></div></li></ul> <h4 id="_3-3-3-注释空格"><a href="#_3-3-3-注释空格" class="header-anchor">#</a> 3.3.3 注释空格</h4> <p>注释内容和注释符之间需要有一个空格，以增加可读性。eslint:spaced-comment</p> <ul><li>推荐<div class="language- extra-class"><pre class="language-text"><code>// is current tab
+const active = true
+
+/**
+* make() returns a new element
+* based on the passed-in tag name
+*/
+function make(tag) {  
+  // ...
+
+  return element
+}
+</code></pre></div></li> <li>不推荐<div class="language- extra-class"><pre class="language-text"><code>//is current tab
+const active = true
+
+/**
+*make() returns a new element
+*based on the passed-in tag name
+*/
+function make(tag) {  
+  // ...
+
+  return element
+}
+</code></pre></div></li></ul> <h4 id="_3-3-4-特殊标记"><a href="#_3-3-4-特殊标记" class="header-anchor">#</a> 3.3.4 特殊标记</h4> <p>有时我们发现某个可能的bug，但因为一些原因还没发修复；或者某个地方还有一些待完善的功能，这时我们需要实用相应的特殊标记注释来告诉未来的自己或合作者。常用的特别标记有两种</p> <ul><li>// FIXME:说明问题是什么</li> <li>// TODO：说明还要做什么或者问题的解决方案</li></ul> <div class="language- extra-class"><pre class="language-text"><code>class Calculator extends Abacus {
+  constructor() {
+    super()
+
+    // FIXME: shouldn't use a global here
+    totla = 0;
+
+    // TODO: totla should be configurable by an options param
+    this.total = 0
+  }
+}
+</code></pre></div><h4 id="_3-3-5-文档类注释"><a href="#_3-3-5-文档类注释" class="header-anchor">#</a> 3.3.5 文档类注释</h4> <p>文档类注释，如函数、类、文件、事件等；都实用jsdoc规范</p> <div class="language- extra-class"><pre class="language-text"><code>/**
+ * Book类，代表一个书本.
+ * @constructor
+ * @param {string} title - 书本的标题.
+ * @param {string} author - 书本的作者.
+ */
+function Book (title, author) {
+  this.title = title
+  this.author = author
+}
+
+Book.prototype = {
+  /**
+   * 获取书本的标题
+   * @returns {string|*}
+   */
+  getTitle: function () {
+    return this.title
+  },
+  /**
+   * 设置书本的页数
+   * @param pageNum {number} 页数
+   */
+  setPageNum: function (pageNum) {
+    this.pageNum=pageNum
+  }
+}
+</code></pre></div><h4 id="_3-3-6-注释工具"><a href="#_3-3-6-注释工具" class="header-anchor">#</a> 3.3.6 注释工具</h4> <p>ESlint是当下最流行的JS代码检查工具，ESlint中有一些注释相关的规则，用户可以开启</p> <ul><li><p>valid-jsdoc</p></li> <li><p>require-jsdoc</p></li> <li><p>no-warning-comments</p></li> <li><p>capitalized-comments</p></li> <li><p>line-comment-position</p></li> <li><p>lines-around-comment</p></li> <li><p>multiline-comment-style</p></li> <li><p>no-inline-comments</p></li> <li><p>spaced-comment</p></li></ul> <h2 id="其他"><a href="#其他" class="header-anchor">#</a> 其他</h2> <ul><li>缩进换行请使用两个空格</li> <li>大型团队多人协作项目推荐Javascipt代码末尾加分号</li> <li>小型个人创新练手项目可尝试使用Javasctipt代码末尾不加分号风格，更加清爽简练</li></ul> <h2 id="资料"><a href="#资料" class="header-anchor">#</a> 资料</h2> <p><a href="https://mp.weixin.qq.com/s/UDXrBiEfm8igKZlSyoNJIA" target="_blank" rel="noopener noreferrer">史上最全 Vue 前端代码风格指南<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><a href="https://www.cnblogs.com/hanguidong/p/9381830.html" target="_blank" rel="noopener noreferrer">Vue 定义组件模板的七种方式(一般用单文件组件更好)<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><a href="https://www.jianshu.com/p/8c63c93a346b" target="_blank" rel="noopener noreferrer">vue中涉及的字符串模板与dom模板<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/front-end/engineering/best-skin.html" class="prev">
+        前端换肤的N种方案
+      </a></span> <span class="next"><a href="/front-end/engineering/card-00.html">
+        本地Https服务搭建
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.09c86fde.js" defer></script><script src="/assets/js/2.782c1c27.js" defer></script><script src="/assets/js/571.cf0cf7e8.js" defer></script>
+  </body>
+</html>
