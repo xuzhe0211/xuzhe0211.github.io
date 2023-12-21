@@ -112,6 +112,9 @@ volumes: # 创建名为postgres_data的数据卷
 $ docker-compose build
 $ docker-compose build --no-cache #不带缓存的构建
 
+# 要求 docker-compose 每次重新构建镜像
+$ docker-compose up --build
+
 # 指定不同yml文件模块用于构建镜像
 $ docker-compose build -f docker-compose1.yml
 
@@ -154,6 +157,7 @@ $ docker-compose rm web
 
 # 查看各个服务器容器内运行的进程
 $ docker-compose top
+
 ```
 
 ## 资料
