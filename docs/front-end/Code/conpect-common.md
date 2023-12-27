@@ -303,7 +303,498 @@ game(32) // 龙获胜
 无论栈还是队列，本质上都是利用数组实现的变种。通过封装只暴漏出结构该有的方法，保证了数据结构的稳定性和安全性
 
 ## 链表
-尽管数组在元素的访问上很方便，但是在数组的起点和中间插入或移除元素的成本却很高,因为数组是一块连续的内存空间存储的，
+<span style="color: red">尽管数组在元素的访问上很方便，但是在数组的起点和中间插入或移除元素的成本却很高,因为数组是一块连续的内存空间存储的，插入一个节点要改变插入节点及后面所有元素的位置。当数组元素足够多的时候，插入一个元素的成本就会显现出来。</span>
+
+**相对于传统的数组,链表的一个好处在于，添加或移除元素的时候不需要移动其他元素。** 链表同样是存储有序的元素的集合,但链表中元素在内存的位置并非连续放置的，而是有一个指针指向相邻的下一个元素。所以链表虽然插入移除节点很快，但是查询节点却很慢，因为要从头到尾遍历查询。而数组则是查询节点很快，但是移除节点慢
+
+![链表](./images/654.png)
+
+链表有很多种：
+
+![链表类型](./images/655.png)
+
+### 单向链表
+顾名思义，单向链表是指只有 next 没有 prev 的链表数据结构。单向链表详细实现如下
+
+![单向链表](./images/656.png)
+
+```js
+const LinkedList = (function() {
+    const Node = function(element) { // 构造新节点
+        this.element = element;
+        this.next = null;
+    }
+    append (element) { // 从尾部添加节点
+        let newNode = new Node(element);
+        if(!this.head) { // 没有头节点，就将新节点设为头节点
+            this.head = newNode;
+        } else { // 存在头节点，就在链表尾部添加新节点
+            let current = this.head;
+            while(current.next) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+        this.length++;
+    }
+    insert(position, element) { // 按位置插入节点
+        if(position < 0 || position > this.length) {
+            return false;
+        }
+        let newNode = new Node(element);
+        if(position === 0) { // 往量表首部添加新节点
+            newNode.next = this.head;
+        } else { // 非链表首部添加新节点
+            let index = 0, previous, current = this.head; // index 索引判断是否是当前
+            while(index++ < position) { // 如果 index 小于 position, 递增并将变量移动到下一个节点
+                previous = current;
+                current = current.next;
+            }
+            newNode.next = current;
+            previous = newNode;
+        }
+        this.length++;
+        return true;
+    }
+    removeAt (position) { // 按照位置删除节点
+        if(position < 0 || position > this.length) return null;
+        let index = 0, previous, current = this.head;
+        if(position === 0) {
+            this.head = current.next;
+        } else {
+            while(index++ < position) {
+                previous = current;
+                current = current.next;
+            }
+            previous.next = current.next;
+        }
+        this.length--;
+        return current.element;
+    }
+    toString() { // 将链表的值字符串化
+        let current = this.head, str = '';
+        while(current) {
+            str += current.element;
+            current = current.next;
+            if(current) {
+                str += symbol ? symbol : ','
+            }
+        }
+        return str;
+    }
+    indexOf (element) { // 找到值第一次出现的位置
+        let current = this.head, index = 0;
+        while(current) {
+            if(current.element === element) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
+    }
+    find(element) { // 找到第一次出现该值得节点
+        let current = this.head;
+        while(current) {
+            if(current.element === element) {
+                return current;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    isEmpty() {
+        return this.length === 0;
+    }
+    size() {
+        return this.length;
+    }
+    getHead() {
+        return this.head;
+    }
+})()
+```
+### 双向链表
+双向链表中节点除了有next指向下一个节点，还有 prev 指向前一个节点。双向链表的优点在于能够从头到尾迭代，也能够从尾到头迭代。如果从头到尾遍历到中间为止的时候，想反向从尾到头进行遍历，也是可以办到的。
+
+双向链表虽然比单向链表站来更多的内存，但是双向链表最大的好处是删除给定指针操作时不用在遍历一遍找到其prev指向的节点，所以此时的删除操作单向链表时间复杂度是 O(n)，双向链表的时间复杂度是 O(1)。
+
+![双向链表](./images/657.png)
+
+```js
+const DoubleLinkedList = (function() {
+    let Node = function() {
+        this.element = element;
+        this.prev = this.next = null;
+    }
+    class DoubleLinkedList {
+        constructor() {
+            this.head = this.tail = null;
+            this.length = 0;
+        }
+        append(element) {
+            let newNode = new Node(element);
+            if(!this.head) {
+                this.head = this.tail = newnode;
+            } else {
+                let current = this.head;
+                while(current) {
+                    current = current.next;
+                }
+                current = this.tail;
+                current.prev = this.tail = newNode;
+                newNode.prev = current;
+            }
+        }
+        insert(position, element) {
+            if(position < 0 || position > this.length) {
+                return false;
+            }
+            let newNode = new Node(element);
+            let previous, current = this.head, index = 0;
+            if(position === 0) {
+                if(!this.head) {
+                    this.head = this.tail = newNode;
+                } else {
+                    newNode.next = current;
+                    current.prev = newNode;
+                    this.head = newNode;
+                }
+            } else if (position === this.length) {
+                this.tail.next = newNode;
+                newnode.prev = this.tail;
+                this.tail = newNode;
+            } else {
+                while(index++ < position) {
+                    previous = current;
+                    current = newNode;
+                }
+                previous.next = newNode;
+                newNode.prev = previous;
+                newNode.next = current;
+                current.prev = newNode;
+            }
+            this.length++;
+            return true;
+        }
+        removeAt(position) {
+            if(position < 0 || position >= this.length) {
+                return false;
+            }
+            let previous, current = this.head, index = 0;
+            if (position === 0) {
+                this.head = current.next;
+                if(this.length === 1) {
+                    this.tail = null; // 若只有一项，则 current.next 为 null，，所以只需要将尾部设为 null
+                } else {
+                    this.head.prev = null;
+                }
+            } else if( position === this.length - 1) {
+                current = this.tail;
+                this.tail = current.prev;
+                this.tail.next = null;
+            } else {
+                while(index++ < position) {
+                    previous = current;
+                    current = current.next;
+                }
+                previous.next = current.next;
+                current.next.prev = previous;
+            }
+            this.length--;
+            return current.element;
+        }
+        // 删除指定节点
+        removeByNode(node) {
+            if(!node.prev) {
+                this.head = node.next;
+                this.head.prev = null;
+                return;
+            }
+            if(!node.next) {
+                return;
+            }
+            let prev = node.prev;
+            let next = node.next;
+            prev.next = next;
+            next.prev = prev;
+        }
+        // 其他方法实现和单线链表相同
+    }
+    return DoubleLinkedList
+})()
+```
+### 循环链表
+循环链表是指链表的头部和尾部之间存在相互引用，形成了一个循环
+
+单向循环链表
+![单向循环链表](./images/658.png)
+
+单向循环链表的实现方法和单向链表几乎一样，但是在增加头部、尾部节点的时候需要注意设置 current.next = this.head;
+
+双向循环链表
+
+![双向循环链表](./images/659.png)
+
+双向循环链表的实现方法和双向链表也大同小异，这里也不再累述。
+
+<span style="color: blue">链表是 js 中没有原声实现的一种数据结构，相比数组，链表在添加和移除元素的时候效率更高。因此在需要添加和移除大批量元素的时候，最好的选择就是链表。</span>
+
+## 集合和字典
+集合和字典用于存储不重复的值。集合和字典的元素可以是任意类型
+
+### 集合
+集合是由一组无序且唯一的元素组成的数据结构，由于不会重复，所以集合中键就是值。
+
+和数学中的集合一样，js中的集合可以进行"并集"、"差集"、"子集"操作。
+
+并集是两个集合的元素合到一块，交集是两个集合中共有的元素，差集是另一个集合中没有的元素，子集是a中的元素b中都有。
+
+由于es6原生实现了集合 Set 类，所以我们可以利用继承在 Set类的基础上实现集合的四种操作
+
+```js
+class MySet extends Set {
+    constructor(...args) {
+        super(...args);
+    }
+    union(otherSet) { // 并集
+        return new MySet([...this, ...otherSet]);
+    }
+    intersection(otherSet) { // 交集
+        // return new Set([...this].filter(x => otherSet.has(x))); // 标记aa
+        let newSet = new MySet();
+        for(let a of this) {
+            if(otherSet.has(a)) {
+                newSet.add(a);
+            }
+        }
+        return newSet;
+    }
+    difference(otherSet) { // 差集
+        // return new Set([...this].filter(x => !otherSet.has(x))); // 标记bb
+        let newSet = new MySet();
+        for(let x of this) {
+            if(!otherSet.has(x)) {
+                newSet.add(x);
+            }
+        }
+        return newSet;
+    }
+    isSubOf(otherSet) { // 子集
+        if(this.size > otherSet.size) {
+            return false;
+        } else {
+            // return [...this].every(item => otherSet.has(item)) // 标记 cc
+            for(let x of this) {
+                if(!otherSet.has(ite)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+var a = new MySet([1, 2, 3, 4])
+var b = new MySet([3, 4, 5, 6])
+var c = new MySet([1,2])
+a.intersection(b) // Set(2) {3, 4}
+a.difference(b) // Set(2) {1, 2}
+a.union(b) // Set(6) {1, 2, 3, 4, 5, 6}
+c.isSubOf(a) // true
+c.isSubOf(b) // false
+```
+上面代码中标记的“aa bb cc”三处一行代码就可以实现其功能，但是其时间复杂度为 O(n²)，相比之下其下面的代码时间复杂度为 O(n)。因为 [...this] 先遍历集合中所有元素转为数组，然后用every遍历数组中的元素。
+
+### 字典
+顾名思义字典就是根据键来查询值的数据结构，也就是我们常说的"键值对"。
+
+字典数据结构在es6的实现为Map。Map和Object 一样是由键值对组成的，键值都不能重复。但是不同之处在于 Object的键只能是字符串，且是无序的；而Map的键可以是任何类型的值，包括对象，且是有序的。
+
+```js
+let o = {2:2, 1:1}
+Object.keys(o); // ['1', '2'] 键只能是无序的字符串
+
+let map = new Map();
+map.set(o, 1)
+map.set(2,2);
+
+for(let key of map) {
+    console.log(key); // [{…}, 1] [2, 2]  键可以是任意类型，且根据添加的顺序遍历
+}
+```
+> 注意由于集合和字典中的元素可以任意类型,如果如果添加了一个没有引用的对象的话，就在也取不到这个对象了
+
+```js
+let a = new MySet()
+a.add({})
+a.has({}) // false
+
+let b = new Map()
+b.set({}, 1)
+b.get({}) // undefined
+```
+### WeakSet 和 WeakMap
+在栈和队列的实现中我们用到了 WeakMap 类，其实 WeakMap WeakSet类几乎和 Map 、Set类一样 只是以下少许不同
+
+- 只能用对象作为键
+- 键是弱引用类型的
+- WeakMap WeakSet 没有遍历器，所以不能调用 keys()、values()、entries()方法，也没有size属性 和clear()方法，最有四个增删改查方法 get()、set()、has()、delete()
+
+## 树
+树是一种分层数据抽象模型，是本文介绍的第一种非顺序的数据结构
+
+![树](./images/660.png)
+
+树由"根节点、子节点、叶子节点"组成。根节点是位于树顶部的节点，**根节点没有父节点；有父节点的叫子节点，没有子节点的节点叫叶子节点**。
+
+树的子节点可以有很多个，最常用的二叉树最多只能有两个子节点：左侧子节点和右侧子节点。
+
+### 二叉搜索树
+二叉搜索树是二叉树的一种，它只允许你在左侧存储比父节点小的值，在右侧存储比父节点大的值。这样的定义对于向树的节点中查找/插入/删除节点非常高效
+
+![二叉搜索树](./images/661.jpeg)
+
+下面我们来实现一个二叉搜索树
+
+```js
+const BinarySearchTree = (function(){
+  const Node = function (key) {
+    this.key = key
+    this.left = null
+    this.right = null
+  }
+  const insertNode = function (node, newNode) { // 插入节点辅助函数
+    if (newNode.key < node.key) {
+      if (node.left) {
+        insertNode(node.left, newNode)
+      } else {
+        node.left = newNode
+      }
+    } else {
+      if (node.right) {
+        insertNode(node.right, newNode)
+      } else {
+        node.right = newNode
+      }
+    }
+  }
+  const searchNode = function (node, key) { // 搜索节点辅助函数
+    if (!node) {
+      return false
+    }
+    if (key < node.key) {
+      return searchNode(node.left, key)
+    } else if (key > node.key) {
+      return searchNode(node.right, key)
+    } else {
+      return true
+    }
+  }
+  const minNode = function (node) { // 找到最小节点并返回key
+    if (!node) {
+      return null
+    }
+    if (node.left) {
+      return minNode(node.left)
+    } else {
+      return node.key
+    }
+  }
+  const maxNode = function (node) { // 找到最大节点并返回key
+    if (!node) {
+      return null
+    }
+    if (node.right) {
+      return maxNode(node.right)
+    } else {
+      return node.key
+    }
+  }
+  const findMinNode = function (node) { // 找到最小节点并返回node对象
+    if (!node) {
+      return null
+    }
+    if (node.left) {
+      return findMinNode(node.left)
+    } else {
+      return node
+    }
+  }
+  const removeNode = function (node, key) { // 移除节点并返回传入的 node
+    if (node === null) {
+      return null
+    }
+    if (key < node.key) { // 这种情况需要更新node.left，然后返回更新了node.left的新的node
+      node.left = removeNode(node.left, key)
+      return node
+    } else if (key > node.key) { // 这种情况需要更新node.right，然后返回更新了node.right的新的node
+      node.right = removeNode(node.right, key)
+      return node
+    } else { // 这种情况需要更新node.key或者其他更新手段(包括直接将node变为null, 或更新node.right)，返回的也是更新后的node
+      // 情况1，被移除的是叶子节点
+      if (node.left === null && node.right === null) {
+        node = null
+        return node
+      }
+      // 情况2，被移除的是只有一个子节点的节点
+      if (node.left === null) { // 只有右子节点
+        node = node.right
+        return node
+      } else if (node.right === null) {//只有左子节点
+        node = node.left
+        return node
+      }
+      // 情况3，被移除的是有两个子节点的节点
+      const aux = findMinNode(node.right) // 找到子树中的最小节点，它肯定是一个叶子节点
+      node.key = aux.key // 将node的key设置为aux的key，达到删除效果，但此时有两个一样的key
+      node.right = removeNode(node.right, aux.key) // 移除以node.right为root的树上的重复的叶子节点aux.key
+      return node
+    }
+  }
+  class BinarySearchTree {
+    constructor () {
+      this.root = null
+    }
+    insert (key) { // 插入节点
+      let newNode = new Node(key)
+      if (!this.root) {
+        this.root = newNode
+      } else {
+        insertNode(this.root, newNode)
+      }
+    }
+    serach (key) { // 搜索节点，返回布尔值
+      return searchNode(this.root, key)
+    }
+    min () { // 最小节点
+      return minNode(this.root)
+    }
+    max () { // 最大节点
+      return maxNode(this.root)
+    }
+    remove (key) { // 删除节点
+      this.root = removeNode(this.root, key)
+    }
+  }
+  return BinarySearchTree
+})()
+```
+
+## 图
+图是网状结构的抽象模型，由边和顶点组成。对于地图来说，顶点就是地点，边就是链接两个地点之间的路线；对于微信QQ来说，顶点就是用户，边就是两个用户价了好友建立了关系。
+
+图分为有向图和无向图，有向图就是单向的，比如微博粉丝和微博大V，粉丝关注了大V，但大V没有关注粉丝。无向图是就是顶点与顶点之间是的没有方向的，比如微信好友之间就是无向图。
+
+图的一种存储方式是 “邻接矩阵”。邻接矩阵就是一个二维数组，A[i][j] === A[j][i]。
+
+![图](./images/662.png)
+
+邻接矩阵记录了所有顶点之间的关系，但其实很多顶点之间是没有关系的，所有这就造成了存储空间的浪费。但是邻接矩阵在获取两个顶点之间的关系时很高效。
+
+图的另一种存储方式是 “邻接表”。邻接表中每个顶点对应一条链表，指向该顶点所指向的顶点。这样表中就没有了没有关系的顶点，节省了储存空间。但是相对的，查询相邻的顶点也就比较耗时。
+
+![图的表示](./images/663.png)
+
 
 
 
