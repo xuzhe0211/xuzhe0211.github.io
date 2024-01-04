@@ -175,6 +175,7 @@ enum HTTP_CODE {
   OK = 200;
   NOT_FOUND = 404
 }
+console.log(HTTP_CODE.OK, HTTP_CODE[200]) // 200, OK 
 ```
 字符串类型枚举
 ```typescript
