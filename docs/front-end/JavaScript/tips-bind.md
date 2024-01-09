@@ -14,7 +14,7 @@ title: 实现一个bind
 ## 代码
 
 ```js
-Function.prototype.bind = function(obj, arg) {
+Function.prototype.bind = function(context, arg) {
     var arg = Array.prototype.slice.call(arguments, 1);
     var fn = this;
     var bound = function(...newArg) {

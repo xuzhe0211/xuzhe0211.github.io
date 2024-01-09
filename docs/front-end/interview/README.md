@@ -216,7 +216,7 @@ function add(x, y, z) {
 }
 const arr = [1,2,3];
 console.log(add.myCall(null, ...arr))
-console.log(add.myApply(null, arr)())
+console.log(add.myApply(null, arr))
 console.log(add.myBind(null, ...arr)())
 ```
 - 第一个参数为null或undefined时，this指向全局对象window,值为原始值的指向该原始值的自动包装对象，如String、Number、Boolean
