@@ -9,6 +9,30 @@ title: Object.defineProperty vs proxy
 https://juejin.cn/post/6844904066103902215
 
 https://www.cnblogs.com/yinyuxing/p/14510803.html
+
+
+```js
+// 前置
+let app = createApp(App)
+    .use(store)
+    .use(router)
+    .component('svg-icon', SvgIcon)
+    .use(batchUp);
+app.config.globalProperties.lg = language.lg;
+
+// 使用
+import { getCurrentInstance} from 'vue';
+import {useRoute, useRouter} from 'vue-router'
+const route = useRoute();
+const router = useRouter();
+
+const lg = getCurrentInstance().appContext.config.globalProperties.lg;
+
+console.log(route.path);
+router.push({name: 'userDetails'});
+
+
+```
 ## 对比
 
 ### Proxy优势

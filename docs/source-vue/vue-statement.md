@@ -159,3 +159,44 @@ mixins 用于给实例混入一些属性
 
 
 [vue生命周期详细全过程（含图解）](https://blog.csdn.net/m0_70477767/article/details/124684195)
+
+
+## Vue3生命周期
+- setup(): 开始创建组件之前,在beforeCreate 和 created之前执行。创建的是data和method
+- onBeforeMount(): 组件挂载到节点上之前执行的函数
+- onMounted(): 组件挂载完成后执行的函数
+- onBeforeUpdate(): 组件更新之前执行的函数.
+- onUpdated():组件更新完成之后执行的函数
+- onbeforeUnmount(): 组件卸载之前执行的函数
+- onUnMounted(): 组件卸载完成之后执行的函数
+- onActivated(): 被包含在中的组件，会多出两个生命周期钩子函数。被激活时执行
+- onDeactivated(): 比如从A组件，切换到B组件，A组件消失时执行
+- onErrorCaptured(): 当捕获一个自来子孙组件的异常时激活钩子函数
+
+## vue2与vue3生命周期对比
+那我到底使用Vue2.x还是Vue3.x的生命周期钩子函数？其实这个无所谓，但是不愿混用，如果你用 setup 这种Vue3的生命周期函数，就不要在使用Vue2的了。为了你更好的掌握，我做了一个函数对比
+
+```js
+Vue2 ---- Vue3
+
+beforeCreate -> setup()
+created -> setup()
+beforeMount -> onBeforeMount
+mounted -> onMounted
+beforeUpdate -> onBeforeUpdate
+updated -> onUpdated
+beforeDestroy -> onBeforeUnmount
+destroyed -> onUnmounted
+activated -> onActivated
+deactivated -> onDeactivated
+errorCaptured -> onErrorCaptured
+```
+
+通过这样对比，可以很容易的看出 vue3 的钩子函数基本是再 vue2 的基础上加了一个on,但也有两个钩子函数发生了变化。
+
+- BeforeDestroy变成了onBeforeUnmount
+- destroyed变成了onUnmounted;尤大神的介绍是mount比Destroy更形象，也和beforeMount相对应。他是一个卸载的过程，并不是一个销毁的过程，语义化理解更好
+
+
+
+[vue3.x 的生命周期和钩子函数，你get了么？](https://juejin.cn/post/6997412902713950221)
