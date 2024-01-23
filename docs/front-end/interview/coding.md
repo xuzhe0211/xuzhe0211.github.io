@@ -170,7 +170,7 @@ const c = get(object, 'a[100].b.c', 10086); // 10086
 
 console.log(a, b, c)
 ```
-### 使用lodash的throttle函数会出发两次
+### 使用lodash的throttle函数会触发两次
 <span style="color: red">当使用lodash的throttle函数时会出发两次，分别在最开始和最后</span>
 
 严格来说不算是bug，因为[官方文档](https://www.lodashjs.com/docs/lodash.throttle)写的很清楚。Throttle函数其实有三个参数
