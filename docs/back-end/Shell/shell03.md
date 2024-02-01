@@ -1,5 +1,5 @@
 ---
-autoGroup-0: shell
+autoGroup-0: 常用
 title: 判断输入变量或者参数是否为空
 ---
 ```shell

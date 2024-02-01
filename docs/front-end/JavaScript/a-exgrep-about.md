@@ -72,6 +72,9 @@ var aes = 'abc'
 var reg = /abc/gi;
 var abc = 'abcedabcsdfABC';
 console.log(abc.match(reg)) // ['abc', 'abc', 'ABC']
+
+
+console.log(abc.match(/abc/)) // ['abc', 'ab', 'c', index: 0, input: 'abcedabcsdfABC', groups: undefined]
 ```
 
 ### search（）方法 第一个匹配字符串的下标

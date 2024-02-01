@@ -1,5 +1,5 @@
 ---
-autoGroup-0: shell
+autoGroup-0: 常用
 title: shell简单脚本
 ---
 

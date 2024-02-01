@@ -1,5 +1,5 @@
 ---
-autoGroup-0: shell
+autoGroup-0: 常用
 title: shell脚本实现取当前时间
 ---
 shell实现获取当前实现，并进行格式转换的方法:

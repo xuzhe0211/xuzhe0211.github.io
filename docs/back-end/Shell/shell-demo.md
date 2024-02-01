@@ -1,5 +1,5 @@
 ---
-autoGroup-0: shell
+autoGroup-0: 常用
 title: demo-king
 ---
 ```shell
