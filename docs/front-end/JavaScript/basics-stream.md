@@ -151,7 +151,7 @@ window.URL.createObjectURL生成的Blob URL还可以赋给img.src，从而实现
 <span styl="color: red">如果想要读取Blob或者文件对象并转化为其他格式的数据，可以借助FileReader对象的API进行操作</span>
 - FileReader.readAsText(Blob): 将Blob转化为本文对象
 - FileReader.readAsArrayBuffer(Blob): 将Blob转为ArrayBuffer格式数据
-- FileReader.readAdDataURL(): 将Blob转化为Base64格式的Data URL
+- FileReader.readAsDataURL(): 将Blob转化为Base64格式的Data URL
 
 下面我们尝试把一个文件的内容通过字符串的方式读取出来
 ```js
