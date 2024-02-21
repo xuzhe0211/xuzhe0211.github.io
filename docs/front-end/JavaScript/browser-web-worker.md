@@ -217,18 +217,254 @@ Web Workers 在实际应用中有许多常见且有用的应用场景。
 
 在主线程中
 ```js
+// 创建一个新的 Web Worker
+const worker = new Worker('worker.js');
 
+// 定义一个函数来处理来自Web Worker 的消息
+worker.onmessage = function(event) {
+    const result = event.data;
+    console.log(result);
+}
+
+// 向Web Worker 发送一个消息，以启动计算
+worker.postMessage({ num: 100000})
 ```
+在worker.js中
+
+```js
+// 定义一个函数来执行计算
+function compute(num) {
+    let su = 0;
+    for(let i = 0; i < num; i++) {
+        sum += i;
+    }
+    return sum;
+}
+
+// 定义一个函数来处理来自主线程的消息
+onmessage = function(event) {
+    const num = event.data.num;
+    const result = compute(num);
+    postMessage(result);
+}
+```
+在这个例子中，创建了一个新的Web Worker，并定义了一个函数处理来自 Web Worker 的消息。然后，向 Web Worker 发送一条消息，并提供一个参数(num),指定要执行计算的迭代次数。Web Worker接收到这条消息后，在后台执行计算。当计算完成后，Web Worker向主线程发送一条包含结果的消息。主线程收到这个消息后，将结果记录到控制台中
+
+![计算结果](./images/35.png)
+
+在上面的例子中，向 Web Worker 的compute()函数传递了数字 1000000。这意味着compute函数将需要将从 0 到一百万的所有数字相加。这涉及大量的额外操作，可能需要很长时间才能完成，特别是如果代码在较慢的计算机上运行或在浏览器标签中同时处理其他任务。
+
+通过将这个任务分配给 Web Worker，应用的主线程可以继续平稳运行，而不会被计算密集型的任务阻塞。这使得用户界面保持响应，并确保其他任务（如用户输入或动画）可以在没有延迟的情况下处理。
 
 ### 处理网络请求
+假设有一个应用需要发起大量的网络请求。如果在主线程中执行这些请求，可能会导致用户界面无响应，用户体验差。为了避免这个问题，可以利用Web Worker在后台处理这些请求。通过这样做，主线程可以同时执行其他任务，而Web Worker 负责处理网络请求，从而提高性能和改善用户体验
+
+在主线程中
+
+```js
+// 创建一个新的 Web Worker
+const worker = new Worker('worker.js');
+
+// 定义一个函数来处理来自Web Worker 的消息
+worker.onmessage = function(event) {
+    const reponse = event.data;
+    console.log(response)
+}
+
+// 向 Web Worker 发送一个消息，以启动计算
+worker.postMessage({ urls: ['https://api.example.com/foo', 'https://api.example.com/bar'] });
+```
+在 worker.js 中：
+
+```js
+// 定义一个函数来执行网络请求
+function request(url) {
+    return fetch(url).then(response => response.json());
+}
+
+// 定义一个函数来处理来自主线程的消息
+onmessage = async function(event) {
+    const urls = event.data.urls;
+    const result = await Promise.all(urls.map(request));
+    postMessage(results);
+}
+```
+从这个例子中，创建一个新的Web Worker 并定义一个函数来处理来自Worker的消息。然后，向 Worker 发送一个包含一组 URL 请求的信息。Worker 接收到这个消息后，在后台使用 fetch API 执行请求。当所有请求完成后，Worker 向主线程发送包含结果的消息。主线程接收到这个消息后，将结果记录到控制台中
 
 ### 并行处理
+假设应用需要执行大量独立计算。如果在主线程中一次执行这些计算，用户界面将变得无响应，用户体验将受到影响。为了避免这种情况，可以实例化多个 Web Worker 来并行执行计算
 
+在主线程中
+```js
+// 创建三个新的 Web Worker
+const worker1 = new Worker('worker.js');
+const worker2 = new Worker('worker.js');
+const worker3 = new Worker('worker.js');
+
+// 定义三个处理来自worker的消息函数
+worker1.onmessage = handleWorkerMessage;
+worker2.onmessage = handleWorkerMessage;
+worker3.onmessage = handleWorkerMessage;
+
+function handleWorkerMessage(event) {
+    const result = event.data;
+    console.log(result);
+}
+
+// 将任务分配给不同的 worker 对象，并发送消息启动计算
+worker1.postMessage({num: 100000})
+worker1.postMessage({num: 200000})
+worker1.postMessage({num: 300000})
+```
+在 worker.js 中
+
+```js
+// 定义一个函数来执行单个计算
+function compute(num) {
+    let sum = 0;
+    for(let i = 0; i < num; i++) {
+        sum += i;
+    }
+    return sum;
+}
+
+// 定义一个函数处理来自主线程的消息
+onmessage = funciton(event) {
+    const result = compute(event.data.num);
+    postMessage(result);
+}
+```
+在这个例子中，创建三个新的 Web Worker 并定义一个函数来处理来自该 Worker 的消息。然后，向三个 Worker 分别发送一个要计算的数字消息。Worker 接收到这个消息后执行计算。当计算完成后，Worker 向主线程发送包含结果的消息。主线程接收到这个消息后，将结果记录到控制台中。
 
 ## Web Workers 使用限制
+Web Worker 是一个提高 Web 应用性能和响应能力的强大工具，但它们也有一些限制和注意事项。
+### 浏览器支持
+目前所有主流浏览器、Node.js、Deno 和 Bun都支持Web Worker。
 
+![浏览器支持](./images/36.png)
+
+### 对DOM的访问受到限制
+Web Worker 在单独的线程中运行,无法直接访问主线程中的DOM或其他全局对象。这意味着不能直接在Web Worker 中操作DOM，也不能访问像 window或者document这样的全局对象。
+
+为了解决这个限制,可以使用 postMessage 方法与主线程进行通信，间接的更新DOM或访问全局对象。例如，使用postMessage将数据发送到主线程，然后根据接收到的消息来更新 DOM 或全局对象。
+
+另外，还有一些哭可以帮助解决这个问题。例如 [WorkerDOM]( https://github.com/ampproject/worker-dom)库允许在Web Worker中运行DOM，从而加快页面的渲染速度并提高性能。
+
+现代桌面浏览器支持共享工作线程，即在不同窗口、iframes或工作线程中可被多个脚本访问的单个脚本，它们通过独立的端口进行通信。但是，大多数移动浏览器不支持共享共享工作线程，所以对于大多数web来说，它们并不适用
+
+### 通信开销大
+Web Worker 使用 postMessage 方法与主线程进行通信，这可能会引入通信开销。通信开销指的是在两个或多个计算系统之间建立和维护通信所需的时间和资源量，比如在Web应用中，Web Worker 与主线程之间的通信。这可能导致消息处理延迟，潜在的减慢应用程序的速度。为了最小化这种开销，，应该只在线程之间发送必要的数据，避免发送大量数据或频繁发送消息。
+
+### 调试工具有限
+与在主线程中调试代码相比，调试 Web Worker 可能更具挑战性，因为可用的调试工具较少。为了简化调试过程，可以使用控制台 API 在 Worker 线程中记录消息，并使用浏览器开发者工具检查线程之间发送的消息。
+
+### 代码复杂度
+使用 Web Worker 可能会增加代码的复杂性，因为需要管理线程之间的通信，并确保数据正确传递。这可能会使编写、调试和维护代码更加困难，因此应该仔细考虑是否有必要在应用中使用 Web Worker。
 
 ## Web Workers 最佳实践
+上面提到了在使用 Web Workers 时，可能会出现的一些潜在问题。下面就来看看如何缓解这些问题。
+```js
+worker.on('message', result => {
+    console.log(result)
+})
+```
+### 消息批处理
+消息批处理涉及将多个消息组合成一个批处理消息,这比单独发送个别消息更有效。这种减少了主线程和Web Worker 之间往返的数量，它有助于最小化通信开销并提高应用的整体性能。
+
+为了实现消息批量处理，可以使用队列来累积消息，并在队列达到一定阀值或经过设定时间后将消息批量发送。下面在Web Worker中简单实现消息的批处理
+
+```js
+// 创建一个消息队列累积消息
+const messageQueue = [];
+
+// 创建一个将消息添加到队列的函数
+function addToQueue(message) {
+  messageQueue.push(message);
+
+  // 检查队列是否达到阈值大小
+  if (messageQueue.length >= 10) {
+    // 如果是，请将批处理消息发送到主线程
+    postMessage(messageQueue);
+
+    // 清除消息队列
+    messageQueue.length = 0;
+  }
+}
+
+// 将消息添加到队列中
+addToQueue({type: 'log', message: 'Hello, world!'});
+// 在添加另一条消息到队列中
+addToQueue({type: 'error', message: 'An error occurred.'});
+```
+在这个例子中， 创建了一个消息队列，用于累积需要发送到主线程的消息。每当使用addToQueue函数将消息添加到队列时，检查队列是否已达到阈值大小（10）。如果是，则使用postMessage方法将批处理消息发送到主线程。然后，清除消息队列，以准备进行下一次批处理。
+
+通过以这种方式批处理消息，可以减少主线程和 Web Worker 之间发送的消息总数，从而提高应用性能。
+
+### 避免同步方法
+同步方法是阻塞其他代码执行的Javascript函数或操作。同步方法可以阻塞主线程,导致应用变的无响应。为了尽量避免在Web Worker Worker 中使用同步方法。而应该使用 setTimeout() 或者 setInterval() 等异步方法来执行长时间运行的计算
+
+```js
+// 在 Web Woker中
+self.addEventListener('message', (event) => {
+    if(event.data.action === 'start') {
+        // 使用setTimeout累异步执行计算
+        setTimeout(() => {
+            const result = doSomeComputation(event.data.data);
+
+            // 将结果发送回主线程
+            self.postMessage({ action: 'result', data: result });
+        }, 0);
+    }
+})
+```
+
+### 注意内存使用情况
+Web Workers 有自己的内存空间，这个空间根据用户的设备和浏览器设置可能是有限的。为了避免内存问题，应该注意你的 Web Worker 代码使用的内存量，并避免不必要地创建大对象。例如：
+
+```js
+self.addEventListener('message', (event) => {
+  if (event.data.action === 'start') {
+    // 使用for循环处理一个数据数组
+    const data = event.data.data;
+    const result = [];
+
+    for (let i = 0; i < data.length; i++) {
+      // 处理数组中的每个项，并将结果添加到结果数组中
+      const itemResult = processItem(data[i]);
+      result.push(itemResult);
+    }
+
+    // 将结果发送回主线程
+    self.postMessage({ action: 'result', data: result });
+  }
+});
+```
+在这段代码中，Web Worker 处理一个数据数组，并使用postMessage方法将结果发送回主线程。然而，用于处理数据的 for 循环可能耗时较长。
+
+导致这个问题的原因是代码一次性处理了整个数据数组，这意味着所有的数据都必须同时加载到内存中。如果数据集非常大，这可能导致 Web Worker 消耗大量的内存，甚至超过浏览器为 Web Worker 分配的内存限制。
+
+为了缓解这个问题，可以考虑使用内置的 JavaScript 方法，如forEach或reduce，它们可以逐项处理数据，避免一次性加载整个数组到内存中。
+
+### 浏览器兼容性
+大多数现代浏览器都支持 Web Worker，但某些较旧的浏览器可能不支持它们。 为了确保与各种浏览器的兼容性，应该在不同的浏览器和版本中测试 Web Worker 代码。 还可以使用功能检测来检查 Web Worker 是否受支持，然后再在代码中使用它们，如下所示：
+
+```js
+if (typeof Worker !== 'undefined') {
+  const worker = new Worker('worker.js');
+} else {
+  console.log('Web Workers are not supported in this browser.');
+}
+```
+这段代码会检查当前浏览器是否支持 Web Workers，并在支持时创建一个新的 Web Worker。如果 Web Workers 不受支持，则该代码记录一条消息到控制台，表示该浏览器不支持 Web Workers。
+
+
+
+## 总结
+随着 Web 应用变得越来越复杂和要求越来越高，有效的多线程技术（如 Web Workers）的重要性可能会增加。Web Workers 是现代 Web 开发的一个基本特性，它允许开发人员将 CPU 密集型任务放到单独的线程中执行，从而提高应用的性能和响应能力。然而，在处理 Web Workers 时需要记住一些重要的限制和注意事项，例如无法访问 DOM 和数据类型之间传递的限制等。为了避免这些潜在问题，可以采用上面提到的策略，如使用异步方法并注意卸载的任务的复杂性。在未来，使用 Web Workers 进行多线程似乎仍然是提高 Web 应用程序性能和响应能力的重要技术。
+
+此外，许多库和工具可帮助开发人员使用 Web Workers。例如，Comlink[2] 和 Workerize[3] 提供了与 Web Workers 通信的简化 API。这些库抽象了一些管理 Web Workers 的复杂性，使利用它们变得更容易。
+
+
 
 
 ## 资料
