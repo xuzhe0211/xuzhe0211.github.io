@@ -224,6 +224,12 @@ docker load --input fedora.tar
 ```
 
 [docker构建一个nginx服务器](/back-end/Node/#docker%E6%A6%82%E5%BF%B5)
+
+
+```shell
+docker tag node:18-alpine xxx.xxx.xxx.com/base/node:18-alpine
+docker push xxx.xxx.xxx.com/base/node:18-alpine
+```
 ## 参考资料
 
 1. [Docker](https://docs.docker.com/)

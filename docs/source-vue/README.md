@@ -12,6 +12,17 @@ https://www.cnblogs.com/yinyuxing/p/14510803.html
 
 
 ```js
+import {getCurrentInstance, defineComponent} from 'vue';
+
+export default defineComponent({
+    setup() {
+        const instance = getCurrentInstance();
+        instance?.proxy?.$forceUpdate();
+    }
+})
+```
+
+```js
 // 前置
 let app = createApp(App)
     .use(store)

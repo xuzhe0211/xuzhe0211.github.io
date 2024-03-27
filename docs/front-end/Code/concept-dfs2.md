@@ -43,7 +43,7 @@ function fib(num) {
 :::
 [剪枝法--中位数](https://blog.csdn.net/qq_38595253/article/details/123744045)
 ## 闭包缓存
-写递归的时候旺旺需要一个全局变量来辅助，这个变量大多数情况下就是缓存
+写递归的时候往往需要一个全局变量来辅助，这个变量大多数情况下就是缓存
 ```js
 const m = Object.create(null); // 使用全局变量存储
 function fib(num) {

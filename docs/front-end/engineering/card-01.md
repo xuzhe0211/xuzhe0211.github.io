@@ -10,7 +10,7 @@ semver,Semantic Versioning语义化版本的缩写，文件可见[semver.org/](h
 - pathc: 当你修复了一个向后兼容的Bug时
 
 假设你的版本库有一个函数
-```
+```js
 // 假设原函数
 export const sum = (x: number, y: number): number => x + y;
 

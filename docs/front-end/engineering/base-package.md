@@ -39,5 +39,42 @@ engine-strict = true
 }
 ```
 以上配置完成后，可以在乱用(yarn、npm、pnpm)试试
+
+
+## 使用.npmrc文件
+原来engines只是建议，默认不开启严格版本校验，只会给出提示，需要手动开启严格模式。在根目录下.npmrc添加 engine-strict = true 才会起作用。配置完成后再执行 npm install:
+```shell
+# .npmrc
+engine-strict = true
+
+
+
+npm ERR! code ENOTSUP
+npm ERR! notsup Unsupported engine for react_antd_admin_template@1.0.0: wanted: {"node":"14.17.5","npm":"6.14.14"} (current: {"node":"16.18.1","npm":"8.19.2"})
+npm ERR! notsup Not compatible with your version of node/npm: react_antd_admin_template@1.0.0
+npm ERR! notsup Not compatible with your version of node/npm: react_antd_admin_template@1.0.0
+npm ERR! notsup Required: {"node":"14.17.5","npm":"6.14.14"}
+npm ERR! notsup Actual:   {"node":"16.18.1","npm":"8.19.2"}
+```
+此时通过npm安装，限制Node版本便起作用了
+
+## 使用.nvmrc文件
+通过上面的方式，可以做到让大家使用相同的Node版本，但每次提示版本不符合，需要开发人员到package.json中查看版本号，然后在使用nvm切换到指定版本，太麻烦了，高效开发不是怎么干的，
+
+可以创建一个.nvmrc文件，指定项目Node版本
+
+```shell
+# .nvmrc
+v14.17.5
+```
+
+此时，执行 nvm use 祖东就切换到项目执行的Node版本
+
+.nvmrc文件是一个存放指定 Node 版本的配置文件，可以告诉项目的成员应该使用哪个Node 版本来运行项目。
+
+如果我们没有安装对应版本的 Node ，执行时也会提示没有安装
+
+
+
 ## 资料
 [原文](https://mp.weixin.qq.com/s/i8Hh0nUp3J7MXJ-zl-57Ng)
