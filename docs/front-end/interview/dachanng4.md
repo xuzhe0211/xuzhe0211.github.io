@@ -33,7 +33,7 @@ title: 大厂面试全记录
 ### 二面
 1. 压力面--之一观点
 2. 拍平(扁平化)数组
-    ```
+    ```js
         const flatten = (list, level = +Infinily) => {
             const newArr = list;
             while(level--) {
@@ -52,7 +52,7 @@ title: 大厂面试全记录
     ```
     [扁平化](https://blog.csdn.net/u014465934/article/details/89020911)
 3. promise
-    ```
+    ```js
     const myPromise = val => Promise.resolve(val);
     const delay = duration => {
         return new Promise(resolve => {

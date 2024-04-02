@@ -61,7 +61,7 @@ const res = objArr.reduce((pre, cur, index, arr) => {
     } else if (index === (arr.length - 1)) {
         return pre + '和' + cur.name
     } else {
-        else pre + ',' + cur.name
+        return pre + ',' + cur.name
     }
 }, '')
 console.log(res); // 老大、老二和老三

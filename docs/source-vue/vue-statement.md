@@ -162,7 +162,7 @@ mixins 用于给实例混入一些属性
 
 
 ## Vue3生命周期
-- setup(): 开始创建组件之前,在beforeCreate 和 created之前执行。创建的是data和method
+- setup(): <span style="color: red;font-weight:bold;">开始创建组件之前,在beforeCreate 和 created之前执行。创建的是data和method</span>
 - onBeforeMount(): 组件挂载到节点上之前执行的函数
 - onMounted(): 组件挂载完成后执行的函数
 - onBeforeUpdate(): 组件更新之前执行的函数.
