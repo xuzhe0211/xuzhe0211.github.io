@@ -49,7 +49,7 @@ target.addEventListener(type, listener[, useCapture]);
 在事件处理函数中，会传递Event对象作为参数，而这个参数最常用的2个方法就是event.preventDefault()和event.stopPropagation()
 
 - stopPropagation()阻止事件传播
-- preventDefault()组织事件的默认行为
+- preventDefault()阻止事件的默认行为
 
 在移动网页中，我们经常使用的就是touch系列的事件，如：
 - touchstart

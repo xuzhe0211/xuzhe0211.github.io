@@ -607,6 +607,7 @@ let n = arr.length
     getnum(k)
   }
 ```
+[斜线打印](/front-end/Code/#%E6%95%B0%E7%BB%84-%E5%AF%B9%E8%A7%92%E7%BA%BF%E9%81%8D%E5%8E%86)
 ## JavaScript 如何查找对象中某个 value 并返回路径上所有的 key值？
 ```js
 const obj = {

@@ -108,6 +108,8 @@ window.localStorage.setItem('test', '123');
 window.localStorage.setItem('test', '123');
 ```
 由于第二次的值'123'与第一次的值相同，所以以上的代码只会在第一次setItem时触发storage事件。因此我们通过设置st来保证每次调用时一定会触发storage事件。
+
+[怎么监听LocalStorage的变化的](/front-end/JavaScript/browser_localStorage.md)
 ### 小憩一下
 上面我们看到了三种实现跨页面通信的方式，不论是建立广播频道的Broadcast Channel，还是使用Service Worker的消息中转站，亦或是些tricky的storage事件，其都是广播模式：一个页面将消息通知给一个中央站，再由这个中央站通知给各个页面
 > 在上面的例子中，这个"中央站"可以是一个BroadCast Channel实例、一个Service Worker或是LocalStorage
