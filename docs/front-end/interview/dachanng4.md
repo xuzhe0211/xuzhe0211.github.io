@@ -68,7 +68,7 @@ title: 大厂面试全记录
 4. V8如何执行一段代码
 5. [72-编辑距离](https://leetcode-cn.com/problems/edit-distance/solution/dai-ma-sui-xiang-lu-72-bian-ji-ju-chi-do-y87e/)
 6. 226-翻转二叉树
-    ```
+    ```js
     var invertTree = function(root) {
         if (root === null ) return null;
         const left = invertTree(root.left);
@@ -126,7 +126,7 @@ title: 大厂面试全记录
 
 ## 字节
 1. 输出结果
-    ```
+    ```js
     var a = 3; 
     var total = 0;
     var result = [];
@@ -147,7 +147,7 @@ title: 大厂面试全记录
     ```
 2. promise输出顺序
 3. 给定一个n，生成[0, n -1] 乱序数组
-    ```
+    ```js
     function fn(n) {
         let map = {};
         let arr = [];

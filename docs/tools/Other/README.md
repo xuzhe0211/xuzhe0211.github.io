@@ -10,6 +10,9 @@ title: 开发工具
 选择自动安装
 :::
 
+## Paintbrush
+Paintbrush 画图工具
+
 ## chrome设置
 
 ::: tip

@@ -13,4 +13,8 @@ chrome://media-engagement/  播放器策略查询
 chrome://version/  版本
 
 chrome://flags/
+
+chrome://inspect/#devices
+
+chrome://predictors/
 :::
