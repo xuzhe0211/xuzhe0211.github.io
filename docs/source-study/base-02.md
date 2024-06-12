@@ -1919,5 +1919,48 @@ function MergeSort(array) {
 
 - 使用场景:长度为n的数组，随机取m个数，有多少种组合
 
+
+## 算法例子
+### 在带权树网络中统计可连接服务器对数目
+根枚举
+
+思路和算法
+
+我们可以将每个服务器等价于树中的节点，根据题意可知，如果两个节点a,b和节点c满足以下条件，那么节点 a 和 b是通过c 可连接。
+
+```js
+const countPairsOfConnectableServers = function(edges, signalSpeed) {
+    const n = edges.length - 1;
+    const graph = Array.from({length: n}, () => [])；
+    for(const [u, v, w] of edges) {
+        graph[u].push([v, w]);
+        graph[v].push([u, w]);
+    }
+
+    const dfs = (p, root, curr) => {
+        let res = 0;
+        if(curr === 0) {
+            res++;
+        }
+        for(const [v, cost] of graph[p]) {
+            if(v !== root) {
+                res += dfs(v, p, (curr + cost) % signalSpeed)
+            }
+        }
+        return res;
+    }
+    const res = Array(n).fill(0);
+        for (let i = 0; i < n; i++) {
+        let pre = 0;
+        for (const [v, cost] of graph[i]) {
+            const cnt = dfs(v, i, cost % signalSpeed);
+            res[i] += pre * cnt;
+            pre += cnt;
+        }
+    }
+    return res;
+}
+```
+
 ## 资料
 [原文](https://juejin.cn/post/7146975493278367752#heading-3)

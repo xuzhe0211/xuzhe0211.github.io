@@ -316,6 +316,22 @@ export const findRecentPoint = (pointList, targetPoint) => {
 };
 
 ```
+## 其他
+```js
+// base64 转 blob
+function dataURItoBlob(dataURI) {
+    var binary = atob(dataURI.split(',')[1]);
+    var array = [];
+    for(var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+```
 
 ## 资料
+[window对象的函数btoa 和 atob](/front-end/JavaScript/basics-stream-btoa-atob.html#btoa)
+
 [Canvas实现图片绘制、缩放、移动和保存历史状态，纯干货](https://blog.csdn.net/weixin_42963591/article/details/104946737)
+
+[Base64转二进制文件流以及转File、图片转Base64、二进制流转Base64](https://blog.csdn.net/qq_39998026/article/details/129836241)
