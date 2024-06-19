@@ -152,3 +152,8 @@ blob:http://xxxxx<文件地址>
 window.URL.revokeObjectUrl(url);
 
 当文档关闭时，他们会自动被释放。如果你的网页要动态使用他们，你需要显式调用window.URL.revokeObjectURL()来释放他们。
+
+
+## fetch
+其实fetch也可以流上传 参考下面
+[前端流式传输播放音视频](front-end/JavaScript/video-stream.html)
