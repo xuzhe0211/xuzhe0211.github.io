@@ -88,6 +88,21 @@ trigger：触发被选元素指定的事件类型
 event.type：返回事件类型
 
 
+```html
+<div class="out" @click="out()">
+    <div class="in" @click="in()"></div>
+</div>
+ 
+// 穿透点击（点击in的区域触发out）
+.in {
+    pointer-events: none;
+}
+ 
+// 阻止穿透 （点击in的区域不会触发out）
+function in () {
+    event.stopPropagation();
+}
+```
 ## 资料
 [非常有用的pointer-events属性](https://www.runoob.com/cssref/css-units.html)
 
