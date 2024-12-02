@@ -438,6 +438,8 @@ componentDidMount () {
 
 ## **开发之前的详细设计评审(接口评审)**
 
+## element-plus 
+<span style="color: red">el-form有且仅有一个input会触发回车提交</span>
 
 
 [使用JS检测用户是否缩放了页面](https://www.zhangxinxu.com/wordpress/2021/02/js-if-page-zoom/)

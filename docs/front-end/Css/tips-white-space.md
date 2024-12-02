@@ -7,7 +7,7 @@ p {
     white-space: pre;
 }
 ```
-![文档](https://www.runoob.com/cssref/pr-text-white-space.html)
+[文档](https://www.runoob.com/cssref/pr-text-white-space.html)
 
 ## 示例
 规定段落中的文本不进行换行

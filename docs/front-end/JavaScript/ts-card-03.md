@@ -4,8 +4,8 @@ title: ts问题小总结
 ---
 ## 区别
 ### any和unkown的区别
-- <span style="color: blue">any表示任意类型，**可以被任何类型分配，也可以分配给任何类型**</span>
-- <span style="color: blue">unkwon表示位置类型，**可以被任何类型分配，不能分配给任何类型**</span>
+- <span style="color: blue">any表示任意类型，**可以被任何类型分配(赋值)，也可以分配给任何类型**</span>
+- <span style="color: blue">unkwon表示位置类型，**可以被任何类型分配(赋值)，不能分配给任何类型**</span>
 首先看any
 ```ts
 // 1. 把any类型分配给其他类型

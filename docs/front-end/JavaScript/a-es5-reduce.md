@@ -180,7 +180,7 @@ only(p, 'name age')   // {name: 'BuzzLy', age: 25,}
 ```js
 var only = function(obj, keys) {
   obj = obj || {}；
-  if('string' === typeof keys) keys = keys.split(/+/);
+  if('string' === typeof keys) keys = keys.split(/\+/);
   return keys.reduce(function(new0, key) {
     if (null == obj[key])  return new0
     new0[key] = obj[key];

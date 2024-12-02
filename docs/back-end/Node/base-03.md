@@ -147,7 +147,7 @@ setImmediate(() => {
 */
 ```
 
-通武廊## 走进案例分析
+## 走进案例分析
 ### 1. nextTick与setImmediate
 - process.nextTick 不属于事件循环的任何一个阶段，它属于该阶段和下阶段的过渡，即本阶段执行结束，进入下一个阶段前，所要执行的回调。有给人一种插队的感觉
 - setImmediate的回调处于check阶段，当poll阶段的队列为空，切换到check阶段执行

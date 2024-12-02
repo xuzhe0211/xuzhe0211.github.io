@@ -72,6 +72,8 @@ export default {
 
 
 ## 资料
+[中文官网](https://nuxt.com.cn/)
+
 [Nuxt.js学习指南](https://www.w3cschool.cn/nuxtjs/nuxtjs-8dmz36fy.html)
 
 [Nuxt.js使用教程](https://www.bookstack.cn/read/nuxtjs-2.11.x-zh/4049cd9fa6ada116.md)

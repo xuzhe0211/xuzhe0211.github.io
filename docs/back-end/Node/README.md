@@ -328,6 +328,56 @@ ps -ax | grep node
 
 kill 11191(进程id)
 ```
+
+## 查看 dockervolumes
+```shell
+# 列出所有 docker volumes
+docker volume ls 
+
+# 查看容器挂载的volumes
+docker inspect <container-id_or_name>
+
+# 示例
+"Mounts": [
+    {
+        "Type": "volume",
+        "Name": "my-volume",
+        "Source": "/var/lib/docker/volumes/my-volume/_data",
+        "Destination": "/app/data",
+        "Driver": "local",
+        "Mode": "",
+        "RW": true,
+        "Propagation": ""
+    }
+]
+```
+### 通过docker-compose查看volumes
+如果你的容器是通过 docker-compose 启动的，可以查看 docker-compose.yml文件中的 volumes配置项
+```shell
+volumes:
+  my-volume:
+    driver: local
+```
+### 实时查看容器挂载的volumes
+通过一下命令动态查看容器 volume 信息
+```shell
+docker container inspect <container_id_or_name> --format '{{ json .Mounts }}'
+
+# 输出
+[
+    {
+        "Type": "volume",
+        "Name": "my-volume",
+        "Source": "/var/lib/docker/volumes/my-volume/_data",
+        "Destination": "/app/data",
+        "Driver": "local",
+        "Mode": "",
+        "RW": true,
+        "Propagation": ""
+    }
+]
+```
+
 ## 参考资料
 
 + [Node.js](https://nodejs.org/dist/latest-v10.x/docs/api/)

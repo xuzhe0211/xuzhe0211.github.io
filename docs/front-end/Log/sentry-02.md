@@ -171,3 +171,6 @@ systemctl start docker
 [Sentry的应用接入与部署运维](http://events.jianshu.io/p/64a3b3283f0a)
 
 [Sentry实时应用错误跟踪系统在Kubernetes中私有化部署](https://blog.csdn.net/hack1015/article/details/105624707)
+
+
+[最近部署文档-2024](https://juejin.cn/post/7083340345215287332)

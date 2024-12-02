@@ -84,4 +84,46 @@ article,aside,footer,header,nav,section {
     -webkit-justify-content: space-between;
     justify-content: space-between
 }
+
+
+/* 滚动条整体样式隐藏 */
+::-webkit-scrollbar {
+    display: none;
+}
+// textarea单独存在
+.scroll-style::-webkit-scrollbar,
+.scroll-style::-webkit-scrollbar:hover,
+textarea::-webkit-scrollbar,
+textarea::-webkit-scrollbar:hover {
+    display: block;
+    width: 3px !important; /* 宽度 */
+    height: 3px !important; /* 高度 */
+    border-radius: 3px;
+    // background-color: rgba(144, 147, 153, 0.2);
+}
+
+/* 滚动条轨道 */
+.scroll-style::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track {
+    background: none; /* 轨道颜色 */
+}
+
+/* 滚动条滑块 */
+.scroll-style::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    font-weight: 800;
+    background: rgba(144, 147, 153, 0.2); /* 滑块颜色 */
+}
+
+/* 滚动条滑块在悬停时 */
+.scroll-style::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover {
+    background: rgba(144, 147, 153, 0.2); /* 悬停颜色 */
+}
+
+.scroll-style::-webkit-scrollbar-corner,
+textarea::-webkit-scrollbar-corner:hover {
+    background-color: rgba(144, 147, 153, 0.2);
+}
 ```

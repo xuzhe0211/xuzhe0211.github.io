@@ -17,8 +17,8 @@ module.exports = [
 			{ text: '前端面试题', link: '/front-end/Interview/' },
 			{ text: '可视化', link: '/front-end/Visual/' },
 			{ text: '前端安全', link: '/front-end/Security/' },
-			{ text: '前端性能监控', link: '/front-end/Log/' },
-		],
+			{ text: '前端性能监控', link: '/front-end/Log/' }
+		]
 	},
 	{
 		text: '后端',
@@ -28,25 +28,26 @@ module.exports = [
 			{ text: 'Docker', link: '/back-end/Docker/' },
 			{ text: 'Nginx', link: '/back-end/Nginx/' },
 			{ text: 'Mysql', link: '/back-end/Mysql/' },
-			{ text: 'shell', link: '/back-end/Shell/' },
-		],
+			{ text: 'shell', link: '/back-end/Shell/' }
+		]
 	},
 	{
 		text: '开发工具',
 		ariaLabel: 'tools End Menu',
 		items: [
+			{ text: 'Ai', link: '/tools/Ai/' },
 			{ text: 'Git', link: '/tools/Git/' },
 			{ text: 'VScode', link: '/tools/VScode/' },
 			{ text: 'Chrome', link: '/tools/Chrome/' },
-			{ text: '工具', link: '/tools/Other/' },
-		],
+			{ text: '工具', link: '/tools/Other/' }
+		]
 	},
 	{
 		text: '随记',
 		ariaLabel: 'wander End Menu',
 		items: [
 			{ text: '工作', link: '/wander/Work/' },
-			{ text: '生活', link: '/wander/Life/' },
-		],
-	},
-]
+			{ text: '生活', link: '/wander/Life/' }
+		]
+	}
+];

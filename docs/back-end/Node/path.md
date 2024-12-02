@@ -462,3 +462,44 @@ describe("sep should return the platform-specific path segment separator", () =>
   });
 });
 ```
+## path.join()及path.resolve()区别
+path.join只是简单将路径片段进行拼接，并规范化生成一个路径，而path.resolve则一定会生成一个绝对路径，相当于执行cd操作，与cd操作不同的是，这些路径可以是文件，并且可不必实际存在
+
+平台特定的分隔符”：
+- windows下文件路径分隔符使用的是"\"
+- Linux下文件路径分隔符使用的是"/"
+
+**相同点**
+- 都是对路径进行拼接
+- 注意：如果路径中出现『..』或者『../』，那么它前面的路径片段将被丢失
+
+**不同点**
+- <span style="color: red">join是把各个path片段连接在一起，resolve把'/'当成更目录</span>
+
+  ```js
+  path.join('/a', '/a'); // /a/b
+  path.join('/foo', 'bar', 'baz/asdf', 'quux', '..'); // '/foo/bar/baz/asdf'
+  path.resolve('/a', '/b'); // C:/b
+  ```
+- resolve 在传入非"/"路径时,会自动加上当前目录形成一个绝对路径，而join仅仅用于路径拼接
+
+  ```js
+  // 当前路径为C:/user
+  path.join('a', 'b', '..', 'd'); // /a/d
+
+  path.resolve('a', 'b', '..', 'd'); // C:/Users/a/d
+
+  path.resolve('/foo/bar', './baz'); // C:/foo/bar/baz
+
+  path.resolve('/foo', '/bar', 'baz') // C:/bar/baz
+ 
+  path.resolve('/foo/bar', '/tmp/file/') // 'C:/tmp/file'
+  
+  path.resolve('d:/b/c','/a.js') // 'd:/a.js' 更改了盘符
+  ```
+- 对于长度为零的path片段：join会返回'.',表示当前工作目录;resolve会返回房钱工作目录的绝对路径
+
+  ```js
+  path.join(); // '.'
+  path.resolve(); // C:/user
+  ```

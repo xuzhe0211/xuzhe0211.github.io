@@ -225,6 +225,14 @@ git commit -m 'fix: 修复 xxx 功能'
 [validate-commit-msg](https://www.npmjs.com/package/validate-commit-msg)
 
 
+## 问题
+有时候husk不好使，需要解决脚本权限问题
+```shell
+chmod +x .husky/pre-commit
+```
+
+
+
 ## 资料
 [husky使用总结](https://zhuanlan.zhihu.com/p/366786798)
 

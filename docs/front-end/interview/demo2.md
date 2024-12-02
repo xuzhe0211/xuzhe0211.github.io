@@ -7,7 +7,7 @@ title: vuex在vuex外修改会warning
 
 相信很多人遇到: vuex数据更新后，插件中使用数据的地方没有更新
 
-```
+```js
 data() {
     return {
         tableData: this.$store.state.AdminInfo
@@ -15,7 +15,7 @@ data() {
 }
 ```
 然后在template中使用tableData
-```
+```html
 <el-table :data="tableData" class="tablePst">
  <el-table-column label="登录名" prop="loginname"></el-table-column>
  <el-table-column label="真实姓名" prop="realname"></el-table-column>
@@ -28,7 +28,7 @@ data() {
 
 **解决**
 1. 去掉组建中tableData的状态，在模板中直接使用$store.state.AdminInfo这样就能拿到最新的状态值了
-```
+```html
 <el-table :data="$store.state.AdminInfo" class="tablePst">
  <el-table-column label="登录名" prop="loginname"></el-table-column>
  <el-table-column label="真实姓名" prop="realname"></el-table-column>

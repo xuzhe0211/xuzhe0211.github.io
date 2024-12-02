@@ -124,10 +124,11 @@ async function test() {
 还有一个更硬核点的，也是axios源码里所用到的，利用promise本身的链式调用来实现串行
 ```js
 let promise = Promise.resolve();
-function test(i = 0) {
-    if(i === list.length) return;
-    promise = promise.then(() =>  square(list[i]));
-    test(i + 1);
+async function test(i = 0) {
+	if (i === list.length) return;
+	res = await promise.then(() => square(list[i]));
+	console.log(res);
+	test(i + 1);
 }
 test();
 ```
@@ -176,6 +177,7 @@ multiRequest([p1, p2, p3, p4], 4).then(()=>{
   console.log('finish')
 })
 ```
+[假如有几十个请求，如何去控制并发？](/front-end/JavaScript/es6-request-concurrence.html)
 ## Promise并行限制1
 ```js
 const timeout = (time) => new Promise(resolve => {

@@ -1,13 +1,16 @@
 ---
 title: VSCode支持.vue文件自动保存的格式设置
 ---
+
 ## 实现步骤- 1. 安装如下插件
-1. ESLint: eslint编码规范
-2. Vetur: vue格式化代码
-2. Chinese (Simplified) Language Pack for Visual Studio Code： 中文包
+
+1. ESLint: eslint 编码规范
+2. Vetur: vue 格式化代码
+3. Chinese (Simplified) Language Pack for Visual Studio Code： 中文包
 
 ## 实现步骤- 2. 打开配置文件
-MacOS使用 Command + Shift + P, window 使用 Ctrl + Shift + P快捷键-->搜索“Configure Language Specific Settings”--->选择“Vue”--->打开配置文件--->将如下代码复制粘贴到配置文件中。
+
+MacOS 使用 Command + Shift + P, window 使用 Ctrl + Shift + P 快捷键-->搜索“Configure Language Specific Settings”--->选择“Vue”--->打开配置文件--->将如下代码复制粘贴到配置文件中。
 
 ```js
 {
@@ -26,7 +29,7 @@ MacOS使用 Command + Shift + P, window 使用 Ctrl + Shift + P快捷键-->搜�
     // 启用eslint
     /*
       该代码为旧版本，已废弃。采用下面的新版本
-      "eslint.enable": true, 
+      "eslint.enable": true,
       "eslint.validate": [
         "javascript",
         "javascriptreact",
@@ -60,7 +63,7 @@ MacOS使用 Command + Shift + P, window 使用 Ctrl + Shift + P快捷键-->搜�
     该版本为旧版本，已经废弃。采用下面的代码
      "eslint.autoFixOnSave": true,
     特别重要
-    */ 
+    */
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
@@ -92,12 +95,53 @@ MacOS使用 Command + Shift + P, window 使用 Ctrl + Shift + P快捷键-->搜�
     该版本为旧版本，已经废弃。采用下面的代码
      "eslint.autoFixOnSave": true,
     特别重要
-    */ 
+    */
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
 ```
 
+## 解决：.prettierrc 配置完后，自动保存并没有格式化代码
+
+[解决：.prettierrc 配置完后，自动保存并没有格式化代码](https://blog.csdn.net/Curry_On/article/details/131753002)
+
+如果你也碰到了同样的问题，请先确保
+
+1. .prettierrc 文件已正确配置，例如我的
+
+  ```js
+  {
+    "semi": false,
+    "singleQuote": true,
+    "arrowParens": "always",
+    "trailingComma": "all"
+  }
+  ```
+
+2. vscode 已经正确配置 formatOnSave,如图
+
+  ![formatOnSave](./images/b4a1a91d9fcf51231bd8d5a10c69acf4.png)
+
+  在确保了上面两点正确配置后，这个时候文件保存的时候并没有代码格式化，仅仅只是报红，像下面这样：
+
+  ![标红](./images/93c8fa3e389c77aad0d3fdc4cec6cfc6.png)
+
+那么可以试下我的解决方法，很简单：鼠标右键，选择
+
+![右键](./images/700a5bc18fc0506a8c0bee4b31c011f9.png)
+
+然后选择 configure default formatter…
+
+![configure default formatte](./images/b9eae76965ecf51053ab98291aa86a6a.png)
+
+然后选择 prettier 即可。
+
+![prettier](./images/7151903cb8e4743f66dc847074fdb034.png)
+
+这个时候再 ctrl s 保存后，代码就已经按照配置的要求进行格式化了：双引号变成了单引号，分号去掉了。
+
+![ctrl + s](./images/1acb3bdcebb3d22db67df6e0fe49b59a.png)
 
 ## 资料
-[VSCode支持.vue文件自动保存的格式设置](https://juejin.cn/post/6988360578850881549)
+
+[VSCode 支持.vue 文件自动保存的格式设置](https://juejin.cn/post/6988360578850881549)

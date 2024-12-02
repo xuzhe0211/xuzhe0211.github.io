@@ -80,7 +80,7 @@ React在v16.8的版本中推出了React Hooks新特性。在我看来，使用Re
     ```
 2. 清除操作
 
-    <span style="color: red">为防止内存泄露，清除函数会在组件卸载前执行；如果组件多次渲染(通常如此),则在执行下一个effect之前，上一个effect就已被清楚，即先执行上一个effect中return的函数，然后在执行笨effect中非return的函数</span>
+    <span style="color: red">为防止内存泄露，清除函数会在组件卸载前执行；如果组件多次渲染(通常如此),则在执行下一个effect之前，上一个effect就已被清除，即先执行上一个effect中return的函数，然后在执行本effect中非return的函数</span>
     ```js
     useEffect(() => {
         const subscription = props.source.subscribe();

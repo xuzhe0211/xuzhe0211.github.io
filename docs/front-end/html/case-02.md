@@ -2,7 +2,7 @@
 autoGroup-1: HTML知识卡片
 title: img的alt和title区别
 ---
-<span style="color: blue">**alt是html标签的属性，而title即是html标签，有啥html属性**</span>
+<span style="color: blue">**alt是html标签的属性，而title即是html标签，又是html属性**</span>
 
 在图像标签img中，除了常用的宽度width和高度height属性之外，还有两个比较重要的并且也会用到的属性，就是alt和title，这都是用来显示图片的具体信息的，但是这两个属性也有不同的地方。
 
