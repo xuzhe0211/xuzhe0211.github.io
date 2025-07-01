@@ -120,3 +120,5 @@ export const handQueue = reqs => {
 
 ## 原文
 [原文](https://juejin.cn/post/7356534347509645375)
+
+[实现一个批量请求函数](/front-end/interview/coding2.html#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%89%B9%E9%87%8F%E8%AF%B7%E6%B1%82%E5%87%BD%E6%95%B0-multirequest-urls-maxnum)

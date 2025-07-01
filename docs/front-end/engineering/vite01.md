@@ -69,9 +69,9 @@ Vite的快，主要体现在两个方面：<span style="color: red">**快速的�
     这样，通过 unbundle 机制， Vite 便可以在 dev server 启动方面获取远超于 Webpack 的优秀体验。
 
     最后再总结一下， unbundle 机制的核心:
-    - 模块之前的依赖关系的解析由浏览器实现
-    - 文件的转换由dev server的middlewares实现并做缓存
-    - 不对源文件做合并捆绑操作
+    - **模块之前的依赖关系的解析由浏览器实现**
+    - **文件的转换由dev server的middlewares实现并做缓存**
+    - **不对源文件做合并捆绑操作**
 
 ### 快速的热更新
 除了dev server启动外，Vite在热更新方面也有非常优秀的表现

@@ -283,8 +283,106 @@ location / {
     add_header Content-Security-Policy "default-src 'self';"
 }
 ```
+## docker compose 动态设置端口
+如果使用 docker Compose,可以结合bash脚本和环境变量来实现动态端口分配
+
+示例 docker-compose.yml
+```shell
+version: '3.8'
+services: 
+    my_service:
+        image: my_image
+        ports: 
+            - "${SERVICE_PORT}:80"
+```
+脚本启动
+```shell
+#!/bin/bash
+
+# 基础端口号
+BASE_PORT=8000
+
+# 最大尝试端口数
+MAX_PORT=8100
+
+# 查找可用端口
+find_available_port() {
+  PORT=$BASE_PORT
+  while [ $PORT -lt $MAX_PORT ]; do
+    if ! lsof -i:$PORT > /dev/null; then
+      echo $PORT
+      return
+    fi
+    PORT=$((PORT + 1))
+  done
+  echo "No available port found!" >&2
+  exit 1
+}
+
+# 获取可用端口
+AVAILABLE_PORT=$(find_available_port)
+
+# 设置环境变量并启动 Docker Compose
+export SERVICE_PORT=$AVAILABLE_PORT
+echo "Starting service on port $SERVICE_PORT"
+docker-compose up -d
+```
+**说明**
+1. docker-compose.yml 文件中使用 ${SERVICE_PORT}占位符，通过环境变量动态设置端口
+2. 脚本运行时找到可用端口后，通过 export 将端口注入环境变量。
+
+## Docker容器内自适应端口
+在某些场景中，你可以在容器内部运动服务时，允许服务动态绑定到一个随机端口。然后通过Docker 的 -p 参数随机映射到主机的可用端口
+
+启动命令
+```shell
+docker run -d -P --name my_container my_image
+```
+查看分配的端口
+
+使用一下命令查看随机映射的端口
+```shell
+docker port my_container
+```
+这种方式适合测试环境，但在生成环境中通常需要明确指定端口号
+
+## 让随机端口对外暴露为80
+如果你需要对外固定暴露 80 端口，但容器内部扔随机分配，则需要宿主机的Nginx 或 iptables来实现端口转发
+
+### 使用nginx反向代理
+- 安装nginx
+
+    ```shell
+    sudo apt update & sudo apt install nginx -y
+    ```
+- 配置nginx反向代理
+
+    ```shell
+    # /etc/nginx/sites-available/default
+
+    server {
+        listen 80;
+        server_name _;
+
+        location / {
+            proxy_pass http://127.0.0.1:<RANDOM_PORT>;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+    ```
+- 重启nginx 
+
+    ```shell
+    sudo systemctl restart nginx
+    ```
 
 
+## demo
+```shell
+docker run --name mynginx -p 8080:80 -v /Users/xuzhe/Desktop/website/public/docker/nginx/conf.d/:/etc/nginx/conf.d/ -v /Users/xuzhe/Desktop/website/public/docker/nginx/www/:/var/www/html/ -d nginx
+```
 ## 资料
 [给前端的 nginx 配置指南](https://mp.weixin.qq.com/s/4QYwZCHOOJ-9yiz5Qvo9jw)
 

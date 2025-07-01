@@ -457,5 +457,21 @@ font-size: 16px;
 @vw: 2 / 15vw;
 
 // 使用
-750 * @vw
+750 * @vw = 50vw
+```
+
+## less中如何将px转换为vw
+```less
+/* 如果宽度为375px的UI设计搞 转换成使用单位vw来适配移动端的网页 */
+.pxToVW (@px, @attr: width) {
+    @vw: (@px / 375) * 100;
+    @{attr}: ~"@{vw}vw";
+}
+
+.box {
+    .pxToVW(75);
+    .pxToVW(150, height);
+}
+
+
 ```

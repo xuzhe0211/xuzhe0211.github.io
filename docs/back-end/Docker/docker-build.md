@@ -53,7 +53,8 @@ console.log('hello docker');
 docker run --rm -v c:/test/docker/node:/data node:v1 node /data/index.js
 ```
 
-### 6。docker-compose重启
+### docker-compose重启
+<span style="color: red;font-weight:bold">注意：docker-compose.yml文件的路径必须是项目的根目录& docker-compose build这一步骤</span>
 ```
 docker-compose down
 docker-compose build

@@ -209,6 +209,225 @@ export default new Manager({});
 ```
 这样的模式已经可以让项目的代码变得健壮，看起来已经不错了，但是能不能更好呢？
 
+**<span style="color: red;font-weight: bold;">demo</span>**
+```js
+// 命令基类
+class Command {
+	execute() {
+		throw new Error('execute method must be implemented');
+	}
+
+	undo() {
+		throw new Error('undo method must be implemented');
+	}
+}
+
+// 命令历史管理器
+class CommandHistory {
+	constructor() {
+		// 存储命令的数组
+		this.history = [];
+		// 当前命令索引
+		this.currentIndex = -1;
+	}
+
+	// 执行新命令
+	execute(command) {
+		// 如果在历史记录中间执行了新命令，需要清除后面的记录
+		if (this.currentIndex < this.history.length - 1) {
+			this.history = this.history.slice(0, this.currentIndex + 1);
+		}
+
+		// 执行命令
+		command.execute();
+		// 添加到历史记录
+		this.history.push(command);
+		this.currentIndex++;
+	}
+
+	// 撤销操作
+	undo() {
+		if (this.canUndo()) {
+			const command = this.history[this.currentIndex];
+			command.undo();
+			this.currentIndex--;
+			return true;
+		}
+		return false;
+	}
+
+	// 重做操作
+	redo() {
+		if (this.canRedo()) {
+			this.currentIndex++;
+			const command = this.history[this.currentIndex];
+			command.execute();
+			return true;
+		}
+		return false;
+	}
+
+	// 检查是否可以撤销
+	canUndo() {
+		return this.currentIndex >= 0;
+	}
+
+	// 检查是否可以重做
+	canRedo() {
+		return this.currentIndex < this.history.length - 1;
+	}
+
+	// 清空历史记录
+	clear() {
+		this.history = [];
+		this.currentIndex = -1;
+	}
+}
+
+// 文本编辑器类
+class TextEditor {
+	constructor() {
+		this.content = '';
+	}
+
+	setText(text) {
+		this.content = text;
+	}
+
+	getText() {
+		return this.content;
+	}
+}
+
+// 插入文本命令
+class InsertTextCommand extends Command {
+	constructor(editor, text, position) {
+		super();
+		this.editor = editor;
+		this.text = text;
+		this.position = position;
+		this.oldContent = editor.getText();
+	}
+
+	execute() {
+		const content = this.editor.getText();
+		const newContent =
+			content.slice(0, this.position) +
+			this.text +
+			content.slice(this.position);
+		this.editor.setText(newContent);
+	}
+
+	undo() {
+		this.editor.setText(this.oldContent);
+	}
+}
+
+// 删除文本命令
+class DeleteTextCommand extends Command {
+	constructor(editor, start, end) {
+		super();
+		this.editor = editor;
+		this.start = start;
+		this.end = end;
+		this.oldContent = editor.getText();
+	}
+
+	execute() {
+		const content = this.editor.getText();
+		const newContent =
+			content.slice(0, this.start) + content.slice(this.end);
+		this.editor.setText(newContent);
+	}
+
+	undo() {
+		this.editor.setText(this.oldContent);
+	}
+}
+
+// 替换文本命令
+class ReplaceTextCommand extends Command {
+	constructor(editor, start, end, newText) {
+		super();
+		this.editor = editor;
+		this.start = start;
+		this.end = end;
+		this.newText = newText;
+		this.oldContent = editor.getText();
+	}
+
+	execute() {
+		const content = this.editor.getText();
+		const newContent =
+			content.slice(0, this.start) +
+			this.newText +
+			content.slice(this.end);
+		this.editor.setText(newContent);
+	}
+
+	undo() {
+		this.editor.setText(this.oldContent);
+	}
+}
+
+// 键盘快捷键处理
+function setupKeyboardShortcuts(commandHistory) {
+	document.addEventListener('keydown', (e) => {
+		// Ctrl/Cmd + Z: 撤销
+		if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+			e.preventDefault();
+			commandHistory.undo();
+		}
+
+		// Ctrl/Cmd + Shift + Z: 重做
+		if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) {
+			e.preventDefault();
+			commandHistory.redo();
+		}
+	});
+}
+
+// 使用示例
+const editor = new TextEditor();
+const commandHistory = new CommandHistory();
+
+// 设置键盘快捷键
+setupKeyboardShortcuts(commandHistory);
+
+// 示例用法
+function insertText(text, position) {
+	const command = new InsertTextCommand(editor, text, position);
+	commandHistory.execute(command);
+}
+
+function deleteText(start, end) {
+	const command = new DeleteTextCommand(editor, start, end);
+	commandHistory.execute(command);
+}
+
+function replaceText(start, end, newText) {
+	const command = new ReplaceTextCommand(editor, start, end, newText);
+	commandHistory.execute(command);
+}
+
+// 使用示例
+insertText('Hello', 0); // 插入 "Hello"
+insertText(' World', 5); // 插入 " World"
+console.log(editor.getText()); // "Hello World"
+
+commandHistory.undo(); // 撤销插入 " World"
+console.log(editor.getText()); // "Hello"
+
+commandHistory.redo(); // 重做插入 " World"
+console.log(editor.getText()); // "Hello World"
+
+deleteText(5, 11); // 删除 " World"
+console.log(editor.getText()); // "Hello"
+
+replaceText(0, 5, 'Hi'); // 替换 "Hello" 为 "Hi"
+console.log(editor.getText()); // "Hi"
+```
+
 ## 模式进阶：数据快照式
 命令模式要求开着针对每一个操作都要额外开发一个撤销函数，这无疑是麻烦的。接下来我们要介绍数据快照就是改进这个缺点
 
@@ -393,7 +612,132 @@ store.setState = (...args) => {
     return state.timeline[state.current]
 }
 ```
+**js demo**
+```js
+class SnapshotHistory {
+	constructor() {
+		// 存储所有状态快照的数组
+		this.snapshots = [];
+		// 当前状态的索引
+		this.currentIndex = -1;
+		// 初始状态
+		this.currentState = null;
+	}
 
+	// 保存当前状态的快照
+	takeSnapshot(state) {
+		// 如果当前索引不在最后，说明之前有撤销操作
+		// 需要删除当前索引之后的所有快照
+		if (this.currentIndex < this.snapshots.length - 1) {
+			this.snapshots = this.snapshots.slice(0, this.currentIndex + 1);
+		}
+
+		// 创建状态的深拷贝并保存
+		this.snapshots.push(JSON.parse(JSON.stringify(state)));
+		this.currentIndex++;
+		this.currentState = state;
+	}
+
+	// 撤销操作
+	undo() {
+		if (this.currentIndex > 0) {
+			this.currentIndex--;
+			// 返回上一个状态的深拷贝
+			this.currentState = JSON.parse(
+				JSON.stringify(this.snapshots[this.currentIndex])
+			);
+			return this.currentState;
+		}
+		return null;
+	}
+
+	// 重做操作
+	redo() {
+		if (this.currentIndex < this.snapshots.length - 1) {
+			this.currentIndex++;
+			// 返回下一个状态的深拷贝
+			this.currentState = JSON.parse(
+				JSON.stringify(this.snapshots[this.currentIndex])
+			);
+			return this.currentState;
+		}
+		return null;
+	}
+
+	// 获取当前状态
+	getCurrentState() {
+		return this.currentState;
+	}
+
+	// 检查是否可以撤销
+	canUndo() {
+		return this.currentIndex > 0;
+	}
+
+	// 检查是否可以重做
+	canRedo() {
+		return this.currentIndex < this.snapshots.length - 1;
+	}
+
+	// 清空历史记录
+	clear() {
+		this.snapshots = [];
+		this.currentIndex = -1;
+		this.currentState = null;
+	}
+}
+
+// 使用示例
+const history = new SnapshotHistory();
+
+// 模拟一个简单的文档编辑器状态
+let editorState = {
+	text: '',
+	selection: { start: 0, end: 0 }
+};
+
+// 示例用法
+function updateText(newText) {
+	editorState = {
+		...editorState,
+		text: newText
+	};
+	history.takeSnapshot(editorState);
+}
+
+// 添加键盘快捷键支持
+// document.addEventListener('keydown', (e) => {
+// 	// Ctrl/Cmd + Z: 撤销
+// 	if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+// 		e.preventDefault();
+// 		const previousState = history.undo();
+// 		if (previousState) {
+// 			editorState = previousState;
+// 			// 这里可以更新UI
+// 		}
+// 	}
+
+// 	// Ctrl/Cmd + Shift + Z: 重做
+// 	if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) {
+// 		e.preventDefault();
+// 		const nextState = history.redo();
+// 		if (nextState) {
+// 			editorState = nextState;
+// 			// 这里可以更新UI
+// 		}
+// 	}
+// });
+
+// 使用示例
+updateText('Hello'); // 第一次输入
+updateText('Hello World'); // 第二次输入
+updateText('Hello World!'); // 第三次输入
+
+console.log(history.getCurrentState()); // 显示当前状态
+console.log(history.undo()); // 撤销到 "Hello World"
+console.log(history.undo()); // 撤销到 "Hello"
+console.log(history.redo()); // 重做到 "Hello World"
+```
 
 ## 资料
 [Web 应用的撤销重做实现](https://juejin.cn/post/6844903921878564872#heading-13)

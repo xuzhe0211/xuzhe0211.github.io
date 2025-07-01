@@ -1,3 +1,13 @@
 {
-	"vue.features.codeActions.enable": false
+	"vue.features.codeActions.enable": false,
+	"marscode.chatLanguage": "auto",
+	"marscode.codeCompletionPro": {
+		"enableCodeCompletionPro": true
+	},
+	"marscode.enableInlineCommand": true,
+	"marscode.enableCodelens": {
+		"enableInlineDocumentation": true,
+		"enableInlineUnitTest": true,
+		"enableInlineExplain": true
+	}
 }

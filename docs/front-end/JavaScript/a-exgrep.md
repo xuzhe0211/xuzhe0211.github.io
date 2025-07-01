@@ -2,6 +2,13 @@
 autoGroup-0: 正则
 title: JavaScript正则表达式精简
 ---
+:::tip
+非捕获正则(?:regex)
+```js
+/(?:.)(doc)/.exec('xx.doc');
+console.log(RegExp.$1);
+```
+:::
 
 ECMAScript3 开始支持正则表达式，其语法和Perl语法类似，一个完整的正则表达式如下
 ```js
@@ -200,6 +207,8 @@ function getUrlParamObj() {
 ```
 
 ### 在字符串指定位置插入新字符串
+<span style="color: red;font-weight:bold">重点</span>
+
 ```js
 String.prototype.insetAt = function(str, offset) {
     offset = offset + 1;

@@ -66,7 +66,7 @@ console.log('%c This is a styled message', 'color: red;font-size:20px');
 
 自定义样式的视线，其实主要靠%c占位符添加CSS样式实现的
 
-### 实现没话的信息打印
+### 实现美化的信息打印
 #### 基础信息打印
 我们创建一个prettyLog方法，用于逻辑编写
 

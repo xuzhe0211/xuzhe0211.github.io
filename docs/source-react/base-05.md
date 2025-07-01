@@ -13,7 +13,7 @@ title: 如何使用流式渲染技术提升用户体验
 ![流式渲染](./images/af90ef3e127d496db6d6b25c38b9f38b~tplv-k3u1fbpfcp-jj-mark_3024_0_0_0_q75.gif)
 
 ## Node.js实现简单流式渲染
-:::tips
+:::tip
 HTTP是Node.js中一等公民，其设计时考虑到了流式传输和低延迟。这使得Node.js非常适合作为Web库或框架的基础---Node官网
 :::
 Node.js在设计之初就考虑到了流式传输数据，考虑如下代码：

@@ -596,5 +596,5 @@ setPrototypeOf 方法设置一个指定的对象的原型 ( 即, 内部[[Prototy
 
 将一些关联性较强的构造方法迁移出：
 
-+ [冻结方法](/frontend/javascript/object-constructor-methods-freeze)；
-+ [属性方法](/frontend/javascript/object-constructor-methods-property)。
++ [冻结方法](/front-end/JavaScript/object-constructor-methods-freeze.html#object-freeze)；
++ [属性方法](/front-end/JavaScript/object-constructor-methods-property.html)。

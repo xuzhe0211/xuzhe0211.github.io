@@ -256,7 +256,7 @@ setTimeout(() => console.log(t.s2), 3100); // 0
     }
     console.log(fn1.foo()) // 1
     console.log(fn2.foo()) // 1
-    console.log(fn3.foo()) // 1
+    console.log(fn3.foo()) // ''
     ```
 [参考](/front-end/interview/demo4.html#第九题1)
 ## 块作用域和私有变量

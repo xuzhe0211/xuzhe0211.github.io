@@ -202,7 +202,7 @@ async function test() {
 
 [mdn地址](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage)
 
-window.postMessage()方法可以安全的实现跨源通信。通常，对于两个不同页面的脚本，只有当执行他们的页面位于具有相同的协议(https)，端口号(443为)以及主机(两个页面的模数Document.domain设置为相同值)时，这两个脚本才能通信。window.postMessage()方法提供了一种受控机制来规避此限制，只要很正确使用，这种方法就很安全
+<span style="color: red">window.postMessage()方法可以安全的实现跨源通信。通常，对于两个不同页面的脚本，只有当执行他们的页面位于具有相同的协议(https)，端口号(443为)以及主机(两个页面的模数Document.domain设置为相同值)时，**这两个脚本才能通信。window.postMessage()方法提供了一种受控机制来规避此限制，只要很正确使用，这种方法就很安全**</span>
 
 从广义上讲，一个窗口可以获得对另一个窗口的引用(比如targetWindow = window.openner),然后在窗口上调用targetWindow.postMessage()方法分发一个Message消息。接收消息的窗口可以根据需要自由处理此事件。传递给window.postMessage()的参数(比如message)将通过消息事件对象暴露给接收消息的窗口。
 
@@ -221,7 +221,7 @@ otherWindos.postMessage(message, targetOrigin, [transfer]);
 
 **targetOrigin**
 
-通过窗口的origin属性来指定那些窗口能接收到消息事件，其值可以是字符串"*" (表示无限制)或一个URI。在发送消息的时候，如果目标窗口的协议、主机地址或端口这三者的任意一项不匹配targetOrigin提供的值，那么消息就不会发送；只有三者匹配，消息才会被发送。这个机制用来控制消息可以发送到哪些窗口；例如：当用postMessage传送密码时，这个参数就显得尤为重要，必须保证它的值与这条包含密码的信息的预期接受者的origin属性完全一致，来防止密码被恶意的地方法截获。如果你明确的知道消息应该发送到哪个窗口，那么请始终提供一个有明确值的targetOrigin，而不是"*"。不提供确切的目标将导致数据泄露到任何对数据感兴趣的恶意站点
+<span style="color: blue;font-weight: bold;">通过窗口的origin属性来指定那些窗口能接收到消息事件，其值可以是字符串* (表示无限制)或一个URI</span>。在发送消息的时候，如果目标窗口的协议、主机地址或端口这三者的任意一项不匹配targetOrigin提供的值，那么消息就不会发送；只有三者匹配，消息才会被发送。这个机制用来控制消息可以发送到哪些窗口；例如：当用postMessage传送密码时，这个参数就显得尤为重要，必须保证它的值与这条包含密码的信息的预期接受者的origin属性完全一致，来防止密码被恶意的地方法截获。如果你明确的知道消息应该发送到哪个窗口，那么请始终提供一个有明确值的targetOrigin，而不是"*"。不提供确切的目标将导致数据泄露到任何对数据感兴趣的恶意站点
 
 **transfer**
 
@@ -268,7 +268,7 @@ message的属性有
 
 ```js
 win.postMessage(data, origin);
-//win这个参数需要接受消息的window对象
+//win这个参数需要接受消息的window对象---重点
 //当我们通过window.open()打开一个新窗口时，会返回一个新窗口的window对象，通过这个新窗口的window对象，就可以向新窗口发送消息
 //如果页面中有frame时，也可以通过这个frame对象发送消息
 

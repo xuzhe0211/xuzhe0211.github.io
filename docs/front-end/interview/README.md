@@ -26,6 +26,9 @@ netlify 部署
 [面试秘籍](https://juejin.cn/post/7074055897349095454#heading-8)
 
 [基础很好？22个高频JavaScript手写代码了解一下](https://juejin.cn/post/6996289669851774984#heading-15)
+
+[冴羽的博客](https://github.com/mqyqingfeng/Blog?tab=readme-ov-file)
+
 ### 开发模式、算法、并发限制
 ## 柯里化函数 add(1)(2)(3)
 ```js
@@ -529,6 +532,104 @@ Promise.resolve().then(() => {
 5
 6
 ```
+## 抢红包
+要求：
+
+1. 每人获得金额之和为总金额
+2. 每人至少0.01元
+3. 每人获得金额概率上是公平的
+4. 保留两位小数
+
+逐条分析：
+
+对于1，最后一个人获得的金额就是红包总金额-已抢金额
+
+对于2，我们可以先给每人分配0.01元，即红包金额变为红包总金额-人数*0.01
+
+对于3，是本题核心，我们可以采用二倍均值法 或 线段切割法
+
+对于4，用toFixed(2)
+
+同时本题还涉及到浮点数运算不精确有误差的问题
+
+### 二倍均值法
+假设有10个人，红包总额100元。
+
+100/10X2 = 20, 所以第一个人的随机范围是(0，20 )，平均可以抢到10元。
+
+假设第一个人随机到10元，那么剩余金额是100-10 = 90 元。
+
+90/9X2 = 20, 所以第二个人的随机范围同样是(0，20 )，平均可以抢到10元。
+
+假设第二个人随机到10元，那么剩余金额是90-10 = 80 元。
+
+80/8X2 = 20, 所以第三个人的随机范围同样是(0，20 )，平均可以抢到10元。
+
+以此类推，每一次随机范围的均值是相等的。
+
+但这个解法的问题是，任意一次抢到的金额都低于人均的二倍，不是任意的随机
+
+---
+还是上面的例子，而线段切割法可以理解为：在一条 首值为0，尾值为 100-10* 0.01 的线段上随机(概率分布的是平均的，所以公平)选择 10-1个切割点，将这条线段分为10段，前九个人依次拿走前九段的值，由于我们要保证每个人获得金额之和为100，所以最后一个人不能取最后一段(第十段)的值而是另外处理(100 - 已抢金额)
+
+最终的线段切割方案如下
+```js
+// 线段切割法
+function getRandomMoney(total, num) {
+    if (num == 1) return total;
+    //先给每人分配0.01元
+    let max = 100 * total - num * 1; //去除“保底”后的金额
+    let randomArr = [0];
+    let accum = 0; //已抢金额
+    while (randomArr.length < num + 1) {
+        let random = Math.round(Math.random() * max);
+        //不能有重复的“切割点”
+        if (randomArr.indexOf(random) == -1) {
+            randomArr.push(random);
+        }
+    }
+    randomArr.sort((a, b) => a - b);
+    let result = [];
+    for (let j = 1; j < num; j++) {
+        let money = randomArr[j] - randomArr[j - 1];
+        accum += money;
+        let final_money = ((money + 1) * 0.01).toFixed(2);
+        result.push(Number(final_money));
+    }
+    //最后一个人另外处理
+    result.push(Number(((max - accum + 1) * 0.01).toFixed(2)));
+    return result;
+}
+
+let total = 100;
+let num = 10;
+let result = getRandomMoney(total, num);
+console.log(result);
+```
+这里有的坑
+1. toFixed返回字符串，要用number转化一下
+2. 要把小数运算话为整数运算避免浮点数运算精度问题，这是个这题最易出错的点
+
+### 另一种
+这里可以参考另一种写法，这种 红包剩余金额 * random() 的写法的问题就是越后面的人抢到的金额越少
+```js
+function getRandomMoney_NotFair(total, n) {
+    let leftMoney = total * 100;
+    let leftNum = n;
+    let tmpMoney = 0;
+    let res = [];
+    while (leftNum-- > 1) {
+        tmpMoney = Math.round(
+            Math.random() * (leftMoney - leftNum * 100 - 100) + 100
+        );
+        leftMoney -= tmpMoney;
+        res.push(Number((tmpMoney * 0.01).toFixed(2)));
+    }
+    res.push(Number((leftMoney * 0.01).toFixed(2)));
+    return res;
+}
+```
+
 
 ## 文档
 [前端大全](https://mp.weixin.qq.com/s/VyBjZzrFK25B7DpLXPduhQ)

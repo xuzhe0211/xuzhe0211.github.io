@@ -50,3 +50,168 @@ Less和Sass在语法上有些共性，比如下面这些
 - 颜色功能--可以编辑颜色
 - 名字空间(namespace)--分组样式，从而可以被调用
 - Javascript赋值--可以在CSS中使用Javascript表达式赋值
+
+## 混入方式
+### less
+```less
+// unit.less
+@designWidth: 375;
+
+.px2vw(@name, @px) {
+    @{name}: unit((@px/ @designWidth * 100), vw);
+}
+
+// test.less
+@import 'unit.less';
+
+div {
+    .px2vw(width, 50);
+    .px2vw(height, 50);
+}
+```
+- demo 
+
+    ```less
+    // insertFormData.less
+    .inser-form-data() {
+        width: 588px;
+        margin: 80px auto 100px;
+
+        &-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 38px;
+            margin-bottom: 40px;
+            text-align: center;
+
+            p {
+                font-size: 18px;
+                color: #a0a5b9;
+                font-weight: 400;
+                line-height: 21px;
+                text-align: center;
+                margin: 20px 0 0;
+            }
+        }
+        &-footer {
+            margin-top: 30px;
+        }
+    }
+    .button(@color, @background, @border:none) {
+        width: 100%;
+        height: 52px;
+        background: @background;
+        font-size: 18px;
+        font-weight: 600;
+        color: @color;
+        border-radius: 8px;
+        border-color: @border;
+        padding: 14px 25px;
+        cursor: pointer;
+
+        &:hover {
+            background: @background;
+        }
+
+        &:focus {
+            background: @background;
+            color: @color;
+        }
+
+        &[disabled],
+        &[disabled]:hover {
+            opacity: 0.8;
+            cursor: not-allowed;
+            background: #3c3a4d !important;
+            border: none;
+        }
+    }
+
+    // index.less
+    @import url('@/assets/styles/mixins/insertFormData.less');
+
+    .reportDetail {
+        position: relative;
+        .inser-form-data();
+
+        width: 1200px;
+
+        :deep(.el-button) {
+            height: 42px !important;
+        }
+
+        :deep(.el-progress-bar__inner) {
+            .is-text {
+                display: none;
+            }
+        }
+    }
+    ```
+### SCSS
+@mixin 用于定义要复用的样式块，@include用于调用这些样式块。
+
+因历史遗留原因，mixin的名字和Sass标识符一样，连字符(hyphens)- 和下划线(underscores)_ 被视为完全相同
+
+定义 mixin 的语法
+```scss
+// 不需要传参数时，复用固定的样式代码
+@mixin <name> {
+    //...
+}
+
+// 或
+
+// 需要使用传递参数，动态复用样式代码
+@mixin name(arg1, arg2, ..., argN) {
+    // ...
+}
+
+// 使用mixin的语法
+@include <name>
+
+// 或
+@include <name>(arg1, arg2, ...)
+```
+
+使用示例
+```scss
+// a.scss
+@mixin input {
+    padding: 10px;
+    color: #333;
+}
+@mixin button ($color, $fontSize) {
+    color: $color;
+    font-size: $fontSize;
+}
+
+
+// 使用
+@use 'a';
+.input {
+    @include a.input;
+}
+
+.button {
+    @include a.button(red, 18px);
+}
+```
+demo1
+```scss
+@mixin form-data-container() {
+    position: relative;
+}
+@mixin data-adv-container() {
+    .line {
+        margin: 64px 0;
+    }
+}
+
+
+// 使用
+@import '@/assets/scss/mixins/form-data-container.scss';
+.query {
+    @include form-data-container();
+}
+```

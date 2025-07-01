@@ -157,3 +157,50 @@ window.URL.revokeObjectUrl(url);
 ## fetch
 其实fetch也可以流上传 参考下面
 [前端流式传输播放音视频](front-end/JavaScript/video-stream.html)
+
+## FormData
+FormData 是 HTML5 新增的一个对象，它可以用于将表单数据以键值对的形式存储在内存中，并且可以通过 XMLHttpRequest 对象发送到服务器。
+
+FormData 提供了以下方法：
+
+- append(name, value)：向 FormData 对象中添加一个键值对。
+- delete(name)：从 FormData 对象中删除指定的键值对。
+- get(name)：获取 FormData 对象中指定键的值。
+- has(name)：判断 FormData 对象中是否存在指定的键。
+- set(name, value)：设置 FormData 对象中指定键的值。
+- forEach(callback)：遍历 FormData 对象中的每个键值对，并执行回调函数。
+- entries()：返回一个迭代器，用于遍历 FormData 对象中的每个键值对。
+- keys()：返回一个迭代器，用于遍历 FormData 对象中的每个键。
+- values()：返回一个迭代器，用于遍历 FormData 对象中的每个值。    
+
+### 一、给 FormData 对象添加数据
+```ts
+const formData = new FormData();
+formData.append('name', 'John');
+formData.append('age', '30');
+formData.append('file', fileInput); // fileInput 是File类型
+```
+
+### 二、取出 FormData中的值
+1. 遍历所有字段(最通用)
+
+    ```ts
+    for(const [key, value] of formData.entries()) {
+        console.log(key, value);
+    }
+    ```
+2. 获取指定字段的值
+
+    ```ts
+    const name = formData.get('name');
+    const age = formData.get('age');    
+    ```
+3. 获取所有某字段的值(同名字段情况)
+    ```ts
+    const files = formData.getAll('file');
+    ```
+4. 判断某字段是否存在
+
+    ```ts
+    formData.has('age');
+    ```
