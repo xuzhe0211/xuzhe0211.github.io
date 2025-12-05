@@ -2,7 +2,7 @@
 autoGroup-13: ES6
 title: Javascript新增两个原始数据类型
 ---
-Javascript即将退出两个新的数据类型：<span style="color: blue">Record和Tuple</span>，这两是啥呢？其实就是一个<span style="color: blue">只读</span>的<span style="color: blue">Object和Array</span>,其实在其他语言中已经有类似的数据类型了，例如Python中也有Tuple(元组)这一类型，作用也是只读的数组(在Python里叫做只读的列表)，一起来了解一下，这个特性是第2阶段提案(即差不多稳了)，想要提前体验的，文本也有polyfill的使用教程
+Javascript即将推出两个新的数据类型：<span style="color: blue">Record和Tuple</span>，这两是啥呢？其实就是一个<span style="color: blue">只读</span>的<span style="color: blue">Object和Array</span>,其实在其他语言中已经有类似的数据类型了，例如Python中也有Tuple(元组)这一类型，作用也是只读的数组(在Python里叫做只读的列表)，一起来了解一下，这个特性是第2阶段提案(即差不多稳了)，想要提前体验的，文本也有polyfill的使用教程
 
 ## 基础用法
 ```javascript

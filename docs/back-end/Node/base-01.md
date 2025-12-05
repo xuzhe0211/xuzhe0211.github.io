@@ -11,7 +11,7 @@ title: Node.js底层原理
     - Node.js事件循环
 - <span style="color: blue">Node.js核心模块的实现</span>
     - 进程和进程间通信
-    - 线程和线程间同喜
+    - 线程和线程间通信
     - Cluster
     - Libuv线程池
     - 信号处理
@@ -372,3 +372,7 @@ Node.js中文件监听提供了基于轮询和订阅发布两种模式。我们�
 
 ## 资料
 [原文](https://mp.weixin.qq.com/s/JmvHLsueJJZluNyroDbwdg)
+
+
+
+

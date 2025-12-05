@@ -22,28 +22,28 @@ console.log(p); // Promise {<pending>}
 其实这个场景和超时中断有点类似但还是不太一样，我们先利用 Promise.race 来看看：模拟一个发送请求，如果超时则提示超时错误：
 
 ```js
-const getData = () => {
-    new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('发送网络请求获取数据');
-            resolve('success get Data');
-        }. 2500)
-    })
-}
+const getData = () =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("发送网络请求获取数据"); // ❗
+      resolve("success get Data");
+    }, 2500);
+  });
 
-const timer = () => {
-    new Promise((_, reject) => {
-        setTimeout(() => {
-            reject('timeout');
-        }. 2000)
-    })
-}
+const timer = () =>
+  new Promise((_, reject) => {
+    setTimeout(() => {
+      reject("timeout");
+    }, 2000);
+  });
 
-const p = Promise.race([getData(), timer()]).then(res => {
-    console.log('获取数据', res)
-}).catch(err => {
-    console.log('超时', err)
-})
+const p = Promise.race([getData(), timer()])
+  .then((res) => {
+    console.log("获取数据:", res);
+  })
+  .catch((err) => {
+    console.log("超时: ", err);
+  });
 ```
 
 问题是现在确实能够确认超时了,但race的本质是内部会遍历传入的promise数组对他们的结果进行判断，那好像并没有实现网络请求的中断，即使超时网络请求还会发出

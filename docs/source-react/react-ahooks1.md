@@ -136,7 +136,7 @@ React在v16.8的版本中推出了React Hooks新特性。在我看来，使用Re
     }, [someProp]); // ✅ 安全（我们的 effect 仅用到了 `someProp`）
     }
     ```
-    如果处于某些原因你无法把一个函数移动到effect内部，还有一些其他办法
+    如果出于某些原因你无法把一个函数移动到effect内部，还有一些其他办法
     - <span style='color: red'>你可以把那个函数移动到你的组件之外。</span>这样一来，这个函数肯定不会依赖任何props或state，并且也不用出现在依赖列表中了
     - <span style="color: red">万不得已情况下，你可以 把函数加入effect的依赖 把它的定义包裹进 useCallback Hook。</span>这就确保它不随渲染而改变，除非它自身的依赖发生了变化
 
@@ -164,6 +164,374 @@ React在v16.8的版本中推出了React Hooks新特性。在我看来，使用Re
     - 在React的class组件中,render函数是不应该有任何副作用的;一般来说，在这里执行操作太早了，我们基本上都希望在React更新DOM之后才执行我们的操作
 
 ## useContext
+用来处理多层级传递数据的方式，在以前组件中，跨层级祖先组件想要给孙子组件传递数据的时候，除了一层层props往下透传之外，我们还可以使用React Context API来帮我们做这件事。使用例子如下所示
+
+1. 使用 React Context API,在组件外部建立一个Context
+
+    ```js
+    import React from 'react';
+    const ThemeContext = React.createContext(0);
+    export default ThemeContext;
+    ```
+2. 使用 Context.Provider 提供了一个Context对象，这个对象可以被子组件共享
+
+    ```js
+    import React, { useState } from 'react';
+    import ThemeContext from './ThemeContext';
+    import ContextComponent1 from './ContextComponent1';
+
+    function ContextPage() {
+        const [count, setCount] = useState(1);
+        return (
+            <div className="App">
+                <ThemeContext.Provider value={count}>
+                    <ContextComponent1 />
+                </ThemeContext.Provider>
+                <button onClick={() => setCount(count + 1)}>Click me</button>
+            </div>
+        )
+    }
+    export default ContextPage;
+    ```
+3. useContext()钩子函数用来引入 Context 对象，并且获取到它的值
+
+    ```js
+    // 子组件，在子组件中使用孙组件
+    import React from 'react';
+    import ContextComponent2 from './ContextComponent2';
+    function ContextComponent() {
+        return (
+            <ContextComponent2 />
+        )
+    }
+    export default ContextComponent;
+
+    // 孙组件，在孙组件中使用Context 对象值
+    import React, { useContext } from 'react';
+    import ThemeContext from './ThemeContext';
+
+    function ContextComponent() {
+        const value = useContext(ThemeContext);
+        return (
+            <div>useContext: {value}</div>
+        )
+    }
+    export default ContextComponent;
+    ``` 
+## useReducer
+### 1. 基础用法
+比 useState 更适用的场景: 例如 state 逻辑处理较复杂且包含多个子值，或者下一个state依赖于之前的state等；例子如下所示
+
+```js
+import React, { useReducer } from 'react';
+
+interface stateType {
+    count: number;
+}
+interface actionType {
+    type: string;
+}
+const initialState = { count: 0 };
+const reducer = (state:stateType, action: actionType) => {
+    switch (action.type) {
+        case 'increment': 
+            return {count: state.count + 1};
+        case 'decrement':
+            return {count: state.count - 1};
+        default:
+            throw new Error();
+    }
+}
+const UseReducer = () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+      return (
+    <div className="App">
+      <div>useReducer Count:{state.count}</div>
+      <button onClick={() => { dispatch({ type: 'decrement' }); }}>useReducer 减少</button>
+      <button onClick={() => { dispatch({ type: 'increment' }); }}>useReducer 增加</button>
+    </div>
+  );
+}
+
+export default UseReducer;
+```
+### 2. 惰性初始化 state
+```js
+interface stateType {
+  count: number
+}
+interface actionType {
+  type: string,
+  paylod?: number
+}
+const initCount =0 
+const init = (initCount:number)=>{
+  return {count:initCount}
+}
+const reducer = (state:stateType, action:actionType)=>{
+  switch(action.type){
+    case 'increment':
+      return {count: state.count + 1}
+    case 'decrement':
+      return {count: state.count - 1}
+    case 'reset':
+      return init(action.paylod || 0)
+    default:
+      throw new Error();
+  }
+}
+const UseReducer = () => {
+  const [state, dispatch] = useReducer(reducer,initCount,init)
+
+  return (
+    <div className="App">
+      <div>useReducer Count:{state.count}</div>
+      <button onClick={()=>{dispatch({type:'decrement'})}}>useReducer 减少</button>
+      <button onClick={()=>{dispatch({type:'increment'})}}>useReducer 增加</button>
+      <button onClick={()=>{dispatch({type:'reset',paylod:10 })}}>useReducer 增加</button>
+    </div>
+  );
+}
+export default UseReducer;
+```
+## Memo
+如下所示，当父组件重新渲染时，子组件也会重新渲染，即使子组件的props和state都没有改变
+```js
+import React, { memo, useState } from 'react';
+
+// 子组件
+const ChildComp = () => {
+    console.log('ChildComp...');
+    return (<div>ChildComp...</div>)
+}
+
+// 父组件
+const Parent = () => {
+    const [count, setCount] = useState(0);
+
+    return (
+        <div className="App">
+            <div>hello world {count}</div>
+            <div onClick={() => { setCount(count => count + 1); }}>点击增加</div>
+            <ChildComp/>
+        </div>
+    )
+}
+export default Parent;
+```
+改进：我们可以使用memo包一层，就能解决上面的问题;但是仅仅剞劂父组件没有传参给子组件的情况以及父组件传简单类型的参数给子组件的情况(例如：string、number/boolean等)；如果有传复杂属性应该使用 useCallback(回调事件) 或者 useMemo(复杂属性)
+
+```js
+// 子组件
+const ChildComp = () => {
+    console.log('ChildComp...');
+    return (<div>ChildComp...</div>)
+}
+const MemoChildComp = memo(ChildComp)
+```
+## 六、useMemo
+假设以下场景，父组件在调用子组件时传递 info 对象属性，点击父组件按钮时，发现控制台会打印出子组件被渲染那的信息。
+
+```js
+import React, { memo, useState } from 'react';
+
+// 子组件
+const ChildComp = (info: {info: {name: string, age: number}}) => {
+    console.log('ChildComp...');
+    return (<div>ChildComp...</div>)
+}
+
+const MemoChildComp = memo(ChildComp);
+
+// 父组件
+const Parent = () => {
+    const [count, setCount] = useState(0);
+    const [name] = useState('jack');
+    const [age] = useState(11);
+    const info = {name, age};
+
+    return (
+        <div className="App">
+            <div>hello world {count}</div>
+            <div onClick={() => { setCount(count => count + 1); }}>点击增加</div>
+            <MemoChildComp info={info}/>
+        </div>
+    )
+}
+export default Parent;
+```
+分析原因
+- 点击父组件按钮，出发父组件重新渲染;
+- 父组件渲染，const info = {name, age} 一行会重新生成一个新对象；导致传递给子组件的 info 属性值变化，进而导致子组件重新渲染
+
+解决
+
+使用 useMemo 将对象属性包一层，useMemo有两个参数
+- 第一个参数是个函数，返回的对象指向同一个引用，不会创建新对象
+- 第二个参数是个数组，只有数组中的变量改变时，第一个参数的函数才会返回一个新的对象
+
+```js
+import React, { memo, useMemo, useState } from 'react';
+
+// 子组件
+const ChildComp = (info: {info: {name: string, age: number}}) => {
+    console.log('ChildComp...');
+    return (<div>ChildComp...</div>)
+}
+
+const MemoChildComp = memo(ChildComp);
+
+// 父组件
+const Parent = () => {
+    const [count, setCount] = useState(0);
+    const [name] = useState('jack');
+    const [age] = useState(11);
+
+    const info = useMemo(() => {
+        return {name, age}
+    }, [name, age])
+
+    return (
+        <div className="App">
+            <div>hello world {count}</div>
+            <div onClick={() => { setCount(count => count + 1); }}>点击增加</div>
+            <MemoChildComp info={info}/>
+        </div>
+    )
+}
+export default Parent;
+```
+## 七、useCallback
+接着第六章的例子，假设需要将事件传给子组件，如下所示，当点击父组件按钮时，发现控制台会打印出子组件被渲染的信息，说明子组件又被重新渲染了。
+
+```js
+import React, { memo, useMemo, useState } from 'react';
+
+// 子组件
+const ChildComp = (props: any) => {
+    console.log('ChildComp...');
+    return (<div>ChildComp...</div>)
+}
+
+const MemoChildComp = memo(ChildComp);
+
+// 父组件
+const Parent = () => {
+    const [count, setCount] = useState(0);
+    const [name] = useState('jack');
+    const [age] = useState(11);
+    const info = useMemo(() => ({name, age}), [name, age]);
+    const changeName = () => {
+        console.log('输出名称....');
+    }
+
+    return (
+        <div className="App">
+            <div>hello world {count}</div>
+            <div onClick={() => { setCount(count => count + 1); }}>点击增加</div>
+            <MemoChildComp info={info} changeName={changeName}/>
+        </div>
+    )
+}
+export default Parent;
+```
+分析原因
+- 点击父组件按钮，改变了父组件中count变量值(父组件的state值)，进而导致父组件重新渲染；
+- 父组件重新渲染时，会重新创建changeName函数，即传给子组件的changeName属性发生了变化，导致子组件渲染；
+
+解决：修改父组件的 changeName 方法，用 useCallback 钩子函数包裹一层，useCallback 参数与 useMemo类似
+
+```js
+import React, { memo, useCallback, useMemo, useState } from 'react';
+
+// 子组件
+const ChildComp = (props: any) => {
+    console.log('ChildComp...');
+    return (<div>ChildComp...</div>)
+}
+
+const MemoChildComp = memo(ChildComp);
+
+// 父组件
+const Parent = () => {
+    const [count, setCount] = useState(0);
+    const [name] = useState('jack');
+    const [age] = useState(11);
+    const info = useMemo(() => ({name, age}), [name, age]);
+    const changeName = useCallback(() => {
+        console.log('输出名称....');
+    }, [])
+
+    return (
+        <div className="App">
+            <div>hello world {count}</div>
+            <div onClick={() => { setCount(count => count + 1); }}>点击增加</div>
+            <MemoChildComp info={info} changeName={changeName}/>
+        </div>
+    )
+}
+export default Parent;
+```
+## 八、useRef
+以下分别介绍 useRef 的两个使用场景
+
+### 1. 指向 dom 元素
+如下所示，使用 useRef 创建的变量指向一个 input 元素，并在页面渲染后使 input 聚焦
+```js
+import React, { useRef, useEffect } from 'react';
+const Page1 = () => {
+    const myRef = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+        myRef.current?.focus();
+    });
+
+    return (
+        <div>
+            <span>UseRef:</span>
+            <input ref={myRef} type="text"/>
+        </div>
+    )
+}
+export default Page1;
+```
+### 2. 存放变量
+useRef 在 react hook 中的作用，正如官网说的，它像一个变量，类似于this，它就像一个盒子你可以存放任何东西，createRef 每次渲染都会返回一个新的引用，而 useRef 每次都会返回相同的引用，如下例子所示：
+
+```js
+import React, { useRef, useEffect, useState } from 'react';
+
+const Page1 = () => {
+    const myRef2 = useRef(0);
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+        myRef2.current = count;
+    })
+    function handleClick() {
+        setTimeout(() => {
+            console.log(count); // 3
+            console.log(myRef2.current); // 6
+        }, 3000);
+    }
+
+    return (
+        <div onClick={() => setCount(count + 1)}>点击count</div>
+        <div onClick={() => handleClick()}>查看</div>
+    )
+}
+export default Page1;
+```
+<span style="color: red;font-weight:bold;">useRef 返回一个可变的ref对象，其.current属性被初始化为传入的参数(initialValue).返回ref对象在组件的整个生命周期内保持不变</span>
+
+## 九、useImperativeHandle
+使用场景：通过ref获取到的是整个dom节点，通过 useImperativeHandle 可以控制只暴露一部分方法和属性，而不是整个dom节点
+
+## 十、useLayoutEffect
+其函数签名与 useEffect 相同，但它会在所有的DOM变更之后同步调用effect，这里不在举例。
+
+- useLayoutEffect 和平常写的 Class 组件的 componentDidMount 和 componentDidUpdate 同步执行
+- useEffect 会在本次更新完成后，也就是第1点的方法执行完成后，在开启一次任务调度，在下次任务调度中执行 useEffect。
+
+
 
 ## 资料
 [一文归纳 React Hooks 常用场景](https://juejin.cn/post/6918896729366462471#heading-20)

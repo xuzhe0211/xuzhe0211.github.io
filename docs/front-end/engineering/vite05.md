@@ -56,3 +56,17 @@ VITE_APP_ENV=production
 ---|---|---
 vite.config.ts中| loadEnv(mode, process.cwd()) | 需手动加载，适用于构建配置
 源码中使用变量| import.meta.env.VITE_XXX | 仅暴漏以Vite_开头的变量
+
+## 注意
+<span style="color: red;font-weight: bold;">NODE_ENV和模式；需要注意的是，NODE_ENV(process.env.NODE_ENV)和模式是两个不同的概念。</span>一下是不同命令如何影响NODE_ENV和模式
+
+Command | NODE_ENV | Mode
+---|---|---
+vite build | "production" | "production"
+vite build --mode development | "production" | "development"
+NODE_ENV=development vite build | "development" | "development"
+NODE_ENV=development vite build --mode development | "development" | "development"
+
+
+
+[官网](https://cn.vite.dev/guide/env-and-mode)
