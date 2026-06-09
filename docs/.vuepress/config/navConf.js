@@ -35,6 +35,7 @@ module.exports = [
 		text: '开发工具',
 		ariaLabel: 'tools End Menu',
 		items: [
+			{ text: '股票', link: '/tools/Stock/' },
 			{ text: 'Ai', link: '/tools/Ai/' },
 			{ text: 'Git', link: '/tools/Git/' },
 			{ text: 'VScode', link: '/tools/VScode/' },
