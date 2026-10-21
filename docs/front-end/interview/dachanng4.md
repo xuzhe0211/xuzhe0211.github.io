@@ -149,17 +149,18 @@ title: 大厂面试全记录
 3. 给定一个n，生成[0, n -1] 乱序数组
     ```js
     function fn(n) {
-        let map = {};
-        let arr = [];
-        while(n) {
-            const num = Math.floor(Math.random() * n);
-            if(!map[num]) {
-                arr.push(num);
-                map[num] = true;
-                n--
-            }
-        }
-        return arr;
+        const N = n; // 记住初始值，上限不再缩小
+	let map = {},
+		arr = [];
+	while (n > 0) {
+		const num = Math.floor(Math.random() * N);
+		if (!map[num]) {
+			arr.push(num);
+			map[num] = true;
+			n--;
+		}
+	}
+	return arr;
     }
     ```
 4. 时间复杂度是多少，能进行优化吗？

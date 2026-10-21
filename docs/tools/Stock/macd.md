@@ -1,5 +1,6 @@
 ---
-title: MACD指标 (MACD指标)      
+title: MACD指标 (MACD指标)  
+autoGroup-0: 指标    
 ---
 ## MACD指标
 MACD指标是指数平滑异同移动平均线，用于判断股票价格趋势，判断未来买卖点。英文名：Moving Average convergence

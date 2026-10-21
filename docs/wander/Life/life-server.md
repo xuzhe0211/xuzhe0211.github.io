@@ -1,5 +1,6 @@
 ---
 title: nas server
+autoGroup-1: 乱七八糟
 ---
 
 [300块成本从零开始搭建自己的家庭版NAS还可以自动备份，懂点代码有手就行！](https://juejin.cn/post/7323599971214802956)

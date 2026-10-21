@@ -1,5 +1,6 @@
 ---
 title: 日常笔记
+autoGroup-1: 乱七八糟
 ---
 qn.cache.wpscdn.cn
 
