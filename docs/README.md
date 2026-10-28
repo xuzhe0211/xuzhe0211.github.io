@@ -11,7 +11,7 @@ bgImage: covers/8b386a05eddfb909792506bdd947d0a5590d64c9.jpg
 projects:
   - icon: heart
     name: 认识一下
-    desc: 这里是随风随雨~
+    desc: 这里是xz~
     link: intro.md
 
   - icon: pen-to-square

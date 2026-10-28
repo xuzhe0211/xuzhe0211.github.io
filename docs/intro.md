@@ -17,9 +17,9 @@ bgImage: covers/c70ea7e6b5f909dfd8679f44ec7a3e5801872a72.jpg
 
 ## 个人简介 Profile
 
-你好，我是 **随风**（xuzhe0211 / Twisuki），一名前端开发者。
+你好，我是 **xz**（xuzhe0211），一名前端开发者。
 
-「随风随雨又随流」是这个角落的名字，也是我写东西的状态——随性、零散、记录当下。
+「xz」是这个角落的名字，也是我写东西的状态——随性、零散、记录当下。
 
 这里没有成体系的严谨教程，更多是自己学习路上的笔记、踩过的坑、读源码时的碎碎念，以及生活里一些值得留下的瞬间。如果你恰好也对这些感兴趣，欢迎一起聊聊。
 
@@ -51,9 +51,6 @@ bgImage: covers/c70ea7e6b5f909dfd8679f44ec7a3e5801872a72.jpg
 
 本站基于 [VuePress 2](https://vuepress.vuejs.press/) + [vuepress-theme-hope](https://theme-hope.vuejs.press/) 搭建，源码托管在 [xuzhe0211/xuzhe0211.github.io](https://github.com/xuzhe0211/xuzhe0211.github.io)。文章按目录分成前端、后端、源码、工具、随记几块，侧边栏随目录结构自动生成——想加新文章，往对应目录丢个 `.md` 就行。
 
-<!--WAKA_BLOG_SYNC_END-->
-
-<!-- ![GitHub Snake](https://raw.githubusercontent.com/Twisuki/Twisuki/output/github-contribution-grid-snake.svg) -->
 
 ## 联系方式 Contact me
 

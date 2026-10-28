@@ -10,7 +10,7 @@
 		"deploy": "bash scripts/deploy.sh"
 	},
 	"keywords": [],
-	"author": "随风",
+	"author": "xz",
 	"license": "MIT",
 	"engines": {
 		"node": ">=20.0.0"

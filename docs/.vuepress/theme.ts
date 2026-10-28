@@ -92,7 +92,7 @@ export default hopeTheme(
 
 			// 版权信息
 			copyright: {
-				author: '随风',
+				author: 'xz',
 				license: 'MIT'
 			}
 		}

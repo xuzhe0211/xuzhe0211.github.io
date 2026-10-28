@@ -7,7 +7,7 @@ export default defineUserConfig({
 	port: 8099, // 端口号
 	base: '/',
 	lang: 'zh-CN',
-	title: '随风',
+	title: 'xz',
 	description: 'xz · 个人博客',
 
 	head: [
