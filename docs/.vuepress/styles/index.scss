@@ -1,0 +1,110 @@
+// 全站样式增强 —— theme-hope 视觉打磨
+
+:root {
+  // 统一圆角与阴影体系
+  --x-radius-sm: 6px;
+  --x-radius-md: 10px;
+  --x-radius-lg: 14px;
+  --x-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --x-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --x-shadow-hover: 0 10px 28px rgba(62, 175, 124, 0.16);
+}
+
+[data-theme='dark'] {
+  --x-shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+// ===== 首页 hero =====
+.hero-info-wrapper .hero-info-title {
+  letter-spacing: 2px;
+  background: linear-gradient(120deg, #3eaf7c, #4abf8a 60%, #2f8f63);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-info-wrapper .hero-info-img {
+  border-radius: var(--x-radius-lg);
+  box-shadow: var(--x-shadow-md);
+}
+
+// 首页 features 卡片
+.vp-features .feature {
+  border-radius: var(--x-radius-lg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--x-shadow-hover);
+  }
+}
+
+// ===== 博客文章卡片 =====
+.blog-item-wrapper,
+.blog-info-wrapper {
+  border-radius: var(--x-radius-lg) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--x-shadow-hover);
+  }
+}
+
+// 文章标题链接颜色统一为品牌色
+a.header-anchor {
+  color: var(--theme-color) !important;
+}
+
+// ===== 导航栏 =====
+.vp-navbar {
+  box-shadow: var(--x-shadow-sm);
+  .vp-navbar-title img {
+    border-radius: 50%;
+  }
+}
+
+// ===== 代码块 =====
+div[class*='language-'] {
+  border-radius: var(--x-radius-md) !important;
+  box-shadow: var(--x-shadow-sm);
+}
+
+// 行内代码
+code {
+  border-radius: var(--x-radius-sm);
+  font-family: var(--font-family-code, monospace);
+}
+
+// ===== 侧边栏 =====
+.vp-sidebar {
+  .sidebar-item {
+    border-radius: var(--x-radius-sm);
+    transition: background 0.2s ease;
+  }
+}
+
+// ===== 平滑滚动 =====
+html {
+  scroll-behavior: smooth;
+}
+
+// 选中色
+::selection {
+  background: rgba(62, 175, 124, 0.25);
+}
+
+// 滚动条美化
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(62, 175, 124, 0.4) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(62, 175, 124, 0.4);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(62, 175, 124, 0.6);
+}

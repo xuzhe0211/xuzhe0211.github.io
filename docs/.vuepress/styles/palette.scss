@@ -1,0 +1,33 @@
+// theme-hope 调色板覆盖
+// 文档: https://theme-hope.vuejs.press/guide/interface/palette-style.html
+
+// ===== 品牌主色（翡翠绿，明暗两套）=====
+$brand: #3eaf7c;
+$brand-light: #4abf8a;
+$brand-dark: #2f8f63;
+
+$theme-color: $brand;
+$theme-color-light: $brand-light;
+$theme-color-dark: $brand-dark;
+
+// ===== 全局基调 =====
+$content-bg: #ffffff;
+$body-color: #2c3e50;
+$body-bg: #f7f8fa;
+
+// 暗色模式基调（theme-hope 在 [data-theme=dark] 下读取这些）
+$dark-content-bg: #1f2228;
+$dark-body-color: #c8ced4;
+$dark-body-bg: #16181c;
+
+// ===== 圆角与间距 =====
+$content-badge-border-radius: 6px;
+$card-border-radius: 12px;
+
+// ===== 字体栈 =====
+// 注意：sass-palette 的 get-variables() 只放行 number/string/color，
+// 列表类型会落入 color-is-legal() 并触发 "Unexpected variable value" 警告。
+// 故整个字体栈需用引号包成字符串（与 theme-hope 的 font.scss 写法一致）。
+// 且 Sass 引号字符串不能跨行，必须写在一行内。
+$font-family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+$font-family-code: "'JetBrains Mono', 'Fira Code', Menlo, Consolas, 'Liberation Mono', monospace";

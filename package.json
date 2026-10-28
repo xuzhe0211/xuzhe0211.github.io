@@ -1,23 +1,32 @@
 {
-  "name": "vuepressBlogDemo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "serve": "vuepress dev docs",
-    "build": "vuepress build docs",
-    "deploy": "bash scripts/deploy.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "highlight": "^0.2.4",
-    "vuepress": "^1.9.7",
-    "vuepress-plugin-auto-sidebar": "^1.5.0"
-  },
-  "dependencies": {
-    "serve": "^12.0.0"
-  }
+	"name": "xuzhe-blog",
+	"version": "2.0.0",
+	"description": "xz - 个人博客 (VuePress 2 + theme-hope)",
+	"main": "index.js",
+	"scripts": {
+		"serve": "vuepress-vite dev docs",
+		"build": "NODE_OPTIONS=--max-old-space-size=8192 vuepress-vite build docs",
+		"clean-dev": "vuepress-vite dev docs --clean-cache --clean-temp",
+		"deploy": "bash scripts/deploy.sh"
+	},
+	"keywords": [],
+	"author": "随风",
+	"license": "MIT",
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"devDependencies": {
+		"@vuepress/bundler-vite": "2.0.0-rc.20",
+		"@vuepress/helper": "2.0.0-rc.90",
+		"@vuepress/plugin-slimsearch": "2.0.0-rc.90",
+		"nodejs-jieba": "^0.3.0",
+		"sass-embedded": "^1.83.0",
+		"vue": "^3.5.13",
+		"vuepress": "2.0.0-rc.20",
+		"vuepress-theme-hope": "2.0.0-rc.77"
+	},
+	"overrides": {
+		"@vuepress/helper": "2.0.0-rc.90",
+		"vue-router": "4.5.1"
+	}
 }

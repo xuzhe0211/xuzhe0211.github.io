@@ -4,4 +4,8 @@ db.json
 *.log
 node_modules/
 .deploy*/
+
+# VuePress 2 构建产物
 docs/.vuepress/dist/
+docs/.vuepress/.cache/
+docs/.vuepress/.temp/
