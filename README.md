@@ -2,7 +2,7 @@
 
 > 基于 **VuePress 2** + **vuepress-theme-hope** 搭建的个人博客与笔记站。前端为主，兼及源码阅读、后端基础、工具与生活随记。
 
-[在线预览](https://xuzhe0211.github.io) · [个人主站](https://www.twis.uk) · [介绍页](https://xuzhe0211.github.io/intro.html)
+[在线预览](https://blog.xw616.top/) · [个人主站](https://blog.xw616.top) · [介绍页](https://blog.xw616.top/intro.html)
 
 ## 技术栈
 
