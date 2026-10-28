@@ -1,0 +1,103 @@
+import{_ as n}from"./plugin-vue_export-helper-DlAUqK2U.js";import{c as a,a as e,o as i}from"./app-q-jb9_Gt.js";const p={};function l(r,s){return i(),a("div",null,[...s[0]||(s[0]=[e(`<h2 id="描述" tabindex="-1"><a class="header-anchor" href="#描述"><span>描述</span></a></h2><p>koa处理post请求的时，需要对body传递过来的数据进行处理</p><p>实际上如果要手动实现一个能够处理application/x-www-urlencoded的中间件，还得借助原生node.js进行处理，</p><p>koa封装了原生node.js的request对象到ctx.req中</p><p>而借助原生node.js的request对象，监听data事件以及end事件，进行处理</p><blockquote><p>koa-bodyparser post请求body解析的中间件；bodyparser可以解析普通的表单（application/x-www-form-urlencoded），没办法解析文件（Content-Type:multipart/form-data）</p></blockquote><h2 id="前置知识" tabindex="-1"><a class="header-anchor" href="#前置知识"><span>前置知识</span></a></h2><p>在理解koa-bodyparser原理之前，首先需要了解部分HTTP相关知识</p><h3 id="报文主体" tabindex="-1"><a class="header-anchor" href="#报文主体"><span>报文主体</span></a></h3><p>HTTP报文主要分为请求报文和响应报文,koa-bodyparser主要针对请求报文的处理</p><p>请求报文主要由以下三个部分组成</p><ul><li>报文头部</li><li>空行</li><li>报文主体</li></ul><p>而koa-bodyparser中的body指的就是请求报文中的报文主体部分。</p><h3 id="服务器端获取报文主体流程" tabindex="-1"><a class="header-anchor" href="#服务器端获取报文主体流程"><span>服务器端获取报文主体流程</span></a></h3><p>HTTP底层采用TCP提供可靠的字节流服务,简单而言就是报头主体部分会被转换成二进制数据在网络中传输，所以服务器端首先需要拿到二进制流数据。</p><p>谈到网络传输，当然会涉及到传输速度的优化，而其中一种优化方式就是对内容进行压缩编码，常用的压缩编码方式有</p><ul><li>gzip</li><li>compress</li><li>deflate</li><li>identity(不执行压缩或不会变化的默认编码格式)</li></ul><p>服务器端会根据报文头部信息中的Content-Encoding确认采用何种编码规范</p><p>接下来就需要将二进制数据转换为相应的字符，而字符也有不同的字符编码方式，例如对于中文字符处理差异巨大的UTF-8和GBK,UTF-8编码汉字通常需要三个字节，而GBK只需要两个字节。所以还需要在请求报文的头部信息中设置Content-Type使用的字符编码信息(默认情况下采用的是UTF-8),这样服务器端就可以利用响应的字符规则进行编码，得到正确的字符串。</p><p>拿到字符串之后，服务器又要问了:客户端，这一段字符串是啥意思啊？</p><p>根据不同的应用场景，客户端会对字符串采用不同的编码方式，长江的编码方式有</p><ul><li>URL编码方式：a= 1 &amp;b =1;</li><li>JSON编码方式: {a: 1, b: 2}</li></ul><p>客户端会将采用的字符串编码方式设置在请求报文头部信息的Content-Type属性中，这样服务器端根据相应的字符串编码规则进行解码，就能够明白客户端所传递的信息了。</p><p>下面一步步分析koa-bodyparser是如何处理这一系列操作的，从而得到报文主体的内容。</p><h2 id="获取二进制数据流" tabindex="-1"><a class="header-anchor" href="#获取二进制数据流"><span>获取二进制数据流</span></a></h2><p>NodeJS中获取请求报文主体二进制数据流主要通过监听request对象的data事件完成。</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>// 示例一</span></span>
+<span class="line"><span>const http = require(&#39;http&#39;);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>http.createServer((req, res) =&gt; {</span></span>
+<span class="line"><span>  const body = [];</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  req.on(&#39;data&#39;, chunk =&gt; {</span></span>
+<span class="line"><span>    body.push(chunk);</span></span>
+<span class="line"><span>  })</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  req.on(&#39;end&#39;, () =&gt; {</span></span>
+<span class="line"><span>    const chunks = Buffer.concat(body); // 接收到的二进制数据流</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    // 利用res.end进行相应处理</span></span>
+<span class="line"><span>    res.end(chunks.toString())</span></span>
+<span class="line"><span>  })</span></span>
+<span class="line"><span>}).listen(1234)</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>而koa-bodyparser主要是对<a href="https://github.com/cojs/co-body" target="_blank" rel="noopener noreferrer">co-body</a>的封装,而【co-body】中主要采用<a href="https://github.com/stream-utils/raw-body" target="_blank" rel="noopener noreferrer">raw-body</a>模块获取请求报文主体的二进制数据流，【raw-body】主要是对上述示例代码的封装和健壮性处理。</p><h2 id="内容解码" tabindex="-1"><a class="header-anchor" href="#内容解码"><span>内容解码</span></a></h2><p>客户端会将内容编码的方式放入请求报文头部信息Content-Encoding属性中,服务器端接受报文主体的二进制数据时,会根据该头部信息进行解压操作，当然服务器端可以在响应报文头部信息Accept-Encoding属性中添加支持的解压方式</p><p>而【raw-body】主要采用<a href="https://github.com/stream-utils/inflation" target="_blank" rel="noopener noreferrer">inflation</a>模块进行解压处理</p><h2 id="字符解码" tabindex="-1"><a class="header-anchor" href="#字符解码"><span>字符解码</span></a></h2><p>一般而言，UTF-8是互联网中主流的字符编码方式，前面也提到了还有GBK编码方式，相比较UTF-8，它编码中文只需要2个字节，那么在字符编码时误用UTF-8编码GKB编码字符，就会出现中文乱码问题。</p><p>NodeJS主要通过Buffer处理二进制数据流，但是它并不支持GBK字符编码方式，需要通过<a href="https://github.com/ashtuchkin/iconv-lite" target="_blank" rel="noopener noreferrer">iconv-lite</a>模块进行处理</p><p><strong>示例一</strong>中的代码就存在没有正确处理字符编码的问题,那么报文主体中的字符采用GBK编码方式，必然会出现中文乱码</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>const request = require(&#39;request&#39;);</span></span>
+<span class="line"><span>const iconv = require(&#39;iconv-lite&#39;);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>request.post({</span></span>
+<span class="line"><span>  url: &#39;http://localhost:1234/&#39;,</span></span>
+<span class="line"><span>  body: iconv.encode(&#39;中文&#39;, &#39;GBK&#39;),</span></span>
+<span class="line"><span>  headers: {</span></span>
+<span class="line"><span>    &#39;Content-Type&#39;: &#39;text/plain;charset=GBK&#39;</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}, (error, response, body) =&gt; {</span></span>
+<span class="line"><span>  console.log(body); // 发生中文乱码情况</span></span>
+<span class="line"><span>})</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>NodeJS中的Buffer默认采用UTF-8字符编码方式，这里借助【iconv-lite】模块处理不同的字符编码方式</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>const chunks = Buffer.concat(body);</span></span>
+<span class="line"><span>res.end(iconv.decode(chunks, charset)); // charset通过Content-Type得到</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="字符串解码" tabindex="-1"><a class="header-anchor" href="#字符串解码"><span>字符串解码</span></a></h2><p>前面已经提到了字符串的二种编码方式，他们对应的Content-Type分别为：</p><ul><li>URL编码application/x-www-form-urlencoded</li><li>JSON编码 application/json</li></ul><p>对于前端来说，URL编码并不默认，经常会用到URL拼接操作，唯一需要注意的是不要忘记对键值对进行decodeURIComponent()处理</p><p>当客户端发送请求主体时，需要进行编码操作</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>&#39;a=1&amp;b=2&amp;c=3&#39;</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div></div></div><p>服务器端在根据URL编码规则解码，得到响应的对象。</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>// URL编码方式 简单的解码方法实现</span></span>
+<span class="line"><span>function decode(qs, sep = &#39;&amp;&#39;, eq = &#39;=&#39;) {</span></span>
+<span class="line"><span>  const obj = {};</span></span>
+<span class="line"><span>  qs = qs.split(step);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  for (let i = 0, max = qs.length; i &lt; max; i++) {</span></span>
+<span class="line"><span>    const item = qs[i];</span></span>
+<span class="line"><span>    const index = item.indexOf(eq);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    let key, value = item.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    if (~index) {</span></span>
+<span class="line"><span>      key = item.substr(0, index);</span></span>
+<span class="line"><span>      value = item.substr(index + 1);</span></span>
+<span class="line"><span>    } else {</span></span>
+<span class="line"><span>      key = item;</span></span>
+<span class="line"><span>      value = &#39;&#39;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    key = decodeURIComponent(key);</span></span>
+<span class="line"><span>    value = decodeURIComponent(value);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    if (!obj.hasOwnProperty(key)) {</span></span>
+<span class="line"><span>      obj[key] = value;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  return obj;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>console.log(decode(&#39;a=1&amp;b=2&amp;c=3&#39;)) // {a: &#39;1&#39;, b: &#39;2&#39;, c: &#39;3&#39;}</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>URL编码方式是和处理简单的键值对数据，并且很多框架的Ajax中的Content-Type默认值都是它，但是对于复杂的嵌套对象就不太好处理了，这时就需要JSON编码方式大显身手了。</p><p>客户端发送请求主体时，只需要采用JSON.stringify进行编码。服务器端只要采用JSON.parse进行解码即可</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>const strictJSONReg = /^[\\x20\\x09\\x0a\\x0d]*(\\[|\\{)/;</span></span>
+<span class="line"><span>function parse(str) {</span></span>
+<span class="line"><span>  if (!strict) return str ? JSON.parse(str) : str;</span></span>
+<span class="line"><span>  // 严格模式下，总是返回一个对象</span></span>
+<span class="line"><span>  if (!str) return {};</span></span>
+<span class="line"><span>  // 是否为合法的JSON字符串</span></span>
+<span class="line"><span>  if (!strictJSONReg.test(str)) {</span></span>
+<span class="line"><span>    throw new Error(&#39;invalid JSON, only supports object and array&#39;);</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  return JSON.parse(str);</span></span>
+<span class="line"><span>}</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>除了上述两种字符串编码方式，koa-bodyparser还支持不采用任何字符串编码方式的普通字符串</p><p>三种字符串编码处理由【co-body】模块提供，koa-bodyparser中通过判断Content-Type类型，调用不同的处理方式，将获取到的结果挂载在ctx.request.body</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>return async function bodyParser(ctx, next) {</span></span>
+<span class="line"><span>  if(ctx.request.body !== undefined) return await next();</span></span>
+<span class="line"><span>  if (ctx.disableBodyParser) return await next();</span></span>
+<span class="line"><span>  try {</span></span>
+<span class="line"><span>    // 最重要的异步，将解析的内容挂在到koa的上下文中</span></span>
+<span class="line"><span>    const res = await parseBody(ctx);</span></span>
+<span class="line"><span>    ctx.request.body = &#39;parsed&#39; in res ? res.parsed : {};</span></span>
+<span class="line"><span>    if (ctx.request.rawBody === undefined) ctx.request.rawBody = res.raw; // 保存原始字符串</span></span>
+<span class="line"><span>  } catch (err) {</span></span>
+<span class="line"><span>    if (onerror) {</span></span>
+<span class="line"><span>      onerror(err, ctx);</span></span>
+<span class="line"><span>    } else {</span></span>
+<span class="line"><span>      throw err;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  await next();</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>async function parseBody(ctx) {</span></span>
+<span class="line"><span>    if (enableJson &amp;&amp; ((detectJSON &amp;&amp; detectJSON(ctx)) || ctx.request.is(jsonTypes))) {</span></span>
+<span class="line"><span>      return await parse.json(ctx, jsonOpts); // application/json等json type</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    if (enableForm &amp;&amp; ctx.request.is(formTypes)) {</span></span>
+<span class="line"><span>      return await parse.form(ctx, formOpts); // application/x-www-form-urlencoded</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    if (enableText &amp;&amp; ctx.request.is(textTypes)) {</span></span>
+<span class="line"><span>      return await parse.text(ctx, textOpts) || &#39;&#39;; // text/plain</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    return {};</span></span>
+<span class="line"><span>}</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>其实还有一种比较常见的Content-type, 当采用表单上传时，报文主体中会包含多个实体主体：</p><div class="language- line-numbers-mode" data-highlighter="shiki" data-ext="" style="--shiki-light:#383A42;--shiki-dark:#abb2bf;--shiki-light-bg:#FAFAFA;--shiki-dark-bg:#282c34;"><pre class="shiki shiki-themes one-light one-dark-pro vp-code"><code><span class="line"><span>------WebKitFormBoundaryqsAGMB6Us6F7s3SF</span></span>
+<span class="line"><span>Content-Disposition: form-data; name=&quot;image&quot;; filename=&quot;image.png&quot;</span></span>
+<span class="line"><span>Content-Type: image/png</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>------WebKitFormBoundaryqsAGMB6Us6F7s3SF</span></span>
+<span class="line"><span>Content-Disposition: form-data; name=&quot;text&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>------WebKitFormBoundaryqsAGMB6Us6F7s3SF--</span></span></code></pre><div class="line-numbers" aria-hidden="true" style="counter-reset:line-number 0;"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>这种方式处理相对比较复杂，koa-bodyparser中并没有提供该Content-Type的解析。（下一篇中应该会介绍_）</p><h2 id="总结" tabindex="-1"><a class="header-anchor" href="#总结"><span>总结</span></a></h2><p>以上便是koa-bodyparser的核心实现原理，其中涉及到很多关于HTTP的基础知识，对于HTTP不太熟悉的同学，可以推荐看【图解HTTP】</p><h2 id="资料" tabindex="-1"><a class="header-anchor" href="#资料"><span>资料</span></a></h2><p><a href="https://www.imooc.com/article/274059" target="_blank" rel="noopener noreferrer">玩转Koa-koa-bodyparser原理解析</a></p>`,59)])])}const c=n(p,[["render",l]]),o=JSON.parse('{"path":"/articles/back-end/Node/frame-koa-bodyparser.html","title":"玩转Koa-koa-bodyparser原理解析","lang":"zh-CN","frontmatter":{"autoGroup-2":"框架","title":"玩转Koa-koa-bodyparser原理解析","category":["后端基础"],"tag":["nodejs","后端"],"description":"描述 koa处理post请求的时，需要对body传递过来的数据进行处理 实际上如果要手动实现一个能够处理application/x-www-urlencoded的中间件，还得借助原生node.js进行处理， koa封装了原生node.js的request对象到ctx.req中 而借助原生node.js的request对象，监听data事件以及end事件...","head":[["meta",{"property":"og:url","content":"https://xuzhe0211.github.io/articles/back-end/Node/frame-koa-bodyparser.html"}],["meta",{"property":"og:site_name","content":"xz"}],["meta",{"property":"og:title","content":"玩转Koa-koa-bodyparser原理解析"}],["meta",{"property":"og:description","content":"描述 koa处理post请求的时，需要对body传递过来的数据进行处理 实际上如果要手动实现一个能够处理application/x-www-urlencoded的中间件，还得借助原生node.js进行处理， koa封装了原生node.js的request对象到ctx.req中 而借助原生node.js的request对象，监听data事件以及end事件..."}],["meta",{"property":"og:type","content":"article"}],["meta",{"property":"og:locale","content":"zh-CN"}],["meta",{"property":"og:updated_time","content":"2026-10-28T02:54:02.000Z"}],["meta",{"property":"article:tag","content":"nodejs"}],["meta",{"property":"article:tag","content":"后端"}],["meta",{"property":"article:modified_time","content":"2026-10-28T02:54:02.000Z"}],["script",{"type":"application/ld+json"},"{\\"@context\\":\\"https://schema.org\\",\\"@type\\":\\"Article\\",\\"headline\\":\\"玩转Koa-koa-bodyparser原理解析\\",\\"image\\":[\\"\\"],\\"dateModified\\":\\"2026-10-28T02:54:02.000Z\\",\\"author\\":[{\\"@type\\":\\"Person\\",\\"name\\":\\"xz\\",\\"url\\":\\"https://xuzhe0211.github.io\\"}]}"]]},"git":{"createdTime":1643110125000,"updatedTime":1793156042000,"contributors":[{"name":"xuzhe1","username":"xuzhe1","email":"xuzhe1@wps.cn","commits":1,"url":"https://github.com/xuzhe1"},{"name":"xuzhe","username":"xuzhe","email":"xuzhe-0211@163.com","commits":2,"url":"https://github.com/xuzhe"}]},"readingTime":{"minutes":6.79,"words":2037},"filePathRelative":"articles/back-end/Node/frame-koa-bodyparser.md","localizedDate":"2022年1月25日","excerpt":"<h2>描述</h2>\\n<p>koa处理post请求的时，需要对body传递过来的数据进行处理</p>\\n<p>实际上如果要手动实现一个能够处理application/x-www-urlencoded的中间件，还得借助原生node.js进行处理，</p>\\n<p>koa封装了原生node.js的request对象到ctx.req中</p>\\n<p>而借助原生node.js的request对象，监听data事件以及end事件，进行处理</p>\\n<blockquote>\\n<p>koa-bodyparser post请求body解析的中间件；bodyparser可以解析普通的表单（application/x-www-form-urlencoded），没办法解析文件（Content-Type:multipart/form-data）</p>\\n</blockquote>","autoDesc":true}');export{c as comp,o as data};
