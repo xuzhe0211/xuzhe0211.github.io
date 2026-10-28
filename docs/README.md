@@ -34,6 +34,6 @@ projects:
     desc: vuepress-theme-hope官方主页
     link: https://theme-hope.vuejs.press/zh/
 
-article: false
+article: true
 ---
 

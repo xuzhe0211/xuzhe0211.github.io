@@ -36,7 +36,8 @@ export default hopeTheme(
 			description: '前端 · 源码 · 生活笔记',
 			intro: '/intro.html',
 			medias: {
-				github: 'https://github.com/xuzhe0211/xuzhe0211.github.io'
+				github: 'https://github.com/xuzhe0211/xuzhe0211.github.io',
+				email: 'mailto:xuzhe-0211@163.com'
 			}
 		},
 
